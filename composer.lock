@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c010e599fcf5fe9ac5dabc11f5ecb601",
+    "content-hash": "b6b0d8d7e3c5d6f59bb8d1b5e2cc40cf",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -484,6 +484,64 @@
                 "validator"
             ],
             "time": "2020-02-13T22:36:52+00:00"
+        },
+        {
+            "name": "exolnet/laravel-sqlite-fluent-drop-foreign",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eXolnet/laravel-sqlite-fluent-drop-foreign.git",
+                "reference": "2a7b708f2d5266cf3ff524d5bf941b8d4466919a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eXolnet/laravel-sqlite-fluent-drop-foreign/zipball/2a7b708f2d5266cf3ff524d5bf941b8d4466919a",
+                "reference": "2a7b708f2d5266cf3ff524d5bf941b8d4466919a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^6.0",
+                "illuminate/support": "^6.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "exolnet/phpcs-config": "^1.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0",
+                "squizlabs/php_codesniffer": "^3.3.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Exolnet\\SQLiteFluentDropForeign\\SQLiteFluentDropForeignServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Exolnet\\SQLiteFluentDropForeign\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Gaudreau",
+                    "homepage": "https://www.exolnet.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add a fluent dropForeign when using sqlite database",
+            "homepage": "https://github.com/eXolnet/laravel-sqlite-fluent-drop-foreign",
+            "keywords": [
+                "exolnet",
+                "laravel",
+                "laravel-sqlite-fluent-drop-foreign"
+            ],
+            "time": "2019-12-19T14:54:30+00:00"
         },
         {
             "name": "fideloper/proxy",

@@ -16,8 +16,6 @@ class LaratrustSetupTeams extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('logo')->nullable();
-            $table->integer('leaves_allowed')->nullable(); 
-            $table->integer('required_approvals')->default(1); 
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
