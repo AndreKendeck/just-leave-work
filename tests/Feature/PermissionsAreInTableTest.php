@@ -1,16 +1,17 @@
 <?php
 
-use App\Permission;
-use Illuminate\Database\Seeder;
+namespace Tests\Feature;
 
-class PermissionsTableSeeder extends Seeder
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class PermissionsAreInTableTest extends TestCase
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    * @test
+    */
+    public function all_permissions_are_in_seeded_on_the_table()
     {
         $permissions = collect([
             [
@@ -25,7 +26,7 @@ class PermissionsTableSeeder extends Seeder
             ]
         ]);
         $permissions->each(function ($permission) {
-            Permission::firstOrCreate($permission);
+            $this->assertDatabaseHas('permissions' , $permission ); 
         });
     }
 }

@@ -1,16 +1,17 @@
 <?php
 
-use App\Role;
-use Illuminate\Database\Seeder;
+namespace Tests\Feature;
 
-class RolesTableSeeder extends Seeder
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class RolesAreInTableTest extends TestCase
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    * @test
+    */
+    public function all_roles_are_in_the_roles_table()
     {
         $roles = collect([
             [
@@ -25,7 +26,7 @@ class RolesTableSeeder extends Seeder
             ]
         ]);
         $roles->each(function ($role) {
-            Role::firstOrCreate($role); 
+            $this->assertDatabaseHas('roles', $role);
         });
     }
 }
