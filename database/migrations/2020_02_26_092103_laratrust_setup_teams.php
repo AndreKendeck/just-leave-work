@@ -18,6 +18,7 @@ class LaratrustSetupTeams extends Migration
             $table->string('logo')->nullable();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->timestamp('banned_at')->nullable();
             $table->timestamps();
         });
 

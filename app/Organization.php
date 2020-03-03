@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustTeam;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 
-class Organization extends LaratrustTeam
+class Organization extends LaratrustTeam implements BannableContract
 {
+    use Bannable;
+    
     protected $guarded = [];
 
     public function users()

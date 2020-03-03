@@ -8,7 +8,7 @@ class Comment extends Model
 {
     protected $guarded = [];
     protected $appends = [
-        'was_edited', 
+        'was_edited',
     ];
 
     public function user()
@@ -25,4 +25,5 @@ class Comment extends Model
     {
         return $this->created_at < $this->updated_at;
     }
+
 }

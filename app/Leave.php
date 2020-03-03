@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Leave extends Model
 {
@@ -84,5 +85,13 @@ class Leave extends Model
     public function organization()
     {
         return $this->belongsTo('App\Organization');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->number = DB::table('leaves')->where('organization_id', $model->organization_id)->count() + 1;
+        });
     }
 }

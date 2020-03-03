@@ -16,6 +16,8 @@ class CreateLeavesTable extends Migration
         Schema::create('leaves', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('organization_id')->unsigned();
+
+            $table->integer('number')->unsigned(); 
             $table->integer('user_id')->unsigned(); 
             $table->integer('reason_id')->unsigned(); 
             $table->longText('description'); 
