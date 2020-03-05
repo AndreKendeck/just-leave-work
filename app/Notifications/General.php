@@ -7,18 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class General extends Notification
+class General extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    protected $text;
+    protected $url;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(string $text, $url = null)
     {
-        //
+        $this->text = $text;
+        $this->url = $url;
     }
 
     /**
@@ -29,7 +32,7 @@ class General extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -54,8 +57,14 @@ class General extends Notification
      */
     public function toArray($notifiable)
     {
+        if (is_null($this->url)) {
+            return [
+                'text' => $this->text
+            ];
+        }
         return [
-            //
+            'text' => $this->text,
+            'url' => $this->url
         ];
     }
 }

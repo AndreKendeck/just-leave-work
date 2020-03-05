@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "cviebrock/eloquent-sluggable": "^6.0",
         "cybercog/laravel-ban": "^4.2",
         "fideloper/proxy": "^4.0",
         "hackzilla/password-generator": "^1.4",
@@ -20,6 +19,7 @@
     "require-dev": {
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
+        "limedeck/phpunit-detailed-printer": "^5.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^8.0",

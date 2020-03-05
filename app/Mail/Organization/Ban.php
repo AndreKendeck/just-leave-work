@@ -2,6 +2,7 @@
 
 namespace App\Mail\Organization;
 
+use App\Organization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,14 +12,16 @@ class Ban extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $organization;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Organization $organization)
     {
-        //
+        $this->organization = $organization;
+        $this->subject("Your organization has been banned");
     }
 
     /**
@@ -28,6 +31,6 @@ class Ban extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('emails.organization.ban');
     }
 }

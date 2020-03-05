@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Organization;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -52,6 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'organization_name' => ['required' , 'string' , 'min:3' ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,10 +66,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        // create
+        $organization = Organization::create([
+            'name' => $data['organization_name'],
+            'display_name' => $data['organization_name']
+        ]);
+        $user = User::create([
             'name' => $data['name'],
+            'organization_id' => $organization->id,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $organization->update([
+            'leader_id' => $user->id 
+        ]); 
+        
+        // add permissions to the user
+        $user->syncPermissions(['approve-and-deny-leave' , 'add-user' , 'remove-user'] , $organization );
+        return $user;
     }
 }
