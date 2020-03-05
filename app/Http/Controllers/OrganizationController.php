@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Organization;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -13,7 +14,11 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        $organization = auth()->user()->organization;
+        return view('organizations.index', [
+            'organization' => $organization ,
+            'leaves' => $organization->leaves()->paginate()
+        ]);
     }
 
     /**
@@ -23,7 +28,7 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        //not needed should be
     }
 
     /**
@@ -34,7 +39,7 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //not needed
     }
 
     /**
@@ -45,7 +50,7 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        //
+        //not needed
     }
 
     /**
@@ -56,7 +61,13 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $organization = auth()->user()->organization;
+        if (!$organization->is_owner) {
+            abort(403, "You are not allowed to view this page");
+        }
+        return view('organizations.edit', [
+            'organization' => $organization ,
+        ]);
     }
 
     /**
@@ -68,7 +79,21 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $organization = Organization::findOrFail($id);
+        if (!$organization->is_owner) {
+            abort(403, "You are not allowed to perform this action");
+        }
+        $organization->update([
+            'display_name' => $request->name,
+            'description' => $request->description,
+        ]);
+        if ($request->hasFile('logo')) {
+            $organization->update([
+                'logo' => $request->logo->hashName()
+            ]);
+            $request->logo->store(Organization::STORAGE_PATH);
+        }
+        return redirect()->back()->with('message', 'Organization details have been updated');
     }
 
     /**

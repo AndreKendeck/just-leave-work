@@ -1,30 +1,27 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', 'PagesController@index')->name('index');
 Route::get('/about', 'PagesController@about')->name('about');
 Route::get('/terms-and-conditions', 'PagesController@terms')->name('terms');
 Route::get('/privacy-policy', 'PagesController@privacy')->name('privacy');
 Route::get('/contact-us', 'PagesController@contact')->name('contact');
 
-
-
+Auth::routes(['verify' => true]);
 
 
 Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banned-user' , 'role:user' , 'forbid-banned-organization' ])->group(function () {
     Route::post('/comment', 'CommentController@store')->name('comments.store');
     Route::delete('/comment/{id}', 'CommentController@destroy')->name('comments.delete');
-    Route::put('/comment/{id}', 'CommentControler@update')->name('comments.update');
+    Route::put('/comment/{id}', 'CommentController@update')->name('comments.update');
+
+
+    Route::get('/profile', 'UserProfileController@index')->name('profile');
+    Route::post('/profile/update', 'UserProfileController@update')->name('profile.update');
+
+    Route::post('/password/change', 'PasswordChangeController@store')->name('password.change');
+    
+    Route::post('/user/ban/{id}', 'BanUserController@store')->name('users.ban');
+    Route::post('/user/unban/{id}', 'BanUserController@destroy')->name('users.unban');
 
     Route::get('/leaves', 'LeaveController@index')->name('leaves.index');
     Route::get('/leave/create', 'LeaveController@create')->name('leaves.create');
@@ -34,7 +31,10 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::put('/leave/update/{id}', 'LeaveController@update')->name('leaves.update');
     Route::delete('/leave/delete/{id}', 'LeaveController@destroy')->name('leaves.delete');
 
+    Route::post('/leave/approve/{id}', 'LeaveApprovalController@store')->name('leaves.approve');
+    Route::post('/leave/deny/{id}', 'LeaveDenialController@store')->name('leaves.deny');
 
+    Route::get('/organization/edit/{id}' , 'OrganizationController@edit' )->name('organizations.edit'); 
     Route::get('/organization', 'OrganizationController@index')->name('organizations.index');
     Route::put('/oranization/update', 'OrganizationController@update')->name('organizations.update');
     Route::delete('/organization/delete', 'OrganizationController@destroy')->name('organizations.delete');
@@ -44,6 +44,4 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::post('/user', 'UserController@store')->name('users.store');
     Route::get('/user/{id}', 'UserController@show')->name('users.show');
     Route::put('/user/update/{id}', 'UserController@update')->name('users.update');
-    Route::post('/user/ban/{id}', 'UserController@ban')->name('users.ban');
-    Route::post('/account/delete', 'AccountController@destroy')->name('accounts.delete');
 });

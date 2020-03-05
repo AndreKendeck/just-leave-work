@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "cviebrock/eloquent-sluggable": "^6.0",
         "cybercog/laravel-ban": "^4.2",
         "fideloper/proxy": "^4.0",
         "hackzilla/password-generator": "^1.4",

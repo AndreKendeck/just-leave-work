@@ -17,6 +17,7 @@ class LaratrustSetupTeams extends Migration
             $table->string('name')->unique();
             $table->string('logo')->nullable();
             $table->string('display_name')->nullable();
+            $table->integer('leader_id')->unsigned()->nullable(); 
             $table->string('description')->nullable();
             $table->timestamp('banned_at')->nullable();
             $table->timestamps();
@@ -28,16 +29,16 @@ class LaratrustSetupTeams extends Migration
             $table->dropPrimary(['user_id', 'role_id', 'user_type']);
 
             // Add team_id column
-            $table->unsignedInteger('team_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
 
             // Create foreign keys
             $table->foreign('role_id')->references('id')->on('roles')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('team_id')->references('id')->on('organizations')
+            $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onUpdate('cascade')->onDelete('cascade');
 
             // Create a unique key
-            $table->unique(['user_id', 'role_id', 'user_type', 'team_id']);
+            $table->unique(['user_id', 'role_id', 'user_type', 'organization_id']);
         });
 
         Schema::table('permission_user', function (Blueprint $table) {
@@ -49,12 +50,12 @@ class LaratrustSetupTeams extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             // Add team_id column
-            $table->unsignedInteger('team_id')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
 
-            $table->foreign('team_id')->references('id')->on('organizations')
+            $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->unique(['user_id', 'permission_id', 'user_type', 'team_id']);
+            $table->unique(['user_id', 'permission_id', 'user_type', 'organization_id']);
         });
     }
 

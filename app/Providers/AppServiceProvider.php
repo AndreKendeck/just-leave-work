@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Leave::observe(\App\Observers\LeaveObserver::class); 
         \App\Comment::observe(\App\Observers\CommentObserver::class); 
+        \App\User::observe(\App\Observers\UserObserver::class); 
     }
 }

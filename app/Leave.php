@@ -13,6 +13,7 @@ class Leave extends Model
         'denied',
         'pending',
         'number_of_days_off',
+        'can_edit'
     ];
 
     protected $dates = [
@@ -93,5 +94,17 @@ class Leave extends Model
         self::creating(function ($model) {
             $model->number = DB::table('leaves')->where('organization_id', $model->organization_id)->count() + 1;
         });
+    }
+
+    public function getCanEditAttribute()
+    {
+        if (auth()->check()) {
+            // prevent the user from editing if the leave has been approved or denied
+            if ($this->getApprovedAttribute() || $this->getDeniedAttribute()) {
+                return false;
+            }
+            return $this->user_id == auth()->user()->id;
+        }
+        return false;
     }
 }

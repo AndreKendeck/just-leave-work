@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\User; 
 
 class Welcome extends Mailable
 {
@@ -20,7 +21,7 @@ class Welcome extends Mailable
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->subject('Welcome to JustLeave'); 
+        $this->subject('Welcome to JustLeave.work'); 
     }
 
     /**
