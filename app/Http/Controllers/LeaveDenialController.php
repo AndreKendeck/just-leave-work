@@ -6,8 +6,7 @@ use App\Http\Requests\LeaveDenialRequest;
 use App\Mail\Leave\Denied;
 use App\Notifications\General;
 use App\Leave; 
-use Mail; 
-use Hash; 
+use Mail;  
 
 class LeaveDenialController extends Controller
 {
@@ -19,10 +18,6 @@ class LeaveDenialController extends Controller
 
         if (auth()->user()->organization_id != $leave->organization_id) {
             abort(403, "You are not allowed to perform this action");
-        }
-
-        if (!Hash::check($request->password, auth()->user()->getAuthPassword())) {
-            return redirect()->back()->withErrors('password', 'You password is incorrect');
         }
 
         // database notification

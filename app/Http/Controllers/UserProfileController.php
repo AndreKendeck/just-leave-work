@@ -19,7 +19,7 @@ class UserProfileController extends Controller
             'avatar' => ['nullable' , 'file' , 'image' , 'max:1000' ]
         ]);
         if ($request->hasFile('avatar')) {
-            $request->avatar->store(User::STORAGE_URL);
+            $request->avatar->store(User::STORAGE_PATH);
             auth()->user()->update([
                 'avatar' => $request->avatar->hashName()
             ]);

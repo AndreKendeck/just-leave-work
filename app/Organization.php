@@ -10,12 +10,12 @@ class Organization extends LaratrustTeam implements BannableContract
 {
     use Bannable;
 
-    public const STORAGE_PATH = '/organizations/logos';
+    public const STORAGE_PATH = 'organizations/logos';
 
     protected $appends = [
         'logo_url',
         'has_logo',
-        'is_owner'
+        'is_owner', 
     ];
     
     protected $guarded = [];

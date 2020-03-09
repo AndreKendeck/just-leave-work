@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Ban extends Mailable
+class Ban extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -31,6 +31,8 @@ class Ban extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.organization.ban');
+        return $this->view('emails.organization.ban', [
+            'organization' => $this->organization
+        ]);
     }
 }

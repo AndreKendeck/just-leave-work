@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Leave;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -9,7 +10,14 @@ class PagesController extends Controller
     public function index()
     {
         if (auth()->check()) {
-            return view('profile.home'); 
+            $leaves = auth()->user()->leaves()->paginate();
+            // check if the user has permission to approve and deny leave 
+            if (auth()->user()->hasPermission('approve-and-deny-leave')) {
+                $leaves = Leave::where('organization_id' , auth()->user()->organization_id )->latest()->paginate();
+            }
+            return view('profile.home', [
+                'leaves' => $leaves
+            ]);
         }
         return view('pages.welcome');
     }

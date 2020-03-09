@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Mail\User\Welcome;
 use App\Organization;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -15,6 +17,7 @@ class RegisterTest extends TestCase
     */
     public function a_user_had_all_permission_when_they_register_their_account()
     {
+        Mail::fake();
         $data = [
             'name' => $this->faker->name,
             'email' => $this->faker->safeEmail,
@@ -45,5 +48,6 @@ class RegisterTest extends TestCase
         $this->assertTrue($user->is_leader); 
         $this->assertTrue($user->hasPermission('add-user' , $organization ));
         $this->assertTrue($user->hasPermission('remove-user'  , $organization));
+        Mail::assertQueued(Welcome::class); 
     }
 }

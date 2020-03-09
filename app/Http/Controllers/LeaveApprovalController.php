@@ -19,9 +19,6 @@ class LeaveApprovalController extends Controller
         if (auth()->user()->organization_id != $leave->organization_id) {
             abort(403, "You are not allowed to perform this action");
         }
-        if (!Hash::check($request->password, auth()->user()->getAuthPassword())) {
-            return redirect()->back()->withErrors('password', 'You password is incorrect');
-        }
         
         $leave->approve(auth()->user());
 

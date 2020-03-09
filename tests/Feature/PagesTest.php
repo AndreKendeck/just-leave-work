@@ -21,12 +21,12 @@ class PagesTest extends TestCase
     /**
     * @test
     */
-    public function nagiates_to_home_when_authenticated()
+    public function navigates_to_home_when_authenticated()
     {
         $user = factory('App\User')->create();
-        $this->actingAs($user)
-        ->get(route('index'))
-        ->assertViewIs('profile.home');
+        $this->actingAs($user)->get(route('index'))
+        ->assertViewIs('profile.home')
+        ->assertViewHas('leaves');
     }
 
     /**

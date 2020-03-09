@@ -21,9 +21,7 @@ class LeaveApprovalTest extends TestCase
         $user->attachPermission('approve-and-deny-leave', $user->organization);
         $leave = factory('App\Leave')->create(['organization_id' => $user->organization_id ]);
         $this->actingAs($user)
-        ->post(route('leaves.approve', $leave->id), [
-            'password' => 'password'
-        ])
+        ->post(route('leaves.approve', $leave->id))
         ->assertSessionHasNoErrors()
         ->assertStatus(302)
         ->assertSessionHas('message');
@@ -44,10 +42,7 @@ class LeaveApprovalTest extends TestCase
         $leave = factory('App\Leave')->create(['organization_id' => $user->organization_id ]);
         $this->actingAs($user)
         ->post(
-            route('leaves.approve', $leave->id),
-            [
-            'password' => 'password'
-        ]
+            route('leaves.approve', $leave->id)
         )
         ->assertForbidden();
         $this->assertDatabaseHas('leaves', [
@@ -67,9 +62,7 @@ class LeaveApprovalTest extends TestCase
         $user->attachPermission('approve-and-deny-leave', $user->organization);
         $leave = factory('App\Leave')->create(['organization_id' => $user->organization_id ]);
         $this->actingAs($user)
-        ->post(route('leaves.deny', $leave->id) , [
-            'password' => 'password'
-        ] )
+        ->post(route('leaves.deny', $leave->id))
         ->assertSessionHasNoErrors()
         ->assertStatus(302)
         ->assertSessionHas('message');
@@ -90,9 +83,7 @@ class LeaveApprovalTest extends TestCase
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create(['organization_id' => $user->organization_id ]);
         $this->actingAs($user)
-        ->post(route('leaves.deny', $leave->id) , [
-            'password' => 'password'
-        ])
+        ->post(route('leaves.deny', $leave->id))
         ->assertForbidden();
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,

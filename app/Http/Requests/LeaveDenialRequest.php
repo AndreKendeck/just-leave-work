@@ -24,7 +24,6 @@ class LeaveDenialRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => ['required']
         ];
     }
 }

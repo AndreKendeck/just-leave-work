@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model 
+class Comment extends Model
 {
     protected $guarded = [];
     protected $appends = [
@@ -30,7 +30,7 @@ class Comment extends Model
     public function getCanEditAttribute()
     {
         if (auth()->check()) {
-            return auth()->user()->id == $this->user_id;
+            return $this->user_id == auth()->user()->id;
         }
         return false;
     }

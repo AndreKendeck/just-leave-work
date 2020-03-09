@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LeaveApprovalRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class LeaveApprovalRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->hasPermission('approve-and-deny-leave' , $this->user()->organization );
+        return $this->user()->hasPermission('approve-and-deny-leave', $this->user()->organization);
     }
 
     /**
@@ -24,7 +25,6 @@ class LeaveApprovalRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => ['required']
         ];
     }
 }

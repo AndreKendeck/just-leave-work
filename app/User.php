@@ -15,7 +15,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     use Notifiable;
     use Bannable;
 
-    public const STORAGE_PATH = '/users/avatars';
+    public const STORAGE_PATH = 'users/avatars';
 
     protected $appends = [
         'is_leader',

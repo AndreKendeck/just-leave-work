@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailToBannedOrganization;
+use App\Jobs\SendEmailToUnbannedOrganization;
+use App\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BanController extends Controller
 {
@@ -14,7 +18,10 @@ class BanController extends Controller
      */
     public function index()
     {
-        //
+        $organizations = Organization::onlyBanned()->paginate();
+        return view('admin.bans.index', [
+            'organizations' => $organizations
+        ]);
     }
 
     /**
@@ -35,7 +42,14 @@ class BanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+             'organization_id' => ['required' , Rule::exists('organizations', 'id')
+             ->whereNull('banned_at') ]
+         ]);
+        $organization = Organization::findOrFail($request->organization_id);
+        $organization->ban();
+        dispatch( new SendEmailToBannedOrganization($organization) ); 
+        return redirect()->back()->with('message', "{$organization->display_name} has been banned");
     }
 
     /**
@@ -78,8 +92,15 @@ class BanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $request->validate([
+            'organization_id' => ['required' , Rule::exists('organizations', 'id')
+            ->whereNotNull('banned_at') ]
+        ]);
+        $organization = Organization::findOrFail($request->organization_id);
+        $organization->unban();
+        dispatch( new SendEmailToUnbannedOrganization($organization) );
+        return redirect()->back()->with('message', "Organization {$organization->display_name} 's ban has been lifted");
     }
 }

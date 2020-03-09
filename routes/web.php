@@ -9,6 +9,20 @@ Route::get('/contact-us', 'PagesController@contact')->name('contact');
 Auth::routes(['verify' => true]);
 
 
+
+
+Route::domain('admin'.env('APP_DOMAIN'))->group(function () {
+    // administration routes
+    Route::middleware(['role:admin'])->group(function () {
+        Route::namespace('Admin')->group(function () {
+            Route::get('/bans', 'BanController@index')->name('admin.bans.index');
+            Route::post('/ban', 'BanController@store')->name('admin.bans.store');
+            Route::post('/unban', 'BanController@destroy')->name('admin.bans.delete');
+            Route::get('/user/sessions' , 'SessionController@index' )->name('admin.sessions.index'); 
+        });
+    });
+});
+
 Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banned-user' , 'role:user' , 'forbid-banned-organization' ])->group(function () {
     Route::post('/comment', 'CommentController@store')->name('comments.store');
     Route::delete('/comment/{id}', 'CommentController@destroy')->name('comments.delete');
@@ -34,7 +48,7 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::post('/leave/approve/{id}', 'LeaveApprovalController@store')->name('leaves.approve');
     Route::post('/leave/deny/{id}', 'LeaveDenialController@store')->name('leaves.deny');
 
-    Route::get('/organization/edit/{id}' , 'OrganizationController@edit' )->name('organizations.edit'); 
+    Route::get('/organization/edit/{id}', 'OrganizationController@edit')->name('organizations.edit');
     Route::get('/organization', 'OrganizationController@index')->name('organizations.index');
     Route::put('/oranization/update', 'OrganizationController@update')->name('organizations.update');
     Route::delete('/organization/delete', 'OrganizationController@destroy')->name('organizations.delete');

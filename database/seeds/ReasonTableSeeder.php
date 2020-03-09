@@ -18,7 +18,7 @@ class ReasonTableSeeder extends Seeder
             'Maternity Leave',
             'Annual Leave', 
             'Study Leave',
-            'Leave for religious holidays',
+            'Religious Leave',
             'Other', 
         ]);
         $reasons->each( function($reason) {
