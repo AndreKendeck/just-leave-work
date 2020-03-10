@@ -18,7 +18,8 @@ Route::domain('admin'.env('APP_DOMAIN'))->group(function () {
             Route::get('/bans', 'BanController@index')->name('admin.bans.index');
             Route::post('/ban', 'BanController@store')->name('admin.bans.store');
             Route::post('/unban', 'BanController@destroy')->name('admin.bans.delete');
-            Route::get('/user/sessions' , 'SessionController@index' )->name('admin.sessions.index'); 
+            Route::get('/organizations' , 'OrganizationController@index' )->name('admin.organizations.index');
+            Route::get('/oragnizations/{id}' , 'OrganizationController@show' )->name('admin.organizations.show'); 
         });
     });
 });

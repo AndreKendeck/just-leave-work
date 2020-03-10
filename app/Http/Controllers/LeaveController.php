@@ -44,8 +44,8 @@ class LeaveController extends Controller
     public function store(LeaveStoreRequest $request)
     {
         $from = Carbon::create($request->from);
-        $to = Carbon::create($request->to);
-        if ($from > $to) {
+        $until = Carbon::create($request->until);
+        if ($from > $until) {
             return redirect()->back()->withErrors('from', 'The date you taking leave from is invalid');
         }
         $leave = Leave::create([
@@ -54,7 +54,7 @@ class LeaveController extends Controller
             'reason_id' => $request->reason_id,
             'description' => $request->description,
             'from' => $request->from,
-            'to' => $request->to
+            'until' => $request->until
         ]);
         return redirect()->route('leaves.index')->with('message', "Leave request #{$leave->number} has been created successfuly");
     }

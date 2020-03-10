@@ -50,7 +50,7 @@ class LeaveTest extends TestCase
             'reason_id' => Reason::all()->random()->id,
             'description' => $this->faker->words(10, true),
             'from' => today()->addDays(3)->format('Y-m-d'),
-            'to' => today()->addDays(5)->format('Y-m-d'),
+            'until' => today()->addDays(5)->format('Y-m-d'),
         ];
         $this->actingAs($user)
         ->post(route('leaves.store'), $leave)

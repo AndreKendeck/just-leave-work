@@ -23,7 +23,7 @@ class CreateLeavesTable extends Migration
             $table->longText('description'); 
             // leave from to
             $table->timestamp('from'); 
-            $table->timestamp('to'); 
+            $table->timestamp('until'); 
 
             $table->timestamp('approved_at')->nullable(); 
             $table->integer('approved_by')->nullable(); 

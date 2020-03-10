@@ -55,7 +55,7 @@ class LaratrustSetupTeams extends Migration
             $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->unique(['user_id', 'permission_id', 'user_type', 'organization_id']);
+            $table->unique(['user_id', 'permission_id', 'user_type', 'organization_id'] , 'Permisson_user_team' );
         });
     }
 

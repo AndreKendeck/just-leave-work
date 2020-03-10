@@ -29,7 +29,7 @@ class LeaveStoreRequest extends FormRequest
             'reason_id' => [ 'required' , Rule::exists('reasons' , 'id') ],
             'description' => ['required' , 'string' , 'min:3' ],
             'from' => ['required' , 'date' , 'after_or_equal:today' ],
-            'to' => ['required' , 'date' , 'after_or_equal:today' ],
+            'until' => ['required' , 'date' , 'after_or_equal:today' ],
         ];
     }
 
@@ -38,9 +38,9 @@ class LeaveStoreRequest extends FormRequest
         return  [
             'reason.required' => 'Please select a reason',  
             'from.required' => 'Please select a day which you would like to take leave from',
-            'to.required' => 'Please select a day which you would like to return back from your leave',
+            'until.required' => 'Please select a day which you would like to return back from your leave',
             'from.after_or_equal' => 'Please select a date from today or anytime in the future', 
-            'to.after_or_equal' => 'Please select a date from today or anytime in the future'
+            'until.after_or_equal' => 'Please select a date from today or anytime in the future'
        ];
     }
 }

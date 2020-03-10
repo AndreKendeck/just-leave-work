@@ -13,6 +13,6 @@ $factory->define(Leave::class, function (Faker $faker) {
         'reason_id' => Reason::all()->random()->id,
         'description' => $faker->words(20, true), 
         'from' => today(), 
-        'to' => today()->addDays( rand(1,5) ), 
+        'until' => today()->addDays( rand(1,5) ), 
     ];
 });

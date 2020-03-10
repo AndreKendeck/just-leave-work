@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\Blade;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
         \App\Leave::observe(\App\Observers\LeaveObserver::class); 
         \App\Comment::observe(\App\Observers\CommentObserver::class); 
         \App\User::observe(\App\Observers\UserObserver::class); 
+
+        Blade::include('includes.field' , 'field' ); 
     }
 }

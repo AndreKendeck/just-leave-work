@@ -20,7 +20,7 @@ class Leave extends Model
         'approved_at',
         'denied_at',
         'from',
-        'to'
+        'until'
     ];
 
     public function deny(User $user)
@@ -60,7 +60,7 @@ class Leave extends Model
 
     public function getNumberOfDaysOffAttribute()
     {
-        return $this->to->diffInDays($this->from);
+        return $this->until->diffInDays($this->from);
     }
 
     public function user()
