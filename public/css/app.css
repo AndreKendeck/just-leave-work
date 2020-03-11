@@ -14618,6 +14618,10 @@ video {
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+body {
+  font-family: "Oxygen";
+}
+
 button {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -14788,6 +14792,12 @@ textarea:focus {
 textarea:disabled {
   background-color: #e2e8f0;
   cursor: not-allowed;
+}
+
+div.card {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  display: flex;
 }
 
 @media (min-width: 640px) {

@@ -1,0 +1,7 @@
+<svg id="Home_House" data-name="Home, House" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_12" data-name="Group 12" transform="translate(5 5)">
+    <path id="Path_11" data-name="Path 11" d="M28.607,7.393a15,15,0,1,1-21.213,0,15,15,0,0,1,21.213,0" transform="translate(-3 -3)" fill="none" stroke="#0b3954" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_12" data-name="Path 12" d="M20.834,10.967,15.682,7.36a1.667,1.667,0,0,0-1.912,0l-5.15,3.605a1.665,1.665,0,0,0-.712,1.367v7.962a1.667,1.667,0,0,0,1.667,1.667h10.3a1.667,1.667,0,0,0,1.667-1.667V12.332a1.664,1.664,0,0,0-.712-1.365Z" transform="translate(0.273 -0.294)" fill="none" stroke="#0b3954" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+  <path id="Path_13" data-name="Path 13" d="M0,0H40V40H0Z" fill="none"/>
+</svg>

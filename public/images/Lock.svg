@@ -1,0 +1,9 @@
+<svg id="Lock" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_10" data-name="Group 10">
+    <path id="Path_6" data-name="Path 6" d="M17,21H7a2,2,0,0,1-2-2V11A2,2,0,0,1,7,9H17a2,2,0,0,1,2,2v8A2,2,0,0,1,17,21Z" fill="none" stroke="#fafafa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_7" data-name="Path 7" d="M12,17.09V14.5" fill="none" stroke="#fafafa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_8" data-name="Path 8" d="M12.53,13.22a.75.75,0,1,1-1.061,0,.75.75,0,0,1,1.061,0" fill="none" stroke="#fafafa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_9" data-name="Path 9" d="M8,9V7H8a4,4,0,0,1,4-4h0a4,4,0,0,1,4,4h0V9" fill="none" stroke="#fafafa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+  <path id="Path_10" data-name="Path 10" d="M0,0H24V24H0Z" fill="none"/>
+</svg>

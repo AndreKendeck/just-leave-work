@@ -21,15 +21,22 @@
 
      <meta name="csrf-token" content="{{ csrf_token() }}">
 
+     <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet"> 
      <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
+     <link rel="stylesheet" href="{{ asset('css/menu.css?v=4') }}">
      <script src="{{ asset('js/alpine.js') }}"></script>
 </head>
 
 <body style="font-family: 'Oxygen'" class="bg-gray-100" >
+     @component('components.alert')
+     @endcomponent
      @component('components.menu')
      @endcomponent
-     @yield('content')
+     <div>
+          @yield('content')
+     </div>
+     @component('components.tabs')
+     @endcomponent
      <script src="{{ asset('js/app.js') }}"></script>
 </body>
 

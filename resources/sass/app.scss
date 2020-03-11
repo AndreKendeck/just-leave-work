@@ -108,3 +108,9 @@ textarea {
         @apply cursor-not-allowed;
     }
 }
+
+div.card {
+    @apply bg-white; 
+    @apply rounded-lg; 
+    @apply flex; 
+}

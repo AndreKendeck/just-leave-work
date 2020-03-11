@@ -29,7 +29,8 @@
                </svg>
           </a>
 
-          <a href="{{ route('login') }}" class="py-3 px-2 text-white bg-gray-800 rounded-lg flex justify-between mt-2">
+          <a href="{{ route('login') }}" class="py-3 px-2 text-white bg-gray-800 rounded-lg flex justify-between mt-2
+          hover:bg-gray-900">
                <span class="mx-2">Login</span>
                <svg id="Lock" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <g id="Group_10" data-name="Group 10">

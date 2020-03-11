@@ -72,4 +72,15 @@ class PagesTest extends TestCase
         ->get(route('contact'))
         ->assertViewIs('pages.contact');
     }
+
+    /**
+    * @test
+    */
+    public function can_navigate_to_settings()
+    {
+        $user = factory('App\User')->create();
+        $this->actingAs($user)
+        ->get(route('settings'))
+        ->assertViewIs('pages.settings');
+    }
 }

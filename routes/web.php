@@ -33,6 +33,7 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::get('/profile', 'UserProfileController@index')->name('profile');
     Route::post('/profile/update', 'UserProfileController@update')->name('profile.update');
 
+    Route::get('/settings' , 'PagesController@settings' )->name('settings'); 
     Route::post('/password/change', 'PasswordChangeController@store')->name('password.change');
     
     Route::post('/user/ban/{id}', 'BanUserController@store')->name('users.ban');

@@ -1,3 +1,4 @@
+@guest
 <div x-data="{ open : false }" class="md:hidden">
      <div class="w-screen bg-white flex justify-between">
           <span></span>
@@ -17,7 +18,4 @@
           </ul>
      </div>
 </div>
-
-<script>
-
-</script>
+@endguest
