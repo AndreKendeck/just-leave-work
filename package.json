@@ -25,6 +25,7 @@
         "collect.js": "^4.20.3",
         "moment": "^2.24.0",
         "tailwindcss": "^1.2.0",
-        "validator": "^12.2.0"
+        "validator": "^12.2.0",
+        "vue": "^2.6.11"
     }
 }

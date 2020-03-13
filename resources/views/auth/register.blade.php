@@ -59,13 +59,11 @@ Sign up
      <div class="card px-2 py-2 w-full">
           <form action="{{ route('register') }}" class="flex flex-col w-full" method="POST">
                @csrf
-               @field(['name' => 'name' , 'label' => 'Fullname' , 'required' => true ])
+               @field(['name' => 'name' , 'label' => 'Fullname' , 'required' => true , ])
                @field(['name' => 'email' , 'label' => 'Email Address' , 'required' => true , 'type' => 'email' ])
                @field(['name' => 'organization_name' , 'label' => 'Organization Name' , 'required' => true ])
                @field(['name' => 'password' , 'label' => 'Password' , 'required' => true , 'type' => 'password' ])
-               @field(['name' => 'password_confirmation' , 'label' => 'Confirm Password' , 'required' => true , 'type'
-               =>
-               'password' ])
+               @field(['name' => 'password_confirmation' , 'label' => 'Confirm Password' , 'required' => true , 'type' =>'password' ])
                <button type="submit" class="bg-jean py-3 px-3 rounded-lg w-full mt-5 self-center">
                     Sign up
                </button>

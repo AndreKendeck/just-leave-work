@@ -15,7 +15,7 @@ class Organization extends LaratrustTeam implements BannableContract
     protected $appends = [
         'logo_url',
         'has_logo',
-        'is_owner', 
+        'is_owner',
     ];
     
     protected $guarded = [];
@@ -59,4 +59,5 @@ class Organization extends LaratrustTeam implements BannableContract
         }
         return false;
     }
+
 }

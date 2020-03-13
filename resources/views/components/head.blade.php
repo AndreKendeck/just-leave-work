@@ -1,6 +1,6 @@
 @auth
 <div class="flex justify-between items-end w-screen px-8 py-8 md:hidden">
-     <h3 class="text-gray-600 text-xl"> @yield('heading') </h3>
+     <h3 class="text-blue-700 text-xl font-bold tracking-wide"> @yield('heading') </h3>
      <div class="flex justify-around items-center">
           <a href="{{ route('profile') }}">
                <img src="https://api.adorable.io/avatars/285/abott@adorable.png" class="h-8 w-8 rounded-full mx-3"
