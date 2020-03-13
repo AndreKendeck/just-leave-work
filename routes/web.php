@@ -18,8 +18,8 @@ Route::domain('admin'.env('APP_DOMAIN'))->group(function () {
             Route::get('/bans', 'BanController@index')->name('admin.bans.index');
             Route::post('/ban', 'BanController@store')->name('admin.bans.store');
             Route::post('/unban', 'BanController@destroy')->name('admin.bans.delete');
-            Route::get('/organizations' , 'OrganizationController@index' )->name('admin.organizations.index');
-            Route::get('/oragnizations/{id}' , 'OrganizationController@show' )->name('admin.organizations.show'); 
+            Route::get('/organizations', 'OrganizationController@index')->name('admin.organizations.index');
+            Route::get('/oragnizations/{id}', 'OrganizationController@show')->name('admin.organizations.show');
         });
     });
 });
@@ -33,7 +33,7 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::get('/profile', 'UserProfileController@index')->name('profile');
     Route::post('/profile/update', 'UserProfileController@update')->name('profile.update');
 
-    Route::get('/settings' , 'PagesController@settings' )->name('settings'); 
+    Route::get('/settings', 'PagesController@settings')->name('settings');
     Route::post('/password/change', 'PasswordChangeController@store')->name('password.change');
     
     Route::post('/user/ban/{id}', 'BanUserController@store')->name('users.ban');
@@ -54,6 +54,10 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::get('/organization', 'OrganizationController@index')->name('organizations.index');
     Route::put('/oranization/update', 'OrganizationController@update')->name('organizations.update');
     Route::delete('/organization/delete', 'OrganizationController@destroy')->name('organizations.delete');
+
+    Route::get('/notifications', 'NotificationController@index')->name('notifications.index');
+    Route::delete('/notification/delete/{id}', 'NotificationController@destroy')->name('notifications.delete');
+    Route::get('/notifications/read' , 'NotificationController@read' )->name('notifications.read'); 
 
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::get('/user/create', 'UserController@create')->name('users.create');

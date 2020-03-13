@@ -31,7 +31,7 @@ class BanTest extends TestCase
     public function a_admin_can_ban_an_organization()
     {
         Bus::fake();
-        $organizations = factory('App\Organization', 10)->create();
+        $organizations = factory('App\Organization', 3)->create();
         $random = $organizations->random();
         $admin = factory('App\User')->create(['organization_id' => null ]);
         $admin->attachRole('admin');
@@ -53,7 +53,7 @@ class BanTest extends TestCase
     public function a_admin_can_lift_a_ban_from_an_organization()
     {
         Bus::fake();
-        $organizations = factory('App\Organization', 10)->create();
+        $organizations = factory('App\Organization', 3)->create();
         $random = $organizations->random();
         $random->ban();
         $admin = factory('App\User')->create(['organization_id' => null ]);

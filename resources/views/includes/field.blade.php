@@ -1,6 +1,6 @@
 <div class="flex flex-col md:w-1/2 lg:w-1/4  p-2 ">
      <label for="{{ $name }}" class="px-2 py-2 text-gray-600">{{ $label ?? '' }}</label>
-     <input type="{{ $type ?? 'text' }}" name="{{ $name }}" @if ($required) required="" @endif>
+     <input type="{{ $type ?? 'text' }}" name="{{ $name }}" value="{{ old($name) }}" @if ($required) required="" @endif>
      @error($name)
      <div class="flex justify-end mx-2 py-1 mt-2 items-center">
           <svg id="warning" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">

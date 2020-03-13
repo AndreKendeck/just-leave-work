@@ -5,8 +5,6 @@
 
 @import "tailwindcss/utilities";
 
-
-
 * {
     transition: 0.2s all;
 }
@@ -24,10 +22,16 @@
 body {
     font-family: "Oxygen";
 }
+span.notification-ballon {
+    left: 14px;
+    top: -4px;
+    padding: 0px 7px;
+}
 button {
-    @apply py-2;
+    @apply py-3;
     @apply px-3;
     @apply text-white;
+    @apply rounded-lg;
 }
 input[type="text"] {
     @apply border-gray-300;
@@ -110,7 +114,7 @@ textarea {
 }
 
 div.card {
-    @apply bg-white; 
-    @apply rounded-lg; 
-    @apply flex; 
+    @apply bg-white;
+    @apply rounded-lg;
+    @apply flex;
 }
