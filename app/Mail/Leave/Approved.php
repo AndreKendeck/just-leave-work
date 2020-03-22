@@ -2,6 +2,7 @@
 
 namespace App\Mail\Leave;
 
+use App\Approval;
 use App\Leave;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,16 +13,16 @@ class Approved extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    private $leave;
+    private $approval;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Leave $leave)
+    public function __construct(Approval $approval)
     {
-        $this->leave = $leave;
-        $this->subject("Your Leave #{$leave->number} has been approved");
+        $this->approval = $approval;
+        $this->subject("{}");
     }
 
     /**
@@ -32,7 +33,7 @@ class Approved extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->view('emails.leaves.approved', [
-            'leave' => $this->leave
+            'approval' => $this->approval
         ]);
     }
 }

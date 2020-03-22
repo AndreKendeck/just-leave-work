@@ -26,6 +26,7 @@
         "moment": "^2.24.0",
         "tailwindcss": "^1.2.0",
         "validator": "^12.2.0",
-        "vue": "^2.6.11"
+        "vue": "^2.6.11",
+        "vue-element-loading": "^1.1.5"
     }
 }

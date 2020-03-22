@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LeaveStoreRequest;
-use App\Http\Requests\LeaveUpdateRequest;
+use App\Http\Requests\Leave\StoreRequest;
+use App\Http\Requests\Leave\UpdateRequest;
 use App\Leave;
 use App\Reason;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LeaveController extends Controller
 {
@@ -41,22 +41,17 @@ class LeaveController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LeaveStoreRequest $request)
+    public function store(StoreRequest $request)
     {
-        $from = Carbon::create($request->from);
-        $until = Carbon::create($request->until);
-        if ($from > $until) {
-            return redirect()->back()->withErrors('from', 'The date you taking leave from is invalid');
-        }
         $leave = Leave::create([
-            'organization_id' => $request->organization_id,
-            'user_id' => auth()->user()->id,
+            'team_id' => auth()->user()->team_id,
             'reason_id' => $request->reason_id,
             'description' => $request->description,
-            'from' => $request->from,
-            'until' => $request->until
+            'from' => Carbon::create($request->from) ,
+            'until' => Carbon::create($request->until)
         ]);
-        return redirect()->route('leaves.index')->with('message', "Leave request #{$leave->number} has been created successfuly");
+        return redirect()->route('leaves.index', $leave->id)
+        ->with('message', "Leave #{$leave->number} has been created successfully");
     }
 
     /**
@@ -68,14 +63,12 @@ class LeaveController extends Controller
     public function show($id)
     {
         $leave = Leave::findOrFail($id);
-
-        // check
-        if ( $leave->can_edit || (auth()->user()->hasPermission('approve-and-deny-leave', $leave->organization)) ) {
-            return view('leaves.show', [
-                'leave' => $leave
-            ]);
+        if ($leave->team_id != auth()->user()->team_id) {
+            abort(403, "You cannot view this page");
         }
-        abort(403, "You are not allowed to view this page");
+        return view('leaves.show', [
+            'leave' => $leave
+        ]);
     }
 
     /**
@@ -87,15 +80,12 @@ class LeaveController extends Controller
     public function edit($id)
     {
         $leave = Leave::findOrFail($id);
-
-        // check
-        if ($leave->can_edit) {
-            return view('leaves.edit', [
-                'reasons' => Reason::all(),  
-                'leave' => $leave
-            ]);
+        if ($leave->user_id != auth()->user()->id) {
+            abort(403, "You cannot view this page");
         }
-        abort(403, "You are not allowed to view this page");
+        return view('leaves.edit', [
+            'leave' => $leave
+        ]);
     }
 
     /**
@@ -105,23 +95,14 @@ class LeaveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LeaveUpdateRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $leave = Leave::findOrFail($id);
-
-        // prevent updates to the model when approved or denied
-        if ($leave->approved || $leave->denied) {
-            return redirect()->back()->with('message', 'Approved or Denied leave cannot be edited');
+        if ($leave->user_id != auth()->user()->id) {
+            abort(403, "You cannot perform this action");
         }
-        // check
-        if ($leave->can_edit) {
-            $leave->update([
-                'reason_id' => $request->reason_id,
-                'description' => $request->description
-            ]);
-            return redirect()->back()->with('message', 'Successfully updated');
-        }
-        abort(403, "You are not allowed perform this action");
+        $leave->update(['description' => $request->description ]);
+        return redirect()->back()->with('message', "Leave #{$leave->number} has been updated");
     }
 
     /**
@@ -133,13 +114,13 @@ class LeaveController extends Controller
     public function destroy($id)
     {
         $leave = Leave::findOrFail($id);
-
-        if ($leave->approved || $leave->denied) {
-            return redirect()->back()->with('message', 'Approved or Denied leave cannot be deleted');
+        if ($leave->user_id != auth()->user()->id) {
+            abort(403, "You cannot perform this action");
         }
-        if ($leave->can_edit) {
-            $leave->delete();
-            return redirect()->route('leaves.index')->with('message', "Leave #{$leave->number} has been deleted");
+        if ($leave->number_of_approvals > 0 || $leave->number_of_denials > 0) {
+            return redirect()->back()->with('message', 'You cannot delete this leave as it already has approved or denied');
         }
+        $leave->delete();
+        return redirect()->back()->with('message', "You have successfully deleted leave #{$leave->number}");
     }
 }

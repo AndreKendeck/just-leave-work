@@ -1,7 +1,7 @@
 <?php
 
-use App\Role;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
@@ -14,18 +14,14 @@ class RolesTableSeeder extends Seeder
     {
         $roles = collect([
             [
-                'name' => 'admin',
-                'display_name' => 'Administrator',
-                'description' => 'The Administrator of the application'
+                'name' => 'admin'
             ],
             [
-                'name' => 'user',
-                'display_name' => 'User',
-                'description' => 'The User of the application'
+                'name' => 'user'
             ]
         ]);
         $roles->each(function ($role) {
-            Role::firstOrCreate($role); 
+            Role::firstOrCreate($role);
         });
     }
 }

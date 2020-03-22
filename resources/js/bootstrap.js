@@ -2,6 +2,15 @@ window.axios = require("axios");
 window.collect = require("collect.js");
 window.validator = require("validator");
 window.Vue = require("vue");
+window.moment = require("moment");
+
+moment.updateLocale("en", {
+    week: {
+        dow: 1
+    }
+});
+
+Vue.component("VueLoader", require("vue-element-loading"));
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

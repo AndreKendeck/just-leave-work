@@ -2,34 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LeaveDenialRequest;
-use App\Mail\Leave\Denied;
-use App\Notifications\General;
-use App\Leave; 
-use Mail;  
+use App\Http\Requests\Denial\StoreRequest;
+use Illuminate\Http\Request;
 
 class LeaveDenialController extends Controller
 {
-    public function store(LeaveDenialRequest $request, $id)
+    public function store(StoreRequest $request)
     {
-        $leave = Leave::findOrFail($id);
-
-        $leave->deny(auth()->user());
-
-        if (auth()->user()->organization_id != $leave->organization_id) {
-            abort(403, "You are not allowed to perform this action");
+        $leave = Leave::findOrFail($request->leave_id);
+        if ($leave->approved || $leave->denied ) {
+            return redirect()->back()->with('message', "You have already approved or denied leave #{$leave->number}");
         }
-
-        // database notification
-        $leave->user->notify(new General(
-                auth()->user()->name . " has denied your leave #{$leave->number}",
-                route('leaves.show', $leave->id)
-            ));
-
-        // send an email
-        Mail::to($leave->user->email)
-            ->queue(new Denied($leave));
-
+        $leave->deny();
+        $leave->update([
+            'denied_at' => now()
+        ]); 
         return redirect()->back()->with('message', "You have denied leave #{$leave->number}");
     }
 }

@@ -10,14 +10,8 @@ class PagesController extends Controller
     public function index()
     {
         if (auth()->check()) {
-            $leaves = auth()->user()->leaves()->paginate();
-            // check if the user has permission to approve and deny leave
-            if (auth()->user()->hasPermission('approve-and-deny-leave')) {
-                $leaves = Leave::where('organization_id', auth()->user()->organization_id)->latest()->paginate();
-            }
-            return view('profile.home', [
-                'leaves' => $leaves
-            ]);
+            $users = auth()->user()->team->users()->orderBy('name','ASC')->paginate(6);
+            return view('profile.home', ['users' => $users ]);
         }
         return view('pages.welcome');
     }
@@ -44,6 +38,6 @@ class PagesController extends Controller
 
     public function settings()
     {
-        return view('pages.settings'); 
+        return view('pages.settings');
     }
 }

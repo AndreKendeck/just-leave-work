@@ -65,6 +65,8 @@ Login
                <a href="{{ route('password.request') }}" class="rounded-lg px-4 py-2 mt-2 w-1/2 self-center bg-white text-black border-2 border-black
                text-center">
                     Reset Password </a>
+               <p class="text-center text-gray-800 mt-6"> Don't have an account? <a class="text-blue-500" href="{{ route('register') }}"> Sign
+                         up </a> </p>
           </form>
      </div>
 </div>

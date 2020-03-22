@@ -9,53 +9,58 @@ class Leave extends Model
 {
     protected $guarded = [];
     protected $appends = [
-        'approved',
-        'denied',
-        'pending',
         'number_of_days_off',
-        'can_edit'
+        'can_edit',
+        'approved',
+        'denied'
     ];
-
+    protected $with = [
+        'reason'
+    ];
     protected $dates = [
-        'approved_at',
-        'denied_at',
         'from',
-        'until'
+        'until',
+        'approved_at',
+        'denied_at'
     ];
-
-    public function deny(User $user)
-    {
-        $this->update([
-            'denied_at' => now(),
-            'denied_by' => $user->id,
-            'approved_at' => null,
-            'approved_by' => null
-        ]);
-    }
-
-    public function approve(User $user)
-    {
-        $this->update([
-            'approved_at' => now(),
-            'approved_by' => $user->id,
-            'denied_at' => null,
-            'denied_by' => null,
-        ]);
-    }
 
     public function getApprovedAttribute()
     {
-        return !is_null($this->approved_at) && is_null($this->denied_at);
+        return !is_null($this->approved_at);
+    }
+
+    public function reason()
+    {
+        return $this->belongsTo('App\Reason'); 
     }
 
     public function getDeniedAttribute()
     {
-        return !is_null($this->denied_at) && is_null($this->approved_at);
+        return !is_null($this->denied_at);
     }
 
-    public function getPendingAttribute()
+    public function approve()
     {
-        return !$this->getApprovedAttribute() && !$this->getDeniedAttribute();
+        $this->approval()->save(new Approval([
+            'user_id' => auth()->user()->id,
+        ]));
+    }
+
+    public function deny()
+    {
+        $this->denial()->save(new Denial([
+            'user_id' => auth()->user()->id
+        ]));
+    }
+
+    public function approval()
+    {
+        return $this->hasOne('App\Approval')->latest();
+    }
+
+    public function denial()
+    {
+        return $this->hasOne('App\Denial')->latest();
     }
 
     public function getNumberOfDaysOffAttribute()
@@ -68,43 +73,40 @@ class Leave extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function approver()
-    {
-        return $this->belongsTo('App\User', 'approved_by');
-    }
-
-    public function denier()
-    {
-        return $this->belongsTo('App\User', 'denied_by');
-    }
-
     public function comments()
     {
         return $this->hasMany('App\Comment')->latest();
     }
 
-    public function organization()
+    public function team()
     {
-        return $this->belongsTo('App\Organization');
+        return $this->belongsTo('App\Team');
     }
 
     protected static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->number = DB::table('leaves')->where('organization_id', $model->organization_id)->count() + 1;
+            $model->number = DB::table('leaves')->where('team_id', $model->team_id)->count() + 1;
         });
     }
+
 
     public function getCanEditAttribute()
     {
         if (auth()->check()) {
-            // prevent the user from editing if the leave has been approved or denied
-            if ($this->getApprovedAttribute() || $this->getDeniedAttribute()) {
-                return false;
-            }
             return $this->user_id == auth()->user()->id;
         }
         return false;
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->whereNotNull('approved_at');
+    }
+
+    public function scopeDenied($query)
+    {
+        return $query->whereNotNull('denied_at');
     }
 }

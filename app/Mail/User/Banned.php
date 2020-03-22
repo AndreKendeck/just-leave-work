@@ -31,6 +31,6 @@ class Banned extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('email.user.banned', ['user' => $this->user ]);
+        return $this->view('emails.user.banned', ['user' => $this->user ]);
     }
 }

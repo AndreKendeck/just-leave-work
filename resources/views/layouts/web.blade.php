@@ -32,13 +32,11 @@
      @endcomponent
      @component('components.menu')
      @endcomponent
-     @component('components.head')
+     @component('components.nav')
      @endcomponent
      <div class="h-screen mb-5">
           @yield('content')
      </div>
-     @component('components.tabs')
-     @endcomponent
      <script src="{{ asset('js/app.js') }}"></script>
      @yield('script')
 </body>

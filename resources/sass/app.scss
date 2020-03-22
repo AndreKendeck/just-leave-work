@@ -25,6 +25,10 @@ body {
 span.notification-ballon {
     left: 14px;
     top: -4px;
+    @media (min-width: 768px) {
+        left: 20px;
+        top: -1px;
+    }
     padding: 0px 7px;
 }
 button {
@@ -117,4 +121,19 @@ div.card {
     @apply bg-white;
     @apply rounded-lg;
     @apply flex;
+}
+
+table {
+    @apply table-auto;
+    th {
+        @apply bg-gray-200;
+        @apply p-1;
+        @apply text-gray-600;
+    }
+    tr {
+        @apply table-row;
+    }
+    td {
+        @apply py-3;
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,8 +29,13 @@ class AppServiceProvider extends ServiceProvider
         \App\Leave::observe(\App\Observers\LeaveObserver::class);
         \App\Comment::observe(\App\Observers\CommentObserver::class);
         \App\User::observe(\App\Observers\UserObserver::class);
+        \App\Approval::observe(\App\Observers\ApprovalObserver::class);
+        \App\Denial::observe(\App\Observers\DenialObserver::class);
 
         Blade::include('includes.field', 'field');
         Blade::include('includes.checkbox', 'checkbox');
+
+        Paginator::defaultView('components.paginate');
+        Paginator::defaultSimpleView('components.simple-paginate'); 
     }
 }

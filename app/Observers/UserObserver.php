@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Mail\User\Welcome;
+use App\Notifications\General;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -16,9 +17,9 @@ class UserObserver
      */
     public function created(User $user)
     {
-        // queue email
-        Mail::to($user->email)->queue(new Welcome($user));
-        $user->attachRole('user');
+        Mail::to($user)->queue(new Welcome($user));
+        $user->notify(new General("Welcome to justleave {$user->name}"));
+        $user->assignRole('user');
     }
 
     /**
