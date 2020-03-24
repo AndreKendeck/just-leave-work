@@ -4,7 +4,7 @@ Sign up
 @endsection
 @section('content')
 <div class="flex flex-col items-center mx-4">
-     <div class="flex items-center mt-6 w-full">
+     <div class="flex justify-center items-center mt-6 w-full">
           <svg xmlns="http://www.w3.org/2000/svg" width="79.012" height="129.354" viewBox="0 0 79.012 129.354">
                <g id="Character_Girl_1_Copy" data-name="Character / Girl / 1 Copy" transform="translate(0 1.354)">
                  <g id="Girl_Head_1" data-name="Girl / Head / 1" transform="translate(12.582 -1.354)">
@@ -56,14 +56,14 @@ Sign up
              </svg>             
           <h3 class="text-jean text-2xl"> Let's get your team setup </h3>
      </div>
-     <div class="card px-2 py-2 w-full">
+     <div class="card px-2 py-2 w-full md:w-3/4 pb-10">
           <form action="{{ route('register') }}" class="flex flex-col w-full" method="POST">
                @csrf
                @field(['name' => 'name' , 'label' => 'Fullname' , 'required' => true , ])
                @field(['name' => 'email' , 'label' => 'Email Address' , 'required' => true , 'type' => 'email' ])
                @field(['name' => 'team_name' , 'label' => 'Organization Name' , 'required' => true ])
                @field(['name' => 'password' , 'label' => 'Password' , 'required' => true , 'type' => 'password' ])
-               <button type="submit" class="bg-jean py-3 px-3 rounded-lg w-full mt-5 self-center">
+               <button type="submit" class="bg-jean py-3 px-3 rounded-lg w-full md:w-1/4 mt-5 self-center">
                     Sign up
                </button>
           </form>

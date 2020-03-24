@@ -12,7 +12,8 @@ class Leave extends Model
         'number_of_days_off',
         'can_edit',
         'approved',
-        'denied'
+        'denied',
+        'is_active'
     ];
     protected $with = [
         'reason'
@@ -31,12 +32,23 @@ class Leave extends Model
 
     public function reason()
     {
-        return $this->belongsTo('App\Reason'); 
+        return $this->belongsTo('App\Reason');
     }
 
     public function getDeniedAttribute()
     {
         return !is_null($this->denied_at);
+    }
+
+    public function getIsActiveAttribute()
+    {
+        if ($this->from->equalTo(today())) {
+            return true;
+        }
+        if ($this->until->greaterThan(today()) && $this->from->lessThan(today())) {
+            return true;
+        }
+        return false;
     }
 
     public function approve()

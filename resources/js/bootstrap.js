@@ -1,6 +1,5 @@
 window.axios = require("axios");
 window.collect = require("collect.js");
-window.validator = require("validator");
 window.Vue = require("vue");
 window.moment = require("moment");
 
@@ -11,6 +10,8 @@ moment.updateLocale("en", {
 });
 
 Vue.component("VueLoader", require("vue-element-loading"));
+Vue.component("LeaveCard", require("../components/LeaveCard"));
+
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

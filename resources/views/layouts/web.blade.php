@@ -27,14 +27,14 @@
      <script src="{{ asset('js/alpine.js') }}"></script>
 </head>
 
-<body style="font-family: 'Oxygen'" class="bg-gray-100">
+<body style="font-family: 'Oxygen'" class="bg-gray-100" >
      @component('components.alert')
      @endcomponent
      @component('components.menu')
      @endcomponent
      @component('components.nav')
      @endcomponent
-     <div class="h-screen mb-5">
+     <div class="h-screen mb-5"  >
           @yield('content')
      </div>
      <script src="{{ asset('js/app.js') }}"></script>

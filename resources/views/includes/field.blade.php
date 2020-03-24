@@ -1,5 +1,5 @@
-<div class="flex flex-col md:w-1/2 lg:w-1/4  p-2 ">
-     <label for="{{ $name }}" class="px-2 py-2 text-gray-600">{{ $label ?? '' }}</label>
+<div class="flex flex-col w-full self-center md:w-1/2 p-2 ">
+     <label for="{{ $name }}" class="text-sm px-2 py-2 text-gray-600">{{ $label ?? '' }}</label>
      <input type="{{ $type ?? 'text' }}" @isset($disabled) disabled="" @endisset name="{{ $name }}"
           value="{{ old($name) ?? $value ?? null }}" @if ($required) required="" @endif>
      @error($name)
