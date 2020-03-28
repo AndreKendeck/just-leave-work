@@ -25,6 +25,8 @@ class CreateLeavesTable extends Migration
             $table->timestamp('from'); 
             $table->timestamp('until'); 
 
+            $table->integer('reporter_id')->unsigned()->nullable(); 
+
             $table->timestamp('approved_at')->nullable(); 
             $table->timestamp('denied_at')->nullable(); 
 

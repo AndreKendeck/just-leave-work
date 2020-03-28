@@ -65,6 +65,11 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         return $this->hasMany('App\Leave')->latest();
     }
 
+    public function leaveReports()
+    {
+        return $this->hasMany('App\Leave', 'reporter_id')->latest();
+    }
+
     public function team()
     {
         return $this->belongsTo('App\Team');

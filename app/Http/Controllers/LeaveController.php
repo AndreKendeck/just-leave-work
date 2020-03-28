@@ -11,6 +11,8 @@ use Illuminate\Support\Carbon;
 
 class LeaveController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +20,12 @@ class LeaveController extends Controller
      */
     public function index()
     {
+        $leaves = Leave::with('user')->where('team_id', auth()->user()->team_id)->latest()->paginate();
+        if (!auth()->user()->hasRole('reporter')) {
+            $leaves = auth()->user()->leaves()->with('user')->paginate();
+        }
         return view('leaves.index', [
-            'leaves' => auth()->user()->leaves()->paginate()
+            'leaves' =>  $leaves
         ]);
     }
 
@@ -43,9 +49,22 @@ class LeaveController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        // check for leaves in between
+        auth()->user()->leaves->each(function ($leave) use ($request) {
+            $fromDate = Carbon::create($request->from);
+            $untilDate = Carbon::create($request->until);
+            if ($fromDate->isBetween($leave->from, $leave->until)) {
+                return redirect()->back()->withErrors(['from' => "You cannot take leave from this date" ]);
+            }
+            if ($untilDate->isBetween($leave->from, $leave->until)) {
+                return redirect()->back()->withErrors(['until' => "You cannot come back from leave on this date" ]);
+            }
+        });
+
         $leave = Leave::create([
             'team_id' => auth()->user()->team_id,
             'reason_id' => $request->reason_id,
+            'user_id' => auth()->user()->id,
             'description' => $request->description,
             'from' => Carbon::create($request->from) ,
             'until' => Carbon::create($request->until)
@@ -83,6 +102,7 @@ class LeaveController extends Controller
         if ($leave->user_id != auth()->user()->id) {
             abort(403, "You cannot view this page");
         }
+
         return view('leaves.edit', [
             'leave' => $leave
         ]);

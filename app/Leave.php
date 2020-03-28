@@ -12,8 +12,10 @@ class Leave extends Model
         'number_of_days_off',
         'can_edit',
         'approved',
+        'pending',
         'denied',
-        'is_active'
+        'is_active',
+        'has_reporter'
     ];
     protected $with = [
         'reason'
@@ -85,6 +87,11 @@ class Leave extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function reporter()
+    {
+        return $this->belongsTo('App\User', 'reporter_id');
+    }
+
     public function comments()
     {
         return $this->hasMany('App\Comment')->latest();
@@ -120,5 +127,15 @@ class Leave extends Model
     public function scopeDenied($query)
     {
         return $query->whereNotNull('denied_at');
+    }
+
+    public function getHasReporterAttribute()
+    {
+        return !is_null($this->reporter_id);
+    }
+
+    public function getPendingAttribute()
+    {
+        return ($this->getApprovedAttribute() == false) && ($this->getDeniedAttribute() == false);
     }
 }

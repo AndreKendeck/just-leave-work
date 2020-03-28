@@ -2,6 +2,7 @@ window.axios = require("axios");
 window.collect = require("collect.js");
 window.Vue = require("vue");
 window.moment = require("moment");
+window.Chart = require("chart.js");
 
 moment.updateLocale("en", {
     week: {
@@ -11,7 +12,7 @@ moment.updateLocale("en", {
 
 Vue.component("VueLoader", require("vue-element-loading"));
 Vue.component("LeaveCard", require("../components/LeaveCard"));
-
+Vue.component("UserLeaveCard", require("../components/UserLeaveCard"));
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

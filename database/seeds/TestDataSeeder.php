@@ -13,12 +13,15 @@ class TestDataSeeder extends Seeder
     {
         if (env('APP_ENV') === 'local') {
             factory('App\Team', 10)->create()->each(function ($team) {
-                factory('App\User', 12)->create(['team_id' => $team->id ])->each(function ($user) {
+                $users = factory('App\User', 12)->create(['team_id' => $team->id ])->each(function ($user) {
                     $user->assignRole('user');
                     factory('App\Leave', 3)->create([
                         'user_id' => $user->id,
                         'team_id' => $user->team_id
                     ]);
+                });
+                $users->random(5)->each(function ($user) {
+                    $user->assignRole('reporter');
                 });
             });
         }

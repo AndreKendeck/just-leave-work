@@ -29,6 +29,7 @@ class StoreRequest extends FormRequest
             'description' => ['required' , 'min:1' , 'string' ],
             'from' => ['required' , 'after_or_equal:today' , 'date' ],
             'until' => ['required' , "after_or_equal:today" , 'date' ],
+            'reporter_id' => ['required' , Rule::exists('users' , 'id' )->where('team_id' , auth()->user()->id ) ]
         ];
     }
 }

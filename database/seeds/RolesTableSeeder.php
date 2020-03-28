@@ -18,6 +18,9 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'name' => 'user'
+            ], 
+            [
+                'name' => 'reporter'
             ]
         ]);
         $roles->each(function ($role) {

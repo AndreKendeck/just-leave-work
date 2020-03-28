@@ -30,7 +30,7 @@ class PasswordResetTest extends TestCase
         ])
         ->assertStatus(302)
         ->assertSessionHasNoErrors()
-        ->assertSessionHas('status');
+        ->assertSessionHas('message');
     }
 
     /**

@@ -1,4 +1,4 @@
-<ul class="hidden md:flex self-center my-6">
+<ul class="hidden md:flex self-center my-3">
      @if ($paginator->onFirstPage())
      <li class="mx-1 px-3 py-2 bg-gray-200 text-gray-500 rounded">
           <a class="flex items-center font-bold cursor-not-allowed" href="#">

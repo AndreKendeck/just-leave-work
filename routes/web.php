@@ -30,10 +30,14 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::get('/settings', 'SettingController@setting')->name('settings');
     Route::get('/user/{id}' , 'UserController@show' )->name('users.show'); 
+    Route::get('/user/create' , 'UserController@create' )->name('users.create'); 
     Route::get('/notifications' , 'NotificationController@index' )->name('notifications.index');
+    Route::get('/notifications-read' , 'NotificationController@read' )->name('notifications.read');
 
     // api
     Route::post('/comment', 'Api\CommentController@store')->name('api.comments.store');
     Route::get('/leaves-on-week/{id}/{from}/{to}', 'Api\UserLeaveTimescaleController@show')->name('api.leaves.show');
     Route::get('/leave-metrics', 'Api\MetricsController@index')->name('api.metrics.index');
+    Route::get('/chart' , 'Api\ChartController@index' )->name('api.chart.index'); 
+    Route::get('/read-unread-notifications' , 'Api\radNotificationController@index' );
 });

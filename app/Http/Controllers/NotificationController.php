@@ -12,4 +12,13 @@ class NotificationController extends Controller
             'notifications' => auth()->user()->notifications()->latest()->paginate()
         ]);
     }
+
+    public function read()
+    {
+        auth()->user()->unreadNotifications->each(function ($notification) {
+            $notification->markAsRead();
+        });
+
+        return response()->json(['message' => 'complete'  ]);
+    }
 }

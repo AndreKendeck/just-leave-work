@@ -11,8 +11,8 @@ $factory->define(Leave::class, function (Faker $faker) {
         'team_id' => factory('App\Team')->create()->id,
         'user_id' => factory('App\User')->create()->id,  
         'reason_id' => Reason::all()->random()->id,
-        'description' => $faker->words(20, true), 
-        'from' => today(), 
-        'until' => today()->addDays( rand(1,5) ), 
+        'description' => $faker->words(20, true),  
+        'from' => $faker->dateTimeBetween('-60 days' , 'now' ), 
+        'until' => $faker->dateTimeBetween('now' , '+60 days' ), 
     ];
 });

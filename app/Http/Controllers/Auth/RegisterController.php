@@ -57,6 +57,9 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'team_name' => ['required' , 'string' , 'min:3' ],
             'password' => ['required', 'string', 'min:8'],
+        ], [
+            'team_name.required' => 'Please enter your organizations name',
+            'team_name.min' => 'Organization name must be aleast 3 letters'
         ]);
     }
 
@@ -77,6 +80,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->assignRole('reporter');
         
         // add permissions to the user
         $user->notify(new General("Welcome to Justleave.work 🎉"));

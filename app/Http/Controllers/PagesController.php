@@ -10,7 +10,10 @@ class PagesController extends Controller
     public function index()
     {
         if (auth()->check()) {
-            $users = auth()->user()->team->users()->orderBy('name','ASC')->paginate(6);
+            if (!auth()->user()->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
+            $users = auth()->user()->team->users()->orderBy('name', 'ASC')->paginate(6);
             return view('profile.home', ['users' => $users ]);
         }
         return view('pages.welcome');

@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ReasonTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         // only for testing
-        // $this->call(TestDataSeeder::class); 
+        $this->call(TestDataSeeder::class); 
     }
 }

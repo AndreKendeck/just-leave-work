@@ -56,6 +56,11 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($password),
         ]);
+
+        if ($request->has('reporter')) {
+            $user->aassignRole('reporter');
+        }
+        
         Mail::to($user->email)->queue(new Invation($user, $password));
 
         return redirect()->back()->with('message', "User {$user->name} has been created successfully");
