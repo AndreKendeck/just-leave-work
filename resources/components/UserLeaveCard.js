@@ -6,7 +6,7 @@ export default Vue.component("user-leave-card", {
     },
     methods: {
         selected() {
-            this.$emit("selected", { leave: this.leave });
+            this.$emit("selected", this.leave );
         },
         formatDate(date) {
             return moment(date).format("ll");
@@ -15,7 +15,7 @@ export default Vue.component("user-leave-card", {
             return moment(date).format("MMM D");
         }
     },
-    template: `<a v-on:click="selected()" class="flex w-full md:w-4/6 bg-white p-3 my-2 rounded-lg shadow-lg items-center justify-between hover:bg-gray-200 cursor-pointer">
+    template: `<a v-on:click="selected()" class="flex w-full md:w-3/4 lg:w-full bg-white p-3 my-2 rounded-lg shadow-lg items-center justify-between hover:bg-gray-200 cursor-pointer">
     <div class="flex flex-col items-center">
       <span class="text-xs text-gray-600 mb-2 text-green-600"> Requester </span>
       <img

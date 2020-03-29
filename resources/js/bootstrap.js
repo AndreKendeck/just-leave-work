@@ -3,6 +3,7 @@ window.collect = require("collect.js");
 window.Vue = require("vue");
 window.moment = require("moment");
 window.Chart = require("chart.js");
+window.voca = require("voca");
 
 moment.updateLocale("en", {
     week: {
@@ -13,6 +14,7 @@ moment.updateLocale("en", {
 Vue.component("VueLoader", require("vue-element-loading"));
 Vue.component("LeaveCard", require("../components/LeaveCard"));
 Vue.component("UserLeaveCard", require("../components/UserLeaveCard"));
+Vue.component("WeekSelector", require("../components/WeekSelector"));
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

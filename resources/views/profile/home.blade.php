@@ -16,7 +16,7 @@ Home
 
                <div class="flex justify-between my-3 md:my-1 md:mt-0">
 
-                    <select v-model="currentWeek" class="form-select mx-3" v-on:change="changeWeek()"
+                    <select v-model="currentWeek" class="form-select mx-3 border-2 focus:outline-none" v-on:change="changeWeek()"
                          placeholder="Week">
                          <option v-bind:selected="weekNumber == currentWeek" v-bind:value="weekNumber"
                               v-for="weekNumber in numberOfWeeksInYear">

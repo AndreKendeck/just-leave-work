@@ -79,6 +79,45 @@ input[type="text"] {
     }
 }
 
+div.leave-cards {
+    @media (max-width: 767px) {
+        height: 35vh;
+    }
+    @media (min-width: 1024px) {
+        height: 60vh;
+    }
+}
+div.modal-backdrop {
+    @apply h-screen;
+    @apply w-screen;
+    @apply flex;
+    @apply flex-col;
+    @apply justify-center;
+    @apply items-center;
+    @apply absolute;
+    background-color: rgba($color: #323232, $alpha: 0.4);
+}
+
+input[type="search"] {
+    @apply border-gray-300;
+    @apply border-2;
+    @apply px-2;
+    @apply py-2;
+    @apply text-gray-700;
+    @apply rounded;
+    &::placeholder {
+        @apply text-gray-400;
+    }
+    &:focus {
+        @apply border-blue-200;
+        @apply outline-none;
+    }
+    &:disabled {
+        @apply bg-gray-300;
+        @apply cursor-not-allowed;
+    }
+}
+
 input[type="password"] {
     @apply border-gray-300;
     @apply border-2;

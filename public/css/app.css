@@ -17768,6 +17768,70 @@ input[type=text]:disabled {
   cursor: not-allowed;
 }
 
+@media (max-width: 767px) {
+  div.leave-cards {
+    height: 35vh;
+  }
+}
+
+@media (min-width: 1024px) {
+  div.leave-cards {
+    height: 60vh;
+  }
+}
+
+div.modal-backdrop {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: rgba(50, 50, 50, 0.4);
+}
+
+input[type=search] {
+  border-color: #e2e8f0;
+  border-width: 2px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #4a5568;
+  border-radius: 0.25rem;
+}
+
+input[type=search]::-webkit-input-placeholder {
+  color: #cbd5e0;
+}
+
+input[type=search]::-moz-placeholder {
+  color: #cbd5e0;
+}
+
+input[type=search]:-ms-input-placeholder {
+  color: #cbd5e0;
+}
+
+input[type=search]::-ms-input-placeholder {
+  color: #cbd5e0;
+}
+
+input[type=search]::placeholder {
+  color: #cbd5e0;
+}
+
+input[type=search]:focus {
+  border-color: #bee3f8;
+  outline: 0;
+}
+
+input[type=search]:disabled {
+  background-color: #e2e8f0;
+  cursor: not-allowed;
+}
+
 input[type=password] {
   border-color: #e2e8f0;
   border-width: 2px;
