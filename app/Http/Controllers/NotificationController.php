@@ -19,6 +19,6 @@ class NotificationController extends Controller
             $notification->markAsRead();
         });
 
-        return response()->json(['message' => 'complete'  ]);
+        return response()->json(['message' => 'complete']);
     }
 }

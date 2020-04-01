@@ -29,7 +29,17 @@ class StoreRequest extends FormRequest
             'description' => ['required' , 'min:1' , 'string' ],
             'from' => ['required' , 'after_or_equal:today' , 'date' ],
             'until' => ['required' , "after_or_equal:today" , 'date' ],
-            'reporter_id' => ['required' , Rule::exists('users' , 'id' )->where('team_id' , auth()->user()->id ) ]
+            'reporter_id' => ['nullable' , Rule::exists('users', 'id')->where([
+                'team_id' => auth()->user()->team_id,
+                ['id' , '<>' , auth()->user()->id ]
+            ]) ]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'reason_id.required' => 'Please select a reason'
         ];
     }
 }

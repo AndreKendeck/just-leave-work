@@ -6,6 +6,7 @@ use App\Http\Requests\Leave\StoreRequest;
 use App\Http\Requests\Leave\UpdateRequest;
 use App\Leave;
 use App\Reason;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -37,7 +38,11 @@ class LeaveController extends Controller
     public function create()
     {
         return view('leaves.create', [
-            'reasons' => Reason::all()
+            'reasons' => Reason::all(), 
+            'reporters' => User::role('reporter')->where([
+                'team_id' => auth()->user()->team_id, 
+                ['id' , '<>' , auth()->user()->id ]
+            ])->get()
         ]);
     }
 
@@ -137,7 +142,7 @@ class LeaveController extends Controller
         if ($leave->user_id != auth()->user()->id) {
             abort(403, "You cannot perform this action");
         }
-        if ($leave->number_of_approvals > 0 || $leave->number_of_denials > 0) {
+        if ($leave->approved || $leave->denied ) {
             return redirect()->back()->with('message', 'You cannot delete this leave as it already has approved or denied');
         }
         $leave->delete();

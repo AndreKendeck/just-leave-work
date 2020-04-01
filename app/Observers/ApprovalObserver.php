@@ -19,7 +19,7 @@ class ApprovalObserver
     {
         if ($approval->user_id != $approval->leave->user_id) {
             Mail::to($approval->leave->user->email)->queue(new Approved($approval));
-            $approval->leave()->user->notify(new General("{$approval->user->name} has approved your leave #{$approval->leave->number}", route('leaves.show', $approval->leave->id)));
+            $approval->leave->user->notify(new General("{$approval->user->name} has approved your leave #{$approval->leave->number}", route('leaves.show', $approval->leave->id)));
         }
     }
 

@@ -18,8 +18,8 @@ class DenialObserver
     public function created(Denial $denial)
     {
         if ($denial->user_id != $denial->leave->user_id) {
-            Mail::to($denial->leave()->user->email)->queue(new Denied($denial->leave));
-            $denial->leave()->user->notify(new General("{$denial->user->name} has denied your leave request", route('leave.show', $denial->leave->id)));
+            Mail::to($denial->leave->user->email)->queue(new Denied($denial->leave));
+            $denial->leave->user->notify(new General("{$denial->user->name} has denied your leave request", route('leaves.show', $denial->leave->id)));
         }
     }
 

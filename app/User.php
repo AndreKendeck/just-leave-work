@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Laravolt\Avatar\Avatar;
 use Spatie\Permission\Traits\HasRoles;
 
-// bannable contarcts
+// bannable contracts
 use Cog\Contracts\Ban\Ban as BanContract;
 use Cog\Contracts\Ban\BanService as BanServiceContract;
 

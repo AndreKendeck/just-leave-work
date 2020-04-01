@@ -20,12 +20,17 @@ class CommentObserver
         if ($comment->user_id != $comment->leave->user_id) {
 
             // reporter
-            Mail::to($comment->leave()->reporter->email)->queue(new Created($comment));
-            $comment->leave()->reporter->notify(new General("{$comment->user->name} has left a comment on a leave request", route('leaves.show', $comment->leave->id)));
+            
+            if ($comment->user_id != $comment->leave->reporter_id) {
+                if ($comment->leave->has_reporter) {
+                    Mail::to($comment->leave->reporter->email)->queue(new Created($comment));
+                    $comment->leave()->reporter->notify(new General("{$comment->user->name} has left a comment on a leave request", route('leaves.show', $comment->leave->id)));
+                }
+            }
 
             // another user
-            Mail::to($comment->leave()->user->email)->queue(new Created($comment));
-            $comment->leave()->user->notify(new General("{$comment->user->name} has left a comment on your leave request", route('leaves.show', $comment->leave->id)));
+            Mail::to($comment->leave->user->email)->queue(new Created($comment));
+            $comment->leave->user->notify(new General("{$comment->user->name} has left a comment on your leave request", route('leaves.show', $comment->leave->id)));
         }
     }
 

@@ -16,17 +16,29 @@ class UserProfileController extends Controller
     {
         $request->validate([
             'name' => ['required' , 'string' , 'min:3' ],
+        ]);
+        
+        auth()->user()->update([
+            'name' => $request->name
+        ]);
+        return redirect()->back()->with('message', 'Profile updated');
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+        $request->validate([
             'avatar' => ['nullable' , 'file' , 'image' , 'max:1000' ]
         ]);
+
         if ($request->hasFile('avatar')) {
             $request->avatar->store(User::STORAGE_PATH);
             auth()->user()->update([
                 'avatar' => $request->avatar->hashName()
             ]);
         }
-        auth()->user()->update([
-            'name' => $request->name
+        return response()->json([
+            'message' => 'Profile updated',
+            'image' => auth()->user()->avatar_url,
         ]);
-        return redirect()->back()->with('message', 'Profile updated');
     }
 }

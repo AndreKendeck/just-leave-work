@@ -14,7 +14,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('user');
+        return auth()->user()->hasRole('reporter');
     }
 
     /**
@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'leave_id' => ['required' , Rule::exists('leave', 'id')->where('team_id', auth()->user()->id) ]
+            'leave_id' => ['required' , Rule::exists('leaves', 'id')->where('team_id', auth()->user()->team_id ) ]
         ];
     }
 }

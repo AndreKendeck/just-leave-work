@@ -6,7 +6,7 @@ Home
 Home
 @endsection
 @section('content')
-<div class="h-screen mx-3 lg:mx-6 flex flex-col lg:flex-row mb-6" id="home">
+<div class="mx-3 lg:mx-6 flex flex-col lg:flex-row mb-6" id="home">
 
      <div class="card flex flex-col mt-10 -mb-5 p-4 lg:w-8/12 self-center lg:self-auto shadow-xs w-full">
           <div class="flex flex-col md:flex-row mt-3 justify-between items-center">

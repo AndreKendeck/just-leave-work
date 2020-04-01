@@ -15,17 +15,36 @@ class Leave extends Model
         'pending',
         'denied',
         'is_active',
-        'has_reporter'
+        'has_reporter',
+        // urls
+        'url',
+        'edit_url',
     ];
+
+    protected $withCount = [
+        'comments'
+    ];
+
     protected $with = [
         'reason'
     ];
+
     protected $dates = [
         'from',
         'until',
         'approved_at',
         'denied_at'
     ];
+
+    public function getUrlAttribute()
+    {
+        return route('leaves.show', $this->id);
+    }
+
+    public function getEditUrlAttribute()
+    {
+        return route('leaves.edit', $this->id);
+    }
 
     public function getApprovedAttribute()
     {
@@ -58,6 +77,9 @@ class Leave extends Model
         $this->approval()->save(new Approval([
             'user_id' => auth()->user()->id,
         ]));
+        $this->update([
+            'approved_at' => now()
+        ]);
     }
 
     public function deny()
@@ -65,6 +87,9 @@ class Leave extends Model
         $this->denial()->save(new Denial([
             'user_id' => auth()->user()->id
         ]));
+        $this->update([
+            'denied_at' => now()
+        ]);
     }
 
     public function approval()

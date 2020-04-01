@@ -7,6 +7,7 @@ use Ramsey\Uuid\Uuid;
 
 class Denial extends Model
 {
+    protected $guarded = []; 
     protected $appends = [];
 
     public function leave()

@@ -28,13 +28,19 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::get('/leave/create' , 'LeaveController@create' )->name('leaves.create'); 
     Route::get('/leaves', 'LeaveController@index')->name('leaves.index');
     Route::get('/users', 'UserController@index')->name('users.index');
+    Route::post('/leave/store' , 'LeaveController@store' )->name('leaves.store'); 
     Route::get('/settings', 'SettingController@setting')->name('settings');
     Route::get('/user/{id}' , 'UserController@show' )->name('users.show'); 
     Route::get('/user/create' , 'UserController@create' )->name('users.create'); 
     Route::get('/notifications' , 'NotificationController@index' )->name('notifications.index');
     Route::get('/notifications-read' , 'NotificationController@read' )->name('notifications.read');
+    Route::get('/leave/{id}' , 'LeaveController@show' )->name('leaves.show'); 
+    Route::get('/leave/edit/{id}' , 'LeaveController@edit' )->name('leaves.edit'); 
+    Route::post('/leave/approve' , 'LeaveApprovalController@store' )->name('leaves.approve'); 
+    Route::post('/leave/deny' , 'LeaveDenialController@store' )->name('leaves.deny'); 
 
     // api
+    Route::post('/upload-avatar' , 'UserProfileController@uploadAvatar' )->name('profile.upload'); 
     Route::post('/comment', 'Api\CommentController@store')->name('api.comments.store');
     Route::get('/leaves-on-week/{id}/{from}/{to}', 'Api\UserLeaveTimescaleController@show')->name('api.leaves.show');
     Route::get('/leave-metrics', 'Api\MetricsController@index')->name('api.metrics.index');

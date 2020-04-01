@@ -14,7 +14,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('user');
+        return auth()->user()->hasRole('reporter');
     }
 
     /**

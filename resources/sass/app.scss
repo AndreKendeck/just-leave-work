@@ -50,12 +50,15 @@ span.notification-ballon {
     padding: 0px 7px;
 }
 button {
-    @apply py-3;
-    @apply px-3;
+    @apply p-2;
     @apply text-white;
-    @apply rounded-lg;
-    ::focus {
+    @apply rounded;
+    &:focus {
         @apply outline-none;
+    }
+    &.disabled {
+        @apply cursor-not-allowed;
+        @apply opacity-25;
     }
 }
 
@@ -79,14 +82,6 @@ input[type="text"] {
     }
 }
 
-div.leave-cards {
-    @media (max-width: 767px) {
-        height: 35vh;
-    }
-    @media (min-width: 1024px) {
-        height: 60vh;
-    }
-}
 div.modal-backdrop {
     @apply h-screen;
     @apply w-screen;

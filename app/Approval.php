@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class Approval extends Model
 {
+    protected $guarded = []; 
     protected $appends = [];
 
     public function leave()
