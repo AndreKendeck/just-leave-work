@@ -24,7 +24,7 @@ class CommentObserver
             if ($comment->user_id != $comment->leave->reporter_id) {
                 if ($comment->leave->has_reporter) {
                     Mail::to($comment->leave->reporter->email)->queue(new Created($comment));
-                    $comment->leave()->reporter->notify(new General("{$comment->user->name} has left a comment on a leave request", route('leaves.show', $comment->leave->id)));
+                    $comment->leave->reporter->notify(new General("{$comment->user->name} has left a comment on a leave request", route('leaves.show', $comment->leave->id)));
                 }
             }
 

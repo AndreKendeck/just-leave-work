@@ -6,10 +6,11 @@ Request leave
 Request leave
 @endsection
 @section('content')
-<div class="h-screen mx-2">
-     <h3 class="text-jean mt-3 text-center text-lg"> Request leave </h3>
-     <div class="card p-3 flex-col shadow-xs mt-3">
-          <form action="{{ route('leaves.store') }}" method="post">
+<div class="mx-2 flex flex-col w-full h-full">
+
+     <div class="card p-3 flex-col shadow-xs mt-3 pb-4 w-full lg:w-1/2 self-center">
+          <h3 class="text-jean my-3 text-center text-lg"> Request leave </h3>
+          <form action="{{ route('leaves.store') }}" class="w-full" method="post">
                @csrf
                @select(['name' => 'reason_id' , 'required' => true , 'label' => 'Reason' ])
                @foreach ($reasons as $reason)
@@ -34,6 +35,8 @@ Request leave
                @field(['name' => 'from' , 'label' => 'From Date' , 'required' => true  ])
                @field(['name' => 'until' , 'label' => 'Until Date' , 'required' => true  ])
                @textarea(['name' => 'description' , 'label' => 'Description' , 'required' => true  ])
+
+               <button type="submit" class="mt-4 bg-jean hover:bg-gray-800 text-white self-center ml-2"> Submit  </button>
           </form>
      </div>
 </div>

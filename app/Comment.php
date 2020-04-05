@@ -9,7 +9,12 @@ class Comment extends Model
     protected $guarded = [];
     protected $appends = [
         'was_edited',
-        'can_edit'
+        'can_edit',
+        'is_deletable',
+        'is_editable',
+    ];
+    protected $with = [
+        'user'
     ];
 
     public function user()
@@ -33,5 +38,15 @@ class Comment extends Model
             return $this->user_id == auth()->user()->id;
         }
         return false;
+    }
+
+    public function getIsDeletableAttribute()
+    {
+        return now()->diffInMinutes($this->created_at) <= 5;
+    }
+
+    public function getIsEditableAttribute()
+    {
+        return now()->diffInMinutes($this->created_at) <= 5;
     }
 }

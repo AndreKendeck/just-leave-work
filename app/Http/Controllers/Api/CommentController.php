@@ -84,10 +84,16 @@ class CommentController extends Controller
         if (!$comment->can_edit) {
             abort(403, "You cannot perform this action");
         }
+        if (!$comment->is_editable) {
+            return response()->json([
+                'errors' => ['You can no longer edit this comment']
+            ], 422);
+        }
         $comment->update(['text' => $request->text ]);
         return response()
         ->json([
-            'message' => 'Comment has been updated'
+            'message' => 'Comment has been updated',
+            'comment' => $comment
         ], 200);
     }
 
@@ -97,11 +103,17 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyRequest $id)
+    public function destroy(DestroyRequest $request, $id)
     {
         $comment = Comment::findOrFail($id);
+        
         if (!$comment->can_edit) {
             abort(403, "You cannot perform this action");
+        }
+        if (!$comment->is_deletable) {
+            return response()->json([
+                'errors' => ['You can no longer delete this comment']
+            ], 422);
         }
         $comment->delete();
         return response()

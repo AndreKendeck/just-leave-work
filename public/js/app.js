@@ -55969,6 +55969,64 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/components/UserComment.js":
+/*!*********************************************!*\
+  !*** ./resources/components/UserComment.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (Vue.component("UserComment", {
+  props: ["comment"],
+  name: "user-comment",
+  data: function data() {
+    return {
+      is_editing: false,
+      sending: false,
+      successMessage: null,
+      errors: []
+    };
+  },
+  methods: {
+    selected: function selected() {
+      return this.$emit("selected", this.comment);
+    },
+    deleteComment: function deleteComment() {
+      var _this = this;
+
+      axios.post("/comment/delete/".concat(this.comment.id)).then(function (response) {
+        return _this.$emit("deleted");
+      });
+    },
+    update: function update() {
+      var _this2 = this;
+
+      this.sending = true;
+      this.errors = [];
+      this.successMessage = null;
+      axios.post("/comment/update/".concat(this.comment.id), {
+        text: this.comment.text
+      }).then(function (response) {
+        _this2.successMessage = response.data.message;
+        _this2.comment = response.data.comment;
+        _this2.sending = false;
+        _this2.is_editing = false;
+      })["catch"](function (failed) {
+        _this2.errors = collect(failed.response.data.errors).flatten().all();
+        _this2.sending = false;
+      });
+    },
+    toReadableTime: function toReadableTime(date) {
+      return moment(date).fromNow();
+    }
+  },
+  template: "<div class=\"rounded-lg bg-gray-100 p-4 flex flex-col w-full my-2 animated fadeInDown\">\n     <div class=\"flex justify-between w-full\">\n          <div class=\"flex items-center\">\n               <img class=\"rounded-full h-5 w-5\"\n                    v-bind:src=\"comment.user.has_avatar ? comment.user.avatar_url : comment.user.avatar_url.encoded\"\n                    alt=\"comment.user.name\" />\n               <span class=\"text-xs text-gray-400 ml-1\">{{ comment.user.name.substr(0,12)  }}</span>\n          </div>\n          <div class=\"flex\">\n               <span class=\"text-xs text-gray-400 ml-1\">{{ toReadableTime(comment.created_at) }}\n               </span>\n               <span v-if=\"comment.was_edited\" class=\"text-xs text-gray-400 ml-1\"> &bull; edited\n               </span>\n          </div>\n     </div>\n     <div class=\"text-gray-600 text-sm mt-4\">\n          <span v-if=\"!is_editing\"> {{ comment.text }} </span>\n          <div class=\"flex flex-col w-full my-2\" v-if=\"is_editing\">\n          \n               <div class=\"flex w-full my-1\">\n               <input type=\"text\" class=\"mx-1 w-full p-0\" v-model=\"comment.text\" >\n               <vue-loader :active=\"sending\" spinner=\"ring\"></vue-loader>\n               <button class=\"bg-gray-200 hover:bg-gray-300 p-0\"  v-on:click=\"update()\" >\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\"\n                         stroke-width=\"2\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-save stroke-current h-8 w-8 text-gray-600 p-2\">\n                         <path d=\"M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z\">\n                         </path>\n                         <polyline points=\"17 21 17 13 7 13 7 21\"></polyline>\n                         <polyline points=\"7 3 7 8 15 8\"></polyline>\n                    </svg>\n               </button>\n               <button class=\"bg-gray-200 hover:bg-gray-300 p-0 ml-1\" v-on:click=\"is_editing = false\">\n                    <svg version=\"1.1\" class=\"h-8 w-8 stroke-current text-gray-600 p-2\" viewBox=\"0 0 24 24\"\n                         xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                         <g fill=\"none\">\n                              <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"\n                                   d=\"M8,8l8,8\">\n                              </path>\n                              <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"\n                                   d=\"M16,8l-8,8\">\n                              </path>\n                         </g>\n                    </svg>\n               </button>\n               </div>\n\n\n          <div class=\"flex justify-end mx-2 py-1 mt-2 items-center\" v-for=\"(error,idx) in errors\"\n               :key=\"idx\">\n               <svg id=\"warning\" xmlns=\"http://www.w3.org/2000/svg\" width=\"15\" height=\"15\"\n                    viewBox=\"0 0 15 15\">\n                    <path id=\"Path_41\" data-name=\"Path 41\" d=\"M0,0H15V15H0Z\" fill=\"none\" />\n                    <path id=\"Path_42\" data-name=\"Path 42\"\n                         d=\"M8.625,3h0A5.625,5.625,0,0,1,14.25,8.625h0A5.625,5.625,0,0,1,8.625,14.25h0A5.625,5.625,0,0,1,3,8.625H3A5.625,5.625,0,0,1,8.625,3Z\"\n                         transform=\"translate(-1.125 -1.125)\" fill=\"none\" stroke=\"#c81d25\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n                    <path id=\"Path_43\" data-name=\"Path 43\" d=\"M12,10.625V7.5\"\n                         transform=\"translate(-4.5 -2.813)\" fill=\"none\" stroke=\"#c81d25\"\n                         stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n                    <path id=\"Path_44\" data-name=\"Path 44\"\n                         d=\"M11.906,16a.156.156,0,1,0,.157.156A.155.155,0,0,0,11.906,16\"\n                         transform=\"translate(-4.406 -6)\" fill=\"none\" stroke=\"#c81d25\" stroke-linecap=\"round\"\n                         stroke-linejoin=\"round\" stroke-width=\"1.5\" />\n               </svg>\n               <span class=\"text-red-600 text-xs mx-1\">{{ error }}</span>\n          </div>\n\n          <div class=\"flex justify-end mx-2 py-1 mt-2 items-center\" v-if=\"successMessage\">\n               <svg version=\"1.1\" class=\"stroke-current w-3 h-3 text-green-600\" viewBox=\"0 0 24 24\"\n                    xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                    <g fill=\"none\">\n                         <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"\n                              d=\"M12,21v0c-4.971,0 -9,-4.029 -9,-9v0c0,-4.971 4.029,-9 9,-9v0c4.971,0 9,4.029 9,9v0c0,4.971 -4.029,9 -9,9Z\">\n                         </path>\n                         <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"\n                              d=\"M16,10l-5,5l-3,-3\"></path>\n                    </g>\n               </svg>\n               <span class=\"text-green-600 text-xs mx-1\">{{ successMessage }}</span>\n          </div>\n\n          </div>\n     </div>\n     <div class=\"flex w-full justify-end\">\n          <button v-if=\"comment.can_edit && !is_editing && comment.is_editable\" class=\"bg-gray-200 hover:bg-gray-300 p-0\" v-on:click=\"is_editing = true\" >\n               <svg version=\"1.1\" class=\"stroke-current h-8 w-8 text-gray-600 p-2\" viewBox=\"0 0 24 24\"\n                    xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                    <g stroke-linecap=\"round\" stroke-width=\"2\" fill=\"none\" stroke-linejoin=\"round\">\n                         <path\n                              d=\"M21,11v8c0,1.105 -0.895,2 -2,2h-14c-1.105,0 -2,-0.895 -2,-2v-14c0,-1.105 0.895,-2 2,-2h8\">\n                         </path>\n                         <path\n                              d=\"M20.707,6.121l-10.879,10.879h-2.828v-2.828l10.879,-10.879c0.391,-0.391 1.024,-0.391 1.414,8.88178e-16l1.414,1.414c0.391,0.391 0.391,1.024 -3.55271e-15,1.414Z\">\n                         </path>\n                         <path d=\"M16.09,5.09l2.82,2.82\"></path>\n                    </g>\n               </svg>\n          </button>\n\n          <button v-if=\"comment.can_edit && comment.is_deletable\" class=\"bg-gray-200 hover:bg-gray-300 p-0 ml-1\" v-on:click=\"deleteComment()\" >\n               <svg version=\"1.1\" class=\"stroke-current h-8 w-8 text-gray-600 p-2\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"\n                    xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                    <g stroke-linecap=\"round\" stroke-width=\"1.5\"  fill=\"none\"\n                         stroke-linejoin=\"round\">\n                         <path d=\"M18,6.53h1\"></path>\n                         <path d=\"M9,10.47v6.06\"></path>\n                         <path d=\"M12,9.31v8.27\"></path>\n                         <path d=\"M15,10.47v6.06\"></path>\n                         <path\n                              d=\"M15.795,20.472h-7.59c-1.218,0 -2.205,-0.987 -2.205,-2.205v-11.739h12v11.739c0,1.218 -0.987,2.205 -2.205,2.205Z\">\n                         </path>\n                         <path\n                              d=\"M16,6.528l-0.738,-2.305c-0.133,-0.414 -0.518,-0.695 -0.952,-0.695h-4.62c-0.435,0 -0.82,0.281 -0.952,0.695l-0.738,2.305\">\n                         </path>\n                         <path d=\"M5,6.53h1\"></path>\n                    </g>\n               </svg>\n          </button>\n     </div>\n</div>"
+}));
+
+/***/ }),
+
 /***/ "./resources/components/UserLeaveCard.js":
 /*!***********************************************!*\
   !*** ./resources/components/UserLeaveCard.js ***!
@@ -56065,6 +56123,7 @@ Vue.component("VueLoader", __webpack_require__(/*! vue-element-loading */ "./nod
 Vue.component("LeaveCard", __webpack_require__(/*! ../components/LeaveCard */ "./resources/components/LeaveCard.js"));
 Vue.component("UserLeaveCard", __webpack_require__(/*! ../components/UserLeaveCard */ "./resources/components/UserLeaveCard.js"));
 Vue.component("WeekSelector", __webpack_require__(/*! ../components/WeekSelector */ "./resources/components/WeekSelector.js"));
+Vue.component("UserComment", __webpack_require__(/*! ../components/UserComment */ "./resources/components/UserComment.js")["default"]);
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 var token = document.head.querySelector('meta[name="csrf-token"]');
 

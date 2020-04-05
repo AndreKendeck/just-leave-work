@@ -9,7 +9,7 @@ Leaves
 @endsection
 
 @section('content')
-<div class="flex w-screen" id="leaves">
+<div class="flex" id="leaves">
      <div class="mt-5 p-3 rounded w-full flex flex-col">
 
           <div class="card flex flex-col justify-between lg:flex-row p-3 w-full ">
@@ -25,6 +25,15 @@ Leaves
                          class="form-select w-full border-gray-300 border-2 focus:outline-none">
                          <option v-bind:value="month" v-bind:selected="filters.month === month"
                               v-for="(month,idx) in months" :key="idx"> @{{ formatMonth(month) }} </option>
+                    </select>
+               </div>
+
+               <div class="flex flex-col lg:mx-2 w-full mt-2 md:mt-0">
+                    <span class="text-gray-600 text-sm"> Status </span>
+                    <select name="from" id="status" v-model="filters.status" placeholder="Status"
+                         class="form-select w-full border-gray-300 border-2 focus:outline-none">
+                         <option v-bind:value="status" v-bind:selected="filters.status.value === status.value"
+                              v-for="(status,idx) in statuses" :key="idx"> @{{ status.name }} </option>
                     </select>
                </div>
 
@@ -48,8 +57,8 @@ Leaves
                     </select>
                </div>
 
-               <div class="flex flex-col lg:mx-2 mt-2 w-1/12 lg:justify-end">
-                    <a class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-2 w-3/4 lg:w-full md:px-3 text-center rounded-lg "
+               <div class="flex flex-col lg:mx-2 mt-2 lg:justify-end">
+                    <a class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-2 lg:w-full md:px-3 text-center rounded-lg "
                          href="{{ route('leaves.create') }}">
                          <svg version="1.1" viewBox="0 0 24 24" class="stroke-current h-8 w-8"
                               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -81,7 +90,7 @@ Leaves
 
           </div>
           <div class="flex flex-col overflow-y-scroll w-full lg:max-h-1/2 overflow-y-scroll">
-               <user-leave-card v-on:selected="selectLeave(leave)" v-for="(leave,idx) in searchableFilter" :key="idx"
+               <user-leave-card v-on:selected="selectLeave(leave)" v-for="(leave,idx) in leaveFilter" :key="idx"
                     :leave="leave"></user-leave-card>
                <hr class="w-full border-2 bg-gray-200">
           </div>
@@ -92,7 +101,7 @@ Leaves
 
      {{--  --}}
 
-     <div class="modal-backdrop" v-if="selectedLeave">
+     <div class="modal-backdrop" v-if="selectedLeave"  >
           <div class="bg-white p-3 flex flex-col z-20 mx-6 w-full rounded md:w-3/4 lg:w-1/2 animated fadeInDown faster">
                <div class="flex justify-between items-center mb-4">
                     <div class="text-jean text-center text-lg tracking-widest">Leave no. @{{ selectedLeave.number }}
@@ -116,17 +125,22 @@ Leaves
                          alt="leave.user.name" />
                     <span class="text-jean text-lg mx-2"> @{{ selectedLeave.user.name }} </span>
                </div>
-               <h3 class="text-gray-600 my-3"> @{{ selectedLeave.reason.name }} </h3>
+               <div class="flex justify-between items-center my-4 px-3">
+                    <div class="text-gray-400"> @{{ selectedLeave.comments_count }} comments </div>
+                    <h3 class="text-gray-600"> @{{ selectedLeave.reason.name }} </h3>
+               </div>
                <hr>
                <p class="py-3 text-gray-500">
-                    @{{ selectedLeave.description }}
+                    @{{ selectedLeave.description.substr(0,100) }}
+                    <a  v-bind:href="selectedLeave.url" class="ml-2 text-blue-400 hover:text-blue-600" > more </a>
                </p>
                <div class="my-4 flex justify-between items-center">
+                    @role('reporter')
                     <div class="flex" v-if="selectedLeave.pending">
                          <form action="{{ route('leaves.approve') }}" class="mx-1" method="POST">
                               @csrf
                               <input type="hidden" name="leave_id" v-bind:value="selectedLeave.id" readonly="">
-                              <button type="submit" class="bg-green-600 hover:bg-green-800"> Approve </button>
+                              <button type="submit" class="bg-jean hover:bg-gray-700"> Approve </button>
                          </form>
 
                          <form action="{{ route('leaves.deny') }}" class="mx-1" method="POST">
@@ -135,6 +149,7 @@ Leaves
                               <button type="submit" class="bg-red-600 hover:bg-red-800 p-2"> Deny </button>
                          </form>
                     </div>
+                    @endrole
                     <div class="flex items-center">
                          <button class="mx-1 p-0" v-on:click="comment.open = !comment.open">
                               <svg class="stroke-current h-10 w-10 bg-gray-300 text-gray-600 hover:bg-gray-400 p-2 rounded"
@@ -260,9 +275,28 @@ Leaves
                     errors : [], 
                },
                months : [ 0 , 1 ,2 ,3 , 4 , 5 ,6 ,7 , 8, 9 ,10 ,11 ] ,
+               statuses : [ 
+                    {
+                         name : 'All', 
+                         value : null, 
+                    },
+                    {
+                         name : 'Pending', 
+                         value : 'Pending'
+                    }, 
+                    {
+                         name : 'Approved', 
+                         value : 'Approved'
+                    }, 
+                    {
+                         name : 'Denied', 
+                         value : 'Denied'
+                    }
+                ], 
                filters : {
                     search : null, 
-                    month : moment().get('month'), 
+                    month : moment().get('month'),
+                    status : { name : 'All' , value : null },  
                     from : null, 
                     until : null, 
                }
@@ -289,6 +323,7 @@ Leaves
                               this.comment.text = null; 
                               this.comment.successMessage = response.data.message; 
                               this.comment.sending = false; 
+                              this.selectedLeave.comments_count++; 
                          }).catch( failed => {
                               this.comment.text = null; 
                               this.comment.sending = false; 
@@ -309,44 +344,63 @@ Leaves
                          return moment().set('month' , this.filters.month ).daysInMonth(); 
                     }, 
 
-                   searchableFilter() {
-                        if (this.filters.search == null) {
-                             return this.timeFilter; 
-                        }
-                        return this.timeFilter.filter( leave => {
-                             return leave.user.name.match( voca.capitalize(this.filters.search) ); 
-                        } ); 
-                   }, 
-                   timeFilter() {
-                        let { from , until , month } = this.filters; 
+                   leaveFilter() {
 
-                         let leaves = this.leaves.data; 
+                    let { from , until , month , status , search } = this.filters; 
 
-                        if (month) {
+                    let leaves = this.leaves.data; 
+
+                    if ( search != null ) {
+                         leaves = leaves.filter( leave => {
+                              return leave.user.name.match( voca.capitalize(this.filters.search) ); 
+                         }); 
+                    }
+
+                    if (status.value) {
+                         switch(status.value) {
+                              case 'Pending':
+                                   leaves = leaves.filter( leave => {
+                                        return leave.pending == true; 
+                                   }); 
+                              break; 
+
+                              case 'Approved':
+                                   leaves = leaves.filter( leave => {
+                                    return leave.approved == true; 
+                                   }); 
+                              break; 
+
+                              case 'Denied':
+                                   leaves = leaves.filter( leave => {
+                                   return leave.denied == true; 
+                                   }); 
+                              break; 
+                         }
+                    }
+
+                    if (month) {
                           leaves = leaves.filter( leave => {
                               return moment().set({'month' : month }).isSame(leave.from , 'month') || 
                               moment().set({ 'month' : month }).isSame(leave.until , 'month');  
                          });
-                        }
+                    }
 
-                        if (( from == null) && ( until == null ) ) {
-                              return leaves; 
-                        }
 
-                        if (from) {
+                    if (from) {
                          leaves = leaves.filter( leave => {
                               return moment(leave.from).isSameOrAfter( moment().set({ 'month' : month , 'date' : from }) , 'day' ); 
                          }); 
                         }
 
-                        if (until) {
+                    if (until) {
                          leaves = leaves.filter( leave => {
                               return  moment(leave.until).isSameOrBefore( moment().set({ 'month' : month , 'date' : until }) , 'day' ); 
                          });
-                        }
+                    }
 
-                        return leaves; 
-                   }
+                    return leaves; 
+
+                   }, 
               },
          })
 </script>

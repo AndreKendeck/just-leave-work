@@ -1,7 +1,9 @@
-<div class="flex flex-col w-full self-center md:w-1/2 p-2 ">
+<div class="flex flex-col w-full self-center p-2 ">
      <label for="{{ $name }}" class="text-sm px-2 py-2 text-gray-600">{{ $label ?? '' }}</label>
      <textarea name="{{ $name }}" id="{{ $name }}" @isset($disabled) disabled=""  @endisset
-     @if ($required) required="" @endif value="{{ old($name) ?? $value ?? null }}" cols="30" rows="10"></textarea>
+     @if ($required) required="" @endif value="{{ old($name) ?? $value ?? null }}" cols="30" rows="10">
+          {{ old($name) ?? $value ?? null  }}
+     </textarea>
      @error($name)
      <div class="flex justify-end mx-2 py-1 mt-2 items-center">
           <svg id="warning" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">

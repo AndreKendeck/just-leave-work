@@ -1,6 +1,6 @@
-<div class="flex flex-col w-full self-center md:w-1/2 p-2 ">
+<div class="flex flex-col w-full self-center p-2 ">
      <label for="{{ $name }}" class="text-sm px-2 py-2 text-gray-600">{{ $label ?? '' }}</label>
-     <select name="{{ $name }}" id="{{ $name }}" class="form-select px-2 py-2" @isset($disabled) disabled="" @endisset
+     <select name="{{ $name }}" id="{{ $name }}" class="form-select px-2 py-2 @isset($disabled) bg-gray-400 cursor-not-allowed @endisset" @isset($disabled) disabled="" @endisset
           @if ($required) required="" @endif>
           {{ $slot }}
      </select>

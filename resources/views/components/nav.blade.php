@@ -1,14 +1,13 @@
 @auth
-<div x-data="{ showNotifications : false }" x-on:click.away="showNotifications = false" >
-     <div class="flex shadow-xs md:shadow-none justify-between items-center w-screen md:px-2 md:py-3 px-2 py-2 bg-white ">
-          <div class="flex items-center text-jean md:text-gray-700 hidden md:block">
-               <h3 class="tracking-widest text-xl"> {{ Auth::user()->team->name  }} - @yield('heading') </h3>
-          </div>
-
+<div x-data="{ showNotifications : false }" x-on:click.away="showNotifications = false">
+     <div
+          class="flex shadow-xs md:shadow-none justify-between items-center w-screen md:px-2 md:py-3 px-2 py-2 bg-white ">
+          <img src="{{ Auth::user()->team->logo_url }}" class="w-10 h-10" alt="organization_avatar">
+          <h4 class="tracking-widest text-xl text-gray-600 hidden md:block"> @yield('heading') </h4>
           <div class="flex justify-between md:justify-around items-center text-gray-700">
 
-               <a href="{{ route('index') }}" class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded-lg items-center">
-                    <svg version="1.1" viewBox="0 0 24 24" class="stroke-current text-gray-600 h-6 w-6 mr-2"
+               <a href="{{ route('index') }}" class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded justify-center">
+                    <svg version="1.1" viewBox="0 0 24 24" class="stroke-current text-gray-600 h-6 w-6"
                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                          <g stroke-width="1.5" fill="none">
                               <path
@@ -17,11 +16,11 @@
                               <path stroke-linecap="round" stroke-linejoin="round" d="M9,17h6"></path>
                          </g>
                     </svg>
-                    <span class="hidden md:block"> Home </span>
                </a>
 
-               <a href="{{ route('leaves.index') }}" class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded-lg">
-                    <svg version="1.1" class="stroke-current text-gray-600 mr-2 w-6 h-6" viewBox="0 0 24 24"
+               <a href="{{ route('leaves.index') }}"
+                    class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded justify-center">
+                    <svg version="1.1" class="stroke-current text-gray-600 w-6 h-6" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                          <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
                               <path
@@ -36,11 +35,11 @@
                               <path d="M8.19,13h6"></path>
                          </g>
                     </svg>
-                    <span class="hidden md:block"> Leaves </span>
                </a>
 
-               <a href="{{ route('users.index') }}" class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded-lg">
-                    <svg version="1.1" viewBox="0 0 24 24" class="stroke-current text-gray-600 h-6 h-6 mr-2"
+               <a href="{{ route('users.index') }}"
+                    class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded justify-center">
+                    <svg version="1.1" viewBox="0 0 24 24" class="stroke-current text-gray-600 h-6 h-6"
                          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                          <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
                               <path
@@ -59,14 +58,13 @@
                               </path>
                          </g>
                     </svg>
-                    <span class="hidden md:block"> Users </span>
                </a>
 
-               <div class="relative flex mx-2 md:hover:bg-gray-200 md:p-1 md:rounded-lg">
+               <div class="relative flex mx-2 md:hover:bg-gray-200 md:p-1 rounded-lg">
                     <a href="#" x-on:click="showNotifications = !showNotifications; axios.get('/notifications-read'); ">
                          <svg id="Bell_Notification" data-name="Bell, Notification"
                               class="stroke-current stroke-0 w-6 h-6 text-gray-600 md:text-gray-600"
-                              xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
                               <g id="Group_22" data-name="Group 22" transform="translate(5.938 3.75)">
                                    <path id="Path_48" data-name="Path 48"
                                         d="M9.708,18.344V18.8a2.864,2.864,0,0,0,2.865,2.864h0A2.865,2.865,0,0,0,15.438,18.8v-.456"
@@ -143,8 +141,8 @@
                     <span class="my-2"> {{ $notification->data['text'] }} </span>
                </a>
                @endforeach
-                    @else 
-                    <h3 class="text-gray-400 text-lg tracking-wide my-6 text-center"> No new notifications. </h3>
+               @else
+               <h3 class="text-gray-400 text-lg tracking-wide my-6 text-center"> No new notifications. </h3>
                @endif
           </div>
           <a href="{{ route('notifications.index') }}"
@@ -152,7 +150,7 @@
                <span> View all </span>
                <svg version="1.1" class="stroke-current h-6 w-6 text-jean " viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  
+
                     <g stroke-linecap="round" stroke-width="2" fill="none" stroke-linejoin="round">
                          <path d="M19,12h-14"></path>
                          <path d="M14,17l5,-5"></path>

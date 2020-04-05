@@ -83,13 +83,17 @@ input[type="text"] {
 }
 
 div.modal-backdrop {
-    @apply h-screen;
-    @apply w-screen;
+    @apply h-full; 
+    @apply w-full; 
     @apply flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     @apply flex-col;
     @apply justify-center;
     @apply items-center;
-    @apply absolute;
+    @apply fixed;
     background-color: rgba($color: #323232, $alpha: 0.4);
 }
 

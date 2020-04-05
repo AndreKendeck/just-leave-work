@@ -29,6 +29,7 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     Route::get('/leaves', 'LeaveController@index')->name('leaves.index');
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::post('/leave/store' , 'LeaveController@store' )->name('leaves.store'); 
+    Route::post('/leave/update/{id}' , 'LeaveController@update' )->name('leaves.update'); 
     Route::get('/settings', 'SettingController@setting')->name('settings');
     Route::get('/user/{id}' , 'UserController@show' )->name('users.show'); 
     Route::get('/user/create' , 'UserController@create' )->name('users.create'); 
@@ -42,6 +43,8 @@ Route::middleware([ 'auth' , 'verified' , 'forbid-banned-user' , 'logs-out-banne
     // api
     Route::post('/upload-avatar' , 'UserProfileController@uploadAvatar' )->name('profile.upload'); 
     Route::post('/comment', 'Api\CommentController@store')->name('api.comments.store');
+    Route::post('/comment/update/{id}' , 'Api\CommentController@update' )->name('api.comments.update'); 
+    Route::post('/comment/delete/{id}' , 'Api\CommentController@destroy' )->name('api.comments.delete'); 
     Route::get('/leaves-on-week/{id}/{from}/{to}', 'Api\UserLeaveTimescaleController@show')->name('api.leaves.show');
     Route::get('/leave-metrics', 'Api\MetricsController@index')->name('api.metrics.index');
     Route::get('/chart' , 'Api\ChartController@index' )->name('api.chart.index'); 
