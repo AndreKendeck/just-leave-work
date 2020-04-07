@@ -1,9 +1,8 @@
 @auth
-<div x-data="{ showNotifications : false }" x-on:click.away="showNotifications = false">
+<div x-data="{ showNotifications : false }"  x-on:click.away="showNotifications = false">
      <div
           class="flex shadow-xs md:shadow-none justify-between items-center w-screen md:px-2 md:py-3 px-2 py-2 bg-white ">
           <img src="{{ Auth::user()->team->logo_url }}" class="w-10 h-10" alt="organization_avatar">
-          <h4 class="tracking-widest text-xl text-gray-600 hidden md:block"> @yield('heading') </h4>
           <div class="flex justify-between md:justify-around items-center text-gray-700">
 
                <a href="{{ route('index') }}" class="md:flex mx-2 hover:bg-gray-200 px-2 py-1 rounded justify-center">

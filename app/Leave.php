@@ -26,7 +26,7 @@ class Leave extends Model
     ];
 
     protected $with = [
-        'reason'
+        'reason',
     ];
 
     protected $dates = [

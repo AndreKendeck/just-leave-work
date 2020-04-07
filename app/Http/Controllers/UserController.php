@@ -5,21 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\StoreRequest;
 use App\Mail\User\Invation;
 use App\User;
-use Illuminate\Http\Request;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:reporter'])->only('edit');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $users = User::where(function ($query) use ($request) {
+            $query->where('team_id', auth()->user()->team_id);
+            if ($request->has('search')) {
+                $query->where('name', 'like', "%{$request->search}%");
+            }
+        })->paginate(8);
         return view('users.index', [
-            'users' => auth()->user()->team->users()->paginate()
+            'users' => $users,
         ]);
     }
 
@@ -43,10 +54,10 @@ class UserController extends Controller
     {
         $generator = new ComputerPasswordGenerator();
         $generator->setUppercase()
-        ->setLowercase()
-        ->setNumbers()
-        ->setSymbols(true)
-        ->setLength(10);
+            ->setLowercase()
+            ->setNumbers()
+            ->setSymbols(true)
+            ->setLength(10);
 
         $password = $generator->generatePassword();
 
@@ -60,7 +71,7 @@ class UserController extends Controller
         if ($request->has('reporter')) {
             $user->aassignRole('reporter');
         }
-        
+
         Mail::to($user->email)->queue(new Invation($user, $password));
 
         return redirect()->back()->with('message', "User {$user->name} has been created successfully");
@@ -82,7 +93,7 @@ class UserController extends Controller
             abort(403, "You are not allowed to view this page");
         }
         return view('users.show', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -94,7 +105,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //not allowed
+        $user = User::findOrFail($id);
+        if ($user->team_id != auth()->user()->team_id) {
+            abort(403, "You are not allowed to view this page");
+        }
+        return view('users.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**

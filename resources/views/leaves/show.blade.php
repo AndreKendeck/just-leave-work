@@ -8,7 +8,7 @@ Leave no. {{ $leave->number }}
 Leave no. {{ $leave->number }}
 @endsection
 @section('content')
-<div class="flex h-full mx-4 lg:justify-center" id="leave">
+<div class="flex h-full w-full mx-4 lg:justify-center" id="leave">
      <div class="card rounded-lg w-full lg:w-3/4 mt-3 flex flex-col p-3">
           <div class="flex justify-between items-center">
                <div class="flex items-center">
@@ -22,12 +22,12 @@ Leave no. {{ $leave->number }}
                @endif
                @if ($leave->approved)
                <div class="bg-green-200 text-green-800 rounded px-2 text-xs ">
-                    Approved
+                 Approved by <a class="text-green-900 hover:text-green-400" href="{{ $leave->approval->user->url }}"> {{ $leave->approval->user->name }} </a>
                </div>
                @endif
                @if ($leave->denied)
                <div class="bg-red-200 text-red-800 rounded px-2 text-xs ">
-                    Denied
+                    Denied by <a class="text-red-900 hover:text-red-400" href="{{ $leave->denial->user->url }}"> {{ $leave->denial->user->name }} </a>
                </div>
                @endif
                <h3 class="text-jean text-lg"> {{ $leave->reason->name }} </h3>
@@ -143,46 +143,46 @@ Leave no. {{ $leave->number }}
 @section('script')
 <script>
      new Vue({
-               el : '#leave', 
+               el : '#leave',
                data : {
-               comments : @json($leave->comments), 
+               comments : @json($leave->comments),
                comment : {
-                    text : null, 
+                    text : null,
                     sending : false,
                     successMessage : null,
-                    errors : [], 
+                    errors : [],
                     }
-               }, 
+               },
                methods: {
                     addComment() {
-                         this.comment.sending = true; 
-                         this.comment.errors = []; 
-                         this.comment.successMessage = null; 
+                         this.comment.sending = true;
+                         this.comment.errors = [];
+                         this.comment.successMessage = null;
                          axios.post('/comment' , { leave_id : @json($leave->id) , text : this.comment.text } )
                          .then( response => {
-                              this.comment.text = null; 
-                              this.comment.successMessage = response.data.message; 
-                              this.comment.sending = false; 
-                              this.comments = [ response.data.comment , ...this.comments ]; 
+                              this.comment.text = null;
+                              this.comment.successMessage = response.data.message;
+                              this.comment.sending = false;
+                              this.comments = [ response.data.comment , ...this.comments ];
                          }).catch( failed => {
-                              this.comment.text = null; 
-                              this.comment.sending = false; 
+                              this.comment.text = null;
+                              this.comment.sending = false;
                               this.comment.errors = collect(
                                    failed.response.data.errors
-                              ).flatten().all(); 
-                         }); 
-                    }, 
+                              ).flatten().all();
+                         });
+                    },
                     removeComment(idx) {
-                         this.comments.splice(idx , 1); 
+                         this.comments.splice(idx , 1);
                     },
                     toReadableTime(date) {
-                         return moment(date).fromNow(); 
+                         return moment(date).fromNow();
                     }
                },
                computed: {
                     checkForBlankComment() {
-                         return voca.isBlank(this.comment.text); 
-                    }, 
+                         return voca.isBlank(this.comment.text);
+                    },
                },
           });
 </script>

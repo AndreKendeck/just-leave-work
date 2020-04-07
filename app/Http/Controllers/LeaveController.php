@@ -13,20 +13,25 @@ use Illuminate\Support\Carbon;
 class LeaveController extends Controller
 {
 
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $leaves = Leave::with('user')->where('team_id', auth()->user()->team_id)->latest()->paginate();
-        if (!auth()->user()->hasRole('reporter')) {
-            $leaves = auth()->user()->leaves()->with('user')->paginate();
-        }
+        $leaves = Leave::where(function ($query) {
+            $query->where('team_id', auth()->user()->team_id);
+            if (!auth()->user()->hasRole('reporter')) {
+                $query->where('user_id', auth()->user()->id);
+            }
+        })->with(['user' => function ($query) use ($request) {
+            if ($request->has('search')) {
+                $query->where('name', 'like', "%$request->search%");
+            }
+        }])->latest()->paginate(8);
         return view('leaves.index', [
-            'leaves' =>  $leaves
+            'leaves' => $leaves,
         ]);
     }
 
@@ -41,8 +46,8 @@ class LeaveController extends Controller
             'reasons' => Reason::all(),
             'reporters' => User::role('reporter')->where([
                 'team_id' => auth()->user()->team_id,
-                ['id' , '<>' , auth()->user()->id ]
-            ])->get()
+                ['id', '<>', auth()->user()->id],
+            ])->get(),
         ]);
     }
 
@@ -55,24 +60,24 @@ class LeaveController extends Controller
     public function store(StoreRequest $request)
     {
         // check for leaves in between
-        
+
         $fromDate = Carbon::create($request->from);
         $untilDate = Carbon::create($request->until);
         if ($untilDate->isBefore($fromDate)) {
-            return redirect()->back()->withErrors(['until' => 'This date is invalid its before the from date' ]);
+            return redirect()->back()->withErrors(['until' => 'This date is invalid its before the from date']);
         }
 
         $leave = Leave::create([
             'team_id' => auth()->user()->team_id,
             'reason_id' => $request->reason_id,
-            'reporter_id' => $request->reporter_id, 
+            'reporter_id' => $request->reporter_id,
             'user_id' => auth()->user()->id,
             'description' => $request->description,
-            'from' => Carbon::create($request->from) ,
-            'until' => Carbon::create($request->until)
+            'from' => Carbon::create($request->from),
+            'until' => Carbon::create($request->until),
         ]);
         return redirect()->route('leaves.show', $leave->id)
-        ->with('message', "Leave #{$leave->number} has been created successfully");
+            ->with('message', "Leave #{$leave->number} has been created successfully");
     }
 
     /**
@@ -88,7 +93,7 @@ class LeaveController extends Controller
             abort(403, "You cannot view this page");
         }
         return view('leaves.show', [
-            'leave' => $leave
+            'leave' => $leave,
         ]);
     }
 
@@ -106,7 +111,7 @@ class LeaveController extends Controller
         }
 
         return view('leaves.edit', [
-            'leave' => $leave
+            'leave' => $leave,
         ]);
     }
 
@@ -123,7 +128,7 @@ class LeaveController extends Controller
         if ($leave->user_id != auth()->user()->id) {
             abort(403, "You cannot perform this action");
         }
-        $leave->update(['description' => $request->description ]);
+        $leave->update(['description' => $request->description]);
         return redirect()->back()->with('message', "Leave #{$leave->number} has been updated");
     }
 

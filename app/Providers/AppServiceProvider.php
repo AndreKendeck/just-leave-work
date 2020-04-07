@@ -34,10 +34,10 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::include('includes.field', 'field');
         Blade::include('includes.checkbox', 'checkbox');
-        Blade::include('includes.textarea' , 'textarea' ); 
+        Blade::include('includes.textarea' , 'textarea' );
         Blade::component('includes.select' , 'select');
 
         Paginator::defaultView('components.paginate');
-        Paginator::defaultSimpleView('components.simple-paginate'); 
+        Paginator::defaultSimpleView('components.simple-paginate');
     }
 }

@@ -43851,6 +43851,100 @@ return Voca;
 
 /***/ }),
 
+/***/ "./node_modules/vue-clickaway/dist/vue-clickaway.common.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/vue-clickaway/dist/vue-clickaway.common.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+Vue = 'default' in Vue ? Vue['default'] : Vue;
+
+var version = '2.2.2';
+
+var compatible = (/^2\./).test(Vue.version);
+if (!compatible) {
+  Vue.util.warn('VueClickaway ' + version + ' only supports Vue 2.x, and does not support Vue ' + Vue.version);
+}
+
+
+
+// @SECTION: implementation
+
+var HANDLER = '_vue_clickaway_handler';
+
+function bind(el, binding, vnode) {
+  unbind(el);
+
+  var vm = vnode.context;
+
+  var callback = binding.value;
+  if (typeof callback !== 'function') {
+    if (true) {
+      Vue.util.warn(
+        'v-' + binding.name + '="' +
+        binding.expression + '" expects a function value, ' +
+        'got ' + callback
+      );
+    }
+    return;
+  }
+
+  // @NOTE: Vue binds directives in microtasks, while UI events are dispatched
+  //        in macrotasks. This causes the listener to be set up before
+  //        the "origin" click event (the event that lead to the binding of
+  //        the directive) arrives at the document root. To work around that,
+  //        we ignore events until the end of the "initial" macrotask.
+  // @REFERENCE: https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
+  // @REFERENCE: https://github.com/simplesmiler/vue-clickaway/issues/8
+  var initialMacrotaskEnded = false;
+  setTimeout(function() {
+    initialMacrotaskEnded = true;
+  }, 0);
+
+  el[HANDLER] = function(ev) {
+    // @NOTE: this test used to be just `el.containts`, but working with path is better,
+    //        because it tests whether the element was there at the time of
+    //        the click, not whether it is there now, that the event has arrived
+    //        to the top.
+    // @NOTE: `.path` is non-standard, the standard way is `.composedPath()`
+    var path = ev.path || (ev.composedPath ? ev.composedPath() : undefined);
+    if (initialMacrotaskEnded && (path ? path.indexOf(el) < 0 : !el.contains(ev.target))) {
+      return callback.call(vm, ev);
+    }
+  };
+
+  document.documentElement.addEventListener('click', el[HANDLER], false);
+}
+
+function unbind(el) {
+  document.documentElement.removeEventListener('click', el[HANDLER], false);
+  delete el[HANDLER];
+}
+
+var directive = {
+  bind: bind,
+  update: function(el, binding) {
+    if (binding.value === binding.oldValue) return;
+    bind(el, binding);
+  },
+  unbind: unbind,
+};
+
+var mixin = {
+  directives: { onClickaway: directive },
+};
+
+exports.version = version;
+exports.directive = directive;
+exports.mixin = mixin;
+
+/***/ }),
+
 /***/ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/vue-element-loading/lib/vue-element-loading.min.js ***!
@@ -55969,6 +56063,39 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/components/UserCard.js":
+/*!******************************************!*\
+  !*** ./resources/components/UserCard.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_clickaway__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-clickaway */ "./node_modules/vue-clickaway/dist/vue-clickaway.common.js");
+/* harmony import */ var vue_clickaway__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_clickaway__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (Vue.component('user-card', {
+  mixins: [vue_clickaway__WEBPACK_IMPORTED_MODULE_0__["mixin"]],
+  props: ['user'],
+  data: function data() {
+    return {
+      isOpen: false
+    };
+  },
+  methods: {
+    ontoggleBan: function ontoggleBan() {
+      return this.$emit('toggleBan', this.user);
+    },
+    away: function away() {
+      this.isOpen = false;
+    }
+  },
+  template: "<div class=\"card flex-col my-3 p-2 relative w-full lg:w-3/4\">\n            <div class=\"flex justify-between items-center\">\n                <div class=\"flex items-center\">\n                    <img class=\"rounded-full w-10 md:w-10 lg:w-10\"\n                        v-bind:src=\"user.has_avatar ? user.avatar_url : user.avatar_url.encoded\" alt=\"user.name\" />\n                    <span class=\"text-gray-600 text-lg lg:text-xl ml-2\"> {{ user.name }} </span>\n                    <span v-if=\"user.is_reporter\" class=\"text-xs text-gray-400 ml-1 mt-1\"> &bull; Reporter\n                    </span>\n                </div>\n                <button class=\"bg-gray-100 hover:bg-gray-300 rounded p-1\" v-on:click=\"isOpen = !isOpen\" v-on-clickaway=\"away\" >\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"stroke-current text-gray-600 h-6 w-6 \"\n                        viewBox=\"0 0 24 24\" fill=\"none\"  stroke-width=\"2\" stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\" >\n                        <circle cx=\"12\" cy=\"12\" r=\"1\"></circle>\n                        <circle cx=\"19\" cy=\"12\" r=\"1\"></circle>\n                        <circle cx=\"5\" cy=\"12\" r=\"1\"></circle>\n                    </svg>\n                </button>\n                <div class=\"absolute shadow-2xl p-3 w-1/3 md:w-1/6 lg:w-1/12 bg-white rounded-lg right-0 top-0 z-20\" v-bind:class=\"{ 'hidden' : !isOpen }\">\n                    <div class=\"flex flex-col w-full\">\n                        <a v-bind:href=\"user.url\"\n                            class=\"flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2\">\n                            <svg version=\"1.1\" viewBox=\"0 0 24 24\" class=\"stroke-current h-6 w-6 text-gray-600\"\n                                xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                                <g fill=\"none\">\n                                    <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"\n                                        d=\"M3.118,12.467c-0.157,-0.291 -0.157,-0.644 0,-0.935c1.892,-3.499 5.387,-6.532 8.882,-6.532c3.495,0 6.99,3.033 8.882,6.533c0.157,0.291 0.157,0.644 0,0.935c-1.892,3.499 -5.387,6.532 -8.882,6.532c-3.495,0 -6.99,-3.033 -8.882,-6.533Z\">\n                                    </path>\n                                    <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.4286\"\n                                        d=\"M14.1213,9.87868c1.17157,1.17157 1.17157,3.07107 0,4.24264c-1.17157,1.17157 -3.07107,1.17157 -4.24264,0c-1.17157,-1.17157 -1.17157,-3.07107 0,-4.24264c1.17157,-1.17157 3.07107,-1.17157 4.24264,0\">\n                                    </path>\n                                </g>\n                            </svg>\n                            <span class=\"text-gray-600\"> View </span>\n                        </a>\n\n                        <a v-bind:href=\"user.edit_url\"\n                            class=\"flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2\">\n                            <svg version=\"1.1\" viewBox=\"0 0 24 24\" class=\"stroke-current h-6 w-6 text-gray-600\"\n                                xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                                <g stroke-linecap=\"round\" stroke-width=\"1.5\" fill=\"none\" stroke-linejoin=\"round\">\n                                    <path\n                                        d=\"M21,11v8c0,1.105 -0.895,2 -2,2h-14c-1.105,0 -2,-0.895 -2,-2v-14c0,-1.105 0.895,-2 2,-2h7\">\n                                    </path>\n                                    <path\n                                        d=\"M9,15l3.15,-0.389c0.221,-0.027 0.427,-0.128 0.585,-0.285l7.631,-7.631c0.845,-0.845 0.845,-2.215 0,-3.061v0c-0.845,-0.845 -2.215,-0.845 -3.061,0l-7.56,7.56c-0.153,0.153 -0.252,0.351 -0.283,0.566l-0.462,3.24Z\">\n                                    </path>\n                                </g>\n                            </svg>\n                            <span class=\"text-gray-600\"> Edit </span>\n                        </a>\n\n                        <a href=\"#\" v-on:click=\"toggleBan()\" v-if=\"!user.is_banned\"\n                            class=\"flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2\">\n                            <svg version=\"1.1\" viewBox=\"0 0 24 24\" class=\"stroke-current h-6 w-6 text-gray-600\"\n                                xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                                <g fill=\"none\">\n                                    <path stroke-linecap=\"round\" stroke-linejoin=\"round\"\n                                        stroke-width=\"1.5\" d=\"M18.364,5.636l-12.728,12.728l12.728,-12.728Z\"></path>\n                                    <path  stroke-linecap=\"round\" stroke-linejoin=\"round\"\n                                        stroke-width=\"1.5\"\n                                        d=\"M12,3v0c-4.971,0 -9,4.029 -9,9v0c0,4.971 4.029,9 9,9v0c4.971,0 9,-4.029 9,-9v0c0,-4.971 -4.029,-9 -9,-9Z\">\n                                    </path>\n                                </g>\n                            </svg>\n                            <span class=\"text-gray-600\"> Ban </span>\n                        </a>\n\n                        <a href=\"#\" v-on:click=\"toggleBan()\" v-if=\"user.is_banned\"\n                            class=\"flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2\">\n                            <svg version=\"1.1\" viewBox=\"0 0 24 24\" class=\"stroke-current h-6 w-6 text-gray-600\"\n                                xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                                <g fill=\"none\">\n                                    <path stroke=\"#323232\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\n                                        stroke-width=\"1.5\" d=\"M18.364,5.636l-12.728,12.728l12.728,-12.728Z\"></path>\n                                    <path stroke=\"#323232\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\n                                        stroke-width=\"1.5\"\n                                        d=\"M12,3v0c-4.971,0 -9,4.029 -9,9v0c0,4.971 4.029,9 9,9v0c4.971,0 9,-4.029 9,-9v0c0,-4.971 -4.029,-9 -9,-9Z\">\n                                    </path>\n                                </g>\n                            </svg>\n                            <span class=\"text-gray-600\"> Remove Ban </span>\n                        </a>\n\n                    </div>\n                </div>\n            </div>\n            <div class=\"flex items-center mt-4 w-full justify-between\">\n                <div class=\"flex bg-gray-100 rounded-lg px-2 justify-center text-xs\">\n                    <span class=\"text-gray-600 font-bold\"> Leaves Taken </span>\n                    <span class=\"text-gray-600 text-center ml-2\">{{ user.total_days_on_leave }}</span>\n                </div>\n                <div class=\"flex\">\n                    <span v-if=\"user.is_on_leave\" class=\"bg-blue-200 text-blue-600 text-xs  px-2 rounded-lg mx-1\"> On\n                        leave </span>\n                    <span v-if=\"user.is_banned\"\n                        class=\"bg-red-200 text-red-600 text-xs px-2 rounded-lg mx-1 \">banned</span>\n                </div>\n            </div>\n        </div>"
+}));
+
+/***/ }),
+
 /***/ "./resources/components/UserComment.js":
 /*!*********************************************!*\
   !*** ./resources/components/UserComment.js ***!
@@ -56053,7 +56180,7 @@ __webpack_require__.r(__webpack_exports__);
       return moment(date).format("MMM D");
     }
   },
-  template: "<a v-on:click=\"selected()\" class=\"flex w-full bg-white p-3 my-2 rounded-lg shadow-lg items-center justify-between hover:bg-gray-200 cursor-pointer\">\n    <div class=\"flex flex-col items-center\">\n      <span class=\"text-xs text-gray-600 mb-2 text-green-600\"> Requester </span>\n      <img\n       class=\"rounded-full w-8 md:w-10 lg:w-10\"\n       v-bind:src=\"leave.user.has_avatar ? leave.user.avatar_url : leave.user.avatar_url.encoded\"\n       alt=\"leave.user.name\" />\n       <span class=\"text-xs text-gray-600 mt-2\"> {{ leave.user.name.substring(0,12) }}  </span>\n    </div>\n\n    <div v-if=\"leave.pending\" class=\"bg-blue-200 text-blue-800 rounded px-2 text-xs \">\n          Pending\n    </div>\n\n     <div v-if=\"leave.approved\" class=\"bg-green-200 text-green-800 rounded px-2 text-xs \">\n          Approved\n     </div>\n\n     <div v-if=\"leave.denied\" class=\"bg-red-200 text-red-800 rounded px-2 text-xs \">\n          Denied\n     </div>\n\n    <div class=\"flex flex-col\">\n      <p class=\"text-gray-600 text-sm\"> From </p>\n      <span class=\"text-sm hidden md:block\"> {{ formatDate(leave.from) }} </span>\n      <span class=\"text-sm md:hidden\"> {{ formatDateMobile(leave.from) }} </span>\n    </div>\n    \n    <div class=\"flex flex-col \">\n      <svg version=\"1.1\" class=\"stroke-current h-6 w-6 text-gray-600\" viewBox=\"0 0 24 24\"\n                 xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">            \n                 <g stroke-linecap=\"round\" stroke-width=\"2\" fill=\"none\" stroke-linejoin=\"round\">\n                      <path d=\"M19,12h-14\"></path>\n                      <path d=\"M14,17l5,-5\"></path>\n                      <path d=\"M14,7l5,5\"></path>\n                 </g>\n            </svg>\n    </div>\n    \n    <div class=\"flex flex-col\">\n      <p class=\"text-gray-600 text-sm\"> Until </p>\n      <span class=\"text-sm hidden md:block\"> {{ formatDate(leave.until) }} </span>\n      <span class=\"text-sm md:hidden\"> {{ formatDateMobile(leave.until) }} </span>\n    </div>\n    \n    <div class=\"flex flex-col items-center \">\n          <span v-html=\"leave.reason.tag\"></span>\n    </div>\n\n</a>\n"
+  template: "<a v-on:click=\"selected()\" class=\"flex w-full bg-white p-3 my-2 rounded-lg shadow-lg items-center justify-between hover:bg-gray-200 cursor-pointer\">\n    <div class=\"flex flex-col items-center\">\n      <span class=\"text-xs text-gray-600 mb-2 text-green-600\"> Requester </span>\n            <div>\n            <img\n            class=\"rounded-full w-8 md:w-10 lg:w-10\"\n            v-bind:src=\"leave.user.has_avatar ? leave.user.avatar_url : leave.user.avatar_url.encoded\"\n            alt=\"leave.user.name\" />\n        <span class=\"text-xs text-gray-600 mt-2\"> {{ leave.user.name.substring(0,12) }}  </span>\n            </div>\n    </div>\n\n    <div v-if=\"leave.pending\" class=\"bg-blue-200 text-blue-800 rounded px-2 text-xs \">\n          Pending\n    </div>\n\n     <div v-if=\"leave.approved\" class=\"bg-green-200 text-green-800 rounded px-2 text-xs \">\n          Approved\n     </div>\n\n     <div v-if=\"leave.denied\" class=\"bg-red-200 text-red-800 rounded px-2 text-xs \">\n          Denied\n     </div>\n\n    <div class=\"flex flex-col\">\n      <p class=\"text-gray-600 text-sm\"> From </p>\n      <span class=\"text-sm hidden md:block\"> {{ formatDate(leave.from) }} </span>\n      <span class=\"text-sm md:hidden\"> {{ formatDateMobile(leave.from) }} </span>\n    </div>\n\n    <div class=\"flex flex-col \">\n      <svg version=\"1.1\" class=\"stroke-current h-6 w-6 text-gray-600\" viewBox=\"0 0 24 24\"\n                 xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n                 <g stroke-linecap=\"round\" stroke-width=\"2\" fill=\"none\" stroke-linejoin=\"round\">\n                      <path d=\"M19,12h-14\"></path>\n                      <path d=\"M14,17l5,-5\"></path>\n                      <path d=\"M14,7l5,5\"></path>\n                 </g>\n            </svg>\n    </div>\n\n    <div class=\"flex flex-col\">\n      <p class=\"text-gray-600 text-sm\"> Until </p>\n      <span class=\"text-sm hidden md:block\"> {{ formatDate(leave.until) }} </span>\n      <span class=\"text-sm md:hidden\"> {{ formatDateMobile(leave.until) }} </span>\n    </div>\n\n    <div class=\"flex flex-col items-center \">\n          <span v-html=\"leave.reason.tag\"></span>\n    </div>\n\n</a>\n"
 }));
 
 /***/ }),
@@ -56124,6 +56251,7 @@ Vue.component("LeaveCard", __webpack_require__(/*! ../components/LeaveCard */ ".
 Vue.component("UserLeaveCard", __webpack_require__(/*! ../components/UserLeaveCard */ "./resources/components/UserLeaveCard.js"));
 Vue.component("WeekSelector", __webpack_require__(/*! ../components/WeekSelector */ "./resources/components/WeekSelector.js"));
 Vue.component("UserComment", __webpack_require__(/*! ../components/UserComment */ "./resources/components/UserComment.js")["default"]);
+Vue.component('UserCard', __webpack_require__(/*! ../components/UserCard */ "./resources/components/UserCard.js"));
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
@@ -56166,8 +56294,8 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/andrekendeck/web/just-leave-work/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/andrekendeck/web/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/andre/web-dev/just-leave-work/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/andre/web-dev/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

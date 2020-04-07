@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
 
 class Approval extends Model
 {
-    protected $guarded = []; 
+    protected $guarded = [];
     protected $appends = [];
 
     public function leave()

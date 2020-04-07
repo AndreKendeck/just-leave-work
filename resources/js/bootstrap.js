@@ -16,6 +16,7 @@ Vue.component("LeaveCard", require("../components/LeaveCard"));
 Vue.component("UserLeaveCard", require("../components/UserLeaveCard"));
 Vue.component("WeekSelector", require("../components/WeekSelector"));
 Vue.component("UserComment", require("../components/UserComment").default);
+Vue.component('UserCard', require('../components/UserCard'));
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

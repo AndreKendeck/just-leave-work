@@ -23,7 +23,7 @@ Home
                               @{{  timePeriod(weekNumber)  }}
                          </option>
                     </select>
-                    <a class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-2  md:px-3 text-center rounded-lg "
+                    <a class="bg-gray-300 hover:bg-gray-400 text-gray-600 py-2 px-2 md:px-3 text-center rounded"
                          href="{{ route('leaves.create') }}">
                          <svg version="1.1" viewBox="0 0 24 24" class="stroke-current h-8 w-8"
                               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -51,9 +51,9 @@ Home
                               </g>
                          </svg>
                     </a>
-                    <a class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-2 md:px-3 text-center rounded-lg ml-2"
+                    <a class="bg-gray-300 hover:bg-gray-400 text-gray-600 py-2 px-2 md:px-3 text-center rounded ml-2"
                          href="{{ route('users.create') }}">
-                         <svg version="1.1" viewBox="0 0 24 24" class="h-8 w-8 stroke-current text-gray-700"
+                         <svg version="1.1" viewBox="0 0 24 24" class="h-8 w-8 stroke-current text-gray-600"
                               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                               <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
                                    <path
@@ -122,46 +122,46 @@ Home
 @section('script')
 <script>
      new Vue({
-          el : '#home',  
+          el : '#home',
           data : {
-               currentWeek : moment().week(), 
+               currentWeek : moment().week(),
                currentMonth : moment().format('MMMM'),
-               currentYear : moment().format('Y'),  
-               numberOfWeeksInYear :  moment().weeksInYear(),    
-               users : @json($users),  
-               metrics : null, 
-               chart : null, 
-          }, 
+               currentYear : moment().format('Y'),
+               numberOfWeeksInYear :  moment().weeksInYear(),
+               users : @json($users),
+               metrics : null,
+               chart : null,
+          },
           methods: {
                changeWeek() {
-                    this.currentMonth = moment().set('week' , this.currentWeek  ).format('MMMM'); 
-               }, 
+                    this.currentMonth = moment().set('week' , this.currentWeek  ).format('MMMM');
+               },
                timePeriod(week) {
-                    return moment().set('week' , week ).startOf('week').format('MMM') + ' ' + moment().set('week' , week ).startOf('week').format('DD') 
-                              + ` - ` + moment().set('week' , week ).endOf('week').format('MMM') + ' ' + moment().set('week' , week ).endOf('week').format('DD'); 
+                    return moment().set('week' , week ).startOf('week').format('MMM') + ' ' + moment().set('week' , week ).startOf('week').format('DD')
+                              + ` - ` + moment().set('week' , week ).endOf('week').format('MMM') + ' ' + moment().set('week' , week ).endOf('week').format('DD');
                }
           },
           mounted() {
                axios.get('/leave-metrics').then( (response) => {
-                    this.metrics = response.data; 
-               }); 
+                    this.metrics = response.data;
+               });
                axios.get('/chart').then( response => {
                     this.chart = new Chart( document.getElementById('chart') , {
-                         type : 'bar', 
+                         type : 'bar',
                          data : {
-                              labels : ['Jan' , 'Feb' , 'Mar' , 'Apr' , 'May' , 'Jun' , 'Jul' , 'Aug' , 'Sep' , 'Nov' , 'Dec' ], 
+                              labels : ['Jan' , 'Feb' , 'Mar' , 'Apr' , 'May' , 'Jun' , 'Jul' , 'Aug' , 'Sep' , 'Nov' , 'Dec' ],
                               datasets : [
                                    {
-                                        label : 'Current Year leaves', 
-                                        backgroundColor : '#0b3954', 
+                                        label : 'Current Year leaves',
+                                        backgroundColor : '#0b3954',
                                         data : response.data
                                    }
                               ]
-                         }, 
+                         },
                          options : {
-                              responsive : true, 
+                              responsive : true,
                          }
-                    } ) 
+                    } )
                });
           },
      })

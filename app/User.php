@@ -4,18 +4,18 @@ namespace App;
 
 use App\Mail\User\Banned;
 use App\Mail\User\Unbanned;
+use Cog\Contracts\Ban\Ban as BanContract;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Contracts\Ban\BanService as BanServiceContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Cog\Contracts\Ban\Bannable as BannableContract;
-use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Support\Facades\Mail;
-use Laravolt\Avatar\Avatar;
-use Spatie\Permission\Traits\HasRoles;
 
 // bannable contracts
-use Cog\Contracts\Ban\Ban as BanContract;
-use Cog\Contracts\Ban\BanService as BanServiceContract;
+use Laravolt\Avatar\Avatar;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
@@ -28,7 +28,11 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     protected $appends = [
         'avatar_url',
         'url',
-        'total_days_on_leave'
+        'edit_url',
+        'total_days_on_leave',
+        'is_banned',
+        'is_on_leave',
+        'is_reporter',
     ];
     protected $guarded = [];
 
@@ -88,6 +92,29 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         return route('users.show', $this->id);
     }
 
+    public function getEditUrlAttribute()
+    {
+        return route('users.edit', $this->id);
+    }
+
+    public function getIsBannedAttribute()
+    {
+        return $this->isBanned();
+    }
+
+    public function getIsOnLeaveAttribute()
+    {
+        if (($this->leaves->whereNotNull('approved_at')->count() > 0)) {
+            return today()->isBetween($this->leaves->whereNotNull('approved_at')->first()->from,
+                $this->leaves->whereNotNull('approved_at')->first()->until);
+        }
+        return false;
+    }
+
+    public function getIsReporterAttribute()
+    {
+        return $this->hasRole('reporter');
+    }
 
     /**
      * Ban model.
@@ -101,7 +128,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         Mail::to($this->email)->queue(new Banned($this));
         return app(BanServiceContract::class)->ban($this, $attributes);
     }
-
 
     /**
      * Remove ban from model.

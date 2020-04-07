@@ -22,7 +22,7 @@ class Approved extends Mailable implements ShouldQueue
     public function __construct(Approval $approval)
     {
         $this->approval = $approval;
-        $this->subject("{}");
+        $this->subject("{$approval->user->name} has approved your leave no. {$approval->leave->number}");
     }
 
     /**
