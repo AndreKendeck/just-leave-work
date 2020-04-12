@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Team;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class BanRequest extends FormRequest
+class UploadTeamLogoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class BanRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->role('reporter');
+        return auth()->user()->hasRole('reporter');
     }
 
     /**
@@ -25,8 +24,7 @@ class BanRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required' , Rule::exists('users', 'id')
-            ->where('team_id' , auth()->user()->team_id ) ]
+            'logo' => [ 'file' , 'image' , 'required' ]
         ];
     }
 }

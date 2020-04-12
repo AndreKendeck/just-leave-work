@@ -22,7 +22,7 @@ class Leave extends Model
     ];
 
     protected $withCount = [
-        'comments'
+        'comments',
     ];
 
     protected $with = [
@@ -33,7 +33,7 @@ class Leave extends Model
         'from',
         'until',
         'approved_at',
-        'denied_at'
+        'denied_at',
     ];
 
     public function getUrlAttribute()
@@ -78,17 +78,17 @@ class Leave extends Model
             'user_id' => auth()->user()->id,
         ]));
         $this->update([
-            'approved_at' => now()
+            'approved_at' => now(),
         ]);
     }
 
     public function deny()
     {
         $this->denial()->save(new Denial([
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
         ]));
         $this->update([
-            'denied_at' => now()
+            'denied_at' => now(),
         ]);
     }
 
@@ -135,7 +135,6 @@ class Leave extends Model
         });
     }
 
-
     public function getCanEditAttribute()
     {
         if (auth()->check()) {
@@ -161,6 +160,6 @@ class Leave extends Model
 
     public function getPendingAttribute()
     {
-        return ($this->getApprovedAttribute() == false) && ($this->getDeniedAttribute() == false);
+        return (is_null($this->approved_at) && is_null($this->denied_at));
     }
 }

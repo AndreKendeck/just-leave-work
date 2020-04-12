@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Leave;
-use Illuminate\Http\Request;
-
 class PagesController extends Controller
 {
     public function index()
@@ -13,8 +10,12 @@ class PagesController extends Controller
             if (!auth()->user()->hasVerifiedEmail()) {
                 return redirect()->route('verification.notice');
             }
+            if (auth()->user()->isBanned()) {
+                auth()->logout();
+                return redirect()->route('index');
+            }
             $users = auth()->user()->team->users()->orderBy('name', 'ASC')->paginate(6);
-            return view('profile.home', ['users' => $users ]);
+            return view('profile.home', ['users' => $users]);
         }
         return view('pages.welcome');
     }

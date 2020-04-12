@@ -55,9 +55,7 @@
      @endcomponent
      @component('components.nav')
      @endcomponent
-     <div>
-          @yield('content')
-     </div>
+    @yield('content')
 
      <script src="{{ asset('js/app.js') }}"></script>
      @yield('script')

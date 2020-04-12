@@ -7,7 +7,7 @@ Users
 @endsection
 @section('content')
 <div id="users" class="h-full mx-4">
-    <div class="flex flex-col lg:justify-center items-center w-full">
+    <div class="flex flex-col mt-6 lg:justify-center items-center w-full">
         <div class="card w-full lg:w-3/4 p-2 my-3">
             <form action="{{ route('users.index') }}" method="GET" class="flex w-full">
                 @field(['type' => 'search' , 'name' => 'search' , 'label' => 'Search User' , 'required' => false ,
@@ -47,7 +47,55 @@ Users
             </form>
         </div>
 
-        <user-card :user="user" v-for="(user,idx) in users.data" :key="idx"  ></user-card>
+        <user-card :user="user" v-on:ban="selectedUser = user" v-on:unban="selectedUser = user"
+            v-for="(user,idx) in users.data" :key="idx"></user-card>
+
+
+        <div class="modal-backdrop" v-if="selectedUser">
+            <div class="bg-white p-3 flex flex-col z-20 mx-6 w-full rounded md:w-2/6 animated fadeInDown faster">
+                <div class="flex justify-end items-center ">
+                    <button class="p-1 rounded hover:bg-gray-200 " v-on:click="selectedUser = null">
+                        <svg version="1.1" class="h-8 w-8 stroke-current text-gray-600" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8,8l8,8">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16,8l-8,8">
+                                </path>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <h4 class="text-xl text-gray-600 text-center mb-3"> <span v-if="selectedUser.is_banned"> Remove Ban on
+                    </span>
+                    <span v-else> Ban </span> @{{ selectedUser.name }} ? </h4>
+                <div class="flex justify-center w-full ">
+                    <img v-bind:src="selectedUser.has_avatar ? selectedUser.avatar_url : selectedUser.avatar_url.encoded"
+                        class="h-24 w-24 my-3" v-bind:alt="selectedUser.name">
+                </div>
+                <form action="{{ route('users.ban') }}" v-if="!selectedUser.is_banned" method="post"
+                    class="flex justify-center items-center mt-4" v-if="!selectedUser.is_banned">
+                    @csrf
+                    <input type="hidden" name="user_id" v-bind:value="selectedUser.id" readonly="">
+                    <button type="submit" class="bg-red-300 hover:bg-red-400 text-red-600 text-center mr-1"> Ban
+                    </button>
+                    <button type="button" v-on:click="selectedUser = null"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-600 text-center ml-1">
+                        Cancel </button>
+                </form>
+
+                <form action="{{ route('users.unban') }}" v-if="selectedUser.is_banned" method="post"
+                    class="flex justify-center items-center mt-4" v-if="!selectedUser.is_banned">
+                    @csrf
+                    <input type="hidden" name="user_id" v-bind:value="selectedUser.id" readonly="">
+                    <button type="submit" class="bg-blue-300 hover:bg-blue-400 text-jean text-center mr-1"> Remove Ban
+                    </button>
+                    <button type="button" v-on:click="selectedUser = null"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-600 text-center ml-1">
+                        Cancel </button>
+                </form>
+            </div>
+        </div>
 
         {{ $users->links() }}
         {{ $users->links('components.simple-paginate') }}
@@ -61,6 +109,7 @@ Users
               el : '#users',
               data : {
                    users : @json($users),
+                   selectedUser : null
               }
          })
 </script>

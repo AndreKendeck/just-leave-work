@@ -10,7 +10,7 @@ Leaves
 
 @section('content')
 <div class="flex w-full h-full" id="leaves">
-    <div class="mt-5 p-3 rounded h-full w-full flex flex-col items-center">
+    <div class="mt-6 p-3 rounded h-full w-full flex flex-col items-center">
 
         <div class="card flex flex-col justify-between lg:flex-row p-3 w-full lg:w-3/4">
 

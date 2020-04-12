@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Denial\StoreRequest;
 use Illuminate\Http\Request;
-use App\Leave; 
+use App\Leave;
 
 class LeaveDenialController extends Controller
 {
@@ -22,6 +22,6 @@ class LeaveDenialController extends Controller
 
         $leave->deny();
 
-        return redirect()->route('leaves.index')->with('message', "You have denied leave #{$leave->number}");
+        return redirect()->back()->with('message', "You have denied leave #{$leave->number}");
     }
 }

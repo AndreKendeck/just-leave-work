@@ -8,8 +8,11 @@ export default Vue.component('user-card', {
         }
     },
     methods: {
-        ontoggleBan() {
-            return this.$emit('toggleBan', this.user);
+        onBan() {
+            return this.$emit('ban', this.user);
+        },
+        onUnban() {
+            return this.$emit('unban' , this.user );
         },
         away : function() {
             this.isOpen = false;
@@ -33,22 +36,12 @@ export default Vue.component('user-card', {
                         <circle cx="5" cy="12" r="1"></circle>
                     </svg>
                 </button>
-                <div class="absolute shadow-2xl p-3 w-1/3 md:w-1/6 lg:w-1/12 bg-white rounded-lg right-0 top-0 z-20" v-bind:class="{ 'hidden' : !isOpen }">
+                <div class="absolute shadow-2xl p-3 w-1/3 md:w-1/6 bg-white rounded-lg right-0 top-0 z-20" v-bind:class="{ 'hidden' : !isOpen }">
                     <div class="flex flex-col w-full">
                         <a v-bind:href="user.url"
                             class="flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2">
-                            <svg version="1.1" viewBox="0 0 24 24" class="stroke-current h-6 w-6 text-gray-600"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g fill="none">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M3.118,12.467c-0.157,-0.291 -0.157,-0.644 0,-0.935c1.892,-3.499 5.387,-6.532 8.882,-6.532c3.495,0 6.99,3.033 8.882,6.533c0.157,0.291 0.157,0.644 0,0.935c-1.892,3.499 -5.387,6.532 -8.882,6.532c-3.495,0 -6.99,-3.033 -8.882,-6.533Z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4286"
-                                        d="M14.1213,9.87868c1.17157,1.17157 1.17157,3.07107 0,4.24264c-1.17157,1.17157 -3.07107,1.17157 -4.24264,0c-1.17157,-1.17157 -1.17157,-3.07107 0,-4.24264c1.17157,-1.17157 3.07107,-1.17157 4.24264,0">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="text-gray-600"> View </span>
+                            <svg version="1.1" class="stroke-current h-6 w-6 text-gray-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none"><path  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.118,12.467c-0.157,-0.291 -0.157,-0.644 0,-0.935c1.892,-3.499 5.387,-6.532 8.882,-6.532c3.495,0 6.99,3.033 8.882,6.533c0.157,0.291 0.157,0.644 0,0.935c-1.892,3.499 -5.387,6.532 -8.882,6.532c-3.495,0 -6.99,-3.033 -8.882,-6.533Z"></path><path  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4286" d="M14.1213,9.87868c1.17157,1.17157 1.17157,3.07107 0,4.24264c-1.17157,1.17157 -3.07107,1.17157 -4.24264,0c-1.17157,-1.17157 -1.17157,-3.07107 0,-4.24264c1.17157,-1.17157 3.07107,-1.17157 4.24264,0"></path></g></svg>
+                            <span class="text-gray-600 ml-1"> View </span>
                         </a>
 
                         <a v-bind:href="user.edit_url"
@@ -64,10 +57,10 @@ export default Vue.component('user-card', {
                                     </path>
                                 </g>
                             </svg>
-                            <span class="text-gray-600"> Edit </span>
+                            <span class="text-gray-600 ml-1"> Edit </span>
                         </a>
 
-                        <a href="#" v-on:click="toggleBan()" v-if="!user.is_banned"
+                        <a href="#" v-on:click="onBan()" v-if="!user.is_banned"
                             class="flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2">
                             <svg version="1.1" viewBox="0 0 24 24" class="stroke-current h-6 w-6 text-gray-600"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -80,23 +73,23 @@ export default Vue.component('user-card', {
                                     </path>
                                 </g>
                             </svg>
-                            <span class="text-gray-600"> Ban </span>
+                            <span class="text-gray-600 ml-1"> Ban </span>
                         </a>
 
-                        <a href="#" v-on:click="toggleBan()" v-if="user.is_banned"
+                        <a href="#" v-on:click="onUnban()" v-if="user.is_banned"
                             class="flex justify-between w-full items-center hover:bg-gray-100 rounded px-2 py-2">
                             <svg version="1.1" viewBox="0 0 24 24" class="stroke-current h-6 w-6 text-gray-600"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <g fill="none">
-                                    <path stroke="#323232" stroke-linecap="round" stroke-linejoin="round"
+                                    <path  stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="1.5" d="M18.364,5.636l-12.728,12.728l12.728,-12.728Z"></path>
-                                    <path stroke="#323232" stroke-linecap="round" stroke-linejoin="round"
+                                    <path  stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="1.5"
                                         d="M12,3v0c-4.971,0 -9,4.029 -9,9v0c0,4.971 4.029,9 9,9v0c4.971,0 9,-4.029 9,-9v0c0,-4.971 -4.029,-9 -9,-9Z">
                                     </path>
                                 </g>
                             </svg>
-                            <span class="text-gray-600"> Remove Ban </span>
+                            <span class="text-gray-600 ml-1"> Remove Ban </span>
                         </a>
 
                     </div>
@@ -105,7 +98,7 @@ export default Vue.component('user-card', {
             <div class="flex items-center mt-4 w-full justify-between">
                 <div class="flex bg-gray-100 rounded-lg px-2 justify-center text-xs">
                     <span class="text-gray-600 font-bold"> Leaves Taken </span>
-                    <span class="text-gray-600 text-center ml-2">{{ user.total_days_on_leave }}</span>
+                    <span class="text-gray-600 text-center ml-2">{{ user.leaves_count }}</span>
                 </div>
                 <div class="flex">
                     <span v-if="user.is_on_leave" class="bg-blue-200 text-blue-600 text-xs  px-2 rounded-lg mx-1"> On

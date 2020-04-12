@@ -45,7 +45,7 @@ class CommentController extends Controller
         ]);
         return response()->json([
             'message' => 'Comment added successfully',
-            'comment' => $comment
+            'comment' => $comment->load('user')
         ], 200);
     }
 
@@ -106,7 +106,7 @@ class CommentController extends Controller
     public function destroy(DestroyRequest $request, $id)
     {
         $comment = Comment::findOrFail($id);
-        
+
         if (!$comment->can_edit) {
             abort(403, "You cannot perform this action");
         }

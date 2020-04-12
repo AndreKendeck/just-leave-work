@@ -72,7 +72,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         // create
-        
+
         $team = Team::create(['name' => $data['team_name'] ]);
         $user = User::create([
             'name' => $data['name'],
@@ -82,9 +82,9 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole('reporter');
-        
+
         // add permissions to the user
-        $user->notify(new General("Welcome to Justleave.work 🎉"));
+        $user->notify(new General("Welcome to Justleave.work"));
         return $user;
     }
 }

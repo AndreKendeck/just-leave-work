@@ -65,9 +65,9 @@ export default Vue.component("leave-card", {
          class="bg-white rounded-lg p-2 lg:p-3 flex justify-between items-center my-1 lg:mx-2 lg:my-2 border-2"
      >
          <vue-loader :active="loading" spinner="ring" ></vue-loader>
-         <a v-bind:href="user.url" class="hidden md:flex flex-col mx-1 items-center relative">
+         <a v-bind:href="user.url" class="hidden md:flex flex-col mx-1 items-center justify-between relative">
              <img
-                v-on:mouseenter="showName = true" v-on:mouseleave="showName = false" 
+                v-on:mouseenter="showName = true" v-on:mouseleave="showName = false"
                  class="rounded-full w-8 md:w-10 lg:w-10"
                  v-bind:src="user.has_avatar ? user.avatar_url : user.avatar_url.encoded"
                  v-bind:alt="user.name"

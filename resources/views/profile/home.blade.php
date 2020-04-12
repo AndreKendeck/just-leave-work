@@ -8,7 +8,7 @@ Home
 @section('content')
 <div class="mx-3 lg:mx-6 flex flex-col lg:flex-row mb-6" id="home">
 
-     <div class="card flex flex-col mt-10 -mb-5 p-4 lg:w-8/12 self-center lg:self-auto shadow-xs w-full">
+     <div class="card flex flex-col mt-6 -mb-5 p-4 lg:w-8/12 self-center lg:self-auto shadow-xs w-full">
           <div class="flex flex-col md:flex-row mt-3 justify-between items-center">
                <h3 class="text-lg text-gray-500 tracking-wide "> Leave Calendar - @{{ currentMonth }}
                     @{{ currentYear }}
@@ -80,7 +80,7 @@ Home
 
      <div class="flex flex-col lg:w-4/12 w-full lg:mx-3">
 
-          <div class="card flex flex-col p-4 min-h-1/4 shadow-xs mt-10 overflow-y-scroll">
+          <div class="card flex flex-col p-4 min-h-1/4 shadow-xs mt-6 overflow-y-scroll">
                <vue-loader :active="metrics == null" spinner="ring"></vue-loader>
                <h3 class="text-lg text-jean tracking-widest w-1/2 text-center self-center"> Metrics </h3>
                <div class="flex justify-around mt-8 items-center">

@@ -10,7 +10,7 @@ class LeaveApprovalController extends Controller
     public function store(StoreRequest $request)
     {
         $leave = Leave::findOrFail($request->leave_id);
-        
+
         if ($leave->approved) {
             return redirect()->back()->with('message', "You have already approved leave #{$leave->number}");
         }
@@ -21,6 +21,6 @@ class LeaveApprovalController extends Controller
 
         $leave->approve();
 
-        return redirect()->route('leaves.index')->with('message', "You have approved leave #{$leave->number}");
+        return redirect()->back()->with('message', "You have approved leave #{$leave->number}");
     }
 }

@@ -9,7 +9,7 @@ class NotificationController extends Controller
     public function index()
     {
         return view('notifications.index', [
-            'notifications' => auth()->user()->notifications()->latest()->paginate()
+            'notifications' => auth()->user()->notifications()->latest()->paginate(5)
         ]);
     }
 

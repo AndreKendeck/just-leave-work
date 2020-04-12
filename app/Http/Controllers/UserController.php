@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:reporter'])->only('edit');
+        $this->middleware(['role:reporter']);
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +23,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::where(function ($query) use ($request) {
+        $users = User::withCount(['leaves' => function ($qry) {
+            return $qry->whereNotNull('approved_at');
+        }])->where(function ($query) use ($request) {
             $query->where('team_id', auth()->user()->team_id);
             if ($request->has('search')) {
                 $query->where('name', 'like', "%{$request->search}%");
@@ -69,7 +71,7 @@ class UserController extends Controller
         ]);
 
         if ($request->has('reporter')) {
-            $user->aassignRole('reporter');
+            $user->assignRole('reporter');
         }
 
         Mail::to($user->email)->queue(new Invation($user, $password));
@@ -109,6 +111,10 @@ class UserController extends Controller
         if ($user->team_id != auth()->user()->team_id) {
             abort(403, "You are not allowed to view this page");
         }
+        if ($user->id == auth()->user()->id) {
+            return redirect()->route('profile');
+        }
+
         return view('users.edit', [
             'user' => $user,
         ]);

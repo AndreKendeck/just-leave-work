@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     use Bannable;
     use HasRoles;
 
-    public const STORAGE_PATH = 'users/avatars';
+    public const STORAGE_PATH = '/users/avatars/';
 
     protected $appends = [
         'avatar_url',
@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'edit_url',
         'total_days_on_leave',
         'is_banned',
+        'has_avatar',
         'is_on_leave',
         'is_reporter',
     ];
@@ -44,6 +45,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'email_verified_at' => 'datetime',
     ];
 
+    public function getHasAvatarAttribute()
+    {
+        return !is_null($this->avatar);
+    }
     public function getTotalDaysOnLeaveAttribute()
     {
         return $this->leaves->whereNotNull('approved_at')->sum('number_of_days_off');

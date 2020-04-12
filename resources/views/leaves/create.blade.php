@@ -7,8 +7,7 @@ Request leave
 @endsection
 @section('content')
 <div class="mx-2 flex flex-col w-full h-full">
-
-     <div class="card p-3 flex-col shadow-xs mt-3 pb-4 w-full lg:w-1/2 self-center">
+     <div class="card p-3 flex-col shadow-xs mt-6 pb-4 w-full lg:w-1/2 self-center">
           <h3 class="text-jean my-3 text-center text-lg"> Request leave </h3>
           <form action="{{ route('leaves.store') }}" class="w-full" method="post">
                @csrf
@@ -47,7 +46,7 @@ Request leave
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-     $('#from').datepicker(); 
-     $('#until').datepicker(); 
+     $('#from').datepicker();
+     $('#until').datepicker();
 </script>
 @endsection

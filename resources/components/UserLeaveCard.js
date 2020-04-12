@@ -18,7 +18,7 @@ export default Vue.component("user-leave-card", {
     template: `<a v-on:click="selected()" class="flex w-full bg-white p-3 my-2 rounded-lg shadow-lg items-center justify-between hover:bg-gray-200 cursor-pointer">
     <div class="flex flex-col items-center">
       <span class="text-xs text-gray-600 mb-2 text-green-600"> Requester </span>
-            <div>
+            <div class="flex flex-col items-center" >
             <img
             class="rounded-full w-8 md:w-10 lg:w-10"
             v-bind:src="leave.user.has_avatar ? leave.user.avatar_url : leave.user.avatar_url.encoded"

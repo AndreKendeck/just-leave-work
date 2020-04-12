@@ -20,6 +20,7 @@ class LeaveController extends Controller
      */
     public function index(Request $request)
     {
+
         $leaves = Leave::where(function ($query) {
             $query->where('team_id', auth()->user()->team_id);
             if (!auth()->user()->hasRole('reporter')) {
@@ -92,9 +93,12 @@ class LeaveController extends Controller
         if ($leave->team_id != auth()->user()->team_id) {
             abort(403, "You cannot view this page");
         }
-        return view('leaves.show', [
-            'leave' => $leave,
-        ]);
+        if (auth()->user()->hasRole('reporter') || $leave->user_id == auth()->user()->id) {
+            return view('leaves.show', [
+                'leave' => $leave,
+            ]);
+        }
+        abort(403, "You cannot view this page");
     }
 
     /**
@@ -128,6 +132,9 @@ class LeaveController extends Controller
         if ($leave->user_id != auth()->user()->id) {
             abort(403, "You cannot perform this action");
         }
+        if ($leave->approved || $leave->denied) {
+            return redirect()->back()->with('message', "You cannot edit a leave that has been approved or denied");
+        }
         $leave->update(['description' => $request->description]);
         return redirect()->back()->with('message', "Leave #{$leave->number} has been updated");
     }
@@ -148,6 +155,6 @@ class LeaveController extends Controller
             return redirect()->back()->with('message', 'You cannot delete this leave as it already has approved or denied');
         }
         $leave->delete();
-        return redirect()->back()->with('message', "You have successfully deleted leave #{$leave->number}");
+        return redirect()->route('leaves.index')->with('message', "You have successfully deleted leave #{$leave->number}");
     }
 }

@@ -6,9 +6,15 @@ use App\Http\Requests\User\BanRequest;
 use App\Http\Requests\User\UnbanRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\User; 
 
 class UserBanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:reporter');
+    }
+
     public function store(BanRequest $request)
     {
         $user = User::findOrFail($request->user_id);
