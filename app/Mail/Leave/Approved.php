@@ -32,7 +32,7 @@ class Approved extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.leaves.approved', [
+        return $this->markdown('emails.leaves.approved', [
             'approval' => $this->approval
         ]);
     }

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Invation extends Mailable
+class Invation extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -33,7 +33,7 @@ class Invation extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.user.invation' , [
+        return $this->markdown('emails.user.invation' , [
             'user' => $this->user,
             'password' => $this->password
         ]);

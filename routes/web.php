@@ -47,16 +47,18 @@ Route::middleware(['auth', 'verified', 'forbid-banned-user', 'logs-out-banned-us
     Route::get('/team', 'TeamController@index')->name('teams.index');
     Route::post('/avatar-upload', 'UserProfileController@uploadAvatar')->name('avatar.upload');
     Route::post('/avatar-remove', 'UserProfileController@removeAvatar')->name('avatar.remove');
+    Route::post('/team/update' , 'TeamController@update' )->name('teams.update'); 
 
     Route::post('/remove-reporter', 'UserReporterController@destroy')->name('reporter.remove');
     Route::post('/add-reporter', 'UserReporterController@store')->name('reporter.add');
-
+    Route::post('/upload-team-logo', 'TeamLogoController@store')->name('team.logo.store');
+    Route::post('/delete-team-logo', 'TeamLogoController@destroy')->name('team.logo.delete');
     // api
     Route::post('/comment', 'Api\CommentController@store')->name('api.comments.store');
     Route::post('/comment/update/{id}', 'Api\CommentController@update')->name('api.comments.update');
     Route::post('/comment/delete/{id}', 'Api\CommentController@destroy')->name('api.comments.delete');
     Route::get('/leaves-on-week/{id}/{from}/{to}', 'Api\UserLeaveTimescaleController@show')->name('api.leaves.show');
-    Route::get('/user/{id}/leaves/{flag}' , 'Api\UserLeaveController@index' )->name('user.leave.index');
+    Route::get('/user/{id}/leaves/{flag}', 'Api\UserLeaveController@index')->name('user.leave.index');
     Route::get('/leave-metrics', 'Api\MetricsController@index')->name('api.metrics.index');
     Route::get('/chart', 'Api\ChartController@index')->name('api.chart.index');
     Route::get('/read-unread-notifications', 'Api\radNotificationController@index');

@@ -31,7 +31,7 @@ class Denied extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.leaves.denied', [
+        return $this->markdown('emails.leaves.denied', [
             'leave' => $this->leave
         ]);
     }

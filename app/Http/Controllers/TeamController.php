@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Team\UploadTeamLogoRequest;
+use App\Team;
+use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
@@ -10,8 +11,8 @@ class TeamController extends Controller
     public function __construct()
     {
         $this->middleware('role:reporter');
-        $this->middleware('optimizeImages')->only('update'); 
     }
+
     public function index()
     {
         return view('teams.index', [
@@ -19,15 +20,15 @@ class TeamController extends Controller
         ]);
     }
 
-    public function update(UploadTeamLogoRequest $request)
+    public function update(Request $request)
     {
-        $request->logo->store('/teams');
+        $request->validate([
+            'name' => ['required', 'min:3'],
+        ]);
         auth()->user()->team->update([
-            'logo' => $request->logo->hashName()
+            'name' => $request->name,
         ]);
-        return response()
-        ->json([
-            'logo' => auth()->user()->team->logo_url
-        ]);
+        return redirect()->back()->with('message', "Your team name has been updated");
     }
+
 }

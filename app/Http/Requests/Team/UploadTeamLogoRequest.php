@@ -24,7 +24,7 @@ class UploadTeamLogoRequest extends FormRequest
     public function rules()
     {
         return [
-            'logo' => [ 'file' , 'image' , 'required' ]
+            'logo' => [ 'file' , 'image' , 'required' , 'max:3000' , 'mimes:png,jpg,jpeg,gif' ]
         ];
     }
 }

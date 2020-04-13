@@ -31,7 +31,7 @@ class Unban extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.organization.unban', [
+        return $this->markdown('emails.organization.unban', [
             'organization' => $this->organization
         ]);
     }

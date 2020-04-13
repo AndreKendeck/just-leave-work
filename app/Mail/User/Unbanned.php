@@ -31,6 +31,6 @@ class Unbanned extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.user.unbanned', ['user' => $this->user ]);
+        return $this->markdown('emails.user.unbanned', ['user' => $this->user ]);
     }
 }
