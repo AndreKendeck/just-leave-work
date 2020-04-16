@@ -15,7 +15,7 @@ class UserReporterController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['user_id' => [Rule::exists('users', 'id')->where('team_id', auth()->user()->id), 'integer', 'required']]);
+        $request->validate(['user_id' => [Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id), 'integer', 'required']]);
 
         $user = User::findOrFail($request->user_id);
 
@@ -29,7 +29,7 @@ class UserReporterController extends Controller
 
     public function destroy(Request $request)
     {
-        $request->validate(['user_id' => [Rule::exists('users', 'id')->where('team_id', auth()->user()->id), 'integer', 'required']]);
+        $request->validate(['user_id' => [Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id), 'integer', 'required']]);
 
         $user = User::findOrFail($request->user_id);
 

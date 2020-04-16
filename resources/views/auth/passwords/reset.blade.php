@@ -9,7 +9,9 @@ Reset your password
           <form action="{{ action('Auth\ResetPasswordController@reset') }}" method="POST">
                @csrf
                <input type="hidden" name="token" value="{{ $token }}" readonly="">
-               @field(['name' => 'email' , 'disabled' => true   ])
+               @field(['name' => 'email' , 'disabled' => true  , 'value' => request('email') ])
+               @field(['name' => 'password' , 'required'  => true , 'label' => 'New password' ])
+               @field([''])
           </form>
      </div>
 </div>

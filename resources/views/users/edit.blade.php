@@ -65,7 +65,7 @@ Edit User {{ $user->name }}
                 </form>
                 @endif
                 @if (!$user->is_reporter)
-                <form action="{{ route('reporter.add') }}" class="mt-3 lg:mt-0 ml-1" method="post">
+                <form action="{{ route('reporter.add') }}" class="mt-3 lg:mt-0 ml-1" method="POST">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ $user->id }}" readonly="">
                     <button class="bg-gray-200 hover:bg-gray-300 py-1 flex">
@@ -88,7 +88,7 @@ Edit User {{ $user->name }}
                 @endif
 
                 @if ($user->is_reporter)
-                <form action="{{ route('reporter.remove') }}" class="mt-3 lg:mt-0 ml-1" method="post">
+                <form action="{{ route('reporter.remove') }}" class="mt-3 lg:mt-0 ml-1" method="POST">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ $user->id }}" readonly="">
                     <button class="bg-gray-200 hover:bg-gray-300 py-1 flex items-center">

@@ -47,7 +47,9 @@ Route::middleware(['auth', 'verified', 'forbid-banned-user', 'logs-out-banned-us
     Route::get('/team', 'TeamController@index')->name('teams.index');
     Route::post('/avatar-upload', 'UserProfileController@uploadAvatar')->name('avatar.upload');
     Route::post('/avatar-remove', 'UserProfileController@removeAvatar')->name('avatar.remove');
-    Route::post('/team/update' , 'TeamController@update' )->name('teams.update'); 
+    Route::post('/team/update' , 'TeamController@update' )->name('teams.update');
+
+    Route::post('/password-update' , 'PasswordChangeController@update' )->name('password.update');
 
     Route::post('/remove-reporter', 'UserReporterController@destroy')->name('reporter.remove');
     Route::post('/add-reporter', 'UserReporterController@store')->name('reporter.add');

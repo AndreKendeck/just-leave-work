@@ -52,7 +52,7 @@ export default Vue.component("leave-card", {
          <a v-bind:href="user.url" class="mx-1">
              <img
                  class="rounded-full w-6"
-                 v-bind:src="user.avatar_url.encoded"
+                 v-bind:src="user.has_avatar ? user.avatar_url : user.avatar_url.encoded"
                  v-bind:alt="user.name"
              />
          </a>

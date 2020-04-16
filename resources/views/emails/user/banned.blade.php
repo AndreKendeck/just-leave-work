@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# You have been banned from {{ $user->team . "'s" }} JustLeave
+# You have been banned from {{ $user->team->name . "'s" }} JustLeave
 
 
 Hi {{ $user->name }} , <br>
