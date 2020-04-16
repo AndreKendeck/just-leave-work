@@ -50,7 +50,6 @@ Route::middleware(['auth', 'verified', 'forbid-banned-user', 'logs-out-banned-us
     Route::post('/team/update' , 'TeamController@update' )->name('teams.update');
 
     Route::post('/password-update' , 'PasswordChangeController@update' )->name('password.update');
-
     Route::post('/remove-reporter', 'UserReporterController@destroy')->name('reporter.remove');
     Route::post('/add-reporter', 'UserReporterController@store')->name('reporter.add');
     Route::post('/upload-team-logo', 'TeamLogoController@store')->name('team.logo.store');
