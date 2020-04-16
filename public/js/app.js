@@ -56297,8 +56297,8 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/andre/web-dev/just-leave-work/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/andre/web-dev/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/andrekendeck/web/just-leave-work/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/andrekendeck/web/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -87,7 +87,7 @@ class CommentController extends Controller
         if (!$comment->is_editable) {
             return response()->json([
                 'errors' => ['You can no longer edit this comment']
-            ], 422);
+            ], 403);
         }
         $comment->update(['text' => $request->text ]);
         return response()
@@ -113,7 +113,7 @@ class CommentController extends Controller
         if (!$comment->is_deletable) {
             return response()->json([
                 'errors' => ['You can no longer delete this comment']
-            ], 422);
+            ], 403);
         }
         $comment->delete();
         return response()

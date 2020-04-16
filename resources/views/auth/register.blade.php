@@ -18,6 +18,10 @@ Sign up
                 Sign up
             </button>
         </form>
+        <p class="text-gray-600 mt-4 text-center"> By signing up you agree with the <a href="{{ route('terms') }}"
+                class="text-jean hover:text-blue-800"> Terms &amp; Conditions </a> as well as the 
+                <a href="{{ route('privacy') }}"
+                class="text-jean hover:text-blue-800"> Privacy Policy </a> </p>
     </div>
 </div>
 @endsection

@@ -15,6 +15,7 @@
                <li class="p-3 text-xl text-jean"><a href="{{  route('register') }}"> Sign up </a></li>
                <li class="p-3 text-xl text-jean"><a href="{{  route('about') }}"> About </a></li>
                <li class="p-3 text-xl text-jean"><a href="{{  route('terms') }}"> Terms & Conditions </a></li>
+               <li class="p-3 text-xl text-jean"><a href="{{  route('privacy') }}"> Privacy Policy </a></li>
           </ul>
      </div>
 </div>
@@ -25,6 +26,8 @@
           <li> <a href="{{ route('register') }}" class=" text-lg text-gray-700 hover:text-gray-500 mx-2"> Sign up </a>
           </li>
           <li> <a href="{{ route('about') }}" class=" text-lg text-gray-700 hover:text-gray-500 mx-2"> About </a> </li>
+          <li> <a href="{{ route('privacy') }}" class=" text-lg text-gray-700 hover:text-gray-500 mx-2"> Privacy Policy </a> </li>
+          <li> <a href="{{ route('terms') }}" class=" text-lg text-gray-700 hover:text-gray-500 mx-2"> Terms &amp; Conditions </a> </li>
      </ul>
 </div>
 @endguest

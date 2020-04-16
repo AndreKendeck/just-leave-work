@@ -8,19 +8,16 @@ use App\User;
 
 class UserLeaveController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('role:reporter');
-    }
-
     public function index($id, $flag)
     {
         $user = User::findOrFail($id);
 
         if ($user->team_id != auth()->user()->team_id) {
-
             abort(403, "You are not allowed to view this users's leave");
+        }
 
+        if (!auth()->user()->hasRole('reporter') && $user->id != auth()->user()->id) {
+            abort(403, "You are not allowed to view this user's leave");
         }
 
         return response()

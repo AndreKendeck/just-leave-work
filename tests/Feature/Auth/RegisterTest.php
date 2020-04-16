@@ -42,14 +42,17 @@ class RegisterTest extends TestCase
         ])->assertStatus(302)
         ->assertSessionHasNoErrors();
         $this->assertAuthenticatedAs(User::where('email', $user->email)->first());
+        $user = User::where('email', $user->email)->first();
+        $this->assertTrue($user->hasRole('reporter'));
+        $this->assertTrue($user->hasRole('user'));
         $this->assertDatabaseHas('users', [
             'email' => $user->email,
             'name' => $user->name,
         ]) ;
         $this->assertDatabaseHas('teams', [
-            'name' => $user->team_name
+            'name' => $user->team->name
         ]);
-        Notification::assertSentTo(User::where('email', $user->email)->first() , General::class); 
+        Notification::assertSentTo(User::where('email', $user->email)->first(), General::class);
         Mail::assertQueued(Welcome::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
         });
