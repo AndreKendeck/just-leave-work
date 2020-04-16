@@ -31,7 +31,7 @@ class Created extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.comment.created', [
+        return $this->markdown('emails.comment.created', [
             'comment' => $this->comment
         ]);
     }

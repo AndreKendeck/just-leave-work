@@ -17,19 +17,8 @@ class LeaveObserver
      */
     public function created(Leave $leave)
     {
-        $users = \App\User::wherePermissionIs('approve-and-deny-leave')
-        ->where([
-            'organization_id' => $leave->organization_id,
-            'id' , '<>' , $leave->user->id
-        ])
-        ->get();
-        $users->each(function ($user) use ($leave) {
-            $user->notify(new General(
-                "{$leave->user->name} has requested for leave",
-                route('leaves.show', $leave->id)
-            ));
-        });
-        Mail::to($users)->queue(new Created($leave));
+        Mail::to($leave->reporter->email)->queue(new Created($leave));
+        $leave->reporter->notify(new General("{$leave->user->name} has requested for leave", route('leaves.show', $leave->id)));
     }
 
     /**

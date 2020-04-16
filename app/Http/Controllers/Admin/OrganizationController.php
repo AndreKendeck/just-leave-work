@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Organization;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -14,7 +15,10 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        $organizations = Organization::all()->lastest()->paginate();
+        return view('admin.organizations.index', [
+            'organizations' => $organizations
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        //not allowed
     }
 
     /**
@@ -46,7 +50,10 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        //
+        $organization = Organization::findOrFail($id);
+        return view('organizations.show', [
+            'organization' => $organization
+        ]);
     }
 
     /**
@@ -57,7 +64,7 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        //
+        //not allowed
     }
 
     /**
@@ -69,7 +76,7 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //not allowed
     }
 
     /**

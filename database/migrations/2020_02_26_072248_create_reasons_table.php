@@ -16,6 +16,7 @@ class CreateReasonsTable extends Migration
         Schema::create('reasons', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique(); 
+            $table->longText('tag'); 
             $table->timestamps();
         });
     }

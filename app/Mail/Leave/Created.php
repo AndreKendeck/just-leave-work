@@ -31,7 +31,7 @@ class Created extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.leave.created', [
+        return $this->markdown('emails.leaves.created', [
             'leave' => $this->leave
         ]);
     }

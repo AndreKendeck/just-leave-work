@@ -13,6 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware([ 'auth:web' , 'verified' , 'forbid-banned-user' , 'logs-out-banned-user' , 'role:user' ])->group(function () {
+
 });

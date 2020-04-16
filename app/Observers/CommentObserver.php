@@ -17,21 +17,22 @@ class CommentObserver
      */
     public function created(Comment $comment)
     {
-        $users = \App\User::wherePermissionIs('approve-and-deny-leave')
-        ->where([
-            'organization_id' => $comment->leave->organization_id, 
-            'id' , '<>' , $comment->user_id
-        ])
-        ->get();
-        $users->each(function ($user) use ($comment) {
-            // notify the users via database
-            $user->notify(new General(
-                "{$comment->user->name} has commented on a leave request",
-                route('leaves.showw', $comment->leave->id)
-            ));
-        });
-        // send an email
-        Mail::to($users)->queue(new Created($comment));
+        if ($comment->user_id != $comment->leave->user_id) {
+
+            // reporter
+
+            if ($comment->user_id != $comment->leave->reporter_id) {
+                if ($comment->leave->has_reporter) {
+                    Mail::to($comment->leave->reporter->email)->queue(new Created($comment));
+                    $comment->leave->reporter->notify(new General("{$comment->user->name} has left a comment on a leave request", route('leaves.show', $comment->leave->id)));
+                }
+            }
+
+            // another user
+            Mail::to($comment->leave->user->email)->queue(new Created($comment));
+            
+            $comment->leave->user->notify(new General("{$comment->user->name} has left a comment on your leave request", route('leaves.show', $comment->leave->id)));
+        }
     }
 
     /**

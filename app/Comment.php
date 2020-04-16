@@ -4,12 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model 
+class Comment extends Model
 {
     protected $guarded = [];
     protected $appends = [
         'was_edited',
-        'can_edit'
+        'can_edit',
+        'is_deletable',
+        'is_editable',
+    ];
+    protected $with = [
+        'user'
     ];
 
     public function user()
@@ -30,8 +35,18 @@ class Comment extends Model
     public function getCanEditAttribute()
     {
         if (auth()->check()) {
-            return auth()->user()->id == $this->user_id;
+            return $this->user_id == auth()->user()->id;
         }
         return false;
+    }
+
+    public function getIsDeletableAttribute()
+    {
+        return now()->diffInMinutes($this->created_at) <= 5;
+    }
+
+    public function getIsEditableAttribute()
+    {
+        return now()->diffInMinutes($this->created_at) <= 5;
     }
 }

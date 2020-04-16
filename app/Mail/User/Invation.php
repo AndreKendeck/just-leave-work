@@ -8,12 +8,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Invation extends Mailable
+class Invation extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    private $user; 
-    private $password; 
+    private $user;
+    private $password;
     /**
      * Create a new message instance.
      *
@@ -21,9 +21,9 @@ class Invation extends Mailable
      */
     public function __construct(User $user , $password )
     {
-        $this->user = $user; 
-        $this->password = $password; 
-        $this->subject("{$user->orgizantion->name} has invited you to join their JustLeave platform");
+        $this->user = $user;
+        $this->password = $password;
+        $this->subject("{$user->team->name} has invited you to join their JustLeave platform");
     }
 
     /**
@@ -33,8 +33,8 @@ class Invation extends Mailable
      */
     public function build()
     {
-        return $this->view('email.users.invatation' , [
-            'user' => $this->user, 
+        return $this->markdown('emails.user.invation' , [
+            'user' => $this->user,
             'password' => $this->password
         ]);
     }

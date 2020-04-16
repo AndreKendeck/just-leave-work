@@ -21,7 +21,7 @@ class Denied extends Mailable implements ShouldQueue
     public function __construct(Leave $leave)
     {
         $this->leave = $leave;
-        $this->subject("{$leave->denier->name} has denied your leave #{$leave->number}");
+        $this->subject("{$leave->user->name} has denied your leave #{$leave->number}");
     }
 
     /**
@@ -31,7 +31,7 @@ class Denied extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.leaves.denied', [
+        return $this->markdown('emails.leaves.denied', [
             'leave' => $this->leave
         ]);
     }

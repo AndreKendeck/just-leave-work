@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class PagesController extends Controller
 {
     public function index()
     {
         if (auth()->check()) {
-            return view('profile.home'); 
+            if (!auth()->user()->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
+            if (auth()->user()->isBanned()) {
+                auth()->logout();
+                return redirect()->route('index');
+            }
+            $users = auth()->user()->team->users()->orderBy('name', 'ASC')->paginate(6);
+            return view('profile.home', ['users' => $users]);
         }
         return view('pages.welcome');
     }
@@ -32,5 +38,10 @@ class PagesController extends Controller
     public function contact()
     {
         return view('pages.contact');
+    }
+
+    public function settings()
+    {
+        return view('pages.settings');
     }
 }
