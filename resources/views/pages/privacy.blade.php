@@ -6,7 +6,7 @@ Privacy Polciy
 
 @section('content')
 <div class="flex flex-col mx-4">
-     <div class="mt-6 flex flex-col p-3">
+     <div class="card mt-6 flex flex-col p-3">
           <div class="my-3 text-lg text-jean"> Privacy </div>
           <p>Effective date: 2020-04-17</p>
           <p>1. <b>Introduction</b></p>

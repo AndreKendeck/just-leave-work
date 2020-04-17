@@ -1,6 +1,6 @@
 @extends('layouts.web')
 @section('title')
-Not Found
+Server Error
 @endsection
 @section('content')
 <div class="flex flex-col mx-4">

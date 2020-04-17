@@ -5,6 +5,7 @@ namespace App;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Laravolt\Avatar\Avatar;
 
 class Team extends Model implements BannableContract
@@ -33,6 +34,12 @@ class Team extends Model implements BannableContract
         if (is_null($this->logo)) {
             return (new Avatar([]))->create($this->name)->toBase64();
         }
+        if (env('APP_ENV') == 'poduction') {
+
+            return Storage::get(self::STORAGE_PATH . $this->logo);
+            
+        }
+
         return asset(self::STORAGE_PATH . $this->logo);
     }
     public function getHasLogoAttribute()

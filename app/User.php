@@ -89,6 +89,11 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         if (is_null($this->avatar)) {
             return (new Avatar([]))->create($this->name)->toBase64();
         }
+
+        if (env('APP_ENV') == 'poduction') {
+            return Storage::get(self::STORAGE_PATH . $this->avatar);
+        }
+
         return asset(self::STORAGE_PATH . $this->avatar);
     }
 
@@ -110,8 +115,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     public function getIsOnLeaveAttribute()
     {
         if (($this->leaves->whereNotNull('approved_at')->count() > 0)) {
-            return today()->isBetween($this->leaves->whereNotNull('approved_at')->first()->from,
-                $this->leaves->whereNotNull('approved_at')->first()->until);
+            return today()->isBetween(
+                $this->leaves->whereNotNull('approved_at')->first()->from,
+                $this->leaves->whereNotNull('approved_at')->first()->until
+            );
         }
         return false;
     }
