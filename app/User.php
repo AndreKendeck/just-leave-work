@@ -91,7 +91,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         }
 
         if (env('APP_ENV') == 'poduction') {
-            return Storage::get(self::STORAGE_PATH . $this->avatar);
+            return Storage::disk('public')->get(self::STORAGE_PATH . $this->avatar);
         }
 
         return asset(self::STORAGE_PATH . $this->avatar);

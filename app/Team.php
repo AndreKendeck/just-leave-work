@@ -36,8 +36,8 @@ class Team extends Model implements BannableContract
         }
         if (env('APP_ENV') == 'poduction') {
 
-            return Storage::get(self::STORAGE_PATH . $this->logo);
-            
+            return Storage::disk('public')->get(self::STORAGE_PATH . $this->logo);
+
         }
 
         return asset(self::STORAGE_PATH . $this->logo);
