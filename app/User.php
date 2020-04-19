@@ -90,8 +90,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             return (new Avatar([]))->create($this->name)->toBase64();
         }
 
-        if (env('APP_ENV') == 'poduction') {
-            return Storage::disk('public')->get(self::STORAGE_PATH . $this->avatar);
+        if (env('APP_ENV') == 'production') {
+            return Storage::disk('public')->get( '/storage' . self::STORAGE_PATH . $this->avatar);
         }
 
         return asset(self::STORAGE_PATH . $this->avatar);
