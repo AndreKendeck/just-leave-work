@@ -2,58 +2,54 @@
 
 namespace Tests\Feature\Auth;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
     /**
-    * @test
-    */
+     * @test
+     */
     public function a_navigate_to_reset_page()
     {
         $this->get(route('password.request'))
-        ->assertOk()
-        ->assertViewIs('auth.passwords.email');
+            ->assertOk()
+            ->assertViewIs('auth.passwords.email');
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function can_send_password_email()
     {
         $user = factory('App\User')->create();
         $this->post(route('password.email'), [
-            'email' => $user->email
+            'email' => $user->email,
         ])
-        ->assertStatus(302)
-        ->assertSessionHasNoErrors()
-        ->assertSessionHas('message');
+            ->assertStatus(302)
+            ->assertSessionHasNoErrors()
+            ->assertSessionHas('message');
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function validates_email()
     {
         $this->post(route('password.email'), [
-            'email' => 'wrong'
+            'email' => 'wrong',
         ])->assertSessionHasErrors(['email'])
-        ->assertStatus(302);
+            ->assertStatus(302);
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function validates_user_exists()
     {
         $this->post(route('password.email'), [
-            'email' => 'validbutdoesntexist@mail.com'
+            'email' => 'validbutdoesntexist@mail.com',
         ])->assertStatus(302)
-        ->assertSessionHasErrors(['email']);
+            ->assertSessionHasErrors(['email']);
     }
 
-   
 }
