@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Storage;
 // bannable contracts
 use Laravolt\Avatar\Avatar;
 use Spatie\Permission\Traits\HasRoles;
@@ -90,8 +90,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             return (new Avatar([]))->create($this->name)->toBase64();
         }
 
+        // only works for production enviorment
         if (env('APP_ENV') == 'production') {
-            return Storage::disk('public')->get( '/storage' . self::STORAGE_PATH . $this->avatar);
+            return Storage::disk('public')->url(self::STORAGE_PATH . $this->avatar);
         }
 
         return asset(self::STORAGE_PATH . $this->avatar);

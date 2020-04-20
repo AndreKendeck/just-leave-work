@@ -1,7 +1,8 @@
-//
+/* purgecss start ignore */
 @import "tailwindcss/base";
 
 @import "tailwindcss/components";
+/* purgecss end ignore */
 
 @import "tailwindcss/utilities";
 
@@ -181,31 +182,4 @@ div.card {
     @apply bg-white;
     @apply rounded-lg;
     @apply flex;
-}
-
-table {
-    @apply table-auto;
-    @apply shadow-sm;
-    th {
-        @apply bg-gray-200;
-        @apply p-3;
-        @apply text-gray-600;
-        @apply border-b-2;
-    }
-    tr {
-        @apply table-row;
-        &:hover {
-            @apply bg-gray-100;
-        }
-    }
-    td {
-        @apply p-3;
-        @apply bg-white;
-        @apply p-5;
-        @apply border-b-4;
-        @apply border-gray-200;
-        &:hover {
-            @apply bg-gray-100;
-        }
-    }
 }
