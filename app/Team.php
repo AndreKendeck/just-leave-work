@@ -34,10 +34,9 @@ class Team extends Model implements BannableContract
         if (is_null($this->logo)) {
             return (new Avatar([]))->create($this->name)->toBase64();
         }
+        // only works fo the production enviorment
         if (env('APP_ENV') == 'production') {
-
-            return Storage::disk('public')->get('/storage' . self::STORAGE_PATH . $this->logo);
-
+            return Storage::disk('public')->url(self::STORAGE_PATH . $this->logo);
         }
 
         return asset(self::STORAGE_PATH . $this->logo);
