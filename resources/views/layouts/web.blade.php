@@ -29,13 +29,13 @@
      <meta property="og:url" content="https://www.justleave.work/">
      <meta property="og:title" content="JustLeave | Leave Management ">
      <meta property="og:description" content="Web-based leave management application">
-     <meta property="og:image" content="{{ asset('images/man.png') }}">
+     <meta property="og:image" content="{{ asset('images/dayoff.png') }}">
 
      <meta property="twitter:card" content="summary_large_image">
      <meta property="twitter:url" content="https://www.justleave.work/">
      <meta property="twitter:title" content="JustLeave | Leave Management ">
      <meta property="twitter:description" content="Web-based leave management application">
-     <meta property="og:image" content="{{ asset('images/man.png') }}">
+     <meta property="og:image" content="{{ asset('images/dayoff.png') }}">
 
      <link rel="manifest" href="{{ asset('meta/manifest.json') }}">
 
