@@ -7,6 +7,7 @@ use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Laravolt\Avatar\Avatar;
+use Illuminate\Support\Facades\App;
 
 class Team extends Model implements BannableContract
 {
@@ -35,7 +36,7 @@ class Team extends Model implements BannableContract
             return (new Avatar([]))->create($this->name)->toBase64();
         }
         // only works fo the production enviorment
-        if (env('APP_ENV') == 'production') {
+        if (App::environment('production')) {
             return Storage::disk('public')->url(self::STORAGE_PATH . $this->logo);
         }
 

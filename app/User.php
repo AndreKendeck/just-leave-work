@@ -11,6 +11,7 @@ use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 // bannable contracts
@@ -91,7 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         }
 
         // only works for production enviorment
-        if (env('APP_ENV') == 'production') {
+        if (App::environment('production')) {
             return Storage::disk('public')->url(self::STORAGE_PATH . $this->avatar);
         }
 
