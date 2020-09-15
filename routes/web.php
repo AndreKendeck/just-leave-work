@@ -5,6 +5,7 @@ Route::get('/about', 'PagesController@about')->name('about');
 Route::get('/terms-and-conditions', 'PagesController@terms')->name('terms');
 Route::get('/privacy-policy', 'PagesController@privacy')->name('privacy');
 Route::get('/contact-us', 'PagesController@contact')->name('contact');
+Route::view('/demo' , 'pages.demo' )->name('demo'); 
 
 Auth::routes(['verify' => true]);
 

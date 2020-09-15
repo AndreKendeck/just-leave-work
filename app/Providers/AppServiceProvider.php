@@ -31,12 +31,7 @@ class AppServiceProvider extends ServiceProvider
         \App\User::observe(\App\Observers\UserObserver::class);
         \App\Approval::observe(\App\Observers\ApprovalObserver::class);
         \App\Denial::observe(\App\Observers\DenialObserver::class);
-
-        Blade::include('includes.field', 'field');
-        Blade::include('includes.checkbox', 'checkbox');
-        Blade::include('includes.textarea' , 'textarea' );
-        Blade::component('includes.select' , 'select');
-
+        
         Paginator::defaultView('components.paginate');
         Paginator::defaultSimpleView('components.simple-paginate');
     }
