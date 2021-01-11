@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware([ 'auth:web' , 'verified' , 'forbid-banned-user' , 'logs-out-banned-user' , 'role:user' ])->group(function () {
 
+
+Route::namespace('Api')->group(function () {
+    Route::post('/login', 'LoginController@login')->name('login');
+    Route::post('/register', 'RegisterController@register')->name('register');
+    Route::get('/verify-email/{email}', 'VerifyEmailAddressController@verify')
+        ->middleware('signed')
+        ->name('verify');
+
+    Route::middleware(['auth:api', 'logs-out-banned-user'])->group(function () {
+        Route::apiResource('leaves', 'LeaveController');
+    });
 });

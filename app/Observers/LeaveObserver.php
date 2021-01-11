@@ -3,9 +3,6 @@
 namespace App\Observers;
 
 use App\Leave;
-use App\Mail\Leave\Created;
-use App\Notifications\General;
-use Illuminate\Support\Facades\Mail;
 
 class LeaveObserver
 {
@@ -17,8 +14,11 @@ class LeaveObserver
      */
     public function created(Leave $leave)
     {
-        Mail::to($leave->reporter->email)->queue(new Created($leave));
-        $leave->reporter->notify(new General("{$leave->user->name} has requested for leave", route('leaves.show', $leave->id)));
+        $teamSettings = $leave->team->settings;
+
+        if ($leave->user->leave_balance > 0 && $teamSettings->automatic_leave_approval) {
+            $leave->approve();
+        }
     }
 
     /**
@@ -33,35 +33,16 @@ class LeaveObserver
     }
 
     /**
-     * Handle the leave "deleted" event.
-     *
-     * @param  \App\Leave  $leave
+     * @param Leave $leave
      * @return void
      */
-    public function deleted(Leave $leave)
-    {
-        //
-    }
+    public function approved(Leave $leave)
+    { }
 
     /**
-     * Handle the leave "restored" event.
-     *
-     * @param  \App\Leave  $leave
+     * @param Leave $leave
      * @return void
      */
-    public function restored(Leave $leave)
-    {
-        //
-    }
-
-    /**
-     * Handle the leave "force deleted" event.
-     *
-     * @param  \App\Leave  $leave
-     * @return void
-     */
-    public function forceDeleted(Leave $leave)
-    {
-        //
-    }
+    public function denied(Leave $leave)
+    { }
 }

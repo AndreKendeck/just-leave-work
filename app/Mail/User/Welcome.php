@@ -6,22 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\User;
 
 class Welcome extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    private $user;
+    protected string $message;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(string $message)
     {
-        $this->user = $user;
-        $this->subject('Welcome to JustLeave.work');
+        $this->message = $message;
     }
 
     /**
@@ -32,7 +31,7 @@ class Welcome extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->markdown('emails.user.welcome', [
-            'user' => $this->user
+            'message' => $this->message
         ]);
     }
 }

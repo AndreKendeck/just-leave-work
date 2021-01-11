@@ -14,10 +14,14 @@ class Team extends Model implements BannableContract
     use Bannable;
 
     protected $guarded = [];
+
+    protected $with = ['settings'];
+
     protected $appends = [
         'logo_url',
         'has_logo',
     ];
+    
     public const STORAGE_PATH = '/teams/logos/';
 
     public function users()
@@ -28,6 +32,11 @@ class Team extends Model implements BannableContract
     public function leaves()
     {
         return $this->hasMany('App\Leave')->latest();
+    }
+
+    public function settings()
+    {
+        return $this->hasOne('App\Setting');
     }
 
     public function getLogoUrlAttribute()

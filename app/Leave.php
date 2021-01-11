@@ -4,21 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class Leave extends Model
 {
     protected $guarded = [];
     protected $appends = [
         'number_of_days_off',
-        'can_edit',
         'approved',
         'pending',
         'denied',
         'is_active',
-        'has_reporter',
-        // urls
-        'url',
-        'edit_url',
     ];
 
     protected $withCount = [
@@ -36,15 +32,6 @@ class Leave extends Model
         'denied_at',
     ];
 
-    public function getUrlAttribute()
-    {
-        return route('leaves.show', $this->id);
-    }
-
-    public function getEditUrlAttribute()
-    {
-        return route('leaves.edit', $this->id);
-    }
 
     public function getApprovedAttribute()
     {
@@ -74,9 +61,7 @@ class Leave extends Model
 
     public function approve()
     {
-        $this->approval()->save(new Approval([
-            'user_id' => auth()->user()->id,
-        ]));
+        $this->fireCustomModelEvent('approved', 'approved');
         $this->update([
             'approved_at' => now(),
         ]);
@@ -84,23 +69,12 @@ class Leave extends Model
 
     public function deny()
     {
-        $this->denial()->save(new Denial([
-            'user_id' => auth()->user()->id,
-        ]));
+        $this->fireCustomModelEvent('denied', 'denied');
         $this->update([
             'denied_at' => now(),
         ]);
     }
 
-    public function approval()
-    {
-        return $this->hasOne('App\Approval')->latest();
-    }
-
-    public function denial()
-    {
-        return $this->hasOne('App\Denial')->latest();
-    }
 
     public function getNumberOfDaysOffAttribute()
     {
@@ -110,11 +84,6 @@ class Leave extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
-    }
-
-    public function reporter()
-    {
-        return $this->belongsTo('App\User', 'reporter_id');
     }
 
     public function comments()
@@ -133,29 +102,6 @@ class Leave extends Model
         self::creating(function ($model) {
             $model->number = DB::table('leaves')->where('team_id', $model->team_id)->count() + 1;
         });
-    }
-
-    public function getCanEditAttribute()
-    {
-        if (auth()->check()) {
-            return $this->user_id == auth()->user()->id;
-        }
-        return false;
-    }
-
-    public function scopeApproved($query)
-    {
-        return $query->whereNotNull('approved_at');
-    }
-
-    public function scopeDenied($query)
-    {
-        return $query->whereNotNull('denied_at');
-    }
-
-    public function getHasReporterAttribute()
-    {
-        return !is_null($this->reporter_id);
     }
 
     public function getPendingAttribute()
