@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
 class RoleTableSeeder extends Seeder
 {
@@ -17,7 +16,5 @@ class RoleTableSeeder extends Seeder
                 'name' => 'team-admin', 
             ], 
         ]); 
-
-        $roles->each( fn(array $role) => Role::firstOrCreate($role) ); 
     }
 }

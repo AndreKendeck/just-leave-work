@@ -21,23 +21,15 @@ class LeaveObserver
         }
     }
 
-    /**
-     * Handle the leave "updated" event.
-     *
-     * @param  \App\Leave  $leave
-     * @return void
-     */
-    public function updated(Leave $leave)
-    {
-        //
-    }
 
     /**
      * @param Leave $leave
      * @return void
      */
     public function approved(Leave $leave)
-    { }
+    {
+        
+     }
 
     /**
      * @param Leave $leave

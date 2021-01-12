@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 // bannable contracts
 use Laravolt\Avatar\Avatar;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
     use Notifiable;
     use Bannable;
-    use HasRoles;
     use HasApiTokens;
 
 
@@ -31,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'has_avatar',
         'is_on_leave',
     ];
-    
+
     protected $guarded = [];
 
     protected $hidden = [

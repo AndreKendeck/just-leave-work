@@ -27,7 +27,7 @@ class RegisterController extends Controller
             'team_id' => $team->id
         ]);
 
-        $user->assignRole('team-admin');
+        // $user->assignRole('team-admin');
 
         $user->update([
             'last_logged_in_at' => now()

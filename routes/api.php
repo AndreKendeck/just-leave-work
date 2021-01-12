@@ -20,7 +20,7 @@ Route::namespace('Api')->group(function () {
         ->middleware('signed')
         ->name('verify');
 
-    Route::middleware(['auth:api', 'logs-out-banned-user'])->group(function () {
+    Route::middleware(['auth:sanctum', 'logs-out-banned-user'])->group(function () {
         Route::apiResource('leaves', 'LeaveController');
     });
 });

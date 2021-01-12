@@ -12,6 +12,7 @@ class LoginTest extends TestCase
     public function a_registered_user_can_login_to_the_application()
     {
         $user = factory('App\User')->create();
+
         $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password'
