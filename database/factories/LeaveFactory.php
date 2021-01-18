@@ -10,10 +10,9 @@ $factory->define(Leave::class, function (Faker $faker) {
     return [
         'team_id' => factory('App\Team')->create()->id,
         'user_id' => factory('App\User')->create()->id,  
-        'reason_id' => Reason::all()->random()->id,
-        'reporter_id' => factory('App\User')->create()->id, 
+        'reason_id' => Reason::all()->random()->id, 
         'description' => $faker->words(20, true),  
-        'from' => $faker->dateTimeBetween('-60 days' , 'now' ), 
-        'until' => $faker->dateTimeBetween('now' , '+60 days' ), 
+        'from' => $faker->dateTimeBetween('-7 days' , 'now' ), 
+        'until' => $faker->dateTimeBetween('now' , '+7 days' ), 
     ];
 });

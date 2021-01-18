@@ -2,27 +2,24 @@
 
 namespace App\Jobs;
 
-use App\Mail\Organization\Unban;
-use App\Organization;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendEmailToUnbannedOrganization implements ShouldQueue
+class AdjustLeaveBalances implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $organization; 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Organization $organization)
+    public function __construct()
     {
-        $this->organization = $organization; 
+        //
     }
 
     /**
@@ -32,9 +29,6 @@ class SendEmailToUnbannedOrganization implements ShouldQueue
      */
     public function handle()
     {
-        $this->organization->users->each(function ($user) {
-            Mail::to($user->email)->
-            queue(new Unban($this->organization));
-        });
+        //
     }
 }

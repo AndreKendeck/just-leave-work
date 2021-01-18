@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Leave extends Model
 {
+    /**
+     * @var array
+     */
     protected $guarded = [];
+
+    /**
+     * @var array
+     */
     protected $appends = [
         'number_of_days_off',
         'approved',
@@ -17,12 +24,20 @@ class Leave extends Model
         'is_active',
     ];
 
+    /**
+     * @var array
+     */
     protected $withCount = [
         'comments',
     ];
 
+    protected $casts = [
+        'team_id' => 'integer'
+    ];
+
     protected $with = [
         'reason',
+        'comments'
     ];
 
     protected $dates = [

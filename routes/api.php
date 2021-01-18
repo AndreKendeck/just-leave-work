@@ -21,6 +21,17 @@ Route::namespace('Api')->group(function () {
         ->name('verify');
 
     Route::middleware(['auth:sanctum', 'logs-out-banned-user'])->group(function () {
-        Route::apiResource('leaves', 'LeaveController');
+        Route::apiResource('leaves', 'LeaveController')->parameters([
+            'leaves' => 'id'
+        ]);
+        Route::apiResource('comments', 'CommentController')
+            ->parameters([
+                'comments' => 'id'
+            ])
+            ->except('index');
+        Route::post('/leaves/approve/{id}', 'LeaveStatusController@approve')
+            ->name('leaves.approve')->middleware(['permission:can-approve-leave']);
+        Route::post('/leave/deny/{id}', 'LeaveStatusController@deny')
+            ->name('leaves.deny')->middleware(['permission:can-deny-leave']);
     });
 });

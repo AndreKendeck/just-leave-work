@@ -37,6 +37,11 @@ class RegisterTest extends TestCase
             'name' => $user->team->name
         ]);
 
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => 'App\User',
+            'tokenable_id' => $user->id
+        ]);
+
         $this->assertDatabaseHas('settings', [
             'team_id' => $user->team->id
         ]);

@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Laratrust\Contracts\Ownable;
 
 class Comment extends Model
 {
     protected $guarded = [];
+
     protected $appends = [
         'was_edited',
         'can_edit',

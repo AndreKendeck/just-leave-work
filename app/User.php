@@ -13,11 +13,14 @@ use Laravel\Sanctum\HasApiTokens;
 // bannable contracts
 use Laravolt\Avatar\Avatar;
 
+use Laratrust\Traits\LaratrustUserTrait;
+
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
     use Notifiable;
     use Bannable;
     use HasApiTokens;
+    use LaratrustUserTrait;
 
 
     public const STORAGE_PATH = '/users/avatars/';
@@ -38,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'team_id' => 'integer'
     ];
 
     public function getHasAvatarAttribute()
@@ -82,6 +86,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     {
         return $this->isBanned();
     }
+
+
 
     public function getIsOnLeaveAttribute()
     {

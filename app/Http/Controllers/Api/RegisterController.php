@@ -20,14 +20,16 @@ class RegisterController extends Controller
         ]);
 
         $team = Team::create([
-            'name' => $request->name
+            'name' => Str::kebab($request->name),
+            'display_name' => $request->name,
+            'description' => $request->name
         ]);
 
         $user->update([
             'team_id' => $team->id
         ]);
 
-        // $user->assignRole('team-admin');
+        $user->attachRole('team-admin',  $team);
 
         $user->update([
             'last_logged_in_at' => now()
