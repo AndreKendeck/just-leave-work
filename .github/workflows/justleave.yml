@@ -12,7 +12,7 @@ jobs:
     - name: Update Composer
       run: composer update --ignore-platform-reqs -vvv
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      run: composer install  -q --no-ansi --ignore-platform-reqs --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
     - name: Generate Application Key
       run: php artisan key:generate
     - name: Run PHPUnit
