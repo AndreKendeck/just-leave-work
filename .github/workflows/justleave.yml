@@ -1,12 +1,13 @@
 name: "JustLeave.work"
+uses: shivammathur/setup-php@v2
+with:
+  php-version: '7.4'
 
 on: [push]
 
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
-    with:
-      php-version: '7.4'
     steps:
     - uses: actions/checkout@v1
     - name: Copy .env
