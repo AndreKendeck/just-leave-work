@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Permission;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -36,6 +37,25 @@ class RegisterTest extends TestCase
         $this->assertDatabaseHas('teams', [
             'name' => $user->team->name
         ]);
+
+        $permissions = Permission::all();
+
+        $permissions->each(function (\App\Permission $permission) use ($user) {
+            $this->assertDatabaseHas('permission_user', [
+                'permission_id' => $permission->id,
+                'user_id' => $user->id,
+                'user_type' => get_class($user),
+                'team_id' => $user->team->id
+            ]);
+        });
+
+        $this->assertDatabaseHas('role_user', [
+            'role_id' => 1,
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'team_id' => $user->team->id
+        ]);
+
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_type' => 'App\User',

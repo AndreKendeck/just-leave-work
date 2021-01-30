@@ -15,8 +15,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->notify(new WelcomeUser("Welcome to justleave.work, 
-        please check out our tutorial video to get started"));
     }
 
     /**

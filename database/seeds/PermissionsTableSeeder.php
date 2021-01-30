@@ -24,7 +24,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name' => 'can-delete-users',
-            'display_name' => 'Can remove users',
+                'display_name' => 'Can remove users',
                 'description' => 'Allow the user to remove users'
             ],
             [

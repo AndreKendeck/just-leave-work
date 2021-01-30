@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Permission;
 use App\Team;
 use App\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,10 @@ class RegisterController extends Controller
         ]);
 
         $user->attachRole('team-admin',  $team);
+
+        $permissions = Permission::all();
+
+        $permissions->each(fn (\App\Permission $permission)  => $user->attachPermission($permission, $team));
 
         $user->update([
             'last_logged_in_at' => now()

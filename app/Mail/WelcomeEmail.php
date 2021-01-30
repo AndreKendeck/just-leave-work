@@ -1,26 +1,30 @@
 <?php
 
-namespace App\Mail\User;
+namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\User;
 
-class Welcome extends Mailable implements ShouldQueue
+class WelcomeEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected string $message;
+    protected User $user;
+
+    protected ?string $password;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(string $message)
+    public function __construct(User $user, string $password = null)
     {
-        $this->message = $message;
+        $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -31,7 +35,8 @@ class Welcome extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->markdown('emails.user.welcome', [
-            'message' => $this->message
+            'user' => $this->user,
+            'password' => $this->password
         ]);
     }
 }

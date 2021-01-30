@@ -2,18 +2,22 @@
 
 namespace App;
 
+use App\Mail\VerificationEmail;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 // bannable contracts
 use Laravolt\Avatar\Avatar;
 
 use Laratrust\Traits\LaratrustUserTrait;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
@@ -21,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     use Bannable;
     use HasApiTokens;
     use LaratrustUserTrait;
+    use SoftDeletes;
 
 
     public const STORAGE_PATH = '/users/avatars/';
@@ -98,5 +103,41 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             );
         }
         return false;
+    }
+
+    public function emailCode()
+    {
+        return  $this->hasOne('App\EmailCode');
+    }
+
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        if ($this->hasVerifiedEmail()) {
+            return false;
+        }
+
+        $code = Str::random(4);
+
+        if (!$this->emailCode()->exists()) {
+            EmailCode::create([
+                'user_id' => $this->id,
+                'code' => bcrypt($code),
+                'expires_at' => now()->addMinutes(5)
+            ]);
+        }
+
+        $this->emailCode->update([
+            'code' => bcrypt($code),
+            'expires_at' => now()->addMinutes(5)
+        ]);
+
+        Mail::to($this->email)
+            ->queue(new VerificationEmail($code));
     }
 }

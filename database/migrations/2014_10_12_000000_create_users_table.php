@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_logged_in_at')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamp('banned_at')->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

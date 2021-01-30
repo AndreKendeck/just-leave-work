@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Mail\WelcomeEmail;
+use App\User;
 use Illuminate\Http\Request;
+use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -14,18 +20,57 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('team_id', auth()->user()->team->id)->latest()->paginate(10);
+        return response()
+            ->json($users);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRequest $request
+     * @return void
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $passwordGenerator = new ComputerPasswordGenerator();
+        $passwordGenerator->setUppercase()
+            ->setLowercase()
+            ->setNumbers()
+            ->setSymbols()
+            ->setLength(10);
+
+        $password = $passwordGenerator->generatePassword();
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($password),
+            'team_id' => auth()->user()->team_id,
+            'leave_balance' => $request->leave_balance
+        ]);
+
+        if ($request->has('is_admin')) {
+            $user->attachRole('team-admin', $user->team);
+        }
+
+        if ($request->has('permissions')) {
+            foreach ($request->permissions as $permission) {
+                try {
+                    $user->attachPermission($permission, $user->team);
+                } catch (\Exception $e) {
+                    continue;
+                }
+            }
+        }
+
+        Mail::to($user->email)->send(new WelcomeEmail($user, $password));
+
+        $user->sendEmailVerificationNotification();
+
+        return response()
+            ->json([
+                'message' => 'User created successfully',
+                'user' => $user
+            ], 201);
     }
 
     /**
@@ -36,7 +81,17 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if (auth()->user()->team_id !== $user->team_id) {
+            return response()
+                ->json([
+                    'message' => 'You cannot view this user'
+                ], 403);
+        }
+
+        return response()
+            ->json($user);
     }
 
     /**
@@ -46,9 +101,33 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        if ($user->team_id !== auth()->user()->team_id) {
+            return response()
+                ->json([
+                    'message' => "You cannot update this user"
+                ], 403);
+        }
+
+        if ($request->has('is_admin')) {
+            $user->attachRole('team-admin', $user->team);
+        } else {
+            $user->detachRole('team-admin', $user->team);
+        }
+
+        if ($request->filled('permissions')) {
+            try {
+                $user->syncPermissions($request->permissions);
+            } catch (\Exception $e) { }
+        }
+
+        return response()
+            ->json([
+                'message' => "User roles & permissions updated"
+            ]);
     }
 
     /**
@@ -59,6 +138,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if ($user->team_id !== auth()->user()->team_id) {
+            return response()
+                ->json([
+                    'message' => "You delete this user"
+                ], 403);
+        }
+
+        $user->destroy();
+
+        return response()
+            ->json([
+                'message' => "{$user->name} has been deleted and removed from your team"
+            ]);
     }
 }
