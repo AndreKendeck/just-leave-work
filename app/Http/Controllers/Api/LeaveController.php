@@ -40,9 +40,22 @@ class LeaveController extends Controller
         if ($invalidDate) {
             return response()->json([
                 'errors' => [
-                    'from' => ['Your leave dates is incorrect']
-                ]
+                    'from' => ['Your leave dates is incorrect'],
+                ],
             ], 422);
+        }
+
+        $teamSettings = auth()->user()->team->settings;
+
+        if ($teamSettings->maximum_leave_days !== 0) {
+
+            $maximumLeaveDaysReached = ($from->diffInDays($to) > $teamSettings->maximum_leave_days);
+
+            return response()
+                ->json([
+                    'message' => "Your team does not allow leave for more than {$teamSettings->maximum_leave_days}",
+                ], 403);
+
         }
 
         $leave = Leave::create([
@@ -57,7 +70,7 @@ class LeaveController extends Controller
         return response()
             ->json([
                 'message' => "Your leave request has been created successfully",
-                'leave' => $leave
+                'leave' => $leave,
             ], 201);
     }
 
@@ -75,13 +88,13 @@ class LeaveController extends Controller
 
             return response()
                 ->json([
-                    'message' => "You are not allowed to view this leave request"
+                    'message' => "You are not allowed to view this leave request",
                 ], 403);
         }
 
         return response()
             ->json([
-                'leave' => $leave
+                'leave' => $leave,
             ]);
     }
 
@@ -104,38 +117,37 @@ class LeaveController extends Controller
         if ($invalidDate) {
             return response()->json([
                 'errors' => [
-                    'from' => ['Your leave dates is incorrect']
-                ]
+                    'from' => ['Your leave dates is incorrect'],
+                ],
             ], 422);
         }
-
 
         if (auth()->user()->team_id !== $leave->team_id) {
 
             return response()
                 ->json([
-                    'message' => "You are not allowed to update this leave request"
+                    'message' => "You are not allowed to update this leave request",
                 ], 403);
         }
 
         if (!auth()->user()->owns($leave)) {
             return response()
                 ->json([
-                    'message' => 'You are not allowed to update this leave'
+                    'message' => 'You are not allowed to update this leave',
                 ], 403);
         }
 
         if ($leave->approved) {
             return response()
                 ->json([
-                    'message' => "Leave has been approved no changes are allowed"
+                    'message' => "Leave has been approved no changes are allowed",
                 ], 403);
         }
 
         if ($leave->denied) {
             return response()
                 ->json([
-                    'message' => "Leave has been denied no chanages are allowed"
+                    'message' => "Leave has been denied no chanages are allowed",
                 ], 403);
         }
 
@@ -149,7 +161,7 @@ class LeaveController extends Controller
         return response()
             ->json([
                 'message' => "Leave has been updated",
-                'leave' => $leave
+                'leave' => $leave,
             ]);
     }
 
@@ -163,33 +175,32 @@ class LeaveController extends Controller
     {
         $leave = Leave::findOrFail($id);
 
-
         if (auth()->user()->team_id !== $leave->team_id) {
 
             return response()
                 ->json([
-                    'message' => "You are not allowed to delete this leave request"
+                    'message' => "You are not allowed to delete this leave request",
                 ], 403);
         }
 
         if (!auth()->user()->owns($leave)) {
             return response()
                 ->json([
-                    'message' => 'You are not allowed to delete this leave request'
+                    'message' => 'You are not allowed to delete this leave request',
                 ], 403);
         }
 
         if ($leave->approved) {
             return response()
                 ->json([
-                    'message' => "Leave has been approved no changes are allowed"
+                    'message' => "Leave has been approved no changes are allowed",
                 ], 403);
         }
 
         if ($leave->denied) {
             return response()
                 ->json([
-                    'message' => "Leave has been denied no chanages are allowed"
+                    'message' => "Leave has been denied no chanages are allowed",
                 ], 403);
         }
 
@@ -197,7 +208,7 @@ class LeaveController extends Controller
 
         return response()
             ->json([
-                'message' => 'Leave deleted'
+                'message' => 'Leave deleted',
             ]);
     }
 }

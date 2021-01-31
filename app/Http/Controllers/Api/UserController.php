@@ -62,7 +62,7 @@ class UserController extends Controller
             }
         }
 
-        Mail::to($user->email)->send(new WelcomeEmail($user, $password));
+        Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
 
         $user->sendEmailVerificationNotification();
 
@@ -128,6 +128,7 @@ class UserController extends Controller
             ->json([
                 'message' => "User roles & permissions updated"
             ]);
+            
     }
 
     /**
@@ -147,7 +148,14 @@ class UserController extends Controller
                 ], 403);
         }
 
-        $user->destroy();
+        if (!auth()->user()->hasPermission('can-delete-users')) {
+            return response()
+            ->json([
+                'message' => "You are not allowed to delete users"
+            ], 403);
+        }
+
+        $user->delete(); 
 
         return response()
             ->json([

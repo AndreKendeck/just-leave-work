@@ -10,6 +10,12 @@ class VerifyEmailController extends Controller
 {
     public function verify(Request $request)
     {
+        if (auth()->user()->hasVerifiedEmail()) {
+            return response()
+                ->json([
+                    'message' => "You email address has already been verified"
+                ], 403);
+        }
         $request->validate([
             'code' => ['required', 'min:4', 'max:4', 'string']
         ]);
@@ -48,6 +54,14 @@ class VerifyEmailController extends Controller
 
     public function resend()
     {
+
+        if (auth()->user()->hasVerifiedEmail()) {
+            return response()
+                ->json([
+                    'message' => "You email address has already been verified"
+                ], 403);
+        }
+
         auth()->user()->sendEmailVerificationNotification();
 
         return response()

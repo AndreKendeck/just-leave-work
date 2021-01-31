@@ -110,4 +110,19 @@ class UserTest extends TestCase
 
         $this->assertTrue($userToUpdate->hasRole('team-admin', $userToUpdate->team->id));
     }
+
+    /** @test **/
+    public function a_user_can_delete_another_user_with_the_right_permissions()
+    {
+        $user = factory('App\User')->create();
+        $user->attachPermission('can-delete-users');
+        $userToDelete = factory('App\User')->create(['team_id' => $user->team_id]);
+        $this->actingAs($user)
+            ->delete(route('users.destroy', $userToDelete->id))
+            ->assertOk()
+            ->assertJsonStructure(['message']);
+        $this->assertSoftDeleted('users', [
+            'id' => $userToDelete->id
+        ]);
+    }
 }

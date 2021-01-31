@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -31,7 +29,7 @@ class LeaveTest extends TestCase
                 'reason' => $leave->reason->id,
                 'description' => $leave->description,
                 'from' => $leave->from->format('Y-m-d'),
-                'until' => $leave->until->format('Y-m-d')
+                'until' => $leave->until->format('Y-m-d'),
             ])->assertSessionHasNoErrors()
             ->assertCreated()
             ->assertJsonStructure(['message', 'leave']);
@@ -48,7 +46,7 @@ class LeaveTest extends TestCase
     {
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
         $this->actingAs($user)
             ->get(route('leaves.show', $leave->id))
@@ -73,7 +71,7 @@ class LeaveTest extends TestCase
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team_id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $updates = [
@@ -90,7 +88,7 @@ class LeaveTest extends TestCase
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
             'description' => $updates['description'],
-            'reason_id' => $updates['reason']
+            'reason_id' => $updates['reason'],
         ]);
     }
 
@@ -117,7 +115,7 @@ class LeaveTest extends TestCase
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team_id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         $leave->approve();
         $updates = [
@@ -138,7 +136,7 @@ class LeaveTest extends TestCase
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team_id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         $leave->deny();
         $updates = [
@@ -159,7 +157,7 @@ class LeaveTest extends TestCase
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team_id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         $this->actingAs($user)
             ->delete(route('leaves.destroy', $leave->id))
@@ -167,7 +165,7 @@ class LeaveTest extends TestCase
             ->assertJsonStructure(['message']);
 
         $this->assertDatabaseMissing('leaves', [
-            'id' => $leave->id
+            'id' => $leave->id,
         ]);
     }
 
@@ -181,7 +179,7 @@ class LeaveTest extends TestCase
             ->assertForbidden()
             ->assertJsonStructure(['message']);
         $this->assertDatabaseHas('leaves', [
-            'id' => $leave->id
+            'id' => $leave->id,
         ]);
     }
 
@@ -211,7 +209,7 @@ class LeaveTest extends TestCase
         $user = factory('App\User')->create();
         $user->attachPermission('can-approve-leave');
         $leave = factory('App\Leave')->create([
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
         $this->actingAs($user)
             ->post(route('leaves.approve', $leave->id))
@@ -219,7 +217,7 @@ class LeaveTest extends TestCase
 
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
-            'approved_at' => now()
+            'approved_at' => now(),
         ]);
     }
 
@@ -230,11 +228,10 @@ class LeaveTest extends TestCase
 
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $leave->team->settings->update(['can_approve_own_leave' => false]);
-
 
         $user->attachPermission('can-approve-leave');
 
@@ -249,7 +246,7 @@ class LeaveTest extends TestCase
     {
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
         $user->attachPermission('can-deny-leave');
         $this->actingAs($user)
@@ -257,7 +254,7 @@ class LeaveTest extends TestCase
             ->assertOk();
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
-            'denied_at' => now()
+            'denied_at' => now(),
         ]);
     }
 
@@ -277,5 +274,31 @@ class LeaveTest extends TestCase
         $this->actingAs($leave->user)
             ->post(route('leaves.deny', $leave->id))
             ->assertForbidden();
+    }
+
+    /** @test **/
+    public function a_user_cannot_request_leave_for_more_than_the_days_set_by_the_team_admin()
+    {
+        $user = factory('App\User')->create();
+
+        $user->team->settings->update([
+            'maximum_leave_days' => 5,
+        ]);
+
+        $leave = factory('App\Leave')->make([
+            'team_id' => $user->team->id,
+            'user_id' => $user->id,
+            'from' => today(),
+            'until' => today()->addDays(10),
+        ]);
+
+        $this->actingAs($user)
+            ->post(route('leaves.store'), [
+                'reason' => $leave->reason->id,
+                'description' => $leave->description,
+                'from' => $leave->from->format('Y-m-d'),
+                'until' => $leave->until->format('Y-m-d'),
+            ])->assertForbidden()
+            ->assertJsonStructure(['message']);
     }
 }

@@ -2,29 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Leave;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class LeaveApproved extends Notification
+class CannotImportUser extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $message;
-
-    public $leave;
+    protected string $message; 
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $message, Leave $leave)
+    public function __construct(string $message)
     {
-        $this->message = $message;
-        $this->leave = $leave;
+        $this->message = $message; 
     }
 
     /**
@@ -35,7 +31,7 @@ class LeaveApproved extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['database'];
     }
 
     /**
@@ -46,7 +42,7 @@ class LeaveApproved extends Notification
      */
     public function toMail($notifiable)
     {
-        
+        return (new MailMessage); 
     }
 
     /**
@@ -58,9 +54,7 @@ class LeaveApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => "Your leave request for 
-            {$this->leave->from->toFormattedDateString()} until 
-            {$this->leave->until->toFormattedDateString()} has been approved",
+            'text' => $this->message
         ];
     }
 }

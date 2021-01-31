@@ -28,7 +28,7 @@ class EmailCode extends Model
     /**
      * @return boolean|null
      */
-    public function isExpired(): ?bool
+    public function hasExpired(): ?bool
     {
         return now() > $this->expires_at;
     }

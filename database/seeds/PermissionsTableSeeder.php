@@ -31,6 +31,11 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'can-add-users',
                 'display_name' => 'Can add users',
                 'description' => 'Allow the user to add users'
+            ], 
+            [
+                'name' => 'can-adjust-leave', 
+                'display_name' => 'Can add/remove leave balances', 
+                'description' => 'Can adjust leave balances'
             ]
         ]);
         $permissions->each(fn (array $permission) => \App\Permission::firstOrCreate($permission));

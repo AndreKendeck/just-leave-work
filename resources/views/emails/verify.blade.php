@@ -1,10 +1,10 @@
 @component('mail::message')
 # Email Verification Code
 
-The body of your message.
+Enter the code below.
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::panel')
+    {{ $code }}
 @endcomponent
 
 Thanks,<br>

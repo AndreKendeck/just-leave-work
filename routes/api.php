@@ -15,7 +15,7 @@
 
 Route::namespace('Api')->group(function () {
     Route::post('/login', 'LoginController@login')->name('login')
-    ->middleware(['throttle:10,60']);
+        ->middleware(['throttle:10,60']);
     Route::post('/register', 'RegisterController@register')->name('register');
 
     Route::post('/verify-email', 'VerifyEmailController@verify')->name('verify.email');
@@ -35,6 +35,16 @@ Route::namespace('Api')->group(function () {
         Route::apiResource('users', 'UserController')->parameters([
             'users' => 'id'
         ]);
+
+        Route::post('/users/import', 'ImporUserController@import')
+        ->name('users.import')->middleware(['permission:can-add-users']);
+
+        Route::post('/leaves/add/' , 'LeaveBalanceController@add')
+        ->name('leaves.add')->middleware(['permission:can-adjust-leave']); 
+        
+        Route::post('/leaves/deduct' , 'LeaveBalanceController@remove' )
+        ->name('leaves.deduct')->middleware(['permission:can-adjust-leave']);
+     
 
         Route::post('/leaves/approve/{id}', 'LeaveStatusController@approve')
             ->name('leaves.approve')->middleware(['permission:can-approve-leave']);
