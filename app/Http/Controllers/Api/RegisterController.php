@@ -40,6 +40,8 @@ class RegisterController extends Controller
             'last_logged_in_at' => now()
         ]);
 
+        $user->sendEmailVerificationNotification(); 
+
         $token = $user->createToken(Str::random())->plainTextToken;
 
         return response()

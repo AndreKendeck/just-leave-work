@@ -61,9 +61,7 @@ class CommentController extends Controller
         }
 
         return response()
-            ->json([
-                'comment' => $comment
-            ]);
+            ->json($comment);
     }
 
     /**

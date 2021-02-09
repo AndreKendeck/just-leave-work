@@ -32,7 +32,9 @@ class Leave extends Model
     ];
 
     protected $casts = [
-        'team_id' => 'integer'
+        'team_id' => 'integer', 
+        'from' => 'datetime:Y-m-d',
+        'until' => 'datetime:Y-m-d'
     ];
 
     protected $with = [

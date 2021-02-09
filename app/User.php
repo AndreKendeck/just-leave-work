@@ -12,12 +12,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Sanctum\HasApiTokens;
-// bannable contracts
-use Laravolt\Avatar\Avatar;
-
-use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Support\Str;
+// bannable contracts
+use Laratrust\Traits\LaratrustUserTrait;
+use Laravel\Sanctum\HasApiTokens;
+use Laravolt\Avatar\Avatar;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
@@ -26,7 +25,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     use HasApiTokens;
     use LaratrustUserTrait;
     use SoftDeletes;
-
 
     public const STORAGE_PATH = '/users/avatars/';
 
@@ -44,9 +42,14 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'password', 'remember_token',
     ];
 
+    protected $with = [
+        'roles',
+        'permissions',
+    ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'team_id' => 'integer'
+        'team_id' => 'integer',
     ];
 
     public function getHasAvatarAttribute()
@@ -55,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     }
     public function getTotalDaysOnLeaveAttribute()
     {
-        return $this->leaves->whereNotNull('approved_at')->sum('number_of_days_off');
+        return $this->leaves()->whereNotNull('approved_at')->get()->sum('number_of_days_off');
     }
 
     public function comments()
@@ -92,14 +95,12 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         return $this->isBanned();
     }
 
-
-
     public function getIsOnLeaveAttribute()
     {
-        if (($this->leaves->whereNotNull('approved_at')->count() > 0)) {
+        if (($this->leaves()->whereNotNull('approved_at')->count() > 0)) {
             return today()->isBetween(
-                $this->leaves->whereNotNull('approved_at')->first()->from,
-                $this->leaves->whereNotNull('approved_at')->first()->until
+                $this->leaves()->whereNotNull('approved_at')->first()->from,
+                $this->leaves()->whereNotNull('approved_at')->first()->until
             );
         }
         return false;
@@ -107,9 +108,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public function emailCode()
     {
-        return  $this->hasOne('App\EmailCode');
+        return $this->hasOne('App\EmailCode');
     }
-
 
     /**
      * Send the email verification notification.
@@ -128,16 +128,21 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             EmailCode::create([
                 'user_id' => $this->id,
                 'code' => bcrypt($code),
-                'expires_at' => now()->addMinutes(5)
+                'expires_at' => now()->addMinutes(5),
             ]);
         }
 
         $this->emailCode->update([
             'code' => bcrypt($code),
-            'expires_at' => now()->addMinutes(5)
+            'expires_at' => now()->addMinutes(5),
         ]);
 
         Mail::to($this->email)
             ->queue(new VerificationEmail($code));
+    }
+
+    public function hasVerifiedEmail()
+    {
+        return !is_null($this->email_verified_at);
     }
 }

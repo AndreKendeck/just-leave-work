@@ -9,49 +9,50 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
-
-
-Route::namespace('Api')->group(function () {
+Route::namespace ('Api')->group(function () {
     Route::post('/login', 'LoginController@login')->name('login')
-        ->middleware(['throttle:10,60']);
-    Route::post('/register', 'RegisterController@register')->name('register');
+        ->middleware(['throttle:10,60', 'guest']);
+    Route::post('/register', 'RegisterController@register')->name('register')
+        ->middleware(['guest']);
 
-    Route::post('/verify-email', 'VerifyEmailController@verify')->name('verify.email');
+    Route::post('/verify-email', 'VerifyEmailController@verify')
+        ->name('verify.email')->middleware(['auth:sanctum']);
     Route::get('/resend-code', 'VerifyEmailController@resend')->name('verify.resend')
-        ->middleware(['throttle:4,60']);
+        ->middleware(['throttle:4,60', 'auth:sanctum']);
 
     Route::middleware(['auth:sanctum', 'logs-out-banned-user', 'verified'])->group(function () {
         Route::apiResource('leaves', 'LeaveController')->parameters([
-            'leaves' => 'id'
+            'leaves' => 'id',
         ]);
         Route::apiResource('comments', 'CommentController')
             ->parameters([
-                'comments' => 'id'
+                'comments' => 'id',
             ])
             ->except('index');
 
         Route::apiResource('users', 'UserController')->parameters([
-            'users' => 'id'
+            'users' => 'id',
         ]);
 
-        Route::post('/users/import', 'ImporUserController@import')
-        ->name('users.import')->middleware(['permission:can-add-users']);
+        Route::get('/profile', 'ProfileController@index')->name('profile.index');
 
-        Route::post('/leaves/add/' , 'LeaveBalanceController@add')
-        ->name('leaves.add')->middleware(['permission:can-adjust-leave']); 
-        
-        Route::post('/leaves/deduct' , 'LeaveBalanceController@remove' )
-        ->name('leaves.deduct')->middleware(['permission:can-adjust-leave']);
-     
+        Route::post('/users/import', 'ImporUserController@import')
+            ->name('users.import')->middleware(['permission:can-add-users']);
+
+        Route::post('/leaves/add/', 'LeaveBalanceController@add')
+            ->name('leaves.add');
+
+        Route::post('/leaves/deduct', 'LeaveBalanceController@remove')
+            ->name('leaves.deduct');
 
         Route::post('/leaves/approve/{id}', 'LeaveStatusController@approve')
-            ->name('leaves.approve')->middleware(['permission:can-approve-leave']);
-        Route::post('/leave/deny/{id}', 'LeaveStatusController@deny')
-            ->name('leaves.deny')->middleware(['permission:can-deny-leave']);
+            ->name('leaves.approve');
+        Route::post('/leaves/deny/{id}', 'LeaveStatusController@deny')
+            ->name('leaves.deny');
         Route::get('/settings', 'SettingController@index')->name('settings');
-        Route::post('/settings/update', 'SettingController@update')
+        Route::post('/settings', 'SettingController@update')
             ->name('settings.update');
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update')

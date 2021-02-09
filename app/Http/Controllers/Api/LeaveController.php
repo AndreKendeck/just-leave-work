@@ -67,6 +67,26 @@ class LeaveController extends Controller
             'until' => $to,
         ]);
 
+        /**
+         * Automatic leave approval
+         */
+
+        $teamAllowsForAutomaticApprovals = $teamSettings->automatic_leave_approval;
+
+        if ($teamAllowsForAutomaticApprovals) {
+            // we want to check if the user has a positive balance first
+            $willResultInANegativeBalance = $from->diffInDays($to) > auth()->user()->leave_balance;
+
+            if (!$willResultInANegativeBalance) {
+                $leave->approve();
+                return response()->json([
+                    'message' => "You leave request has been created & approved",
+                    'leave' => $leave,
+                ], 201);
+            }
+
+        }
+
         return response()
             ->json([
                 'message' => "Your leave request has been created successfully",
@@ -82,7 +102,7 @@ class LeaveController extends Controller
      */
     public function show($id)
     {
-        $leave = Leave::findOrFail($id);
+        $leave = Leave::with(['comments'])->findOrFail($id);
 
         if (auth()->user()->team_id !== $leave->team_id) {
 
@@ -93,9 +113,7 @@ class LeaveController extends Controller
         }
 
         return response()
-            ->json([
-                'leave' => $leave,
-            ]);
+            ->json($leave);
     }
 
     /**

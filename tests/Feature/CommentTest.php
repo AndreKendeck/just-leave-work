@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -20,7 +18,7 @@ class CommentTest extends TestCase
         $response = $this->actingAs($user)
             ->post(route('comments.store'), [
                 'leave_id' => $leave->id,
-                'text' => $commentText
+                'text' => $commentText,
             ])->assertCreated()
             ->assertJsonStructure(['message', 'comment']);
         ['comment' => $comment] = $response->json();
@@ -29,7 +27,7 @@ class CommentTest extends TestCase
             'id' => $comment['id'],
             'user_id' => $user->id,
             'leave_id' => $leave->id,
-            'text' => $commentText
+            'text' => $commentText,
         ]);
     }
 
@@ -43,8 +41,7 @@ class CommentTest extends TestCase
         $this->actingAs($user)
             ->get(route('comments.show', $comment->id))
             ->assertOk()
-            ->assertSessionHasNoErrors()
-            ->assertJsonStructure(['comment']);
+            ->assertSessionHasNoErrors();
     }
 
     /** @test **/
@@ -62,29 +59,29 @@ class CommentTest extends TestCase
     {
         $comment = factory('App\Comment')->create();
         $text = $this->faker->sentences(3, true);
-        $response =  $this->actingAs($comment->user)
+        $response = $this->actingAs($comment->user)
             ->put(route('comments.update', $comment->id), [
-                'text' => $text
+                'text' => $text,
             ])->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJsonStructure([
-                'message', 'comment'
+                'message', 'comment',
             ]);
         $this->assertDatabaseHas('comments', [
             'id' => $comment->id,
-            'text' => $text
+            'text' => $text,
         ]);
     }
     /** @test **/
     public function a_user_cannot_update_a_comment_that_has_been_created_more_than_five_minnutes_ago()
     {
         $comment = factory('App\Comment')->create([
-            'created_at' => now()->subMinutes(10)
+            'created_at' => now()->subMinutes(10),
         ]);
         $text = $this->faker->sentences(3, true);
         $this->actingAs($comment->user)
             ->put(route('comments.update', $comment->id), [
-                'text' => $text
+                'text' => $text,
             ])->assertForbidden()
             ->assertJsonStructure(['message']);
     }
@@ -98,7 +95,7 @@ class CommentTest extends TestCase
             ->assertOk()
             ->assertJsonStructure(['message']);
         $this->assertDatabaseMissing('comments', [
-            'id' => $comment->id
+            'id' => $comment->id,
         ]);
     }
 
@@ -113,7 +110,7 @@ class CommentTest extends TestCase
             ->assertJsonStructure(['message']);
 
         $this->assertDatabaseHas('comments', [
-            'id' => $comment->id
+            'id' => $comment->id,
         ]);
     }
 
@@ -121,7 +118,7 @@ class CommentTest extends TestCase
     public function a_user_cannot_delete_a_comment_that_lapsed_5_minutes()
     {
         $comment = factory('App\Comment')->create([
-            'created_at' => now()->addMinutes(10)
+            'created_at' => now()->addMinutes(10),
         ]);
         $this->actingAs($comment->user)
             ->delete(route('comments.destroy', $comment->id))

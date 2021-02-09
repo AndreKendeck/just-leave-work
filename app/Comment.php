@@ -16,6 +16,7 @@ class Comment extends Model
         'is_deletable',
         'is_editable',
     ];
+
     protected $with = [
         'user'
     ];

@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('team-admin');
+        return auth()->user()->hasRole('team-admin', auth()->user()->team);
     }
 
     /**
@@ -29,7 +29,7 @@ class UpdateRequest extends FormRequest
             'maximum_leave_days' => ['required', 'integer', 'min:'],
             'maximum_leave_balance' => ['required', 'integer', 'min:0'],
             'days_until_balance_added' => ['required', 'integer', 'min:0'],
-            'can_approve_own_leave' => ['required']
+            'can_approve_own_leave' => ['required'],
         ];
     }
 

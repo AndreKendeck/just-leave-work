@@ -50,8 +50,7 @@ class LeaveTest extends TestCase
         ]);
         $this->actingAs($user)
             ->get(route('leaves.show', $leave->id))
-            ->assertOk()
-            ->assertJsonStructure(['leave']);
+            ->assertOk();
     }
 
     /** @test **/
@@ -213,7 +212,8 @@ class LeaveTest extends TestCase
         ]);
         $this->actingAs($user)
             ->post(route('leaves.approve', $leave->id))
-            ->assertOk();
+            ->assertOk()
+            ->assertJsonStructure(['message']);
 
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
