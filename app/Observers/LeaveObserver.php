@@ -8,24 +8,6 @@ use App\Notifications\LeaveApproved;
 class LeaveObserver
 {
     /**
-     * Handle the leave "created" event.
-     *
-     * @param  \App\Leave  $leave
-     * @return void
-     */
-    public function created(Leave $leave)
-    {
-        $teamSettings = $leave->team->settings;
-
-        if ($leave->user->leave_balance > 0 && $teamSettings->automatic_leave_approval) {
-            $leave->approve();
-            $user = $leave->user;
-            $user->decrement('leave_balance');
-        }
-    }
-
-
-    /**
      * @param Leave $leave
      * @return void
      */

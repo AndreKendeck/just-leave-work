@@ -51,10 +51,12 @@ class LeaveController extends Controller
 
             $maximumLeaveDaysReached = ($from->diffInDays($to) > $teamSettings->maximum_leave_days);
 
-            return response()
-                ->json([
-                    'message' => "Your team does not allow leave for more than {$teamSettings->maximum_leave_days}",
-                ], 403);
+            if ($maximumLeaveDaysReached) {
+                return response()
+                    ->json([
+                        'message' => "Your team does not allow leave for more than {$teamSettings->maximum_leave_days} days",
+                    ], 403);
+            }
 
         }
 

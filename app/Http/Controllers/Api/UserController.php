@@ -64,8 +64,6 @@ class UserController extends Controller
 
         Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
 
-        $user->sendEmailVerificationNotification();
-
         return response()
             ->json([
                 'message' => 'User created successfully',

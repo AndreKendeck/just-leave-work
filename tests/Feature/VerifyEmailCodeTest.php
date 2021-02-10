@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Mail\VerificationEmail;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
-use Tests\TestCase;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class VerifyEmailCodeTest extends TestCase
 {
@@ -16,7 +14,7 @@ class VerifyEmailCodeTest extends TestCase
     {
         Mail::fake();
         $user = factory('App\User')->create([
-            'email_verified_at' => null
+            'email_verified_at' => null,
         ]);
         $this->actingAs($user)
             ->get(route('verify.resend'))
@@ -30,13 +28,13 @@ class VerifyEmailCodeTest extends TestCase
     {
 
         $user = factory('App\User')->create([
-            'email_verified_at' => null
+            'email_verified_at' => null,
         ]);
-        $code = Str::random(4);
+        $code = strtoupper(Str::random(rand(4, 6)));
 
         $user->emailCode()->create([
             'code' => bcrypt($code),
-            'expires_at' => now()->addMinutes(5)
+            'expires_at' => now()->addMinutes(5),
         ]);
         $this->actingAs($user)
             ->post(route('verify.email'), ['code' => $code])

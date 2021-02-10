@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Notifications\WelcomeUser;
 use App\User;
 
 class UserObserver
@@ -15,6 +14,7 @@ class UserObserver
      */
     public function created(User $user)
     {
+        $user->sendEmailVerificationNotification();
     }
 
     /**
