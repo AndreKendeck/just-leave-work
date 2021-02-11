@@ -11,7 +11,9 @@
 |
  */
 
-Route::namespace ('Api')->group(function () {
+
+Route::namespace('Api')->group(function () {
+
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
     Route::post('/register', 'RegisterController@register')->name('register')
@@ -39,7 +41,7 @@ Route::namespace ('Api')->group(function () {
         Route::get('/profile', 'ProfileController@index')->name('profile.index');
 
         Route::post('/users/import', 'ImporUserController@import')
-            ->name('users.import')->middleware(['permission:can-add-users']);
+            ->name('users.import'); 
 
         Route::post('/leaves/add/', 'LeaveBalanceController@add')
             ->name('leaves.add');
@@ -51,11 +53,12 @@ Route::namespace ('Api')->group(function () {
             ->name('leaves.approve');
         Route::post('/leaves/deny/{id}', 'LeaveStatusController@deny')
             ->name('leaves.deny');
+
         Route::get('/settings', 'SettingController@index')->name('settings');
         Route::post('/settings', 'SettingController@update')
             ->name('settings.update');
+
         Route::get('/team', 'TeamController@index')->name('team');
-        Route::post('/team/update', 'TeamController@update')->name('team.update')
-            ->middleware(['role:team-admin']);
+        Route::post('/team/update', 'TeamController@update')->name('team.update'); 
     });
 });

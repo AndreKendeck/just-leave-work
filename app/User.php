@@ -122,7 +122,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             return false;
         }
 
-        $code = strtoupper(Str::random(rand(4, 8)));
+        $code = strtoupper(Str::random(4));
 
         if (!$this->emailCode()->exists()) {
             EmailCode::create([
@@ -139,6 +139,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
         Mail::to($this->email)
             ->queue(new VerificationEmail($code));
+            
+        return $code;
     }
 
     public function hasVerifiedEmail()

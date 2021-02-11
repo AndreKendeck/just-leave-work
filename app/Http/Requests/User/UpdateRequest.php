@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('team-admin');
+        return auth()->user()->hasRole('team-admin', auth()->user()->team);
     }
 
     /**

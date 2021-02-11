@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Team::class, function (Faker $faker) {
     return [
-        'name' => Str::kebab($faker->company),
+        'name' => Str::kebab(Str::random()),
         'display_name' => $faker->company,
         'description' => $faker->words(5, true)
     ];

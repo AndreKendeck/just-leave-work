@@ -206,7 +206,7 @@ class LeaveTest extends TestCase
     public function a_user_can_approve_leave_with_ther_right_permission()
     {
         $user = factory('App\User')->create();
-        $user->attachPermission('can-approve-leave');
+        $user->attachPermission('can-approve-leave', $user->team);
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
         ]);
@@ -248,7 +248,7 @@ class LeaveTest extends TestCase
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
         ]);
-        $user->attachPermission('can-deny-leave');
+        $user->attachPermission('can-deny-leave' , $user->team);
         $this->actingAs($user)
             ->post(route('leaves.deny', $leave->id))
             ->assertOk();

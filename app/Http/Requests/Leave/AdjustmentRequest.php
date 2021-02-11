@@ -15,7 +15,7 @@ class AdjustmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasPermission('can-adjust-leave'); 
+        return auth()->user()->hasPermission('can-adjust-leave', auth()->user()->team);
     }
 
     /**
@@ -26,9 +26,9 @@ class AdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'user' => ['required' , 'numeric' , Rule::exists('users' , 'id')
-            ->where('team_id' , auth()->user()->team_id ) ], 
-            'amount' => ['required' , 'numeric' , 'min:0'  ]
+            'user' => ['required', 'numeric', Rule::exists('users', 'id')
+                ->where('team_id', auth()->user()->team_id)],
+            'amount' => ['required', 'numeric', 'min:0']
         ];
     }
 }

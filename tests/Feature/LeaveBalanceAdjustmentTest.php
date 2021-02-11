@@ -11,7 +11,7 @@ class LeaveBalanceAdjustmentTest extends TestCase
     {
         $admin = factory('App\User')->create();
 
-        $admin->attachPermission('can-adjust-leave');
+        $admin->attachPermission('can-adjust-leave', $admin->team);
 
         $user = factory('App\User')->create([
             'team_id' => $admin->team_id,
@@ -38,7 +38,7 @@ class LeaveBalanceAdjustmentTest extends TestCase
     {
         $admin = factory('App\User')->create();
 
-        $admin->attachPermission('can-adjust-leave');
+        $admin->attachPermission('can-adjust-leave', $admin);
 
         $user = factory('App\User')->create([
             'team_id' => $admin->team_id,
@@ -63,7 +63,7 @@ class LeaveBalanceAdjustmentTest extends TestCase
     {
         $admin = factory('App\User')->create();
 
-        $admin->attachPermission('can-adjust-leave');
+        $admin->attachPermission('can-adjust-leave', $admin->team);
 
         $user = factory('App\User')->create([
             'team_id' => $admin->team_id,

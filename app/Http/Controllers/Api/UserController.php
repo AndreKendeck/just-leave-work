@@ -126,7 +126,6 @@ class UserController extends Controller
             ->json([
                 'message' => "User roles & permissions updated"
             ]);
-            
     }
 
     /**
@@ -146,14 +145,14 @@ class UserController extends Controller
                 ], 403);
         }
 
-        if (!auth()->user()->hasPermission('can-delete-users')) {
+        if (!auth()->user()->hasPermission('can-delete-users', $user->team)) {
             return response()
-            ->json([
-                'message' => "You are not allowed to delete users"
-            ], 403);
+                ->json([
+                    'message' => "You are not allowed to delete users"
+                ], 403);
         }
 
-        $user->delete(); 
+        $user->delete();
 
         return response()
             ->json([

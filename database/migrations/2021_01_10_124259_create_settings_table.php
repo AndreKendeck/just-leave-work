@@ -20,8 +20,9 @@ class CreateSettingsTable extends Migration
             $table->integer('leave_added_per_cycle', false, true)->default(0);
             $table->integer('maximum_leave_days', false, true)->default(0);
             $table->integer('maximum_leave_balance', false, true)->default(0);
-            $table->string('days_until_balance_added', false, true)->default(30);
+            $table->integer('days_until_balance_added', false, true)->default(30);
             $table->boolean('can_approve_own_leave')->default(true);
+            $table->timestamp('last_leave_balance_added_at')->nullable();
             $table->timestamps();
         });
     }

@@ -30,12 +30,9 @@ class VerifyEmailCodeTest extends TestCase
         $user = factory('App\User')->create([
             'email_verified_at' => null,
         ]);
-        $code = strtoupper(Str::random(rand(4, 6)));
 
-        $user->emailCode()->create([
-            'code' => bcrypt($code),
-            'expires_at' => now()->addMinutes(5),
-        ]);
+        $code = $user->sendEmailVerificationNotification();
+
         $this->actingAs($user)
             ->post(route('verify.email'), ['code' => $code])
             ->assertSessionHasNoErrors()

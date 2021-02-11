@@ -13,7 +13,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('team-admin') || auth()->user()->hasPermission('can-add-users');
+        return auth()->user()->hasRole('team-admin', auth()->user()->team) || auth()->user()->hasPermission('can-add-users', auth()->user()->team);
     }
 
     /**

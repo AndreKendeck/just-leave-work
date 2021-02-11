@@ -39,7 +39,7 @@ class TeamSettingsTest extends TestCase
 
         $user = factory('App\User')->create();
 
-        $user->attachRole('team-admin');
+        $user->attachRole('team-admin' , $user->team);
 
         $this->actingAs($user)
             ->post(route('settings.update'),  $newSettings)

@@ -13,7 +13,7 @@ class ImportRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasPermission('can-add-users');
+        return auth()->user()->hasPermission('can-add-users', auth()->user()->team);
     }
 
     /**
@@ -24,8 +24,8 @@ class ImportRequest extends FormRequest
     public function rules()
     {
         return [
-            'users' => ['file' , 'mimes:csv' , 'required' , 'max:5000' ], 
-            'leave_balance' => ['nullable' , 'min:0' , 'numeric' ]
+            'users' => ['file', 'mimes:csv', 'required', 'max:5000'],
+            'leave_balance' => ['nullable', 'min:0', 'numeric']
         ];
     }
 }

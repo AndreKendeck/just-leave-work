@@ -11,7 +11,7 @@ class CannotImportUser extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected string $message; 
+    protected $message;
 
     /**
      * Create a new notification instance.
@@ -20,7 +20,7 @@ class CannotImportUser extends Notification implements ShouldQueue
      */
     public function __construct(string $message)
     {
-        $this->message = $message; 
+        $this->message = $message;
     }
 
     /**
@@ -42,7 +42,7 @@ class CannotImportUser extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage); 
+        return (new MailMessage);
     }
 
     /**

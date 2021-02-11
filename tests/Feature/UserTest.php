@@ -36,7 +36,7 @@ class UserTest extends TestCase
     public function a_team_admin_can_add_a_new_user()
     {
         $user = factory('App\User')->create();
-        $user->attachRole('team-admin');
+        $user->attachRole('team-admin', $user->team);
 
         $newUser =  [
             'name' => $this->faker->name,
@@ -92,7 +92,7 @@ class UserTest extends TestCase
     public function a_team_admin_can_update_a_user()
     {
         $user = factory('App\User')->create();
-        $user->attachRole('team-admin');
+        $user->attachRole('team-admin', $user->team);
         $userToUpdate = factory('App\User')->create([
             'team_id' => $user->team->id
         ]);
@@ -115,7 +115,7 @@ class UserTest extends TestCase
     public function a_user_can_delete_another_user_with_the_right_permissions()
     {
         $user = factory('App\User')->create();
-        $user->attachPermission('can-delete-users');
+        $user->attachPermission('can-delete-users', $user->team);
         $userToDelete = factory('App\User')->create(['team_id' => $user->team_id]);
         $this->actingAs($user)
             ->delete(route('users.destroy', $userToDelete->id))

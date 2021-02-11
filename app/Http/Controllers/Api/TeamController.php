@@ -25,6 +25,13 @@ class TeamController extends Controller
             'name' => ['required', 'min:2', 'max:255']
         ]);
 
+        if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
+            return response()
+                ->json([
+                    'message' => "You are not allowed to make this request"
+                ], 403);
+        }
+
         auth()->user()->team->update([
             'name' => $request->name
         ]);
