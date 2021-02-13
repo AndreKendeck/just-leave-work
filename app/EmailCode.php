@@ -7,8 +7,14 @@ use Ramsey\Uuid\Uuid;
 
 class EmailCode extends Model
 {
+    /**
+     * @var array
+     */
     protected $guarded = [];
 
+    /**
+     * @var boolean
+     */
     public $incrementing = false; 
 
     /**
@@ -33,6 +39,9 @@ class EmailCode extends Model
         return now() > $this->expires_at;
     }
 
+    /**
+     * @return void
+     */
     protected static function boot()
     {
         parent::boot();

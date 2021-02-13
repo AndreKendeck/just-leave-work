@@ -55,7 +55,7 @@ class AdjustLeaveBalances implements ShouldQueue
                      * if the users leave balance will go over the team limit
                      */
                     $overLimit = ($toAdd + $user->leave_balance) > $settings->maximum_leave_balance;
-                    if (!$overLimit) {
+                    if (!$overLimit && ($settings->maximum_leave_balance > 0)) {
                         $user->increment('leave_balance', $toAdd);
                         Log::info("Leave balance for {$user->name} is now {$user->leave_balance}");
                     }
