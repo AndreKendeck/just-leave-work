@@ -40,7 +40,7 @@ Route::namespace('Api')->group(function () {
 
         Route::get('/profile', 'ProfileController@index')->name('profile.index');
 
-        Route::post('/users/import', 'ImporUserController@import')
+        Route::post('/users/import', 'ImportUserController@import')
             ->name('users.import'); 
 
         Route::post('/leaves/add/', 'LeaveBalanceController@add')

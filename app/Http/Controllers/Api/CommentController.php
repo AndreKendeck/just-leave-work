@@ -8,36 +8,39 @@ use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Requests\Comment\UpdateRequest;
 use Illuminate\Http\Request;
 
+/**
+ * @group Comments
+ * @authenticated
+ * APIs for adding comments to leaves
+ */
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // not needed
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @bodyParam text string required for the content of the comment
+     * @bodyParam leave_id required for the related model this commment belongs to
+     * @bodyParam user_id requried for the related model that created this comment
+     * @response {
+     *  "id" : 1, 
+     *  "text" : "Example text", 
+     *  "user" : {}, 
+     *  "leave" : {}
+     * }
+     * @param StoreRequest $request
+     * @return void
      */
     public function store(StoreRequest $request)
     {
         $comment = Comment::create([
             'text' => $request->text,
             'leave_id' => $request->leave_id,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
         ]);
 
         return response()
             ->json([
                 'message' => "Comment added successfully",
-                'comment' => $comment
+                'comment' => $comment,
             ], 201);
     }
 
@@ -56,7 +59,7 @@ class CommentController extends Controller
         if (!$isInSameTeam) {
             return response()
                 ->json([
-                    'message' => "You are not allowed to view this comment"
+                    'message' => "You are not allowed to view this comment",
                 ], 403);
         }
 
@@ -78,25 +81,25 @@ class CommentController extends Controller
         if (!auth()->user()->owns($comment)) {
             return response()
                 ->json([
-                    'message' => "You are not allowed to update this comment"
+                    'message' => "You are not allowed to update this comment",
                 ], 403);
         }
 
         if (!$comment->is_editable) {
             return response()
                 ->json([
-                    'message' => "You can no longer update this comment"
+                    'message' => "You can no longer update this comment",
                 ], 403);
         }
 
         $comment->update([
-            'text' => $request->text
+            'text' => $request->text,
         ]);
 
         return response()
             ->json([
                 'message' => "Comment updated successfully",
-                'comment' => $comment
+                'comment' => $comment,
             ]);
     }
 
@@ -113,7 +116,7 @@ class CommentController extends Controller
         if (!auth()->user()->owns($comment)) {
             return response()
                 ->json([
-                    'message' => "You are not allowed to delete this comment"
+                    'message' => "You are not allowed to delete this comment",
                 ], 403);
         }
 
@@ -128,7 +131,7 @@ class CommentController extends Controller
 
         return response()
             ->json([
-                'message' => "Comment deleted"
+                'message' => "Comment deleted",
             ]);
     }
 }
