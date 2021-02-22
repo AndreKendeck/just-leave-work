@@ -18,13 +18,15 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $leaves = Leave::where('team_id', auth()->user()->team_id)->latest()->paginate(10);
+        $leaves = Leave::where('team_id', auth()->user()->team_id)
+            ->latest()
+            ->paginate(10);
 
         return response()
             ->json($leaves);
     }
 
-    /**
+    /**˝
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,7 +42,15 @@ class LeaveController extends Controller
         if ($invalidDate) {
             return response()->json([
                 'errors' => [
-                    'from' => ['Your leave dates is incorrect'],
+                    'from' => ['Your leave dates are incorrect'],
+                ],
+            ], 422);
+        }
+
+        if (auth()->user()->is_on_leave) {
+            return response()->json([
+                'errors' => [
+                    'from' => ['You are already on leave you cannot request leave when on leave'],
                 ],
             ], 422);
         }

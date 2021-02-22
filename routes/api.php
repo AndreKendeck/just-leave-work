@@ -11,8 +11,7 @@
 |
  */
 
-
-Route::namespace('Api')->group(function () {
+Route::namespace ('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -25,6 +24,8 @@ Route::namespace('Api')->group(function () {
         ->middleware(['throttle:4,60', 'auth:sanctum']);
 
     Route::middleware(['auth:sanctum', 'logs-out-banned-user', 'verified'])->group(function () {
+
+        Route::get('/reasons', 'ReasonController')->name('reasons.index');
         Route::apiResource('leaves', 'LeaveController')->parameters([
             'leaves' => 'id',
         ]);
@@ -41,7 +42,7 @@ Route::namespace('Api')->group(function () {
         Route::get('/profile', 'ProfileController@index')->name('profile.index');
 
         Route::post('/users/import', 'ImportUserController@import')
-            ->name('users.import'); 
+            ->name('users.import');
 
         Route::post('/leaves/add/', 'LeaveBalanceController@add')
             ->name('leaves.add');
@@ -59,6 +60,6 @@ Route::namespace('Api')->group(function () {
             ->name('settings.update');
 
         Route::get('/team', 'TeamController@index')->name('team');
-        Route::post('/team/update', 'TeamController@update')->name('team.update'); 
+        Route::post('/team/update', 'TeamController@update')->name('team.update');
     });
 });

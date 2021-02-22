@@ -27,7 +27,17 @@ class StoreRequest extends FormRequest
             'reason' => ['required', 'exists:reasons,id'],
             'description' => ['required', 'min:3', 'string'],
             'from' => ['date', 'required'],
-            'until' => ['date', 'required']
+            'until' => ['date', 'required'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'from.date' => ['Please enter a valid date'],
+            'until.date' => ['Please enter a valid date'],
+            'from.required' => ['Please enter your leave starting date'],
+            'until.required' => ['Please enter your leave ending date'],
         ];
     }
 }

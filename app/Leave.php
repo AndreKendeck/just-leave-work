@@ -39,7 +39,7 @@ class Leave extends Model
 
     protected $with = [
         'reason',
-        'comments'
+        'comments', 
     ];
 
     protected $dates = [

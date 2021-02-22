@@ -8,7 +8,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = \App\User::findOrFail(auth()->id()); 
+        $user = \App\User::with('team')->findOrFail(auth()->id());
         return response()
             ->json($user);
     }
