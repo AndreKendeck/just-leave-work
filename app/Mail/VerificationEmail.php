@@ -11,7 +11,7 @@ class VerificationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected string $code;
+    protected $code;
 
     /**
      * Create a new message instance.

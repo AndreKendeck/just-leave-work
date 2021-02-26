@@ -34,13 +34,15 @@ class RegisterController extends Controller
 
         $permissions = Permission::all();
 
-        $permissions->each(fn (\App\Permission $permission)  => $user->attachPermission($permission, $team));
+        $permissions->each(function (\App\Permission $permission) use ($user, $team) {
+            $user->attachPermission($permission, $team);
+        });
 
         $user->update([
             'last_logged_in_at' => now()
         ]);
 
-        $user->sendEmailVerificationNotification(); 
+        $user->sendEmailVerificationNotification();
 
         $token = $user->createToken(Str::random())->plainTextToken;
 

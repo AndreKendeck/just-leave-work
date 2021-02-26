@@ -11,7 +11,7 @@
 |
  */
 
-Route::namespace ('Api')->group(function () {
+Route::namespace('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -23,6 +23,9 @@ Route::namespace ('Api')->group(function () {
     Route::get('/resend-code', 'VerifyEmailController@resend')->name('verify.resend')
         ->middleware(['throttle:4,60', 'auth:sanctum']);
 
+    Route::get('/profile', 'ProfileController@index')
+        ->name('profile.index')->middleware('auth:sanctum');
+        
     Route::middleware(['auth:sanctum', 'logs-out-banned-user', 'verified'])->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');
@@ -38,8 +41,6 @@ Route::namespace ('Api')->group(function () {
         Route::apiResource('users', 'UserController')->parameters([
             'users' => 'id',
         ]);
-
-        Route::get('/profile', 'ProfileController@index')->name('profile.index');
 
         Route::post('/users/import', 'ImportUserController@import')
             ->name('users.import');

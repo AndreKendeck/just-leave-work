@@ -19,6 +19,10 @@ class Comment extends Model
         'user'
     ];
 
+    protected $casts = [
+        'user_id' => 'integer'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\User');

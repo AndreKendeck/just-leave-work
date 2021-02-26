@@ -39,7 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     protected $guarded = [];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'email_code'
     ];
 
     protected $with = [
@@ -47,6 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'permissions',
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'team_id' => 'integer',

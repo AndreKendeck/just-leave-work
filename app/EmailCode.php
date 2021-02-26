@@ -15,7 +15,7 @@ class EmailCode extends Model
     /**
      * @var boolean
      */
-    public $incrementing = false; 
+    public $incrementing = false;
 
     /**
      * @var string
@@ -45,6 +45,8 @@ class EmailCode extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(fn ($model) => $model->id = Uuid::uuid4());
+        static::creating(function ($model) {
+            $model->id = Uuid::uuid4();
+        });
     }
 }
