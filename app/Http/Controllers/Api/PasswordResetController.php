@@ -7,5 +7,12 @@ use Illuminate\Http\Request;
 
 class PasswordResetController extends Controller
 {
-    //
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke(Request $request , $signature)
+    {
+        
+    }
 }
