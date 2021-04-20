@@ -28,6 +28,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public const STORAGE_PATH = '/users/avatars/';
 
+    /**
+     * @var array
+     */
     protected $appends = [
         'avatar_url',
         'total_days_on_leave',
@@ -36,8 +39,14 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'is_on_leave',
     ];
 
+    /**
+     * @var array
+     */
     protected $guarded = [];
 
+    /**
+     * @var array
+     */
     protected $hidden = [
         'password', 'remember_token', 'email_code'
     ];
@@ -93,6 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         return asset(self::STORAGE_PATH . $this->avatar);
     }
 
+
     public function getIsBannedAttribute()
     {
         return $this->isBanned();
@@ -114,11 +124,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         return $this->hasOne('App\EmailCode');
     }
 
-    /**
-     * Send the email verification notification.
-     *
-     * @return void
-     */
     public function sendEmailVerificationNotification()
     {
         if ($this->hasVerifiedEmail()) {
@@ -145,7 +150,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             
         return $code;
     }
-
+    
     public function hasVerifiedEmail()
     {
         return !is_null($this->email_verified_at);

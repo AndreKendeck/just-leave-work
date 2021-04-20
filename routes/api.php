@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,7 +12,7 @@
 |
  */
 
-Route::namespace('Api')->group(function () {
+Route::namespace ('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -25,7 +26,11 @@ Route::namespace('Api')->group(function () {
 
     Route::get('/profile', 'ProfileController@index')
         ->name('profile.index')->middleware('auth:sanctum');
-        
+
+    Route::post('/reset-password', 'PasswordEmailController')->name('password.request');
+    Route::get('/password-reset', 'PasswordResetController')->name('password.reset')
+        ->middleware('signed');
+
     Route::middleware(['auth:sanctum', 'logs-out-banned-user', 'verified'])->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');

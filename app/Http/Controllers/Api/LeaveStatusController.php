@@ -7,6 +7,7 @@ use App\Leave;
 
 class LeaveStatusController extends Controller
 {
+
     public function approve($id)
     {
         $leave = Leave::findOrFail($id);

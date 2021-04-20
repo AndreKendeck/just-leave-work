@@ -22,7 +22,7 @@ class RegisterTest extends TestCase
         ];
 
         $response = $this->post(route('register'), $details)
-            ->assertOk()
+            ->assertCreated()
             ->assertJsonStructure(['user', 'token', 'message']);
 
         ['user' => $user] = $response->json();

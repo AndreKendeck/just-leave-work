@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 
 class Leave extends Model
 {
@@ -32,14 +31,14 @@ class Leave extends Model
     ];
 
     protected $casts = [
-        'team_id' => 'integer', 
+        'team_id' => 'integer',
         'from' => 'datetime:Y-m-d',
-        'until' => 'datetime:Y-m-d'
+        'until' => 'datetime:Y-m-d',
     ];
 
     protected $with = [
         'reason',
-        'comments', 
+        'comments',
     ];
 
     protected $dates = [
@@ -48,7 +47,6 @@ class Leave extends Model
         'approved_at',
         'denied_at',
     ];
-
 
     public function getApprovedAttribute()
     {
@@ -91,7 +89,6 @@ class Leave extends Model
             'denied_at' => now(),
         ]);
     }
-
 
     public function getNumberOfDaysOffAttribute()
     {
