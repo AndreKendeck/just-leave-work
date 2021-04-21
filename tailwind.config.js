@@ -2,12 +2,6 @@ const { colors } = require("tailwindcss/defaultTheme");
 
 module.exports = {
     theme: {
-        colors: {
-            gray: colors.gray,
-            teal: colors.teal,
-            red: colors.red,
-            white: colors.white,
-        },
     },
     variants: {},
     plugins: [

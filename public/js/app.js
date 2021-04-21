@@ -34273,20 +34273,21 @@ var App = /*#__PURE__*/function (_React$Component) {
 
   _createClass(App, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this = this;
-
-      // we need to get the data we have from the server
-      _api__WEBPACK_IMPORTED_MODULE_4__["default"].get('/api/profile/').then(function (successResponse) {
-        console.log(successResponse);
-      })["catch"](function (failedResponse) {
-        _this.props.unsetAuthenticated();
-      });
+    value: function componentDidMount() {// we need to get the data we have from the serve
+      // api.get('/api/profile/')
+      //     .then(successResponse => {
+      //         console.log(successResponse);
+      //     })
+      //     .catch(failedResponse => {
+      //         this.props.unsetAuthenticated();
+      //     })
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque placeat hic rem reprehenderit amet necessitatibus adipisci. Iste provident, dolor molestias eligendi sint quasi placeat, asperiores nostrum quo eum natus reprehenderit.");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "text-xl bg-green-500 text-green-500"
+      }, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque placeat hic rem reprehenderit amet necessitatibus adipisci. Iste provident, dolor molestias eligendi sint quasi placeat, asperiores nostrum quo eum natus reprehenderit.");
     }
   }]);
 
@@ -34429,14 +34430,26 @@ var userReducer = function userReducer() {
 
 /***/ }),
 
+/***/ "./resources/sass/app.scss":
+/*!*********************************!*\
+  !*** ./resources/sass/app.scss ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!***********************************!*\
-  !*** multi ./resources/js/app.js ***!
-  \***********************************/
+/*!*************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -10,20 +10,22 @@ import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
 
 const App = class App extends React.Component {
     componentDidMount() {
-        // we need to get the data we have from the server
-        api.get('/api/profile/')
-            .then(successResponse => {
-                console.log(successResponse);
-
-            })
-            .catch(failedResponse => {
-                this.props.unsetAuthenticated();
-            })
+        // we need to get the data we have from the serve
+        // api.get('/api/profile/')
+        //     .then(successResponse => {
+        //         console.log(successResponse);
+                
+        //     })
+        //     .catch(failedResponse => {
+        //         this.props.unsetAuthenticated();
+        //     })
     }
     render() {
-        return (<div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque placeat hic rem reprehenderit amet necessitatibus adipisci. Iste provident, dolor molestias eligendi sint quasi placeat, asperiores nostrum quo eum natus reprehenderit.
-        </div>)
+        return (
+            <div className="text-xl bg-green-500 text-green-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque placeat hic rem reprehenderit amet necessitatibus adipisci. Iste provident, dolor molestias eligendi sint quasi placeat, asperiores nostrum quo eum natus reprehenderit.
+            </div>
+        )
     }
 }
 

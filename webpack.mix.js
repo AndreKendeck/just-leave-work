@@ -13,4 +13,5 @@ require('mix-tailwindcss');
  */
 
 mix.react('resources/js/app.js', 'public/js')
-.tailwind();
+    .sass('resources/sass/app.scss', 'public/css')
+    .tailwind();
