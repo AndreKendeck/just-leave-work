@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
-<body style="font-family: 'Open Sans'">
+<body style="font-family: 'Open Sans'" class="bg-gray-100">
     <div id="app">
 
     </div>

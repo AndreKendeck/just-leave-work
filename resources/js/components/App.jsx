@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import api from '../api';
 import reducers from '../reducers';
 import thunk from 'redux-thunk'
+import Navbar from '../components/Navigation/Navbar';
 import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
+import { setUser } from '../actions/user';
+import { BrowserRouter, Route } from 'react-router-dom';
+import LoginPage from './Pages/LoginPage';
 
 
 const App = class App extends React.Component {
@@ -13,24 +17,44 @@ const App = class App extends React.Component {
         // we need to get the data we have from the serve
         // api.get('/api/profile/')
         //     .then(successResponse => {
-        //         console.log(successResponse);
-                
+        //         this.props.setUser(successResponse.data);
         //     })
         //     .catch(failedResponse => {
         //         this.props.unsetAuthenticated();
         //     })
     }
+    getGuestRoutes = () => {
+        return (
+            <React.Fragment>
+                <Route path="/login">
+                    {this.props.auth.authenticated ? null : <LoginPage />}
+                </Route>
+            </React.Fragment>
+        )
+    }
     render() {
         return (
-            <div className="text-xl bg-green-500 text-green-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque placeat hic rem reprehenderit amet necessitatibus adipisci. Iste provident, dolor molestias eligendi sint quasi placeat, asperiores nostrum quo eum natus reprehenderit.
+            <div className="flex flex-col space-y-4 ">
+                <BrowserRouter>
+                    <Navbar />
+                    {this.getGuestRoutes()}
+                </BrowserRouter>
             </div>
         )
     }
 }
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(
+    applyMiddleware(thunk)
+));
 
-const store = createStore(reducers, applyMiddleware(thunk));
-const Application = connect(null, { setAuthenticated, unsetAuthenticated })(App);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        auth: state.auth
+    }
+}
+
+const Application = connect(mapStateToProps, { setAuthenticated, unsetAuthenticated, setUser })(App);
 ReactDOM.render(
     <Provider store={store}>
         <Application />
