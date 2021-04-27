@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('user');
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'text' => [ 'required' , 'min:1' , 'string' ]
+            'text' => ['required' , 'min:1' , 'string' ],
         ];
     }
 }

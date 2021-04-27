@@ -15,31 +15,25 @@ class ReasonTableSeeder extends Seeder
         $reasons = collect([
             [
                 'name' => 'Sick Leave',
-                'tag' => '<span class="bg-seaweed text-white text-xs whitespace-no-wrap px-2 rounded-lg mt-1"> SL </span>'
-            ], 
-            [
-                'name' => 'Family Responsibility Leave' ,
-                'tag' => '<span class="bg-purple-400 text-white text-xs whitespace-no-wrap px-2 rounded-lg mt-1"> FRL </span>',
             ],
             [
-                'name' => 'Maternity Leave', 
-                'tag' => '<span class="bg-pink-400 text-white text-xs whitespace-no-wrap px-2 rounded-lg mt-1"> ML </span>'
-            ], 
-            [
-                'name' => 'Annual Leave', 
-                'tag' => '<span class="bg-gray-600 text-white text-xs whitespace-no-wrap px-2 rounded-lg mt-1"> AL </span>'
+                'name' => 'Family Responsibility Leave',
             ],
             [
-                'name' => 'Study Leave', 
-                'tag' => '<span class="bg-gray-800 text-white text-xs whitespace-no-wrap px-2 rounded-lg mt-1"> SL </span>'
+                'name' => 'Maternity Leave',
             ],
             [
-                'name' => 'Religious Leave', 
-                'tag' => '<span class="bg-green-400 text-white text-xs whitespace-no-wrap px-2 rounded-lg mt-1"> RL </span>'
+                'name' => 'Annual Leave',
+            ],
+            [
+                'name' => 'Study Leave',
+            ],
+            [
+                'name' => 'Religious Leave',
             ],
         ]);
-        $reasons->each( function($reason) {
-            Reason::firstOrCreate($reason); 
-        } );
+        $reasons->each(function ($reason) {
+            Reason::firstOrCreate($reason);
+        });
     }
 }

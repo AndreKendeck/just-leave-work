@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Leave;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -14,7 +13,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('user');
+        return auth()->check();
     }
 
     /**
@@ -25,18 +24,20 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'reason_id' => ['required' , 'exists:reasons,id' ],
-            'description' => ['required' , 'min:1' , 'string' ],
-            'from' => ['required' , 'after_or_equal:today' , 'date' ],
-            'until' => ['required' , "after_or_equal:today" , 'date' ],
-            'reporter_id' => ['required' , Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id) ]
+            'reason' => ['required', 'exists:reasons,id'],
+            'description' => ['required', 'min:3', 'string'],
+            'from' => ['date', 'required'],
+            'until' => ['date', 'required'],
         ];
     }
 
     public function messages()
     {
         return [
-            'reason_id.required' => 'Please select a reason'
+            'from.date' => ['Please enter a valid date'],
+            'until.date' => ['Please enter a valid date'],
+            'from.required' => ['Please enter your leave starting date'],
+            'until.required' => ['Please enter your leave ending date'],
         ];
     }
 }

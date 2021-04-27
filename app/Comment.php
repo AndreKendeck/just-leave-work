@@ -7,14 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $guarded = [];
+
     protected $appends = [
         'was_edited',
         'can_edit',
         'is_deletable',
         'is_editable',
     ];
+
     protected $with = [
         'user'
+    ];
+
+    protected $casts = [
+        'user_id' => 'integer'
     ];
 
     public function user()

@@ -8,52 +8,31 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    /**
-    * @test
-    */
-    public function can_nagivate_to_the_login_page()
-    {
-        $this->get(route('login'))
-        ->assertOk()
-        ->assertViewIs('auth.login');
-    }
-    /**
-    * @test
-    */
-    public function a_user_can_login()
+    /** @test **/
+    public function a_registered_user_can_login_to_the_application()
     {
         $user = factory('App\User')->create();
+
         $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password'
-        ])->assertStatus(302)
-        ->assertSessionHasNoErrors();
-        $this->assertAuthenticatedAs($user);
+        ])->assertOk()
+            ->assertJsonStructure([
+                'user', 'message', 'token'
+            ]);
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_type' => get_class($user),
+            'tokenable_id' => $user->id
+        ]);
     }
 
-    /**
-    * @test
-    */
-    public function cannot_submit_empty_login_form()
+    /** @test **/
+    public function a_unregistered_user_cannot_login_to_the_application()
     {
         $this->post(route('login'), [
-            'email' => null,
-            'password'
-        ])->assertSessionHasErrors(['email' , 'password' ])
-        ->assertStatus(302);
-    }
-    
-    /**
-    * @test
-    */
-    public function cannot_login_with_invalid_credientials()
-    {
-        $user = factory('App\User')->create();
-        $this->post(route('login') , [
-            'email' => $user->email, 
-            'password' => $this->faker->password, 
-        ] )
-        ->assertSessionHasErrors(['email'])
-        ->assertStatus(302); 
+            'email' => 'doesnotexist@mail.com',
+            'password' => 'fakrer'
+        ])->assertStatus(422)
+            ->assertJsonStructure(['errors']);
     }
 }
