@@ -37275,6 +37275,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_user__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../actions/user */ "./resources/js/actions/user/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Pages_LoginPage__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Pages/LoginPage */ "./resources/js/components/Pages/LoginPage.jsx");
+var _temp;
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37311,8 +37313,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-var App = /*#__PURE__*/function (_React$Component) {
+var App = (_temp = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
   var _super = _createSuper(App);
@@ -37358,8 +37359,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return App;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component), _temp);
 var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux__WEBPACK_IMPORTED_MODULE_3__["compose"];
 var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_5__["default"], composeEnhancers(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_6__["default"])));
 
@@ -37377,6 +37377,51 @@ var Application = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(ma
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
   store: store
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Application, null)), document.getElementById('app'));
+
+/***/ }),
+
+/***/ "./resources/js/components/Button.jsx":
+/*!********************************************!*\
+  !*** ./resources/js/components/Button.jsx ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Button = function Button(props) {
+  switch (props.type) {
+    case 'outlined':
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: props.onClick,
+        className: "text-gray-800 border-2 border-gray-800 p-2 w-full rounded text-center hover:bg-gray-800 hover:text-white"
+      }, props.children);
+
+    case 'soft':
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: props.onClick,
+        className: "focus:outline-none bg-gray-300 text-gray-800 p-2 w-full rounded text-center hover:bg-gray-200"
+      }, props.children);
+
+    case 'danger':
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: props.onClick,
+        className: "focus:outline-none bg-red-500 text-white p-2 w-full rounded text-center hover:bg-red-400"
+      }, props.children);
+
+    default:
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: props.onClick,
+        className: "focus:outline-none bg-gray-800 text-white p-2 w-full rounded text-center hover:bg-gray-700"
+      }, props.childrens);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Button);
 
 /***/ }),
 
@@ -37437,6 +37482,7 @@ var Field = function Field(props) {
     className: "text-gray-600"
   }, props.label ? props.label : props.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: props.type ? props.type : 'text ',
+    onChange: props.onChange,
     onKeyUp: props.onKeyUp,
     id: props.name,
     name: props.name,
@@ -37463,6 +37509,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+var _temp;
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37490,8 +37538,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-var Navbar = /*#__PURE__*/function (_React$Component) {
+var Navbar = (_temp = /*#__PURE__*/function (_React$Component) {
   _inherits(Navbar, _React$Component);
 
   var _super = _createSuper(Navbar);
@@ -37700,7 +37747,7 @@ var Navbar = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return Navbar;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component), _temp);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -37751,9 +37798,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Form_Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Form/Field */ "./resources/js/components/Form/Field.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api */ "./resources/js/api/index.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
+/* harmony import */ var _Form_Field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Form/Field */ "./resources/js/components/Form/Field.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
+var _temp;
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37784,7 +37835,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var LoginPage = /*#__PURE__*/function (_React$Component) {
+
+var LoginPage = (_temp = /*#__PURE__*/function (_React$Component) {
   _inherits(LoginPage, _React$Component);
 
   var _super = _createSuper(LoginPage);
@@ -37803,16 +37855,62 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "state", {
       errors: [],
       email: {
-        text: null,
+        value: null,
         errors: [],
         hasError: false
       },
       password: {
-        text: null,
+        value: null,
         errors: [],
         hasError: false
       },
       isSending: false
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "postLogin", function () {
+      var email = _this.state.email.value;
+      var password = _this.state.password.value;
+
+      _this.setState({
+        isSending: true
+      });
+
+      _api__WEBPACK_IMPORTED_MODULE_2__["default"].post('/login/', {
+        email: email,
+        password: password
+      }).then(function (successResponse) {
+        _this.setState({
+          isSending: false
+        });
+      })["catch"](function (failedResponse) {
+        _this.setState({
+          isSending: false
+        });
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onEmailKeyUp", function (event) {
+      event.persist();
+
+      _this.setState(function (state) {
+        return {
+          email: {
+            value: event.target.value
+          }
+        };
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onPasswordKeyUp", function (event) {
+      event.persist();
+
+      _this.setState(function (state) {
+        return {
+          password: {
+            value: event.target.value
+          }
+        };
+      });
     });
 
     return _this;
@@ -37821,23 +37919,26 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
   _createClass(LoginPage, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-2xl font-bold text-gray-800 text-center"
-      }, "Sign in to your Account."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, "Sign in to your Account."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_5__["default"], {
         name: "email",
+        onKeyUp: this.onEmailKeyUp,
         label: "Email Address",
         type: "email"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_5__["default"], {
         name: "password",
+        onKeyUp: this.onPasswordKeyUp,
         label: "Password",
         type: "password"
-      })));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        onClick: this.postLogin
+      }, "Login")));
     }
   }]);
 
   return LoginPage;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component), _temp);
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(null, null)(LoginPage));
 
 /***/ }),
