@@ -34,7 +34,7 @@ const App = class App extends React.Component {
     }
     render() {
         return (
-            <div className="flex flex-col space-y-4 ">
+            <div className="flex flex-col space-y-4">
                 <BrowserRouter>
                     <Navbar />
                     {this.getGuestRoutes()}

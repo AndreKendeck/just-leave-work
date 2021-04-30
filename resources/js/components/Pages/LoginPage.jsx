@@ -1,6 +1,8 @@
 
 import React from 'react';
+import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
@@ -16,14 +18,26 @@ const LoginPage = class LoginPage extends React.Component {
         isSending: false
     }
 
+    componentDidMount() {
+        if (this.props.state.auth.authenicated) {
+            window.location = '/dashboard';
+        }
+    }
+
     postLogin = () => {
         const email = this.state.email.value;
         const password = this.state.password.value;
         this.setState({ isSending: true });
+        // allow the page to set a timeout
         api.post('/login/', { email, password })
             .then(successResponse => {
 
                 this.setState({ isSending: false });
+                const { user, token } = successResponse.data;
+
+                window.localStorage.setItem('authToken', token);
+
+
 
             }).catch(failedResponse => {
 
@@ -58,16 +72,30 @@ const LoginPage = class LoginPage extends React.Component {
 
     render() {
         return (
-            <Page>
-                <Card>
-                    <div className="text-2xl font-bold text-gray-800 text-center">Sign in to your Account.</div>
+            <Page className="flex justify-center">
+                <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
+                    <div className="text-2xl font-bold text-gray-800 text-center items-center">Sign in to your Account.</div>
                     <Field name="email" onKeyUp={this.onEmailKeyUp} label="Email Address" type="email" />
                     <Field name="password" onKeyUp={this.onPasswordKeyUp} label="Password" type="password" />
-                    <Button onClick={this.postLogin}>Login</Button>
+                    {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={this.postLogin}>Login</Button>}
+                    <div className="flex flex-row items-center w-full jutsify-between space-x-2">
+                        <Link to="/register" className="w-full">
+                            <Button type="soft"> Reset password </Button>
+                        </Link>
+                        <Link to="/register" className="w-full">
+                            <Button type="secondary"> Register </Button>
+                        </Link>
+                    </div>
                 </Card>
             </Page>
         )
     }
 }
 
-export default connect(null, null)(LoginPage);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        state
+    }
+}
+
+export default connect(mapStateToProps, null)(LoginPage);
