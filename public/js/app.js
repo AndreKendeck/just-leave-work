@@ -1997,6 +1997,4043 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/collect.js/dist/helpers/clone.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/helpers/clone.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Clone helper
+ *
+ * Clone an array or object
+ *
+ * @param items
+ * @returns {*}
+ */
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function clone(items) {
+  var cloned = void 0;
+
+  if (Array.isArray(items)) {
+    var _cloned;
+
+    cloned = [];
+
+    (_cloned = cloned).push.apply(_cloned, _toConsumableArray(items));
+  } else {
+    cloned = {};
+
+    Object.keys(items).forEach(function (prop) {
+      cloned[prop] = items[prop];
+    });
+  }
+
+  return cloned;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/helpers/is.js":
+/*!****************************************************!*\
+  !*** ./node_modules/collect.js/dist/helpers/is.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = {
+  /**
+   * @returns {boolean}
+   */
+  isArray: function isArray(item) {
+    return Array.isArray(item);
+  },
+
+  /**
+   * @returns {boolean}
+   */
+  isObject: function isObject(item) {
+    return (typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object' && Array.isArray(item) === false && item !== null;
+  },
+
+  /**
+   * @returns {boolean}
+   */
+  isFunction: function isFunction(item) {
+    return typeof item === 'function';
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/helpers/nestedValue.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/collect.js/dist/helpers/nestedValue.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Get value of a nested property
+ *
+ * @param mainObject
+ * @param key
+ * @returns {*}
+ */
+
+module.exports = function nestedValue(mainObject, key) {
+  try {
+    return key.split('.').reduce(function (obj, property) {
+      return obj[property];
+    }, mainObject);
+  } catch (err) {
+    // If we end up here, we're not working with an object, and @var mainObject is the value itself
+    return mainObject;
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/helpers/values.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/helpers/values.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+/**
+ * Values helper
+ *
+ * Retrieve values from [this.items] when it is an array, object or Collection
+ *
+ * @returns {*}
+ * @param items
+ */
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function values(items) {
+  var valuesArray = [];
+
+  if (Array.isArray(items)) {
+    valuesArray.push.apply(valuesArray, _toConsumableArray(items));
+  } else if (items.constructor.name === 'Collection') {
+    valuesArray.push.apply(valuesArray, _toConsumableArray(items.all()));
+  } else {
+    Object.keys(items).forEach(function (prop) {
+      return valuesArray.push(items[prop]);
+    });
+  }
+
+  return valuesArray;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/helpers/variadic.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/collect.js/dist/helpers/variadic.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Variadic helper function
+ *
+ * @param args
+ * @returns {*}
+ */
+
+module.exports = function variadic(args) {
+  if (Array.isArray(args[0])) {
+    return args[0];
+  }
+
+  return args;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/collect.js/dist/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function Collection(collection) {
+  if (collection !== undefined && !Array.isArray(collection) && (typeof collection === 'undefined' ? 'undefined' : _typeof(collection)) !== 'object') {
+    this.items = [collection];
+  } else if (collection instanceof this.constructor) {
+    this.items = collection.all();
+  } else {
+    this.items = collection || [];
+  }
+}
+
+/**
+ * Symbol.iterator
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator
+ */
+var SymbolIterator = __webpack_require__(/*! ./methods/symbol.iterator */ "./node_modules/collect.js/dist/methods/symbol.iterator.js");
+
+if (typeof Symbol !== 'undefined') {
+  Collection.prototype[Symbol.iterator] = SymbolIterator;
+}
+
+/**
+ * Support JSON.stringify
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+ */
+Collection.prototype.toJSON = function toJSON() {
+  return this.items;
+};
+
+Collection.prototype.all = __webpack_require__(/*! ./methods/all */ "./node_modules/collect.js/dist/methods/all.js");
+Collection.prototype.average = __webpack_require__(/*! ./methods/average */ "./node_modules/collect.js/dist/methods/average.js");
+Collection.prototype.avg = __webpack_require__(/*! ./methods/avg */ "./node_modules/collect.js/dist/methods/avg.js");
+Collection.prototype.chunk = __webpack_require__(/*! ./methods/chunk */ "./node_modules/collect.js/dist/methods/chunk.js");
+Collection.prototype.collapse = __webpack_require__(/*! ./methods/collapse */ "./node_modules/collect.js/dist/methods/collapse.js");
+Collection.prototype.combine = __webpack_require__(/*! ./methods/combine */ "./node_modules/collect.js/dist/methods/combine.js");
+Collection.prototype.concat = __webpack_require__(/*! ./methods/concat */ "./node_modules/collect.js/dist/methods/concat.js");
+Collection.prototype.contains = __webpack_require__(/*! ./methods/contains */ "./node_modules/collect.js/dist/methods/contains.js");
+Collection.prototype.count = __webpack_require__(/*! ./methods/count */ "./node_modules/collect.js/dist/methods/count.js");
+Collection.prototype.countBy = __webpack_require__(/*! ./methods/countBy */ "./node_modules/collect.js/dist/methods/countBy.js");
+Collection.prototype.crossJoin = __webpack_require__(/*! ./methods/crossJoin */ "./node_modules/collect.js/dist/methods/crossJoin.js");
+Collection.prototype.dd = __webpack_require__(/*! ./methods/dd */ "./node_modules/collect.js/dist/methods/dd.js");
+Collection.prototype.diff = __webpack_require__(/*! ./methods/diff */ "./node_modules/collect.js/dist/methods/diff.js");
+Collection.prototype.diffAssoc = __webpack_require__(/*! ./methods/diffAssoc */ "./node_modules/collect.js/dist/methods/diffAssoc.js");
+Collection.prototype.diffKeys = __webpack_require__(/*! ./methods/diffKeys */ "./node_modules/collect.js/dist/methods/diffKeys.js");
+Collection.prototype.dump = __webpack_require__(/*! ./methods/dump */ "./node_modules/collect.js/dist/methods/dump.js");
+Collection.prototype.duplicates = __webpack_require__(/*! ./methods/duplicates */ "./node_modules/collect.js/dist/methods/duplicates.js");
+Collection.prototype.each = __webpack_require__(/*! ./methods/each */ "./node_modules/collect.js/dist/methods/each.js");
+Collection.prototype.eachSpread = __webpack_require__(/*! ./methods/eachSpread */ "./node_modules/collect.js/dist/methods/eachSpread.js");
+Collection.prototype.every = __webpack_require__(/*! ./methods/every */ "./node_modules/collect.js/dist/methods/every.js");
+Collection.prototype.except = __webpack_require__(/*! ./methods/except */ "./node_modules/collect.js/dist/methods/except.js");
+Collection.prototype.filter = __webpack_require__(/*! ./methods/filter */ "./node_modules/collect.js/dist/methods/filter.js");
+Collection.prototype.first = __webpack_require__(/*! ./methods/first */ "./node_modules/collect.js/dist/methods/first.js");
+Collection.prototype.firstWhere = __webpack_require__(/*! ./methods/firstWhere */ "./node_modules/collect.js/dist/methods/firstWhere.js");
+Collection.prototype.flatMap = __webpack_require__(/*! ./methods/flatMap */ "./node_modules/collect.js/dist/methods/flatMap.js");
+Collection.prototype.flatten = __webpack_require__(/*! ./methods/flatten */ "./node_modules/collect.js/dist/methods/flatten.js");
+Collection.prototype.flip = __webpack_require__(/*! ./methods/flip */ "./node_modules/collect.js/dist/methods/flip.js");
+Collection.prototype.forPage = __webpack_require__(/*! ./methods/forPage */ "./node_modules/collect.js/dist/methods/forPage.js");
+Collection.prototype.forget = __webpack_require__(/*! ./methods/forget */ "./node_modules/collect.js/dist/methods/forget.js");
+Collection.prototype.get = __webpack_require__(/*! ./methods/get */ "./node_modules/collect.js/dist/methods/get.js");
+Collection.prototype.groupBy = __webpack_require__(/*! ./methods/groupBy */ "./node_modules/collect.js/dist/methods/groupBy.js");
+Collection.prototype.has = __webpack_require__(/*! ./methods/has */ "./node_modules/collect.js/dist/methods/has.js");
+Collection.prototype.implode = __webpack_require__(/*! ./methods/implode */ "./node_modules/collect.js/dist/methods/implode.js");
+Collection.prototype.intersect = __webpack_require__(/*! ./methods/intersect */ "./node_modules/collect.js/dist/methods/intersect.js");
+Collection.prototype.intersectByKeys = __webpack_require__(/*! ./methods/intersectByKeys */ "./node_modules/collect.js/dist/methods/intersectByKeys.js");
+Collection.prototype.isEmpty = __webpack_require__(/*! ./methods/isEmpty */ "./node_modules/collect.js/dist/methods/isEmpty.js");
+Collection.prototype.isNotEmpty = __webpack_require__(/*! ./methods/isNotEmpty */ "./node_modules/collect.js/dist/methods/isNotEmpty.js");
+Collection.prototype.join = __webpack_require__(/*! ./methods/join */ "./node_modules/collect.js/dist/methods/join.js");
+Collection.prototype.keyBy = __webpack_require__(/*! ./methods/keyBy */ "./node_modules/collect.js/dist/methods/keyBy.js");
+Collection.prototype.keys = __webpack_require__(/*! ./methods/keys */ "./node_modules/collect.js/dist/methods/keys.js");
+Collection.prototype.last = __webpack_require__(/*! ./methods/last */ "./node_modules/collect.js/dist/methods/last.js");
+Collection.prototype.macro = __webpack_require__(/*! ./methods/macro */ "./node_modules/collect.js/dist/methods/macro.js");
+Collection.prototype.make = __webpack_require__(/*! ./methods/make */ "./node_modules/collect.js/dist/methods/make.js");
+Collection.prototype.map = __webpack_require__(/*! ./methods/map */ "./node_modules/collect.js/dist/methods/map.js");
+Collection.prototype.mapSpread = __webpack_require__(/*! ./methods/mapSpread */ "./node_modules/collect.js/dist/methods/mapSpread.js");
+Collection.prototype.mapToDictionary = __webpack_require__(/*! ./methods/mapToDictionary */ "./node_modules/collect.js/dist/methods/mapToDictionary.js");
+Collection.prototype.mapInto = __webpack_require__(/*! ./methods/mapInto */ "./node_modules/collect.js/dist/methods/mapInto.js");
+Collection.prototype.mapToGroups = __webpack_require__(/*! ./methods/mapToGroups */ "./node_modules/collect.js/dist/methods/mapToGroups.js");
+Collection.prototype.mapWithKeys = __webpack_require__(/*! ./methods/mapWithKeys */ "./node_modules/collect.js/dist/methods/mapWithKeys.js");
+Collection.prototype.max = __webpack_require__(/*! ./methods/max */ "./node_modules/collect.js/dist/methods/max.js");
+Collection.prototype.median = __webpack_require__(/*! ./methods/median */ "./node_modules/collect.js/dist/methods/median.js");
+Collection.prototype.merge = __webpack_require__(/*! ./methods/merge */ "./node_modules/collect.js/dist/methods/merge.js");
+Collection.prototype.mergeRecursive = __webpack_require__(/*! ./methods/mergeRecursive */ "./node_modules/collect.js/dist/methods/mergeRecursive.js");
+Collection.prototype.min = __webpack_require__(/*! ./methods/min */ "./node_modules/collect.js/dist/methods/min.js");
+Collection.prototype.mode = __webpack_require__(/*! ./methods/mode */ "./node_modules/collect.js/dist/methods/mode.js");
+Collection.prototype.nth = __webpack_require__(/*! ./methods/nth */ "./node_modules/collect.js/dist/methods/nth.js");
+Collection.prototype.only = __webpack_require__(/*! ./methods/only */ "./node_modules/collect.js/dist/methods/only.js");
+Collection.prototype.pad = __webpack_require__(/*! ./methods/pad */ "./node_modules/collect.js/dist/methods/pad.js");
+Collection.prototype.partition = __webpack_require__(/*! ./methods/partition */ "./node_modules/collect.js/dist/methods/partition.js");
+Collection.prototype.pipe = __webpack_require__(/*! ./methods/pipe */ "./node_modules/collect.js/dist/methods/pipe.js");
+Collection.prototype.pluck = __webpack_require__(/*! ./methods/pluck */ "./node_modules/collect.js/dist/methods/pluck.js");
+Collection.prototype.pop = __webpack_require__(/*! ./methods/pop */ "./node_modules/collect.js/dist/methods/pop.js");
+Collection.prototype.prepend = __webpack_require__(/*! ./methods/prepend */ "./node_modules/collect.js/dist/methods/prepend.js");
+Collection.prototype.pull = __webpack_require__(/*! ./methods/pull */ "./node_modules/collect.js/dist/methods/pull.js");
+Collection.prototype.push = __webpack_require__(/*! ./methods/push */ "./node_modules/collect.js/dist/methods/push.js");
+Collection.prototype.put = __webpack_require__(/*! ./methods/put */ "./node_modules/collect.js/dist/methods/put.js");
+Collection.prototype.random = __webpack_require__(/*! ./methods/random */ "./node_modules/collect.js/dist/methods/random.js");
+Collection.prototype.reduce = __webpack_require__(/*! ./methods/reduce */ "./node_modules/collect.js/dist/methods/reduce.js");
+Collection.prototype.reject = __webpack_require__(/*! ./methods/reject */ "./node_modules/collect.js/dist/methods/reject.js");
+Collection.prototype.replace = __webpack_require__(/*! ./methods/replace */ "./node_modules/collect.js/dist/methods/replace.js");
+Collection.prototype.replaceRecursive = __webpack_require__(/*! ./methods/replaceRecursive */ "./node_modules/collect.js/dist/methods/replaceRecursive.js");
+Collection.prototype.reverse = __webpack_require__(/*! ./methods/reverse */ "./node_modules/collect.js/dist/methods/reverse.js");
+Collection.prototype.search = __webpack_require__(/*! ./methods/search */ "./node_modules/collect.js/dist/methods/search.js");
+Collection.prototype.shift = __webpack_require__(/*! ./methods/shift */ "./node_modules/collect.js/dist/methods/shift.js");
+Collection.prototype.shuffle = __webpack_require__(/*! ./methods/shuffle */ "./node_modules/collect.js/dist/methods/shuffle.js");
+Collection.prototype.skip = __webpack_require__(/*! ./methods/skip */ "./node_modules/collect.js/dist/methods/skip.js");
+Collection.prototype.skipUntil = __webpack_require__(/*! ./methods/skipUntil */ "./node_modules/collect.js/dist/methods/skipUntil.js");
+Collection.prototype.skipWhile = __webpack_require__(/*! ./methods/skipWhile */ "./node_modules/collect.js/dist/methods/skipWhile.js");
+Collection.prototype.slice = __webpack_require__(/*! ./methods/slice */ "./node_modules/collect.js/dist/methods/slice.js");
+Collection.prototype.some = __webpack_require__(/*! ./methods/some */ "./node_modules/collect.js/dist/methods/some.js");
+Collection.prototype.sort = __webpack_require__(/*! ./methods/sort */ "./node_modules/collect.js/dist/methods/sort.js");
+Collection.prototype.sortDesc = __webpack_require__(/*! ./methods/sortDesc */ "./node_modules/collect.js/dist/methods/sortDesc.js");
+Collection.prototype.sortBy = __webpack_require__(/*! ./methods/sortBy */ "./node_modules/collect.js/dist/methods/sortBy.js");
+Collection.prototype.sortByDesc = __webpack_require__(/*! ./methods/sortByDesc */ "./node_modules/collect.js/dist/methods/sortByDesc.js");
+Collection.prototype.sortKeys = __webpack_require__(/*! ./methods/sortKeys */ "./node_modules/collect.js/dist/methods/sortKeys.js");
+Collection.prototype.sortKeysDesc = __webpack_require__(/*! ./methods/sortKeysDesc */ "./node_modules/collect.js/dist/methods/sortKeysDesc.js");
+Collection.prototype.splice = __webpack_require__(/*! ./methods/splice */ "./node_modules/collect.js/dist/methods/splice.js");
+Collection.prototype.split = __webpack_require__(/*! ./methods/split */ "./node_modules/collect.js/dist/methods/split.js");
+Collection.prototype.sum = __webpack_require__(/*! ./methods/sum */ "./node_modules/collect.js/dist/methods/sum.js");
+Collection.prototype.take = __webpack_require__(/*! ./methods/take */ "./node_modules/collect.js/dist/methods/take.js");
+Collection.prototype.takeUntil = __webpack_require__(/*! ./methods/takeUntil */ "./node_modules/collect.js/dist/methods/takeUntil.js");
+Collection.prototype.takeWhile = __webpack_require__(/*! ./methods/takeWhile */ "./node_modules/collect.js/dist/methods/takeWhile.js");
+Collection.prototype.tap = __webpack_require__(/*! ./methods/tap */ "./node_modules/collect.js/dist/methods/tap.js");
+Collection.prototype.times = __webpack_require__(/*! ./methods/times */ "./node_modules/collect.js/dist/methods/times.js");
+Collection.prototype.toArray = __webpack_require__(/*! ./methods/toArray */ "./node_modules/collect.js/dist/methods/toArray.js");
+Collection.prototype.toJson = __webpack_require__(/*! ./methods/toJson */ "./node_modules/collect.js/dist/methods/toJson.js");
+Collection.prototype.transform = __webpack_require__(/*! ./methods/transform */ "./node_modules/collect.js/dist/methods/transform.js");
+Collection.prototype.unless = __webpack_require__(/*! ./methods/unless */ "./node_modules/collect.js/dist/methods/unless.js");
+Collection.prototype.unlessEmpty = __webpack_require__(/*! ./methods/whenNotEmpty */ "./node_modules/collect.js/dist/methods/whenNotEmpty.js");
+Collection.prototype.unlessNotEmpty = __webpack_require__(/*! ./methods/whenEmpty */ "./node_modules/collect.js/dist/methods/whenEmpty.js");
+Collection.prototype.union = __webpack_require__(/*! ./methods/union */ "./node_modules/collect.js/dist/methods/union.js");
+Collection.prototype.unique = __webpack_require__(/*! ./methods/unique */ "./node_modules/collect.js/dist/methods/unique.js");
+Collection.prototype.unwrap = __webpack_require__(/*! ./methods/unwrap */ "./node_modules/collect.js/dist/methods/unwrap.js");
+Collection.prototype.values = __webpack_require__(/*! ./methods/values */ "./node_modules/collect.js/dist/methods/values.js");
+Collection.prototype.when = __webpack_require__(/*! ./methods/when */ "./node_modules/collect.js/dist/methods/when.js");
+Collection.prototype.whenEmpty = __webpack_require__(/*! ./methods/whenEmpty */ "./node_modules/collect.js/dist/methods/whenEmpty.js");
+Collection.prototype.whenNotEmpty = __webpack_require__(/*! ./methods/whenNotEmpty */ "./node_modules/collect.js/dist/methods/whenNotEmpty.js");
+Collection.prototype.where = __webpack_require__(/*! ./methods/where */ "./node_modules/collect.js/dist/methods/where.js");
+Collection.prototype.whereBetween = __webpack_require__(/*! ./methods/whereBetween */ "./node_modules/collect.js/dist/methods/whereBetween.js");
+Collection.prototype.whereIn = __webpack_require__(/*! ./methods/whereIn */ "./node_modules/collect.js/dist/methods/whereIn.js");
+Collection.prototype.whereInstanceOf = __webpack_require__(/*! ./methods/whereInstanceOf */ "./node_modules/collect.js/dist/methods/whereInstanceOf.js");
+Collection.prototype.whereNotBetween = __webpack_require__(/*! ./methods/whereNotBetween */ "./node_modules/collect.js/dist/methods/whereNotBetween.js");
+Collection.prototype.whereNotIn = __webpack_require__(/*! ./methods/whereNotIn */ "./node_modules/collect.js/dist/methods/whereNotIn.js");
+Collection.prototype.whereNull = __webpack_require__(/*! ./methods/whereNull */ "./node_modules/collect.js/dist/methods/whereNull.js");
+Collection.prototype.whereNotNull = __webpack_require__(/*! ./methods/whereNotNull */ "./node_modules/collect.js/dist/methods/whereNotNull.js");
+Collection.prototype.wrap = __webpack_require__(/*! ./methods/wrap */ "./node_modules/collect.js/dist/methods/wrap.js");
+Collection.prototype.zip = __webpack_require__(/*! ./methods/zip */ "./node_modules/collect.js/dist/methods/zip.js");
+
+var collect = function collect(collection) {
+  return new Collection(collection);
+};
+
+module.exports = collect;
+module.exports.collect = collect;
+module.exports.default = collect;
+module.exports.Collection = Collection;
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/all.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/all.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function all() {
+  return this.items;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/average.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/average.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function average(key) {
+  if (key === undefined) {
+    return this.sum() / this.items.length;
+  }
+
+  return new this.constructor(this.items).pluck(key).sum() / this.items.length;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/avg.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/avg.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var average = __webpack_require__(/*! ./average */ "./node_modules/collect.js/dist/methods/average.js");
+
+module.exports = average;
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/chunk.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/chunk.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function chunk(size) {
+  var _this = this;
+
+  var chunks = [];
+  var index = 0;
+
+  if (Array.isArray(this.items)) {
+    do {
+      var items = this.items.slice(index, index + size);
+      var collection = new this.constructor(items);
+
+      chunks.push(collection);
+      index += size;
+    } while (index < this.items.length);
+  } else if (_typeof(this.items) === 'object') {
+    var keys = Object.keys(this.items);
+
+    var _loop = function _loop() {
+      var keysOfChunk = keys.slice(index, index + size);
+      var collection = new _this.constructor({});
+
+      keysOfChunk.forEach(function (key) {
+        return collection.put(key, _this.items[key]);
+      });
+
+      chunks.push(collection);
+      index += size;
+    };
+
+    do {
+      _loop();
+    } while (index < keys.length);
+  } else {
+    chunks.push(new this.constructor([this.items]));
+  }
+
+  return new this.constructor(chunks);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/collapse.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/collapse.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function collapse() {
+  var _ref;
+
+  return new this.constructor((_ref = []).concat.apply(_ref, _toConsumableArray(this.items)));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/combine.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/combine.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function combine(array) {
+  var _this = this;
+
+  var values = array;
+
+  if (values instanceof this.constructor) {
+    values = array.all();
+  }
+
+  var collection = {};
+
+  if (Array.isArray(this.items) && Array.isArray(values)) {
+    this.items.forEach(function (key, iterator) {
+      collection[key] = values[iterator];
+    });
+  } else if (_typeof(this.items) === 'object' && (typeof values === 'undefined' ? 'undefined' : _typeof(values)) === 'object') {
+    Object.keys(this.items).forEach(function (key, index) {
+      collection[_this.items[key]] = values[Object.keys(values)[index]];
+    });
+  } else if (Array.isArray(this.items)) {
+    collection[this.items[0]] = values;
+  } else if (typeof this.items === 'string' && Array.isArray(values)) {
+    var _values = values;
+
+    var _values2 = _slicedToArray(_values, 1);
+
+    collection[this.items] = _values2[0];
+  } else if (typeof this.items === 'string') {
+    collection[this.items] = values;
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/concat.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/concat.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var clone = __webpack_require__(/*! ../helpers/clone */ "./node_modules/collect.js/dist/helpers/clone.js");
+
+module.exports = function concat(collectionOrArrayOrObject) {
+  var list = collectionOrArrayOrObject;
+
+  if (collectionOrArrayOrObject instanceof this.constructor) {
+    list = collectionOrArrayOrObject.all();
+  } else if ((typeof collectionOrArrayOrObject === 'undefined' ? 'undefined' : _typeof(collectionOrArrayOrObject)) === 'object') {
+    list = [];
+    Object.keys(collectionOrArrayOrObject).forEach(function (property) {
+      list.push(collectionOrArrayOrObject[property]);
+    });
+  }
+
+  var collection = clone(this.items);
+
+  list.forEach(function (item) {
+    if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+      Object.keys(item).forEach(function (key) {
+        return collection.push(item[key]);
+      });
+    } else {
+      collection.push(item);
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/contains.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/contains.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function contains(key, value) {
+  if (value !== undefined) {
+    if (Array.isArray(this.items)) {
+      return this.items.filter(function (items) {
+        return items[key] !== undefined && items[key] === value;
+      }).length > 0;
+    }
+
+    return this.items[key] !== undefined && this.items[key] === value;
+  }
+
+  if (isFunction(key)) {
+    return this.items.filter(function (item, index) {
+      return key(item, index);
+    }).length > 0;
+  }
+
+  if (Array.isArray(this.items)) {
+    return this.items.indexOf(key) !== -1;
+  }
+
+  var keysAndValues = values(this.items);
+  keysAndValues.push.apply(keysAndValues, _toConsumableArray(Object.keys(this.items)));
+
+  return keysAndValues.indexOf(key) !== -1;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/count.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/count.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function count() {
+  var arrayLength = 0;
+
+  if (Array.isArray(this.items)) {
+    arrayLength = this.items.length;
+  }
+
+  return Math.max(Object.keys(this.items).length, arrayLength);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/countBy.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/countBy.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function countBy() {
+  var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function (value) {
+    return value;
+  };
+
+  return new this.constructor(this.items).groupBy(fn).map(function (value) {
+    return value.count();
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/crossJoin.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/crossJoin.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function crossJoin() {
+  function join(collection, constructor, args) {
+    var current = args[0];
+
+    if (current instanceof constructor) {
+      current = current.all();
+    }
+
+    var rest = args.slice(1);
+    var last = !rest.length;
+    var result = [];
+
+    for (var i = 0; i < current.length; i += 1) {
+      var collectionCopy = collection.slice();
+      collectionCopy.push(current[i]);
+
+      if (last) {
+        result.push(collectionCopy);
+      } else {
+        result = result.concat(join(collectionCopy, constructor, rest));
+      }
+    }
+
+    return result;
+  }
+
+  for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+    values[_key] = arguments[_key];
+  }
+
+  return new this.constructor(join([], this.constructor, [].concat([this.items], values)));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/dd.js":
+/*!****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/dd.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+module.exports = function dd() {
+  this.dump();
+
+  if (typeof process !== 'undefined') {
+    process.exit(1);
+  }
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/diff.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/diff.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function diff(values) {
+  var valuesToDiff = void 0;
+
+  if (values instanceof this.constructor) {
+    valuesToDiff = values.all();
+  } else {
+    valuesToDiff = values;
+  }
+
+  var collection = this.items.filter(function (item) {
+    return valuesToDiff.indexOf(item) === -1;
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/diffAssoc.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/diffAssoc.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function diffAssoc(values) {
+  var _this = this;
+
+  var diffValues = values;
+
+  if (values instanceof this.constructor) {
+    diffValues = values.all();
+  }
+
+  var collection = {};
+
+  Object.keys(this.items).forEach(function (key) {
+    if (diffValues[key] === undefined || diffValues[key] !== _this.items[key]) {
+      collection[key] = _this.items[key];
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/diffKeys.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/diffKeys.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function diffKeys(object) {
+  var objectToDiff = void 0;
+
+  if (object instanceof this.constructor) {
+    objectToDiff = object.all();
+  } else {
+    objectToDiff = object;
+  }
+
+  var objectKeys = Object.keys(objectToDiff);
+
+  var remainingKeys = Object.keys(this.items).filter(function (item) {
+    return objectKeys.indexOf(item) === -1;
+  });
+
+  return new this.constructor(this.items).only(remainingKeys);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/dump.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/dump.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function dump() {
+  // eslint-disable-next-line
+  console.log(this);
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/duplicates.js":
+/*!************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/duplicates.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function duplicates() {
+  var _this = this;
+
+  var occuredValues = [];
+  var duplicateValues = {};
+
+  var stringifiedValue = function stringifiedValue(value) {
+    if (Array.isArray(value) || (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
+      return JSON.stringify(value);
+    }
+
+    return value;
+  };
+
+  if (Array.isArray(this.items)) {
+    this.items.forEach(function (value, index) {
+      var valueAsString = stringifiedValue(value);
+
+      if (occuredValues.indexOf(valueAsString) === -1) {
+        occuredValues.push(valueAsString);
+      } else {
+        duplicateValues[index] = value;
+      }
+    });
+  } else if (_typeof(this.items) === 'object') {
+    Object.keys(this.items).forEach(function (key) {
+      var valueAsString = stringifiedValue(_this.items[key]);
+
+      if (occuredValues.indexOf(valueAsString) === -1) {
+        occuredValues.push(valueAsString);
+      } else {
+        duplicateValues[key] = _this.items[key];
+      }
+    });
+  }
+
+  return new this.constructor(duplicateValues);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/each.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/each.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function each(fn) {
+  var stop = false;
+
+  if (Array.isArray(this.items)) {
+    var length = this.items.length;
+
+
+    for (var index = 0; index < length && !stop; index += 1) {
+      stop = fn(this.items[index], index, this.items) === false;
+    }
+  } else {
+    var keys = Object.keys(this.items);
+    var _length = keys.length;
+
+
+    for (var _index = 0; _index < _length && !stop; _index += 1) {
+      var key = keys[_index];
+
+      stop = fn(this.items[key], key, this.items) === false;
+    }
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/eachSpread.js":
+/*!************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/eachSpread.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function eachSpread(fn) {
+  this.each(function (values, key) {
+    fn.apply(undefined, _toConsumableArray(values).concat([key]));
+  });
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/every.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/every.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+module.exports = function every(fn) {
+  var items = values(this.items);
+
+  return items.every(fn);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/except.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/except.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var variadic = __webpack_require__(/*! ../helpers/variadic */ "./node_modules/collect.js/dist/helpers/variadic.js");
+
+module.exports = function except() {
+  var _this = this;
+
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var properties = variadic(args);
+
+  if (Array.isArray(this.items)) {
+    var _collection = this.items.filter(function (item) {
+      return properties.indexOf(item) === -1;
+    });
+
+    return new this.constructor(_collection);
+  }
+
+  var collection = {};
+
+  Object.keys(this.items).forEach(function (property) {
+    if (properties.indexOf(property) === -1) {
+      collection[property] = _this.items[property];
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/filter.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/filter.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function falsyValue(item) {
+  if (Array.isArray(item)) {
+    if (item.length) {
+      return false;
+    }
+  } else if (item !== undefined && item !== null && (typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+    if (Object.keys(item).length) {
+      return false;
+    }
+  } else if (item) {
+    return false;
+  }
+
+  return true;
+}
+
+function filterObject(func, items) {
+  var result = {};
+  Object.keys(items).forEach(function (key) {
+    if (func) {
+      if (func(items[key], key)) {
+        result[key] = items[key];
+      }
+    } else if (!falsyValue(items[key])) {
+      result[key] = items[key];
+    }
+  });
+
+  return result;
+}
+
+function filterArray(func, items) {
+  if (func) {
+    return items.filter(func);
+  }
+  var result = [];
+  for (var i = 0; i < items.length; i += 1) {
+    var item = items[i];
+    if (!falsyValue(item)) {
+      result.push(item);
+    }
+  }
+
+  return result;
+}
+
+module.exports = function filter(fn) {
+  var func = fn || false;
+  var filteredItems = null;
+  if (Array.isArray(this.items)) {
+    filteredItems = filterArray(func, this.items);
+  } else {
+    filteredItems = filterObject(func, this.items);
+  }
+
+  return new this.constructor(filteredItems);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/first.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/first.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function first(fn, defaultValue) {
+  if (isFunction(fn)) {
+    for (var i = 0, length = this.items.length; i < length; i += 1) {
+      var item = this.items[i];
+      if (fn(item)) {
+        return item;
+      }
+    }
+
+    if (isFunction(defaultValue)) {
+      return defaultValue();
+    }
+
+    return defaultValue;
+  }
+
+  if (Array.isArray(this.items) && this.items.length || Object.keys(this.items).length) {
+    if (Array.isArray(this.items)) {
+      return this.items[0];
+    }
+
+    var firstKey = Object.keys(this.items)[0];
+
+    return this.items[firstKey];
+  }
+
+  if (isFunction(defaultValue)) {
+    return defaultValue();
+  }
+
+  return defaultValue;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/firstWhere.js":
+/*!************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/firstWhere.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function firstWhere(key, operator, value) {
+  return this.where(key, operator, value).first() || null;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/flatMap.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/flatMap.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function flatMap(fn) {
+  return this.map(fn).collapse();
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/flatten.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/flatten.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject;
+
+module.exports = function flatten(depth) {
+  var flattenDepth = depth || Infinity;
+
+  var fullyFlattened = false;
+  var collection = [];
+
+  var flat = function flat(items) {
+    collection = [];
+
+    if (isArray(items)) {
+      items.forEach(function (item) {
+        if (isArray(item)) {
+          collection = collection.concat(item);
+        } else if (isObject(item)) {
+          Object.keys(item).forEach(function (property) {
+            collection = collection.concat(item[property]);
+          });
+        } else {
+          collection.push(item);
+        }
+      });
+    } else {
+      Object.keys(items).forEach(function (property) {
+        if (isArray(items[property])) {
+          collection = collection.concat(items[property]);
+        } else if (isObject(items[property])) {
+          Object.keys(items[property]).forEach(function (prop) {
+            collection = collection.concat(items[property][prop]);
+          });
+        } else {
+          collection.push(items[property]);
+        }
+      });
+    }
+
+    fullyFlattened = collection.filter(function (item) {
+      return isObject(item);
+    });
+    fullyFlattened = fullyFlattened.length === 0;
+
+    flattenDepth -= 1;
+  };
+
+  flat(this.items);
+
+  while (!fullyFlattened && flattenDepth > 0) {
+    flat(collection);
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/flip.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/flip.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function flip() {
+  var _this = this;
+
+  var collection = {};
+
+  if (Array.isArray(this.items)) {
+    Object.keys(this.items).forEach(function (key) {
+      collection[_this.items[key]] = Number(key);
+    });
+  } else {
+    Object.keys(this.items).forEach(function (key) {
+      collection[_this.items[key]] = key;
+    });
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/forPage.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/forPage.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function forPage(page, chunk) {
+  var _this = this;
+
+  var collection = {};
+
+  if (Array.isArray(this.items)) {
+    collection = this.items.slice(page * chunk - chunk, page * chunk);
+  } else {
+    Object.keys(this.items).slice(page * chunk - chunk, page * chunk).forEach(function (key) {
+      collection[key] = _this.items[key];
+    });
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/forget.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/forget.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function forget(key) {
+  if (Array.isArray(this.items)) {
+    this.items.splice(key, 1);
+  } else {
+    delete this.items[key];
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/get.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/get.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function get(key) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+  if (this.items[key] !== undefined) {
+    return this.items[key];
+  }
+
+  if (isFunction(defaultValue)) {
+    return defaultValue();
+  }
+
+  if (defaultValue !== null) {
+    return defaultValue;
+  }
+
+  return null;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/groupBy.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/groupBy.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function groupBy(key) {
+  var _this = this;
+
+  var collection = {};
+
+  this.items.forEach(function (item, index) {
+    var resolvedKey = void 0;
+
+    if (isFunction(key)) {
+      resolvedKey = key(item, index);
+    } else if (nestedValue(item, key) || nestedValue(item, key) === 0) {
+      resolvedKey = nestedValue(item, key);
+    } else {
+      resolvedKey = '';
+    }
+
+    if (collection[resolvedKey] === undefined) {
+      collection[resolvedKey] = new _this.constructor([]);
+    }
+
+    collection[resolvedKey].push(item);
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/has.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/has.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var variadic = __webpack_require__(/*! ../helpers/variadic */ "./node_modules/collect.js/dist/helpers/variadic.js");
+
+module.exports = function has() {
+  var _this = this;
+
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var properties = variadic(args);
+
+  return properties.filter(function (key) {
+    return Object.hasOwnProperty.call(_this.items, key);
+  }).length === properties.length;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/implode.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/implode.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function implode(key, glue) {
+  if (glue === undefined) {
+    return this.items.join(key);
+  }
+
+  return new this.constructor(this.items).pluck(key).all().join(glue);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/intersect.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/intersect.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function intersect(values) {
+  var intersectValues = values;
+
+  if (values instanceof this.constructor) {
+    intersectValues = values.all();
+  }
+
+  var collection = this.items.filter(function (item) {
+    return intersectValues.indexOf(item) !== -1;
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/intersectByKeys.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/intersectByKeys.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function intersectByKeys(values) {
+  var _this = this;
+
+  var intersectKeys = Object.keys(values);
+
+  if (values instanceof this.constructor) {
+    intersectKeys = Object.keys(values.all());
+  }
+
+  var collection = {};
+
+  Object.keys(this.items).forEach(function (key) {
+    if (intersectKeys.indexOf(key) !== -1) {
+      collection[key] = _this.items[key];
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/isEmpty.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/isEmpty.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isEmpty() {
+  if (Array.isArray(this.items)) {
+    return !this.items.length;
+  }
+
+  return !Object.keys(this.items).length;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/isNotEmpty.js":
+/*!************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/isNotEmpty.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isNotEmpty() {
+  return !this.isEmpty();
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/join.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/join.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function join(glue, finalGlue) {
+  var collection = this.values();
+
+  if (finalGlue === undefined) {
+    return collection.implode(glue);
+  }
+
+  var count = collection.count();
+
+  if (count === 0) {
+    return '';
+  }
+
+  if (count === 1) {
+    return collection.last();
+  }
+
+  var finalItem = collection.pop();
+
+  return collection.implode(glue) + finalGlue + finalItem;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/keyBy.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/keyBy.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function keyBy(key) {
+  var collection = {};
+
+  if (isFunction(key)) {
+    this.items.forEach(function (item) {
+      collection[key(item)] = item;
+    });
+  } else {
+    this.items.forEach(function (item) {
+      var keyValue = nestedValue(item, key);
+
+      collection[keyValue || ''] = item;
+    });
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/keys.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/keys.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function keys() {
+  var collection = Object.keys(this.items);
+
+  if (Array.isArray(this.items)) {
+    collection = collection.map(Number);
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/last.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/last.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function last(fn, defaultValue) {
+  var items = this.items;
+
+
+  if (isFunction(fn)) {
+    items = this.filter(fn).all();
+  }
+
+  if (Array.isArray(items) && !items.length || !Object.keys(items).length) {
+    if (isFunction(defaultValue)) {
+      return defaultValue();
+    }
+
+    return defaultValue;
+  }
+
+  if (Array.isArray(items)) {
+    return items[items.length - 1];
+  }
+  var keys = Object.keys(items);
+
+  return items[keys[keys.length - 1]];
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/macro.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/macro.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function macro(name, fn) {
+  this.constructor.prototype[name] = fn;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/make.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/make.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function make() {
+  var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+  return new this.constructor(items);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/map.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/map.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function map(fn) {
+  var _this = this;
+
+  if (Array.isArray(this.items)) {
+    return new this.constructor(this.items.map(fn));
+  }
+
+  var collection = {};
+
+  Object.keys(this.items).forEach(function (key) {
+    collection[key] = fn(_this.items[key], key);
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mapInto.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mapInto.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function mapInto(ClassName) {
+  return this.map(function (value, key) {
+    return new ClassName(value, key);
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mapSpread.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mapSpread.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function mapSpread(fn) {
+  return this.map(function (values, key) {
+    return fn.apply(undefined, _toConsumableArray(values).concat([key]));
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mapToDictionary.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mapToDictionary.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+module.exports = function mapToDictionary(fn) {
+  var collection = {};
+
+  this.items.forEach(function (item, k) {
+    var _fn = fn(item, k),
+        _fn2 = _slicedToArray(_fn, 2),
+        key = _fn2[0],
+        value = _fn2[1];
+
+    if (collection[key] === undefined) {
+      collection[key] = [value];
+    } else {
+      collection[key].push(value);
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mapToGroups.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mapToGroups.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+module.exports = function mapToGroups(fn) {
+  var collection = {};
+
+  this.items.forEach(function (item, key) {
+    var _fn = fn(item, key),
+        _fn2 = _slicedToArray(_fn, 2),
+        keyed = _fn2[0],
+        value = _fn2[1];
+
+    if (collection[keyed] === undefined) {
+      collection[keyed] = [value];
+    } else {
+      collection[keyed].push(value);
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mapWithKeys.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mapWithKeys.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+module.exports = function mapWithKeys(fn) {
+  var _this = this;
+
+  var collection = {};
+
+  if (Array.isArray(this.items)) {
+    this.items.forEach(function (item) {
+      var _fn = fn(item),
+          _fn2 = _slicedToArray(_fn, 2),
+          keyed = _fn2[0],
+          value = _fn2[1];
+
+      collection[keyed] = value;
+    });
+  } else {
+    Object.keys(this.items).forEach(function (key) {
+      var _fn3 = fn(_this.items[key]),
+          _fn4 = _slicedToArray(_fn3, 2),
+          keyed = _fn4[0],
+          value = _fn4[1];
+
+      collection[keyed] = value;
+    });
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/max.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/max.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function max(key) {
+  if (typeof key === 'string') {
+    var filtered = this.items.filter(function (item) {
+      return item[key] !== undefined;
+    });
+
+    return Math.max.apply(Math, _toConsumableArray(filtered.map(function (item) {
+      return item[key];
+    })));
+  }
+
+  return Math.max.apply(Math, _toConsumableArray(this.items));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/median.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/median.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function median(key) {
+  var length = this.items.length;
+
+
+  if (key === undefined) {
+    if (length % 2 === 0) {
+      return (this.items[length / 2 - 1] + this.items[length / 2]) / 2;
+    }
+
+    return this.items[Math.floor(length / 2)];
+  }
+
+  if (length % 2 === 0) {
+    return (this.items[length / 2 - 1][key] + this.items[length / 2][key]) / 2;
+  }
+
+  return this.items[Math.floor(length / 2)][key];
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/merge.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/merge.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function merge(value) {
+  var arrayOrObject = value;
+
+  if (typeof arrayOrObject === 'string') {
+    arrayOrObject = [arrayOrObject];
+  }
+
+  if (Array.isArray(this.items) && Array.isArray(arrayOrObject)) {
+    return new this.constructor(this.items.concat(arrayOrObject));
+  }
+
+  var collection = JSON.parse(JSON.stringify(this.items));
+
+  Object.keys(arrayOrObject).forEach(function (key) {
+    collection[key] = arrayOrObject[key];
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mergeRecursive.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mergeRecursive.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function mergeRecursive(items) {
+  var merge = function merge(target, source) {
+    var merged = {};
+
+    var mergedKeys = Object.keys(Object.assign({}, target, source));
+
+    mergedKeys.forEach(function (key) {
+      if (target[key] === undefined && source[key] !== undefined) {
+        merged[key] = source[key];
+      } else if (target[key] !== undefined && source[key] === undefined) {
+        merged[key] = target[key];
+      } else if (target[key] !== undefined && source[key] !== undefined) {
+        if (target[key] === source[key]) {
+          merged[key] = target[key];
+        } else if (!Array.isArray(target[key]) && _typeof(target[key]) === 'object' && !Array.isArray(source[key]) && _typeof(source[key]) === 'object') {
+          merged[key] = merge(target[key], source[key]);
+        } else {
+          merged[key] = [].concat(target[key], source[key]);
+        }
+      }
+    });
+
+    return merged;
+  };
+
+  if (!items) {
+    return this;
+  }
+
+  if (items.constructor.name === 'Collection') {
+    return new this.constructor(merge(this.items, items.all()));
+  }
+
+  return new this.constructor(merge(this.items, items));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/min.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/min.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = function min(key) {
+  if (key !== undefined) {
+    var filtered = this.items.filter(function (item) {
+      return item[key] !== undefined;
+    });
+
+    return Math.min.apply(Math, _toConsumableArray(filtered.map(function (item) {
+      return item[key];
+    })));
+  }
+
+  return Math.min.apply(Math, _toConsumableArray(this.items));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/mode.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/mode.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function mode(key) {
+  var values = [];
+  var highestCount = 1;
+
+  if (!this.items.length) {
+    return null;
+  }
+
+  this.items.forEach(function (item) {
+    var tempValues = values.filter(function (value) {
+      if (key !== undefined) {
+        return value.key === item[key];
+      }
+
+      return value.key === item;
+    });
+
+    if (!tempValues.length) {
+      if (key !== undefined) {
+        values.push({ key: item[key], count: 1 });
+      } else {
+        values.push({ key: item, count: 1 });
+      }
+    } else {
+      tempValues[0].count += 1;
+      var count = tempValues[0].count;
+
+
+      if (count > highestCount) {
+        highestCount = count;
+      }
+    }
+  });
+
+  return values.filter(function (value) {
+    return value.count === highestCount;
+  }).map(function (value) {
+    return value.key;
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/nth.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/nth.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+module.exports = function nth(n) {
+  var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+  var items = values(this.items);
+
+  var collection = items.slice(offset).filter(function (item, index) {
+    return index % n === 0;
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/only.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/only.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var variadic = __webpack_require__(/*! ../helpers/variadic */ "./node_modules/collect.js/dist/helpers/variadic.js");
+
+module.exports = function only() {
+  var _this = this;
+
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var properties = variadic(args);
+
+  if (Array.isArray(this.items)) {
+    var _collection = this.items.filter(function (item) {
+      return properties.indexOf(item) !== -1;
+    });
+
+    return new this.constructor(_collection);
+  }
+
+  var collection = {};
+
+  Object.keys(this.items).forEach(function (prop) {
+    if (properties.indexOf(prop) !== -1) {
+      collection[prop] = _this.items[prop];
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/pad.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/pad.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var clone = __webpack_require__(/*! ../helpers/clone */ "./node_modules/collect.js/dist/helpers/clone.js");
+
+module.exports = function pad(size, value) {
+  var abs = Math.abs(size);
+  var count = this.count();
+
+  if (abs <= count) {
+    return this;
+  }
+
+  var diff = abs - count;
+  var items = clone(this.items);
+  var isArray = Array.isArray(this.items);
+  var prepend = size < 0;
+
+  for (var iterator = 0; iterator < diff;) {
+    if (!isArray) {
+      if (items[iterator] !== undefined) {
+        diff += 1;
+      } else {
+        items[iterator] = value;
+      }
+    } else if (prepend) {
+      items.unshift(value);
+    } else {
+      items.push(value);
+    }
+
+    iterator += 1;
+  }
+
+  return new this.constructor(items);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/partition.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/partition.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function partition(fn) {
+  var _this = this;
+
+  var arrays = void 0;
+
+  if (Array.isArray(this.items)) {
+    arrays = [new this.constructor([]), new this.constructor([])];
+
+    this.items.forEach(function (item) {
+      if (fn(item) === true) {
+        arrays[0].push(item);
+      } else {
+        arrays[1].push(item);
+      }
+    });
+  } else {
+    arrays = [new this.constructor({}), new this.constructor({})];
+
+    Object.keys(this.items).forEach(function (prop) {
+      var value = _this.items[prop];
+
+      if (fn(value) === true) {
+        arrays[0].put(prop, value);
+      } else {
+        arrays[1].put(prop, value);
+      }
+    });
+  }
+
+  return new this.constructor(arrays);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/pipe.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/pipe.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function pipe(fn) {
+  return fn(this);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/pluck.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/pluck.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject;
+
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+var buildKeyPathMap = function buildKeyPathMap(items) {
+  var keyPaths = {};
+
+  items.forEach(function (item, index) {
+    function buildKeyPath(val, keyPath) {
+      if (isObject(val)) {
+        Object.keys(val).forEach(function (prop) {
+          buildKeyPath(val[prop], keyPath + '.' + prop);
+        });
+      } else if (isArray(val)) {
+        val.forEach(function (v, i) {
+          buildKeyPath(v, keyPath + '.' + i);
+        });
+      }
+
+      keyPaths[keyPath] = val;
+    }
+
+    buildKeyPath(item, index);
+  });
+
+  return keyPaths;
+};
+
+module.exports = function pluck(value, key) {
+  if (value.indexOf('*') !== -1) {
+    var keyPathMap = buildKeyPathMap(this.items);
+
+    var keyMatches = [];
+
+    if (key !== undefined) {
+      var keyRegex = new RegExp('0.' + key, 'g');
+      var keyNumberOfLevels = ('0.' + key).split('.').length;
+
+      Object.keys(keyPathMap).forEach(function (k) {
+        var matchingKey = k.match(keyRegex);
+
+        if (matchingKey) {
+          var match = matchingKey[0];
+
+          if (match.split('.').length === keyNumberOfLevels) {
+            keyMatches.push(keyPathMap[match]);
+          }
+        }
+      });
+    }
+
+    var valueMatches = [];
+    var valueRegex = new RegExp('0.' + value, 'g');
+    var valueNumberOfLevels = ('0.' + value).split('.').length;
+
+    Object.keys(keyPathMap).forEach(function (k) {
+      var matchingValue = k.match(valueRegex);
+
+      if (matchingValue) {
+        var match = matchingValue[0];
+
+        if (match.split('.').length === valueNumberOfLevels) {
+          valueMatches.push(keyPathMap[match]);
+        }
+      }
+    });
+
+    if (key !== undefined) {
+      var collection = {};
+
+      this.items.forEach(function (item, index) {
+        collection[keyMatches[index] || ''] = valueMatches;
+      });
+
+      return new this.constructor(collection);
+    }
+
+    return new this.constructor([valueMatches]);
+  }
+
+  if (key !== undefined) {
+    var _collection = {};
+
+    this.items.forEach(function (item) {
+      if (nestedValue(item, value) !== undefined) {
+        _collection[item[key] || ''] = nestedValue(item, value);
+      } else {
+        _collection[item[key] || ''] = null;
+      }
+    });
+
+    return new this.constructor(_collection);
+  }
+
+  return this.map(function (item) {
+    if (nestedValue(item, value) !== undefined) {
+      return nestedValue(item, value);
+    }
+
+    return null;
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/pop.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/pop.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function pop() {
+  if (Array.isArray(this.items)) {
+    return this.items.pop();
+  }
+
+  var keys = Object.keys(this.items);
+  var key = keys[keys.length - 1];
+  var last = this.items[key];
+
+  delete this.items[key];
+
+  return last;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/prepend.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/prepend.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function prepend(value, key) {
+  if (key !== undefined) {
+    return this.put(key, value);
+  }
+
+  this.items.unshift(value);
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/pull.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/pull.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function pull(key, defaultValue) {
+  var returnValue = this.items[key] || null;
+
+  if (!returnValue && defaultValue !== undefined) {
+    if (isFunction(defaultValue)) {
+      returnValue = defaultValue();
+    } else {
+      returnValue = defaultValue;
+    }
+  }
+
+  delete this.items[key];
+
+  return returnValue;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/push.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/push.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function push() {
+  var _items;
+
+  (_items = this.items).push.apply(_items, arguments);
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/put.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/put.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function put(key, value) {
+  this.items[key] = value;
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/random.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/random.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+module.exports = function random() {
+  var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+  var items = values(this.items);
+
+  var collection = new this.constructor(items).shuffle();
+
+  // If not a length was specified
+  if (length !== parseInt(length, 10)) {
+    return collection.first();
+  }
+
+  return collection.take(length);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/reduce.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/reduce.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function reduce(fn, carry) {
+  var _this = this;
+
+  var reduceCarry = null;
+
+  if (carry !== undefined) {
+    reduceCarry = carry;
+  }
+
+  if (Array.isArray(this.items)) {
+    this.items.forEach(function (item) {
+      reduceCarry = fn(reduceCarry, item);
+    });
+  } else {
+    Object.keys(this.items).forEach(function (key) {
+      reduceCarry = fn(reduceCarry, _this.items[key], key);
+    });
+  }
+
+  return reduceCarry;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/reject.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/reject.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function reject(fn) {
+  return new this.constructor(this.items).filter(function (item) {
+    return !fn(item);
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/replace.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/replace.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function replace(items) {
+  if (!items) {
+    return this;
+  }
+
+  if (Array.isArray(items)) {
+    var _replaced = this.items.map(function (value, index) {
+      return items[index] || value;
+    });
+
+    return new this.constructor(_replaced);
+  }
+
+  if (items.constructor.name === 'Collection') {
+    var _replaced2 = Object.assign({}, this.items, items.all());
+
+    return new this.constructor(_replaced2);
+  }
+
+  var replaced = Object.assign({}, this.items, items);
+
+  return new this.constructor(replaced);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/replaceRecursive.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/replaceRecursive.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function replaceRecursive(items) {
+  var replace = function replace(target, source) {
+    var replaced = Object.assign({}, target);
+
+    var mergedKeys = Object.keys(Object.assign({}, target, source));
+
+    mergedKeys.forEach(function (key) {
+      if (!Array.isArray(source[key]) && _typeof(source[key]) === 'object') {
+        replaced[key] = replace(target[key], source[key]);
+      } else if (target[key] === undefined && source[key] !== undefined) {
+        if (_typeof(target[key]) === 'object') {
+          replaced[key] = Object.assign({}, source[key]);
+        } else {
+          replaced[key] = source[key];
+        }
+      } else if (target[key] !== undefined && source[key] === undefined) {
+        if (_typeof(target[key]) === 'object') {
+          replaced[key] = Object.assign({}, target[key]);
+        } else {
+          replaced[key] = target[key];
+        }
+      } else if (target[key] !== undefined && source[key] !== undefined) {
+        if (_typeof(source[key]) === 'object') {
+          replaced[key] = Object.assign({}, source[key]);
+        } else {
+          replaced[key] = source[key];
+        }
+      }
+    });
+
+    return replaced;
+  };
+
+  if (!items) {
+    return this;
+  }
+
+  if (!Array.isArray(items) && (typeof items === 'undefined' ? 'undefined' : _typeof(items)) !== 'object') {
+    return new this.constructor(replace(this.items, [items]));
+  }
+
+  if (items.constructor.name === 'Collection') {
+    return new this.constructor(replace(this.items, items.all()));
+  }
+
+  return new this.constructor(replace(this.items, items));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/reverse.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/reverse.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function reverse() {
+  var collection = [].concat(this.items).reverse();
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/search.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/search.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* eslint-disable eqeqeq */
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject,
+    isFunction = _require.isFunction;
+
+module.exports = function search(valueOrFunction, strict) {
+  var _this = this;
+
+  var result = void 0;
+
+  var find = function find(item, key) {
+    if (isFunction(valueOrFunction)) {
+      return valueOrFunction(_this.items[key], key);
+    }
+
+    if (strict) {
+      return _this.items[key] === valueOrFunction;
+    }
+
+    return _this.items[key] == valueOrFunction;
+  };
+
+  if (isArray(this.items)) {
+    result = this.items.findIndex(find);
+  } else if (isObject(this.items)) {
+    result = Object.keys(this.items).find(function (key) {
+      return find(_this.items[key], key);
+    });
+  }
+
+  if (result === undefined || result < 0) {
+    return false;
+  }
+
+  return result;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/shift.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/shift.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function shift() {
+  if (Array.isArray(this.items) && this.items.length) {
+    return this.items.shift();
+  }
+
+  if (Object.keys(this.items).length) {
+    var key = Object.keys(this.items)[0];
+    var value = this.items[key];
+    delete this.items[key];
+
+    return value;
+  }
+
+  return null;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/shuffle.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/shuffle.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+module.exports = function shuffle() {
+  var items = values(this.items);
+
+  var j = void 0;
+  var x = void 0;
+  var i = void 0;
+
+  for (i = items.length; i; i -= 1) {
+    j = Math.floor(Math.random() * i);
+    x = items[i - 1];
+    items[i - 1] = items[j];
+    items[j] = x;
+  }
+
+  this.items = items;
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/skip.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/skip.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isObject = _require.isObject;
+
+module.exports = function skip(number) {
+  var _this = this;
+
+  if (isObject(this.items)) {
+    return new this.constructor(Object.keys(this.items).reduce(function (accumulator, key, index) {
+      if (index + 1 > number) {
+        accumulator[key] = _this.items[key];
+      }
+
+      return accumulator;
+    }, {}));
+  }
+
+  return new this.constructor(this.items.slice(number));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/skipUntil.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/skipUntil.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject,
+    isFunction = _require.isFunction;
+
+module.exports = function skipUntil(valueOrFunction) {
+  var _this = this;
+
+  var previous = null;
+  var items = void 0;
+
+  var callback = function callback(value) {
+    return value === valueOrFunction;
+  };
+  if (isFunction(valueOrFunction)) {
+    callback = valueOrFunction;
+  }
+
+  if (isArray(this.items)) {
+    items = this.items.filter(function (item) {
+      if (previous !== true) {
+        previous = callback(item);
+      }
+
+      return previous;
+    });
+  }
+
+  if (isObject(this.items)) {
+    items = Object.keys(this.items).reduce(function (acc, key) {
+      if (previous !== true) {
+        previous = callback(_this.items[key]);
+      }
+
+      if (previous !== false) {
+        acc[key] = _this.items[key];
+      }
+
+      return acc;
+    }, {});
+  }
+
+  return new this.constructor(items);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/skipWhile.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/skipWhile.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject,
+    isFunction = _require.isFunction;
+
+module.exports = function skipWhile(valueOrFunction) {
+  var _this = this;
+
+  var previous = null;
+  var items = void 0;
+
+  var callback = function callback(value) {
+    return value === valueOrFunction;
+  };
+  if (isFunction(valueOrFunction)) {
+    callback = valueOrFunction;
+  }
+
+  if (isArray(this.items)) {
+    items = this.items.filter(function (item) {
+      if (previous !== true) {
+        previous = !callback(item);
+      }
+
+      return previous;
+    });
+  }
+
+  if (isObject(this.items)) {
+    items = Object.keys(this.items).reduce(function (acc, key) {
+      if (previous !== true) {
+        previous = !callback(_this.items[key]);
+      }
+
+      if (previous !== false) {
+        acc[key] = _this.items[key];
+      }
+
+      return acc;
+    }, {});
+  }
+
+  return new this.constructor(items);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/slice.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/slice.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function slice(remove, limit) {
+  var collection = this.items.slice(remove);
+
+  if (limit !== undefined) {
+    collection = collection.slice(0, limit);
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/some.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/some.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var contains = __webpack_require__(/*! ./contains */ "./node_modules/collect.js/dist/methods/contains.js");
+
+module.exports = contains;
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sort.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sort.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function sort(fn) {
+  var collection = [].concat(this.items);
+
+  if (fn === undefined) {
+    if (this.every(function (item) {
+      return typeof item === 'number';
+    })) {
+      collection.sort(function (a, b) {
+        return a - b;
+      });
+    } else {
+      collection.sort();
+    }
+  } else {
+    collection.sort(fn);
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sortBy.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sortBy.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function sortBy(valueOrFunction) {
+  var collection = [].concat(this.items);
+  var getValue = function getValue(item) {
+    if (isFunction(valueOrFunction)) {
+      return valueOrFunction(item);
+    }
+
+    return nestedValue(item, valueOrFunction);
+  };
+
+  collection.sort(function (a, b) {
+    var valueA = getValue(a);
+    var valueB = getValue(b);
+
+    if (valueA === null || valueA === undefined) {
+      return 1;
+    }
+    if (valueB === null || valueB === undefined) {
+      return -1;
+    }
+
+    if (valueA < valueB) {
+      return -1;
+    }
+    if (valueA > valueB) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sortByDesc.js":
+/*!************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sortByDesc.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function sortByDesc(valueOrFunction) {
+  return this.sortBy(valueOrFunction).reverse();
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sortDesc.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sortDesc.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function sortDesc() {
+  return this.sort().reverse();
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sortKeys.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sortKeys.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function sortKeys() {
+  var _this = this;
+
+  var ordered = {};
+
+  Object.keys(this.items).sort().forEach(function (key) {
+    ordered[key] = _this.items[key];
+  });
+
+  return new this.constructor(ordered);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sortKeysDesc.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sortKeysDesc.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function sortKeysDesc() {
+  var _this = this;
+
+  var ordered = {};
+
+  Object.keys(this.items).sort().reverse().forEach(function (key) {
+    ordered[key] = _this.items[key];
+  });
+
+  return new this.constructor(ordered);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/splice.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/splice.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function splice(index, limit, replace) {
+  var slicedCollection = this.slice(index, limit);
+
+  this.items = this.diff(slicedCollection.all()).all();
+
+  if (Array.isArray(replace)) {
+    for (var iterator = 0, length = replace.length; iterator < length; iterator += 1) {
+      this.items.splice(index + iterator, 0, replace[iterator]);
+    }
+  }
+
+  return slicedCollection;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/split.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/split.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function split(numberOfGroups) {
+  var itemsPerGroup = Math.round(this.items.length / numberOfGroups);
+
+  var items = JSON.parse(JSON.stringify(this.items));
+  var collection = [];
+
+  for (var iterator = 0; iterator < numberOfGroups; iterator += 1) {
+    collection.push(new this.constructor(items.splice(0, itemsPerGroup)));
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/sum.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/sum.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function sum(key) {
+  var items = values(this.items);
+
+  var total = 0;
+
+  if (key === undefined) {
+    for (var i = 0, length = items.length; i < length; i += 1) {
+      total += parseFloat(items[i]);
+    }
+  } else if (isFunction(key)) {
+    for (var _i = 0, _length = items.length; _i < _length; _i += 1) {
+      total += parseFloat(key(items[_i]));
+    }
+  } else {
+    for (var _i2 = 0, _length2 = items.length; _i2 < _length2; _i2 += 1) {
+      total += parseFloat(items[_i2][key]);
+    }
+  }
+
+  return parseFloat(total.toPrecision(12));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/symbol.iterator.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/symbol.iterator.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function SymbolIterator() {
+  var _this = this;
+
+  var index = -1;
+
+  return {
+    next: function next() {
+      index += 1;
+
+      return {
+        value: _this.items[index],
+        done: index >= _this.items.length
+      };
+    }
+  };
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/take.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/take.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function take(length) {
+  var _this = this;
+
+  if (!Array.isArray(this.items) && _typeof(this.items) === 'object') {
+    var keys = Object.keys(this.items);
+    var slicedKeys = void 0;
+
+    if (length < 0) {
+      slicedKeys = keys.slice(length);
+    } else {
+      slicedKeys = keys.slice(0, length);
+    }
+
+    var collection = {};
+
+    keys.forEach(function (prop) {
+      if (slicedKeys.indexOf(prop) !== -1) {
+        collection[prop] = _this.items[prop];
+      }
+    });
+
+    return new this.constructor(collection);
+  }
+
+  if (length < 0) {
+    return new this.constructor(this.items.slice(length));
+  }
+
+  return new this.constructor(this.items.slice(0, length));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/takeUntil.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/takeUntil.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject,
+    isFunction = _require.isFunction;
+
+module.exports = function takeUntil(valueOrFunction) {
+  var _this = this;
+
+  var previous = null;
+  var items = void 0;
+
+  var callback = function callback(value) {
+    return value === valueOrFunction;
+  };
+  if (isFunction(valueOrFunction)) {
+    callback = valueOrFunction;
+  }
+
+  if (isArray(this.items)) {
+    items = this.items.filter(function (item) {
+      if (previous !== false) {
+        previous = !callback(item);
+      }
+
+      return previous;
+    });
+  }
+
+  if (isObject(this.items)) {
+    items = Object.keys(this.items).reduce(function (acc, key) {
+      if (previous !== false) {
+        previous = !callback(_this.items[key]);
+      }
+
+      if (previous !== false) {
+        acc[key] = _this.items[key];
+      }
+
+      return acc;
+    }, {});
+  }
+
+  return new this.constructor(items);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/takeWhile.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/takeWhile.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isArray = _require.isArray,
+    isObject = _require.isObject,
+    isFunction = _require.isFunction;
+
+module.exports = function takeWhile(valueOrFunction) {
+  var _this = this;
+
+  var previous = null;
+  var items = void 0;
+
+  var callback = function callback(value) {
+    return value === valueOrFunction;
+  };
+  if (isFunction(valueOrFunction)) {
+    callback = valueOrFunction;
+  }
+
+  if (isArray(this.items)) {
+    items = this.items.filter(function (item) {
+      if (previous !== false) {
+        previous = callback(item);
+      }
+
+      return previous;
+    });
+  }
+
+  if (isObject(this.items)) {
+    items = Object.keys(this.items).reduce(function (acc, key) {
+      if (previous !== false) {
+        previous = callback(_this.items[key]);
+      }
+
+      if (previous !== false) {
+        acc[key] = _this.items[key];
+      }
+
+      return acc;
+    }, {});
+  }
+
+  return new this.constructor(items);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/tap.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/tap.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function tap(fn) {
+  fn(this);
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/times.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/times.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function times(n, fn) {
+  for (var iterator = 1; iterator <= n; iterator += 1) {
+    this.items.push(fn(iterator));
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/toArray.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/toArray.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function toArray() {
+  var collectionInstance = this.constructor;
+
+  function iterate(list, collection) {
+    var childCollection = [];
+
+    if (list instanceof collectionInstance) {
+      list.items.forEach(function (i) {
+        return iterate(i, childCollection);
+      });
+      collection.push(childCollection);
+    } else if (Array.isArray(list)) {
+      list.forEach(function (i) {
+        return iterate(i, childCollection);
+      });
+      collection.push(childCollection);
+    } else {
+      collection.push(list);
+    }
+  }
+
+  if (Array.isArray(this.items)) {
+    var collection = [];
+
+    this.items.forEach(function (items) {
+      iterate(items, collection);
+    });
+
+    return collection;
+  }
+
+  return this.values().all();
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/toJson.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/toJson.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function toJson() {
+  if (_typeof(this.items) === 'object' && !Array.isArray(this.items)) {
+    return JSON.stringify(this.all());
+  }
+
+  return JSON.stringify(this.toArray());
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/transform.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/transform.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function transform(fn) {
+  var _this = this;
+
+  if (Array.isArray(this.items)) {
+    this.items = this.items.map(fn);
+  } else {
+    var collection = {};
+
+    Object.keys(this.items).forEach(function (key) {
+      collection[key] = fn(_this.items[key], key);
+    });
+
+    this.items = collection;
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/union.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/union.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function union(object) {
+  var _this = this;
+
+  var collection = JSON.parse(JSON.stringify(this.items));
+
+  Object.keys(object).forEach(function (prop) {
+    if (_this.items[prop] === undefined) {
+      collection[prop] = object[prop];
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/unique.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/unique.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _require = __webpack_require__(/*! ../helpers/is */ "./node_modules/collect.js/dist/helpers/is.js"),
+    isFunction = _require.isFunction;
+
+module.exports = function unique(key) {
+  var collection = void 0;
+
+  if (key === undefined) {
+    collection = this.items.filter(function (element, index, self) {
+      return self.indexOf(element) === index;
+    });
+  } else {
+    collection = [];
+
+    var usedKeys = [];
+
+    for (var iterator = 0, length = this.items.length; iterator < length; iterator += 1) {
+      var uniqueKey = void 0;
+      if (isFunction(key)) {
+        uniqueKey = key(this.items[iterator]);
+      } else {
+        uniqueKey = this.items[iterator][key];
+      }
+
+      if (usedKeys.indexOf(uniqueKey) === -1) {
+        collection.push(this.items[iterator]);
+        usedKeys.push(uniqueKey);
+      }
+    }
+  }
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/unless.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/unless.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function when(value, fn, defaultFn) {
+  if (!value) {
+    fn(this);
+  } else {
+    defaultFn(this);
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/unwrap.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/unwrap.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function unwrap(value) {
+  if (value instanceof this.constructor) {
+    return value.all();
+  }
+
+  return value;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/values.js":
+/*!********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/values.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getValues = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+
+module.exports = function values() {
+  return new this.constructor(getValues(this.items));
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/when.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/when.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function when(value, fn, defaultFn) {
+  if (value) {
+    return fn(this, value);
+  }
+
+  if (defaultFn) {
+    return defaultFn(this, value);
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whenEmpty.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whenEmpty.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function whenEmpty(fn, defaultFn) {
+  if (Array.isArray(this.items) && !this.items.length) {
+    return fn(this);
+  }if (!Object.keys(this.items).length) {
+    return fn(this);
+  }
+
+  if (defaultFn !== undefined) {
+    if (Array.isArray(this.items) && this.items.length) {
+      return defaultFn(this);
+    }if (Object.keys(this.items).length) {
+      return defaultFn(this);
+    }
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whenNotEmpty.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whenNotEmpty.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function whenNotEmpty(fn, defaultFn) {
+  if (Array.isArray(this.items) && this.items.length) {
+    return fn(this);
+  }if (Object.keys(this.items).length) {
+    return fn(this);
+  }
+
+  if (defaultFn !== undefined) {
+    if (Array.isArray(this.items) && !this.items.length) {
+      return defaultFn(this);
+    }if (!Object.keys(this.items).length) {
+      return defaultFn(this);
+    }
+  }
+
+  return this;
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/where.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/where.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var values = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+module.exports = function where(key, operator, value) {
+  var comparisonOperator = operator;
+  var comparisonValue = value;
+
+  var items = values(this.items);
+
+  if (operator === undefined || operator === true) {
+    return new this.constructor(items.filter(function (item) {
+      return nestedValue(item, key);
+    }));
+  }
+
+  if (operator === false) {
+    return new this.constructor(items.filter(function (item) {
+      return !nestedValue(item, key);
+    }));
+  }
+
+  if (value === undefined) {
+    comparisonValue = operator;
+    comparisonOperator = '===';
+  }
+
+  var collection = items.filter(function (item) {
+    switch (comparisonOperator) {
+      case '==':
+        return nestedValue(item, key) === Number(comparisonValue) || nestedValue(item, key) === comparisonValue.toString();
+
+      default:
+      case '===':
+        return nestedValue(item, key) === comparisonValue;
+
+      case '!=':
+      case '<>':
+        return nestedValue(item, key) !== Number(comparisonValue) && nestedValue(item, key) !== comparisonValue.toString();
+
+      case '!==':
+        return nestedValue(item, key) !== comparisonValue;
+
+      case '<':
+        return nestedValue(item, key) < comparisonValue;
+
+      case '<=':
+        return nestedValue(item, key) <= comparisonValue;
+
+      case '>':
+        return nestedValue(item, key) > comparisonValue;
+
+      case '>=':
+        return nestedValue(item, key) >= comparisonValue;
+    }
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereBetween.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereBetween.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function whereBetween(key, values) {
+  return this.where(key, '>=', values[0]).where(key, '<=', values[values.length - 1]);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereIn.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereIn.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var extractValues = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+module.exports = function whereIn(key, values) {
+  var items = extractValues(values);
+
+  var collection = this.items.filter(function (item) {
+    return items.indexOf(nestedValue(item, key)) !== -1;
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereInstanceOf.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereInstanceOf.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function whereInstanceOf(type) {
+  return this.filter(function (item) {
+    return item instanceof type;
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereNotBetween.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereNotBetween.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+module.exports = function whereNotBetween(key, values) {
+  return this.filter(function (item) {
+    return nestedValue(item, key) < values[0] || nestedValue(item, key) > values[values.length - 1];
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereNotIn.js":
+/*!************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereNotIn.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var extractValues = __webpack_require__(/*! ../helpers/values */ "./node_modules/collect.js/dist/helpers/values.js");
+var nestedValue = __webpack_require__(/*! ../helpers/nestedValue */ "./node_modules/collect.js/dist/helpers/nestedValue.js");
+
+module.exports = function whereNotIn(key, values) {
+  var items = extractValues(values);
+
+  var collection = this.items.filter(function (item) {
+    return items.indexOf(nestedValue(item, key)) === -1;
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereNotNull.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereNotNull.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function whereNotNull() {
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+  return this.where(key, '!==', null);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/whereNull.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/whereNull.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function whereNull() {
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+  return this.where(key, '===', null);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/wrap.js":
+/*!******************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/wrap.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function wrap(value) {
+  if (value instanceof this.constructor) {
+    return value;
+  }
+
+  if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
+    return new this.constructor(value);
+  }
+
+  return new this.constructor([value]);
+};
+
+/***/ }),
+
+/***/ "./node_modules/collect.js/dist/methods/zip.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/collect.js/dist/methods/zip.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function zip(array) {
+  var _this = this;
+
+  var values = array;
+
+  if (values instanceof this.constructor) {
+    values = values.all();
+  }
+
+  var collection = this.items.map(function (item, index) {
+    return new _this.constructor([item, values[index]]);
+  });
+
+  return new this.constructor(collection);
+};
+
+/***/ }),
+
 /***/ "./node_modules/history/esm/history.js":
 /*!*********************************************!*\
   !*** ./node_modules/history/esm/history.js ***!
@@ -29595,6 +33632,1782 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-loader-spinner/dist/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = Loader;
+
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _loader = __webpack_require__(/*! ./loader */ "./node_modules/react-loader-spinner/dist/loader/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var componentNames = ["Audio", "BallTriangle", "Bars", "Circles", "Grid", "Hearts", "Oval", "Puff", "Rings", "TailSpin", "ThreeDots", "Watch", "RevolvingDot", "Triangle", "Plane", "MutatingDots", "CradleLoader"];
+
+function componentName(type) {
+  if (componentNames.includes(type)) {
+    return _loader.Spinner[type];
+  }
+
+  return _loader.Spinner.Audio;
+}
+/**
+ * @return {null}
+ */
+
+
+function Loader(props) {
+  var _useState = (0, _react.useState)(true),
+      _useState2 = _slicedToArray(_useState, 2),
+      display = _useState2[0],
+      setDisplay = _useState2[1];
+
+  (0, _react.useEffect)(function () {
+    var timer;
+
+    if (props.timeout && props.timeout > 0) {
+      timer = setTimeout(function () {
+        setDisplay(false);
+      }, props.timeout);
+    }
+
+    return function () {
+      if (timer) clearTimeout(timer);
+    };
+  });
+
+  if (!props.visible || props.visible === "false") {
+    return null;
+  }
+
+  return display ? /*#__PURE__*/_react["default"].createElement("div", {
+    "aria-busy": "true",
+    className: props.className,
+    style: props.style
+  }, /*#__PURE__*/_react["default"].createElement(componentName(props.type), _objectSpread({}, props))) : null;
+}
+
+Loader.propTypes = {
+  type: _propTypes["default"].oneOf([].concat(componentNames)),
+  style: _propTypes["default"].objectOf(_propTypes["default"].string),
+  className: _propTypes["default"].string,
+  visible: _propTypes["default"].oneOfType([_propTypes["default"].bool, _propTypes["default"].string]),
+  timeout: _propTypes["default"].number
+};
+Loader.defaultProps = {
+  type: "Audio",
+  style: {},
+  className: "",
+  visible: true,
+  timeout: 0
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Audio.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Audio.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Audio = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Audio = function Audio(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    height: props.height,
+    width: props.width,
+    fill: props.color,
+    viewBox: "0 0 55 80",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    transform: "matrix(1 0 0 -1 0 80)"
+  }, /*#__PURE__*/_react["default"].createElement("rect", {
+    width: "10",
+    height: "20",
+    rx: "3"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0s",
+    dur: "4.3s",
+    values: "20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "15",
+    width: "10",
+    height: "80",
+    rx: "3"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0s",
+    dur: "2s",
+    values: "80;55;33;5;75;23;73;33;12;14;60;80",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "30",
+    width: "10",
+    height: "50",
+    rx: "3"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0s",
+    dur: "1.4s",
+    values: "50;34;78;23;56;23;34;76;80;54;21;50",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "45",
+    width: "10",
+    height: "30",
+    rx: "3"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0s",
+    dur: "2s",
+    values: "30;45;13;80;56;72;45;76;34;23;67;30",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }))));
+};
+
+exports.Audio = Audio;
+Audio.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string
+};
+Audio.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/BallTriangle.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/BallTriangle.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BallTriangle = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var BallTriangle = function BallTriangle(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    height: props.height,
+    width: props.width,
+    stroke: props.color,
+    viewBox: "0 0 57 57",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    fill: "none",
+    fillRule: "evenodd"
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    transform: "translate(1 1)",
+    strokeWidth: "2"
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "5",
+    cy: "50",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "cy",
+    begin: "0s",
+    dur: "2.2s",
+    values: "50;5;50;50",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "cx",
+    begin: "0s",
+    dur: "2.2s",
+    values: "5;27;49;5",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "27",
+    cy: "5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "cy",
+    begin: "0s",
+    dur: "2.2s",
+    from: "5",
+    to: "5",
+    values: "5;50;50;5",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "cx",
+    begin: "0s",
+    dur: "2.2s",
+    from: "27",
+    to: "27",
+    values: "27;49;5;27",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "49",
+    cy: "50",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "cy",
+    begin: "0s",
+    dur: "2.2s",
+    values: "50;50;5;50",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "cx",
+    from: "49",
+    to: "49",
+    begin: "0s",
+    dur: "2.2s",
+    values: "49;5;27;49",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })))));
+};
+
+exports.BallTriangle = BallTriangle;
+BallTriangle.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+BallTriangle.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  radius: 5,
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Bars.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Bars.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Bars = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Bars = function Bars(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    fill: props.color,
+    viewBox: "0 0 135 140",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("rect", {
+    y: "10",
+    width: "15",
+    height: "120",
+    rx: "6"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0.5s",
+    dur: "1s",
+    values: "120;110;100;90;80;70;60;50;40;140;120",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "y",
+    begin: "0.5s",
+    dur: "1s",
+    values: "10;15;20;25;30;35;40;45;50;0;10",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "30",
+    y: "10",
+    width: "15",
+    height: "120",
+    rx: "6"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0.25s",
+    dur: "1s",
+    values: "120;110;100;90;80;70;60;50;40;140;120",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "y",
+    begin: "0.25s",
+    dur: "1s",
+    values: "10;15;20;25;30;35;40;45;50;0;10",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "60",
+    width: "15",
+    height: "140",
+    rx: "6"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0s",
+    dur: "1s",
+    values: "120;110;100;90;80;70;60;50;40;140;120",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "y",
+    begin: "0s",
+    dur: "1s",
+    values: "10;15;20;25;30;35;40;45;50;0;10",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "90",
+    y: "10",
+    width: "15",
+    height: "120",
+    rx: "6"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0.25s",
+    dur: "1s",
+    values: "120;110;100;90;80;70;60;50;40;140;120",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "y",
+    begin: "0.25s",
+    dur: "1s",
+    values: "10;15;20;25;30;35;40;45;50;0;10",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("rect", {
+    x: "120",
+    y: "10",
+    width: "15",
+    height: "120",
+    rx: "6"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "height",
+    begin: "0.5s",
+    dur: "1s",
+    values: "120;110;100;90;80;70;60;50;40;140;120",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "y",
+    begin: "0.5s",
+    dur: "1s",
+    values: "10;15;20;25;30;35;40;45;50;0;10",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })));
+};
+
+exports.Bars = Bars;
+Bars.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string
+};
+Bars.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Circles.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Circles.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Circles = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Circles = function Circles(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 135 135",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M67.447 58c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10zm9.448 9.447c0 5.523 4.477 10 10 10 5.522 0 10-4.477 10-10s-4.478-10-10-10c-5.523 0-10 4.477-10 10zm-9.448 9.448c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zM58 67.447c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    type: "rotate",
+    from: "0 67 67",
+    to: "-360 67 67",
+    dur: "2.5s",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M28.19 40.31c6.627 0 12-5.374 12-12 0-6.628-5.373-12-12-12-6.628 0-12 5.372-12 12 0 6.626 5.372 12 12 12zm30.72-19.825c4.686 4.687 12.284 4.687 16.97 0 4.686-4.686 4.686-12.284 0-16.97-4.686-4.687-12.284-4.687-16.97 0-4.687 4.686-4.687 12.284 0 16.97zm35.74 7.705c0 6.627 5.37 12 12 12 6.626 0 12-5.373 12-12 0-6.628-5.374-12-12-12-6.63 0-12 5.372-12 12zm19.822 30.72c-4.686 4.686-4.686 12.284 0 16.97 4.687 4.686 12.285 4.686 16.97 0 4.687-4.686 4.687-12.284 0-16.97-4.685-4.687-12.283-4.687-16.97 0zm-7.704 35.74c-6.627 0-12 5.37-12 12 0 6.626 5.373 12 12 12s12-5.374 12-12c0-6.63-5.373-12-12-12zm-30.72 19.822c-4.686-4.686-12.284-4.686-16.97 0-4.686 4.687-4.686 12.285 0 16.97 4.686 4.687 12.284 4.687 16.97 0 4.687-4.685 4.687-12.283 0-16.97zm-35.74-7.704c0-6.627-5.372-12-12-12-6.626 0-12 5.373-12 12s5.374 12 12 12c6.628 0 12-5.373 12-12zm-19.823-30.72c4.687-4.686 4.687-12.284 0-16.97-4.686-4.686-12.284-4.686-16.97 0-4.687 4.686-4.687 12.284 0 16.97 4.686 4.687 12.284 4.687 16.97 0z"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    type: "rotate",
+    from: "0 67 67",
+    to: "360 67 67",
+    dur: "8s",
+    repeatCount: "indefinite"
+  })));
+};
+
+exports.Circles = Circles;
+Circles.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string
+};
+Circles.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/CradleLoader.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/CradleLoader.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CradleLoader = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var CradleLoader = function CradleLoader(props) {
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    "aria-label": props.label,
+    role: "presentation",
+    className: "container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-swing"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-swing-l"
+  }), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-swing-r"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-shadow"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-shadow-l"
+  }), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", null), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-shadow-r"
+  })));
+};
+
+exports.CradleLoader = CradleLoader;
+CradleLoader.propTypes = {
+  label: _propTypes["default"].string
+};
+CradleLoader.defaultProps = {
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Grid.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Grid.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Grid = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Grid = function Grid(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 105 105",
+    fill: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "12.5",
+    cy: "12.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "0s",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "12.5",
+    cy: "52.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "100ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "52.5",
+    cy: "12.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "300ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "52.5",
+    cy: "52.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "600ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "92.5",
+    cy: "12.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "800ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "92.5",
+    cy: "52.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "400ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "12.5",
+    cy: "92.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "700ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "52.5",
+    cy: "92.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "500ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "92.5",
+    cy: "92.5",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "200ms",
+    dur: "1s",
+    values: "1;.2;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })));
+};
+
+exports.Grid = Grid;
+Grid.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+Grid.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  radius: 12.5,
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Hearts.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Hearts.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Hearts = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Hearts = function Hearts(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 140 64",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M30.262 57.02L7.195 40.723c-5.84-3.976-7.56-12.06-3.842-18.063 3.715-6 11.467-7.65 17.306-3.68l4.52 3.76 2.6-5.274c3.717-6.002 11.47-7.65 17.305-3.68 5.84 3.97 7.56 12.054 3.842 18.062L34.49 56.118c-.897 1.512-2.793 1.915-4.228.9z",
+    attributeName: "fill-opacity",
+    from: "0",
+    to: ".5"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "0s",
+    dur: "1.4s",
+    values: "0.5;1;0.5",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M105.512 56.12l-14.44-24.272c-3.716-6.008-1.996-14.093 3.843-18.062 5.835-3.97 13.588-2.322 17.306 3.68l2.6 5.274 4.52-3.76c5.84-3.97 13.592-2.32 17.307 3.68 3.718 6.003 1.998 14.088-3.842 18.064L109.74 57.02c-1.434 1.014-3.33.61-4.228-.9z",
+    attributeName: "fill-opacity",
+    from: "0",
+    to: ".5"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fill-opacity",
+    begin: "0.7s",
+    dur: "1.4s",
+    values: "0.5;1;0.5",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M67.408 57.834l-23.01-24.98c-5.864-6.15-5.864-16.108 0-22.248 5.86-6.14 15.37-6.14 21.234 0L70 16.168l4.368-5.562c5.863-6.14 15.375-6.14 21.235 0 5.863 6.14 5.863 16.098 0 22.247l-23.007 24.98c-1.43 1.556-3.757 1.556-5.188 0z"
+  }));
+};
+
+exports.Hearts = Hearts;
+Hearts.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string
+};
+Hearts.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/MutatingDots.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/MutatingDots.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MutatingDots = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var MutatingDots = function MutatingDots(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    id: "goo-loader",
+    width: props.width,
+    height: props.height,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("filter", {
+    id: "fancy-goo"
+  }, /*#__PURE__*/_react["default"].createElement("feGaussianBlur", {
+    "in": "SourceGraphic",
+    stdDeviation: "6",
+    result: "blur"
+  }), /*#__PURE__*/_react["default"].createElement("feColorMatrix", {
+    "in": "blur",
+    mode: "matrix",
+    values: "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9",
+    result: "goo"
+  }), /*#__PURE__*/_react["default"].createElement("feComposite", {
+    "in": "SourceGraphic",
+    in2: "goo",
+    operator: "atop"
+  })), /*#__PURE__*/_react["default"].createElement("g", {
+    filter: "url(#fancy-goo)"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    id: "mainAnim",
+    attributeName: "transform",
+    attributeType: "XML",
+    type: "rotate",
+    from: "0 50 50",
+    to: "359 50 50",
+    dur: "1.2s",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "50%",
+    cy: "40",
+    r: props.radius,
+    fill: props.color
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    id: "cAnim1",
+    attributeType: "XML",
+    attributeName: "cy",
+    dur: "0.6s",
+    begin: "0;cAnim1.end+0.2s",
+    calcMode: "spline",
+    values: "40;20;40",
+    keyTimes: "0;0.3;1",
+    keySplines: "0.09, 0.45, 0.16, 1;0.09, 0.45, 0.16, 1"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "50%",
+    cy: "60",
+    r: props.radius,
+    fill: props.secondaryColor
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    id: "cAnim2",
+    attributeType: "XML",
+    attributeName: "cy",
+    dur: "0.6s",
+    begin: "0.4s;cAnim2.end+0.2s",
+    calcMode: "spline",
+    values: "60;80;60",
+    keyTimes: "0;0.3;1",
+    keySplines: "0.09, 0.45, 0.16, 1;0.09, 0.45, 0.16, 1"
+  }))));
+};
+
+exports.MutatingDots = MutatingDots;
+MutatingDots.propTypes = {
+  width: _propTypes["default"].number,
+  secondaryColor: _propTypes["default"].string,
+  height: _propTypes["default"].number,
+  color: _propTypes["default"].string,
+  radius: _propTypes["default"].number,
+  label: _propTypes["default"].string
+};
+MutatingDots.defaultProps = {
+  width: 80,
+  height: 90,
+  color: "green",
+  radius: 11,
+  secondaryColor: "green",
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Oval.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Oval.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Oval = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Oval = function Oval(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 38 38",
+    xmlns: "http://www.w3.org/2000/svg",
+    stroke: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    fill: "none",
+    fillRule: "evenodd"
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    transform: "translate(1 1)",
+    strokeWidth: "2"
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    strokeOpacity: ".5",
+    cx: "18",
+    cy: "18",
+    r: props.radius
+  }), /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M36 18c0-9.94-8.06-18-18-18"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    type: "rotate",
+    from: "0 18 18",
+    to: "360 18 18",
+    dur: "1s",
+    repeatCount: "indefinite"
+  })))));
+};
+
+exports.Oval = Oval;
+Oval.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+Oval.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading",
+  radius: 18
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Plane.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Plane.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Plane = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Plane = function Plane(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    className: "react-spinner-loader-svg-calLoader",
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "230",
+    height: "230",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("desc", null, "Plane animation. Loading "), /*#__PURE__*/_react["default"].createElement("path", {
+    className: "react-spinner-loader-cal-loader__path",
+    style: {
+      stroke: props.secondaryColor
+    },
+    d: "M86.429 40c63.616-20.04 101.511 25.08 107.265 61.93 6.487 41.54-18.593 76.99-50.6 87.643-59.46 19.791-101.262-23.577-107.142-62.616C29.398 83.441 59.945 48.343 86.43 40z",
+    fill: "none",
+    stroke: "#0099cc",
+    strokeWidth: "4",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeDasharray: "10 10 10 10 10 10 10 432",
+    strokeDashoffset: "77"
+  }), /*#__PURE__*/_react["default"].createElement("path", {
+    className: "cal-loader__plane",
+    style: {
+      fill: props.color
+    },
+    d: "M141.493 37.93c-1.087-.927-2.942-2.002-4.32-2.501-2.259-.824-3.252-.955-9.293-1.172-4.017-.146-5.197-.23-5.47-.37-.766-.407-1.526-1.448-7.114-9.773-4.8-7.145-5.344-7.914-6.327-8.976-1.214-1.306-1.396-1.378-3.79-1.473-1.036-.04-2-.043-2.153-.002-.353.1-.87.586-1 .952-.139.399-.076.71.431 2.22.241.72 1.029 3.386 1.742 5.918 1.644 5.844 2.378 8.343 2.863 9.705.206.601.33 1.1.275 1.125-.24.097-10.56 1.066-11.014 1.032a3.532 3.532 0 0 1-1.002-.276l-.487-.246-2.044-2.613c-2.234-2.87-2.228-2.864-3.35-3.309-.717-.287-2.82-.386-3.276-.163-.457.237-.727.644-.737 1.152-.018.39.167.805 1.916 4.373 1.06 2.166 1.964 4.083 1.998 4.27.04.179.004.521-.076.75-.093.228-1.109 2.064-2.269 4.088-1.921 3.34-2.11 3.711-2.123 4.107-.008.25.061.557.168.725.328.512.72.644 1.966.676 1.32.029 2.352-.236 3.05-.762.222-.171 1.275-1.313 2.412-2.611 1.918-2.185 2.048-2.32 2.45-2.505.241-.111.601-.232.82-.271.267-.058 2.213.201 5.912.8 3.036.48 5.525.894 5.518.914 0 .026-.121.306-.27.638-.54 1.198-1.515 3.842-3.35 9.021-1.029 2.913-2.107 5.897-2.4 6.62-.703 1.748-.725 1.833-.594 2.286.137.46.45.833.872 1.012.41.177 3.823.24 4.37.085.852-.25 1.44-.688 2.312-1.724 1.166-1.39 3.169-3.948 6.771-8.661 5.8-7.583 6.561-8.49 7.387-8.702.233-.065 2.828-.056 5.784.011 5.827.138 6.64.09 8.62-.5 2.24-.67 4.035-1.65 5.517-3.016 1.136-1.054 1.135-1.014.207-1.962-.357-.38-.767-.777-.902-.893z",
+    fill: "#000033"
+  }));
+};
+
+exports.Plane = Plane;
+Plane.propTypes = {
+  secondaryColor: _propTypes["default"].string,
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string
+};
+Plane.defaultProps = {
+  secondaryColor: "grey",
+  color: "#FFA500",
+  label: "async-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Puff.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Puff.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Puff = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Puff = function Puff(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 44 44",
+    xmlns: "http://www.w3.org/2000/svg",
+    stroke: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    fill: "none",
+    fillRule: "evenodd",
+    strokeWidth: "2"
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "22",
+    cy: "22",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    begin: "0s",
+    dur: "1.8s",
+    values: "1; 20",
+    calcMode: "spline",
+    keyTimes: "0; 1",
+    keySplines: "0.165, 0.84, 0.44, 1",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "strokeOpacity",
+    begin: "0s",
+    dur: "1.8s",
+    values: "1; 0",
+    calcMode: "spline",
+    keyTimes: "0; 1",
+    keySplines: "0.3, 0.61, 0.355, 1",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "22",
+    cy: "22",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    begin: "-0.9s",
+    dur: "1.8s",
+    values: "1; 20",
+    calcMode: "spline",
+    keyTimes: "0; 1",
+    keySplines: "0.165, 0.84, 0.44, 1",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "strokeOpacity",
+    begin: "-0.9s",
+    dur: "1.8s",
+    values: "1; 0",
+    calcMode: "spline",
+    keyTimes: "0; 1",
+    keySplines: "0.3, 0.61, 0.355, 1",
+    repeatCount: "indefinite"
+  }))));
+};
+
+exports.Puff = Puff;
+Puff.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+Puff.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading",
+  radius: 1
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/RevolvingDot.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/RevolvingDot.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RevolvingDot = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var RevolvingDot = function RevolvingDot(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    version: "1.1",
+    width: props.width,
+    height: props.height,
+    xmlns: "http://www.w3.org/2000/svg",
+    x: "0px",
+    y: "0px",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    fill: "none",
+    stroke: props.color,
+    strokeWidth: "4",
+    cx: "50",
+    cy: "50",
+    r: props.radius + 38,
+    style: {
+      opacity: 0.5
+    }
+  }), /*#__PURE__*/_react["default"].createElement("circle", {
+    fill: props.color,
+    stroke: props.color,
+    strokeWidth: "3",
+    cx: "8",
+    cy: "54",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    dur: "2s",
+    type: "rotate",
+    from: "0 50 48",
+    to: "360 50 52",
+    repeatCount: "indefinite"
+  })));
+};
+
+exports.RevolvingDot = RevolvingDot;
+RevolvingDot.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+RevolvingDot.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading",
+  radius: 6
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Rings.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Rings.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Rings = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Rings = function Rings(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 45 45",
+    xmlns: "http://www.w3.org/2000/svg",
+    stroke: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    fill: "none",
+    fillRule: "evenodd",
+    transform: "translate(1 1)",
+    strokeWidth: "2"
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "22",
+    cy: "22",
+    r: props.radius,
+    strokeOpacity: "0"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    begin: "1.5s",
+    dur: "3s",
+    values: "6;22",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "stroke-opacity",
+    begin: "1.5s",
+    dur: "3s",
+    values: "1;0",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "stroke-width",
+    begin: "1.5s",
+    dur: "3s",
+    values: "2;0",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "22",
+    cy: "22",
+    r: props.radius,
+    strokeOpacity: "0"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    begin: "3s",
+    dur: "3s",
+    values: "6;22",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "strokeOpacity",
+    begin: "3s",
+    dur: "3s",
+    values: "1;0",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "strokeWidth",
+    begin: "3s",
+    dur: "3s",
+    values: "2;0",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "22",
+    cy: "22",
+    r: props.radius + 2
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    begin: "0s",
+    dur: "1.5s",
+    values: "6;1;2;3;4;5;6",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }))));
+};
+
+exports.Rings = Rings;
+Rings.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+Rings.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  radius: 6,
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/TailSpin.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/TailSpin.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TailSpin = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var TailSpin = function TailSpin(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 38 38",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("defs", null, /*#__PURE__*/_react["default"].createElement("linearGradient", {
+    x1: "8.042%",
+    y1: "0%",
+    x2: "65.682%",
+    y2: "23.865%",
+    id: "a"
+  }, /*#__PURE__*/_react["default"].createElement("stop", {
+    stopColor: props.color,
+    stopOpacity: "0",
+    offset: "0%"
+  }), /*#__PURE__*/_react["default"].createElement("stop", {
+    stopColor: props.color,
+    stopOpacity: ".631",
+    offset: "63.146%"
+  }), /*#__PURE__*/_react["default"].createElement("stop", {
+    stopColor: props.color,
+    offset: "100%"
+  }))), /*#__PURE__*/_react["default"].createElement("g", {
+    fill: "none",
+    fillRule: "evenodd"
+  }, /*#__PURE__*/_react["default"].createElement("g", {
+    transform: "translate(1 1)"
+  }, /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M36 18c0-9.94-8.06-18-18-18",
+    id: "Oval-2",
+    stroke: props.color,
+    strokeWidth: "2"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    type: "rotate",
+    from: "0 18 18",
+    to: "360 18 18",
+    dur: "0.9s",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    fill: "#fff",
+    cx: "36",
+    cy: "18",
+    r: props.radius
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    type: "rotate",
+    from: "0 18 18",
+    to: "360 18 18",
+    dur: "0.9s",
+    repeatCount: "indefinite"
+  })))));
+};
+
+exports.TailSpin = TailSpin;
+TailSpin.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+TailSpin.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  radius: 1,
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/ThreeDots.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/ThreeDots.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ThreeDots = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var ThreeDots = function ThreeDots(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    viewBox: "0 0 120 30",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: props.color,
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "15",
+    cy: "15",
+    r: props.radius + 6
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    from: "15",
+    to: "15",
+    begin: "0s",
+    dur: "0.8s",
+    values: "15;9;15",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fillOpacity",
+    from: "1",
+    to: "1",
+    begin: "0s",
+    dur: "0.8s",
+    values: "1;.5;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "60",
+    cy: "15",
+    r: props.radius,
+    attributeName: "fillOpacity",
+    from: "1",
+    to: "0.3"
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    from: "9",
+    to: "9",
+    begin: "0s",
+    dur: "0.8s",
+    values: "9;15;9",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fillOpacity",
+    from: "0.5",
+    to: "0.5",
+    begin: "0s",
+    dur: "0.8s",
+    values: ".5;1;.5",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("circle", {
+    cx: "105",
+    cy: "15",
+    r: props.radius + 6
+  }, /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "r",
+    from: "15",
+    to: "15",
+    begin: "0s",
+    dur: "0.8s",
+    values: "15;9;15",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/_react["default"].createElement("animate", {
+    attributeName: "fillOpacity",
+    from: "1",
+    to: "1",
+    begin: "0s",
+    dur: "0.8s",
+    values: "1;.5;1",
+    calcMode: "linear",
+    repeatCount: "indefinite"
+  })));
+};
+
+exports.ThreeDots = ThreeDots;
+ThreeDots.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+ThreeDots.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading",
+  radius: 9
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Triangle.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Triangle.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Triangle = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Triangle = function Triangle(props) {
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "react-spinner-loader-svg"
+  }, /*#__PURE__*/_react["default"].createElement("svg", {
+    id: "triangle",
+    width: props.width,
+    height: props.height,
+    viewBox: "-3 -4 39 39",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("polygon", {
+    fill: "transparent",
+    stroke: props.color,
+    strokeWidth: "1",
+    points: "16,0 32,32 0,32"
+  })));
+};
+
+exports.Triangle = Triangle;
+Triangle.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string
+};
+Triangle.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading"
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/Watch.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/Watch.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Watch = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Watch = function Watch(props) {
+  return /*#__PURE__*/_react["default"].createElement("svg", {
+    width: props.width,
+    height: props.height,
+    version: "1.1",
+    id: "L2",
+    xmlns: "http://www.w3.org/2000/svg",
+    x: "0px",
+    y: "0px",
+    viewBox: "0 0 100 100",
+    enableBackground: "new 0 0 100 100",
+    xmlSpace: "preserve",
+    "aria-label": props.label
+  }, /*#__PURE__*/_react["default"].createElement("circle", {
+    fill: "none",
+    stroke: props.color,
+    strokeWidth: "4",
+    strokeMiterlimit: "10",
+    cx: "50",
+    cy: "50",
+    r: props.radius
+  }), /*#__PURE__*/_react["default"].createElement("line", {
+    fill: "none",
+    strokeLinecap: "round",
+    stroke: props.color,
+    strokeWidth: "4",
+    strokeMiterlimit: "10",
+    x1: "50",
+    y1: "50",
+    x2: "85",
+    y2: "50.5"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    dur: "2s",
+    type: "rotate",
+    from: "0 50 50",
+    to: "360 50 50",
+    repeatCount: "indefinite"
+  })), /*#__PURE__*/_react["default"].createElement("line", {
+    fill: "none",
+    strokeLinecap: "round",
+    stroke: props.color,
+    strokeWidth: "4",
+    strokeMiterlimit: "10",
+    x1: "50",
+    y1: "50",
+    x2: "49.5",
+    y2: "74"
+  }, /*#__PURE__*/_react["default"].createElement("animateTransform", {
+    attributeName: "transform",
+    dur: "15s",
+    type: "rotate",
+    from: "0 50 50",
+    to: "360 50 50",
+    repeatCount: "indefinite"
+  })));
+};
+
+exports.Watch = Watch;
+Watch.propTypes = {
+  height: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  width: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number]),
+  color: _propTypes["default"].string,
+  label: _propTypes["default"].string,
+  radius: _propTypes["default"].number
+};
+Watch.defaultProps = {
+  height: 80,
+  width: 80,
+  color: "green",
+  label: "audio-loading",
+  radius: 48
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-loader-spinner/dist/loader/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-loader-spinner/dist/loader/index.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Spinner = void 0;
+
+var _Circles = __webpack_require__(/*! ./Circles */ "./node_modules/react-loader-spinner/dist/loader/Circles.js");
+
+var _Watch = __webpack_require__(/*! ./Watch */ "./node_modules/react-loader-spinner/dist/loader/Watch.js");
+
+var _Audio = __webpack_require__(/*! ./Audio */ "./node_modules/react-loader-spinner/dist/loader/Audio.js");
+
+var _BallTriangle = __webpack_require__(/*! ./BallTriangle */ "./node_modules/react-loader-spinner/dist/loader/BallTriangle.js");
+
+var _Bars = __webpack_require__(/*! ./Bars */ "./node_modules/react-loader-spinner/dist/loader/Bars.js");
+
+var _CradleLoader = __webpack_require__(/*! ./CradleLoader */ "./node_modules/react-loader-spinner/dist/loader/CradleLoader.js");
+
+var _Grid = __webpack_require__(/*! ./Grid */ "./node_modules/react-loader-spinner/dist/loader/Grid.js");
+
+var _Hearts = __webpack_require__(/*! ./Hearts */ "./node_modules/react-loader-spinner/dist/loader/Hearts.js");
+
+var _MutatingDots = __webpack_require__(/*! ./MutatingDots */ "./node_modules/react-loader-spinner/dist/loader/MutatingDots.js");
+
+var _Oval = __webpack_require__(/*! ./Oval */ "./node_modules/react-loader-spinner/dist/loader/Oval.js");
+
+var _Plane = __webpack_require__(/*! ./Plane */ "./node_modules/react-loader-spinner/dist/loader/Plane.js");
+
+var _Puff = __webpack_require__(/*! ./Puff */ "./node_modules/react-loader-spinner/dist/loader/Puff.js");
+
+var _RevolvingDot = __webpack_require__(/*! ./RevolvingDot */ "./node_modules/react-loader-spinner/dist/loader/RevolvingDot.js");
+
+var _Rings = __webpack_require__(/*! ./Rings */ "./node_modules/react-loader-spinner/dist/loader/Rings.js");
+
+var _TailSpin = __webpack_require__(/*! ./TailSpin */ "./node_modules/react-loader-spinner/dist/loader/TailSpin.js");
+
+var _ThreeDots = __webpack_require__(/*! ./ThreeDots */ "./node_modules/react-loader-spinner/dist/loader/ThreeDots.js");
+
+var _Triangle = __webpack_require__(/*! ./Triangle */ "./node_modules/react-loader-spinner/dist/loader/Triangle.js");
+
+var Spinner = {
+  Circles: _Circles.Circles,
+  Audio: _Audio.Audio,
+  BallTriangle: _BallTriangle.BallTriangle,
+  Bars: _Bars.Bars,
+  CradleLoader: _CradleLoader.CradleLoader,
+  Grid: _Grid.Grid,
+  Hearts: _Hearts.Hearts,
+  MutatingDots: _MutatingDots.MutatingDots,
+  Oval: _Oval.Oval,
+  Plane: _Plane.Plane,
+  Puff: _Puff.Puff,
+  RevolvingDot: _RevolvingDot.RevolvingDot,
+  Rings: _Rings.Rings,
+  TailSpin: _TailSpin.TailSpin,
+  ThreeDots: _ThreeDots.ThreeDots,
+  Triangle: _Triangle.Triangle,
+  Watch: _Watch.Watch
+};
+exports.Spinner = Spinner;
+
+/***/ }),
+
 /***/ "./node_modules/react-redux/es/components/Context.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-redux/es/components/Context.js ***!
@@ -37196,17 +43009,20 @@ var unsetUser = function unsetUser() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 var api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: "https://just-leave-work.test/api/",
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
     "Authorization": "Bearer ".concat(window.localStorage.getItem('authToken'))
   }
 });
+console.log(process.env.REACT_APP_API_URL);
 /* harmony default export */ __webpack_exports__["default"] = (api);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -37353,7 +43169,7 @@ var App = (_temp = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-col space-y-4 "
+        className: "flex flex-col space-y-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navigation_Navbar__WEBPACK_IMPORTED_MODULE_7__["default"], null), this.getGuestRoutes()));
     }
   }]);
@@ -37395,6 +43211,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var Button = function Button(props) {
   switch (props.type) {
+    case 'secondary':
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: props.onClick,
+        className: "focus:outline-none bg-purple-500 text-white p-2 w-full rounded text-center hover:bg-purple-400"
+      }, props.children);
+
     case 'outlined':
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
@@ -37417,7 +43239,7 @@ var Button = function Button(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
         className: "focus:outline-none bg-gray-800 text-white p-2 w-full rounded text-center hover:bg-gray-700"
-      }, props.childrens);
+      }, props.children);
   }
 };
 
@@ -37440,11 +43262,75 @@ __webpack_require__.r(__webpack_exports__);
 
 var Card = function Card(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "".concat(props.className, " bg-white p-4 flex flex-col space-y-4 rounded shadow-sm transition-all ease-in-out duration-200")
+    className: "".concat(props.className, " bg-white p-4 rounded shadow-sm transition-all ease-in-out duration-200")
   }, props.children);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Card);
+
+/***/ }),
+
+/***/ "./resources/js/components/ErrorMessage.jsx":
+/*!**************************************************!*\
+  !*** ./resources/js/components/ErrorMessage.jsx ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var ErrorMessage = function ErrorMessage(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+      _useState2 = _slicedToArray(_useState, 2),
+      visible = _useState2[0],
+      setVisible = _useState2[1];
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex flex-row justify-beteen items-center w-full bg-red-500 bg-opacity-25 text-red-800 p-4 rounded ".concat(visible ? '' : 'hidden')
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-full"
+  }, props.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick(event) {
+      setVisible(false);
+    },
+    className: "hover:bg-red-100 p-1 focus:outline-none rounded"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    version: "1.1",
+    viewBox: "0 0 24 24",
+    className: "stroke-current text-red-800 h-6 w-6",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
+    fill: "none"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "1.5",
+    d: "M8 8l8 8"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "1.5",
+    d: "M16 8l-8 8"
+  })))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ErrorMessage);
 
 /***/ }),
 
@@ -37457,37 +43343,36 @@ var Card = function Card(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! collect.js */ "./node_modules/collect.js/dist/index.js");
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(collect_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 var Field = function Field(props) {
   var getErrors = function getErrors() {
-    var _props$errors;
-
-    if (((_props$errors = props.errors) === null || _props$errors === void 0 ? void 0 : _props$errors.length) > 0) {
-      return props.errors.map(function (error, key) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "text-red-800 text-sm",
-          key: key
-        }, error);
-      });
-    }
+    return Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])(props.errors).flatten().map(function (error, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "text-red-800 text-sm",
+        key: index
+      }, error);
+    });
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
     htmlFor: props.name,
     className: "text-gray-600"
-  }, props.label ? props.label : props.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, props.label ? props.label : props.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: props.type ? props.type : 'text ',
     onChange: props.onChange,
     onKeyUp: props.onKeyUp,
     id: props.name,
     name: props.name,
-    className: "form-input border-2 border-gray-300 rounded-lg"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-input border-2  rounded-lg ".concat(props.hasError ? 'border-red-500' : 'border-gray-300')
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-1"
   }, getErrors()));
 };
@@ -37778,7 +43663,7 @@ var Page = function Page(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full flex flex-col space-y-4 self-center items-center w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-full ".concat(props.size ? props.size : 'w-10/12', " self-center")
+    className: "w-full ".concat(props.size ? props.size : 'w-10/12', " self-center ").concat(props.className)
   }, props.children)));
 };
 
@@ -37797,15 +43682,21 @@ var Page = function Page(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api */ "./resources/js/api/index.js");
-/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Form_Field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Form/Field */ "./resources/js/components/Form/Field.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
-var _temp;
-
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/index.js");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../api */ "./resources/js/api/index.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
+/* harmony import */ var _ErrorMessage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../ErrorMessage */ "./resources/js/components/ErrorMessage.jsx");
+/* harmony import */ var _Form_Field__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Form/Field */ "./resources/js/components/Form/Field.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -37836,7 +43727,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var LoginPage = (_temp = /*#__PURE__*/function (_React$Component) {
+
+
+
+
+var LoginPage = /*#__PURE__*/function (_React$Component) {
   _inherits(LoginPage, _React$Component);
 
   var _super = _createSuper(LoginPage);
@@ -37853,7 +43748,7 @@ var LoginPage = (_temp = /*#__PURE__*/function (_React$Component) {
     _this = _super.call.apply(_super, [this].concat(args));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      errors: [],
+      error: null,
       email: {
         value: null,
         errors: [],
@@ -37873,19 +43768,50 @@ var LoginPage = (_temp = /*#__PURE__*/function (_React$Component) {
 
       _this.setState({
         isSending: true
-      });
+      }); // allow the page to set a timeout
 
-      _api__WEBPACK_IMPORTED_MODULE_2__["default"].post('/login/', {
+
+      _api__WEBPACK_IMPORTED_MODULE_4__["default"].post('/login/', {
         email: email,
         password: password
       }).then(function (successResponse) {
         _this.setState({
           isSending: false
         });
+
+        var _successResponse$data = successResponse.data,
+            user = _successResponse$data.user,
+            token = _successResponse$data.token;
+        window.localStorage.setItem('authToken', token);
+        _api__WEBPACK_IMPORTED_MODULE_4__["default"].defaults.headers.common['Authorization'] = "Bearer ".concat(token);
+        window.location = '/dashboard';
       })["catch"](function (failedResponse) {
         _this.setState({
           isSending: false
         });
+
+        var errors = failedResponse.response.data.errors;
+
+        if (failedResponse.response.status === 429) {
+          var tooManyAttemps = ['You tried login in too many time, please try again later'];
+
+          _this.setState({
+            errors: tooManyAttemps
+          });
+        }
+
+        var _loop = function _loop(key) {
+          _this.setState(function (state) {
+            return _defineProperty({}, key, _objectSpread(_objectSpread({}, state[key]), {}, {
+              errors: errors[key],
+              hasError: true
+            }));
+          });
+        };
+
+        for (var key in errors) {
+          _loop(key);
+        }
       });
     });
 
@@ -37917,29 +43843,71 @@ var LoginPage = (_temp = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(LoginPage, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.props.state.auth.authenticated) {
+        window.location = '/dashboard';
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-2xl font-bold text-gray-800 text-center"
-      }, "Sign in to your Account."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        className: "flex justify-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        className: "lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "text-2xl font-bold text-gray-800 text-center items-center"
+      }, "Sign in to your Account."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_8__["default"], {
         name: "email",
+        errors: this.state.email.errors,
+        hasError: this.state.email.hasError,
         onKeyUp: this.onEmailKeyUp,
         label: "Email Address",
         type: "email"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_8__["default"], {
         name: "password",
+        errors: this.state.password.errors,
+        hasError: this.state.password.hasError,
         onKeyUp: this.onPasswordKeyUp,
         label: "Password",
         type: "password"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), this.state.isSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        type: "Oval",
+        className: "self-center",
+        height: 20,
+        width: 20,
+        color: "Gray"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
         onClick: this.postLogin
-      }, "Login")));
+      }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex flex-row items-center w-full jutsify-between space-x-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+        to: "/register",
+        className: "w-full"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        type: "soft"
+      }, " Reset password ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+        to: "/register",
+        className: "w-full"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        type: "secondary"
+      }, " Register "))), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        text: this.state.error
+      }) : null));
     }
   }]);
 
   return LoginPage;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component), _temp);
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(null, null)(LoginPage));
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    state: state
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, null)(LoginPage));
 
 /***/ }),
 
