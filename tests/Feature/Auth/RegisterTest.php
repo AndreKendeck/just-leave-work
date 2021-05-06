@@ -19,6 +19,7 @@ class RegisterTest extends TestCase
             'email' => $this->faker->companyEmail,
             'password' => 'password123',
             'name' => $this->faker->name,
+            'terms' => 0, 
         ];
 
         $response = $this->post(route('register'), $details)

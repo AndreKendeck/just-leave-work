@@ -9,6 +9,8 @@ import Card from '../Card';
 import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
 import Page from '../Page';
+import { setUser } from '../../actions/user';
+import { setAuthenticated } from '../../actions/auth';
 
 
 const LoginPage = class LoginPage extends React.Component {
@@ -93,6 +95,7 @@ const LoginPage = class LoginPage extends React.Component {
 
 
 
+    
     render() {
         return (
             <Page className="flex justify-center">
@@ -102,7 +105,7 @@ const LoginPage = class LoginPage extends React.Component {
                     <Field name="password" errors={this.state.password.errors} hasError={this.state.password.hasError} onKeyUp={this.onPasswordKeyUp} label="Password" type="password" />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={this.postLogin}>Login</Button>}
                     <div className="flex flex-row items-center w-full jutsify-between space-x-2">
-                        <Link to="/register" className="w-full">
+                        <Link to="/password-email" className="w-full">
                             <Button type="soft"> Reset password </Button>
                         </Link>
                         <Link to="/register" className="w-full">
@@ -122,4 +125,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, null)(LoginPage);
+export default connect(mapStateToProps,{ setUser })(LoginPage);

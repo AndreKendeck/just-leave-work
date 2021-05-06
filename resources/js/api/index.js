@@ -9,6 +9,5 @@ const api = Axios.create({
     }
 });
 
-console.log(process.env.REACT_APP_API_URL); 
 
 export default api;

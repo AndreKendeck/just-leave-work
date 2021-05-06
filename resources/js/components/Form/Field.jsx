@@ -11,7 +11,7 @@ const Field = (props) => {
     return (
         <div className="flex flex-col space-y-1">
             <label htmlFor={props.name} className="text-gray-600">{props.label ? props.label : props.name}</label>
-            <input type={props.type ? props.type : 'text '} onChange={props.onChange} onKeyUp={props.onKeyUp} id={props.name} name={props.name}
+            <input type={props.type ? props.type : 'text '} value={props.value} onChange={props.onChange} onKeyUp={props.onKeyUp} id={props.name} name={props.name}
                 className={`form-input border-2  rounded-lg ${props.hasError ? 'border-red-500' : 'border-gray-300'}`} />
             <div className="flex flex-col space-y-1">
                 {getErrors()}

@@ -24,10 +24,19 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'terms' => ['required', 'accepted'],
             'team_name' => ['required', 'string', 'min:2'],
             'email' => ['required', 'unique:users,email', 'email'],
-            'name' => ['required', 'string', 'min:2'], 
-            'password' => ['required' , 'string' , 'min:6' ]
+            'name' => ['required', 'string', 'min:2'],
+            'password' => ['required', 'string', 'min:6']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'terms.required' => 'Please accept the Terms & Conditions',
+            'terms.accepted' => 'Please accept the Terms & Conditions'
         ];
     }
 }
