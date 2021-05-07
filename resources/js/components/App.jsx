@@ -31,21 +31,34 @@ const App = class App extends React.Component {
     getGuestRoutes = () => {
         return (
             <React.Fragment>
+                <Route path="/reset-password">
+                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <LoginPage />}
+                </Route>
                 <Route path="/login">
                     {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <LoginPage />}
                 </Route>
                 <Route path="/register">
-                    {this.props.auth.authenticated ? <DashboardPage /> : <RegisterPage />}
+                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <RegisterPage />}
                 </Route>
                 <Route path="/password-email">
-                    {this.props.auth.authenticated ? <DashboardPage /> : <ForgotPasswordPage />}
+                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <ForgotPasswordPage />}
                 </Route>
             </React.Fragment>
         )
     }
 
     getAuthRoutes = () => {
+        return (
+            <React.Fragment>
+            </React.Fragment>
+        )
+    }
 
+    getMiscRoutes = () => {
+        return (
+            <React.Fragment>
+            </React.Fragment>
+        )
     }
 
     render() {
@@ -54,6 +67,8 @@ const App = class App extends React.Component {
                 <BrowserRouter>
                     <Navbar />
                     {this.getGuestRoutes()}
+                    {this.getMiscRoutes()}
+                    {this.getAuthRoutes()}
                 </BrowserRouter>
             </div>
         )

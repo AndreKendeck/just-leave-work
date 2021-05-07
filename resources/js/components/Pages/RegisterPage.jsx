@@ -38,7 +38,9 @@ const RegisterPage = class RegisterPage extends React.Component {
 
         api.post('/register/', { email, password, name, terms, team_name })
             .then(success => {
+                
                 this.setState({ isSending: false });
+
                 const { user, token } = success.data;
 
                 window.localStorage.setItem('authToken', token);
