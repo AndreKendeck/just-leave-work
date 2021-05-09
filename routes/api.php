@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace('Api')->group(function () {
+Route::namespace ('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -29,8 +29,8 @@ Route::namespace('Api')->group(function () {
         ->name('profile.index')->middleware('auth:sanctum');
 
     Route::post('/password-email', 'PasswordEmailController')->name('password.request');
-    Route::get('/password-reset/{signature}', 'PasswordResetController')->name('password.reset')
-        ->middleware('signed');
+    Route::post('/check-password-reset-token', 'CheckPasswordResetController')->name('password.token.check');
+    Route::post('/reset-password', 'PasswordResetController@store')->name('password.reset');
 
     Route::middleware(['auth:sanctum', 'logs-out-banned-user', 'verified'])->group(function () {
 

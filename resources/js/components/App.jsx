@@ -13,6 +13,7 @@ import LoginPage from './Pages/LoginPage';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import DashboardPage from './Pages/DashboardPage';
 import RegisterPage from './Pages/RegisterPage';
+import ResetPasswordPage from './Pages/ResetPasswordPage';
 
 
 const App = class App extends React.Component {
@@ -31,8 +32,8 @@ const App = class App extends React.Component {
     getGuestRoutes = () => {
         return (
             <React.Fragment>
-                <Route path="/reset-password">
-                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <LoginPage />}
+                <Route path="/password-reset/:token">
+                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <ResetPasswordPage />}
                 </Route>
                 <Route path="/login">
                     {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <LoginPage />}
@@ -57,6 +58,9 @@ const App = class App extends React.Component {
     getMiscRoutes = () => {
         return (
             <React.Fragment>
+                <Route path="/dashboard">
+                    {this.props.auth.authenticated ? <DashboardPage /> : <LoginPage />}
+                </Route>
             </React.Fragment>
         )
     }
