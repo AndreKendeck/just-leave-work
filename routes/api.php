@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace ('Api')->group(function () {
+Route::namespace('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -51,6 +51,8 @@ Route::namespace ('Api')->group(function () {
         Route::post('/users/import', 'ImportUserController@import')
             ->name('users.import');
 
+        Route::get('/my-leaves', 'MyLeaveController');
+
         Route::post('/leaves/add/', 'LeaveBalanceController@add')
             ->name('leaves.add');
 
@@ -65,6 +67,7 @@ Route::namespace ('Api')->group(function () {
         Route::get('/settings', 'SettingController@index')->name('settings');
         Route::post('/settings', 'SettingController@update')
             ->name('settings.update');
+
 
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
