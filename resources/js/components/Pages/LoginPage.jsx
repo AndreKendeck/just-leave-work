@@ -48,7 +48,7 @@ const LoginPage = class LoginPage extends React.Component {
                 this.props.setAuthenticated(token);
                 this.props.setTeam()
 
-                window.location = '/dashboard';
+                window.location = '/home/';
 
             }).catch(failedResponse => {
 

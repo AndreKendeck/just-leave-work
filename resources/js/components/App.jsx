@@ -12,9 +12,9 @@ import { setTeam, unsetTeam } from '../actions/team';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
-import DashboardPage from './Pages/DashboardPage';
 import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
+import HomePage from './Pages/HomePage';
 
 
 const App = class App extends React.Component {
@@ -37,16 +37,16 @@ const App = class App extends React.Component {
         return (
             <React.Fragment>
                 <Route path="/password-reset/:token">
-                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <ResetPasswordPage />}
+                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <ResetPasswordPage />}
                 </Route>
                 <Route path="/login">
-                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <LoginPage />}
+                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <LoginPage />}
                 </Route>
                 <Route path="/register">
-                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <RegisterPage />}
+                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <RegisterPage />}
                 </Route>
                 <Route path="/password-email">
-                    {this.props.auth.authenticated ? <Redirect to="/dashboard" /> : <ForgotPasswordPage />}
+                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <ForgotPasswordPage />}
                 </Route>
             </React.Fragment>
         )
@@ -55,8 +55,8 @@ const App = class App extends React.Component {
     getAuthRoutes = () => {
         return (
             <React.Fragment>
-                <Route path="/dashboard">
-                    {this.props.auth.authenticated ? <DashboardPage /> : <Redirect to="/login" />}
+                <Route path="/home">
+                    {this.props.auth.authenticated ? <HomePage /> : <Redirect to="/login" />}
                 </Route>
             </React.Fragment>
         )

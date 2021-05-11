@@ -50,7 +50,7 @@ const RegisterPage = class RegisterPage extends React.Component {
                 this.props.setUser(user);
                 this.props.setAuthenticated(token);
 
-                window.location = '/dashboard/';
+                window.location = '/home/';
 
             }).catch(failed => {
                 this.setState({ isSending: false });
