@@ -21,7 +21,7 @@ class CheckPasswordResetController extends Controller
         if (!$passwordResetEntry) {
             return response()
                 ->json([
-                    'message' => "Reset Token invalid",
+                    'message' => "Reset Token invalid/expired",
                 ], 498);
         }
         $token = $request->token;
@@ -29,7 +29,7 @@ class CheckPasswordResetController extends Controller
         if (!$result) {
             return response()
                 ->json([
-                    'message' => "Reset Token invalid",
+                    'message' => "Reset Token invalid/expired",
                 ], 498);
         }
         return response()

@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -19,7 +20,7 @@ class RegisterTest extends TestCase
             'email' => $this->faker->companyEmail,
             'password' => 'password123',
             'name' => $this->faker->name,
-            'terms' => 1, 
+            'terms' => 1,
         ];
 
         $response = $this->post(route('register'), $details)
@@ -36,7 +37,7 @@ class RegisterTest extends TestCase
             'team_id' => $user->team->id
         ]);
         $this->assertDatabaseHas('teams', [
-            'name' => $user->team->name
+            'name' => Str::kebab($details['team_name'])
         ]);
 
         $permissions = Permission::all();

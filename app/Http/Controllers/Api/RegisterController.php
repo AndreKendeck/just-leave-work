@@ -21,9 +21,9 @@ class RegisterController extends Controller
         ]);
 
         $team = Team::create([
-            'name' => Str::kebab($request->name),
-            'display_name' => $request->name,
-            'description' => $request->name,
+            'name' => Str::kebab($request->team_name),
+            'display_name' => $request->team_name,
+            'description' => $request->team_name,
         ]);
 
         $user->update([

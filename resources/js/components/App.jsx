@@ -8,6 +8,7 @@ import thunk from 'redux-thunk'
 import Navbar from '../components/Navigation/Navbar';
 import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
 import { setUser, unsetUser } from '../actions/user';
+import { setTeam, unsetTeam } from '../actions/team';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
@@ -22,11 +23,14 @@ const App = class App extends React.Component {
         api.get('/profile/')
             .then(successResponse => {
                 this.props.setAuthenticated(localStorage.getItem('authToken'));
-                this.props.setUser(successResponse.data);
+                const { user, team } = successResponse.data;
+                this.props.setUser(user);
+                this.props.setTeam(team);
             })
             .catch(failedResponse => {
                 this.props.unsetAuthenticated();
                 this.props.unsetUser();
+                this.props.unsetTeam();
             })
     }
     getGuestRoutes = () => {
@@ -51,6 +55,9 @@ const App = class App extends React.Component {
     getAuthRoutes = () => {
         return (
             <React.Fragment>
+                <Route path="/dashboard">
+                    {this.props.auth.authenticated ? <DashboardPage /> : <Redirect to="/login" />}
+                </Route>
             </React.Fragment>
         )
     }
@@ -58,9 +65,6 @@ const App = class App extends React.Component {
     getMiscRoutes = () => {
         return (
             <React.Fragment>
-                <Route path="/dashboard">
-                    {this.props.auth.authenticated ? <DashboardPage /> : <LoginPage />}
-                </Route>
             </React.Fragment>
         )
     }
@@ -89,7 +93,9 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const Application = connect(mapStateToProps, { setAuthenticated, unsetAuthenticated, setUser, unsetUser })(App);
+
+
+const Application = connect(mapStateToProps, { setAuthenticated, unsetAuthenticated, setUser, unsetUser, setTeam, unsetTeam })(App);
 
 ReactDOM.render(
     <Provider store={store}>

@@ -36,7 +36,8 @@ class LoginController extends Controller
             ->json([
                 'message' => "Login successful.",
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'team' => $user->team
             ]);
     }
 

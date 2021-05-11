@@ -11,6 +11,7 @@ import Field from '../Form/Field';
 import Page from '../Page';
 import { setUser } from '../../actions/user';
 import { setAuthenticated } from '../../actions/auth';
+import { setTeam } from '../../actions/team';
 
 
 const LoginPage = class LoginPage extends React.Component {
@@ -42,6 +43,10 @@ const LoginPage = class LoginPage extends React.Component {
                 window.localStorage.setItem('authToken', token);
 
                 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+                this.props.setUser(user);
+                this.props.setAuthenticated(token);
+                this.props.setTeam()
 
                 window.location = '/dashboard';
 
@@ -95,7 +100,7 @@ const LoginPage = class LoginPage extends React.Component {
 
 
 
-    
+
     render() {
         return (
             <Page className="flex justify-center">
@@ -125,4 +130,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps,{ setUser })(LoginPage);
+export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated })(LoginPage);

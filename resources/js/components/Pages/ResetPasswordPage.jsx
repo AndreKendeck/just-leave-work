@@ -7,11 +7,15 @@ import Page from '../Page';
 import Loader from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
 import Button from '../Button';
+import Heading from '../Heading';
+import Field from '../Form/Field';
+import InfoMessage from '../InfoMessage';
 
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
+
 
 const ResetPasswordPage = (props) => {
 
@@ -20,11 +24,27 @@ const ResetPasswordPage = (props) => {
     const [passwordConfirmation, setPasswordConfirmation] = useState({ value: null, errors: [], hasError: false });
     const [isLoading, setIsLoading] = useState(true);
     const [tokenResult, setTokenResult] = useState(false);
+    const [message, setMessage] = useState(null);
+    const [isSending, setIsSending] = useState(false);
 
     const { token } = useParams();
     const query = useQuery();
 
     const email = query.get('email');
+
+    const resetPasswordPost = ({ email, password, passwordConfirmation, token }) => {
+        setIsSending(true);
+        api.post('/reset-password', { email, password, password_confirmation: passwordConfirmation, token })
+            .then(success => {
+                setIsSending(false);
+                setMessage(success.data.message);
+            }).catch(failed => {
+                setIsSending(false);
+                if (failed.response.status == 422) {
+                    setPassword({ ...password, errors: failed.response.data.errors.password });
+                }
+            });
+    }
 
     useEffect(() => {
         api.post('/check-password-reset-token', { token, email })
@@ -43,7 +63,7 @@ const ResetPasswordPage = (props) => {
         return (
             <Page className="flex justify-center">
                 <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
-                    <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
+                    <Loader type="Oval" className="self-center" height={100} width={100} color="Gray" />
                 </Card>
             </Page>
         )
@@ -66,7 +86,19 @@ const ResetPasswordPage = (props) => {
     return (
         <Page className="flex justify-center">
             <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus quam nostrum omnis, reprehenderit ex minima? Quas amet natus voluptatem totam deserunt ullam hic aliquam quos blanditiis tenetur magni, dolore distinctio.
+                <Heading>Reset your account password</Heading>
+                <Field type="hidden" value={email} name="name" readOnly={true} />
+                <Field type="password" name="password" label="New password" hasError={password.hasError}
+                    errors={password.errors} onKeyUp={(e) => { e.persist(); setPassword({ value: e.target.value, errors: [], hasError: false }) }} />
+                <Field type="password" name="password_confirmation" label="Confirm new password" hasError={passwordConfirmation.hasError}
+                    onKeyUp={(e) => { e.persist(); setPasswordConfirmation({ value: e.target.value, errors: [], hasError: false }) }}
+                    errors={passwordConfirmation.errors} />
+                {isSending ? <Loader type="Oval" className="self-center" height={100} width={100} color="Gray" /> : (
+                    <Button onClick={(e) => { resetPasswordPost({ email, password: password.value, passwordConfirmation: passwordConfirmation.value, token }) }}>
+                        Save
+                    </Button>
+                )}
+                {message ? <InfoMessage text={message} /> : null}
             </Card>
         </Page>
     )

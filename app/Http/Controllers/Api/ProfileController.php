@@ -13,9 +13,12 @@ class ProfileController extends Controller
             return response()
                 ->get(Cache::get('user'));
         }
-        $user = \App\User::with('team')->findOrFail(auth()->id());
-     
+        $user = \App\User::findOrFail(auth()->id());
+
         return response()
-            ->json($user);
+            ->json([
+                'user' => $user,
+                'team' => $user->team
+            ]);
     }
 }
