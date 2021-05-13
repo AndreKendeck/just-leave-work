@@ -130,7 +130,7 @@ const Navbar = class Navbar extends React.Component {
     }
 
     canSeeLeaveLink = () => {
-        return collect(this.props.user.permissions).contains('name', 'can-approve-leave') || collect(this.props.user.permissions).contains('name', 'can-deny-leave');
+        return collect(this.props.user.permissions).contains('name', 'can-approve-leave') && collect(this.props.user.permissions).contains('name', 'can-deny-leave');
     }
 
     canSeeUsersLink = () => {
@@ -270,7 +270,7 @@ const Navbar = class Navbar extends React.Component {
                         </React.Fragment>
                     )}
                 </div>
-            </div >
+            </div>
         )
     }
 

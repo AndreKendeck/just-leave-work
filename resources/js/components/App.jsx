@@ -15,6 +15,9 @@ import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import HomePage from './Pages/HomePage';
+import { collect } from 'collect.js';
+import ForbiddenPage from './Pages/Errors/403';
+import IndexPage from './Pages/Leave/IndexPage';
 
 
 const App = class App extends React.Component {
@@ -52,11 +55,29 @@ const App = class App extends React.Component {
         )
     }
 
+
+    canSeeLeaveLink = () => {
+        return collect(this.props.user?.permissions).contains('name', 'can-approve-leave') && collect(this.props.user?.permissions).contains('name', 'can-deny-leave');
+    }
+
+    canSeeUsersLink = () => {
+        return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
+    }
+
     getAuthRoutes = () => {
         return (
             <React.Fragment>
                 <Route path="/home">
                     {this.props.auth.authenticated ? <HomePage /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/leaves">
+                    {(this.prop.auth.authenticated && this.canSeeLeaveLink()) ? <IndexPage /> : <ForbiddenPage />}
+                </Route>
+                <Route path="/my-leaves">
+                    {this.prop.auth.authenticated ? null : null}
+                </Route>
+                <Route path={['/leaves/view/:id', '/leave/view/:id']} exact={true}>
+                    {this.props.auth.authenticated ? null : null}
                 </Route>
             </React.Fragment>
         )
@@ -89,7 +110,8 @@ const store = createStore(reducers, composeEnhancers(
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        auth: state.auth
+        auth: state.auth,
+        user: state.user
     }
 }
 
