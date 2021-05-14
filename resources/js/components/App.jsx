@@ -71,10 +71,10 @@ const App = class App extends React.Component {
                     {this.props.auth.authenticated ? <HomePage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/leaves">
-                    {(this.prop.auth.authenticated && this.canSeeLeaveLink()) ? <IndexPage /> : <ForbiddenPage />}
+                    {(this.props.auth.authenticated && this.canSeeLeaveLink()) ? <IndexPage /> : <ForbiddenPage />}
                 </Route>
                 <Route path="/my-leaves">
-                    {this.prop.auth.authenticated ? null : null}
+                    {this.props.auth.authenticated ? null : null}
                 </Route>
                 <Route path={['/leaves/view/:id', '/leave/view/:id']} exact={true}>
                     {this.props.auth.authenticated ? null : null}

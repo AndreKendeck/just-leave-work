@@ -130,11 +130,11 @@ const Navbar = class Navbar extends React.Component {
     }
 
     canSeeLeaveLink = () => {
-        return collect(this.props.user.permissions).contains('name', 'can-approve-leave') && collect(this.props.user.permissions).contains('name', 'can-deny-leave');
+        return collect(this.props.user?.permissions).contains('name', 'can-approve-leave') && collect(this.props.user?.permissions).contains('name', 'can-deny-leave');
     }
 
     canSeeUsersLink = () => {
-        return collect(this.props.user.permissions).contains('name', 'can-delete-users') && collect(this.props.user.permissions).contains('name', 'can-add-users');
+        return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
     }
 
     getMobileDropdown() {
@@ -151,11 +151,11 @@ const Navbar = class Navbar extends React.Component {
     getDesktopMenu() {
         return (
             <div className="flex-row w-full justify-between items-center hidden md:flex">
-                <Link to="/" onClick={(e) => this.setState({ open: false })} className="text-gray-800 text-2xl font-bold">.Work</Link>
+                <Link to="/" onClick={(e) => this.setState({ open: false })} className="text-gray-800 text-2xl font-bold w-full">.Work</Link>
                 <div className="flex flex-row space-x-2 items-center w-full justify-end">
                     {this.props.auth.authenticated ? (
                         <React.Fragment>
-                            <NavLink to="/leave/create" className="text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg p-2">
+                            <NavLink to="/leave/create" className="text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between">
                                 <span>
                                     <svg version="1.1" className="stroke-current text-white h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                         <g fill="none">
@@ -172,7 +172,7 @@ const Navbar = class Navbar extends React.Component {
                                         </g>
                                     </svg>
                                 </span>
-                                <span className="text-white text-sm">Apply for leave</span>
+                                <span className="text-white text-xs">Apply</span>
                             </NavLink>
                             <NavLink to="/home" activeClassName="border border-2" className="flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2">
                                 <span>

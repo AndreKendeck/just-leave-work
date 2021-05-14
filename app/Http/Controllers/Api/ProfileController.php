@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Cache;
 
 class ProfileController extends Controller
@@ -17,8 +18,8 @@ class ProfileController extends Controller
 
         return response()
             ->json([
-                'user' => $user,
-                'team' => $user->team
+                'user' => new UserResource($user),
+                'team' => $user->team,
             ]);
     }
 }
