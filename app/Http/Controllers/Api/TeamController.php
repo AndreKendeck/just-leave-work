@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TeamResource;
 use App\Team;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,7 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail(auth()->user()->team_id);
         return response()
-            ->json([
-                'members' => $team->users->count(),
-                'leaves_approved' => $team->leaves()->whereNotNull('approved_at')->count(),
-                'name' => $team->display_name,
-            ]);
+            ->json(new TeamResource($team));
     }
 
     public function update(Request $request)

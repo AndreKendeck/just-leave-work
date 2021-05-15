@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\TeamResource;
+use App\Http\Resources\UserResource;
 use App\Permission;
 use App\Team;
 use App\User;
@@ -53,8 +55,9 @@ class RegisterController extends Controller
         return response()
             ->json([
                 'message' => "You successfully registered",
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token,
+                'team' => new TeamResource($team)
             ], 201);
     }
 }

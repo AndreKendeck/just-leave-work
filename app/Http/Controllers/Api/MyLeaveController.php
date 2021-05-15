@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LeaveResource;
 use Illuminate\Http\Request;
 
 class MyLeaveController extends Controller
@@ -16,8 +17,8 @@ class MyLeaveController extends Controller
     public function __invoke(Request $request)
     {
         $leaves = auth()->user()->leaves()->paginate(10);
-        
+
         return response()
-            ->json($leaves);
+            ->json(LeaveResource::collection($leaves));
     }
 }

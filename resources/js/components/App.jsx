@@ -9,6 +9,7 @@ import Navbar from '../components/Navigation/Navbar';
 import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
 import { setUser, unsetUser } from '../actions/user';
 import { setTeam, unsetTeam } from '../actions/team';
+import { setSettings, unsetSettings } from '../actions/settings';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
@@ -26,14 +27,16 @@ const App = class App extends React.Component {
         api.get('/profile/')
             .then(successResponse => {
                 this.props.setAuthenticated(localStorage.getItem('authToken'));
-                const { user, team } = successResponse.data;
+                const { user, team, settings } = successResponse.data;
                 this.props.setUser(user);
                 this.props.setTeam(team);
+                this.props.setSettings(settings);
             })
             .catch(failedResponse => {
                 this.props.unsetAuthenticated();
                 this.props.unsetUser();
                 this.props.unsetTeam();
+                this.props.unsetSettings();
             })
     }
     getGuestRoutes = () => {
@@ -64,7 +67,20 @@ const App = class App extends React.Component {
         return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
     }
 
+    hasVerifiedEmailAddress = () => {
+        return this.props.user?.verified;
+    }
+
     getAuthRoutes = () => {
+        if (this.props.auth?.authenticated && !this.hasVerifiedEmailAddress()) {
+            return (
+                <React.Fragment>
+                    <Route path="/*">
+                        <Redirect to="/verify-email-address" />
+                    </Route>
+                </React.Fragment>
+            )
+        }
         return (
             <React.Fragment>
                 <Route path="/home">
@@ -117,7 +133,16 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-const Application = connect(mapStateToProps, { setAuthenticated, unsetAuthenticated, setUser, unsetUser, setTeam, unsetTeam })(App);
+const Application = connect(mapStateToProps,
+    {   setAuthenticated,
+        unsetAuthenticated,
+        setUser,
+        unsetUser,
+        setTeam,
+        unsetTeam,
+        setSettings,
+        unsetSettings
+    })(App);
 
 ReactDOM.render(
     <Provider store={store}>

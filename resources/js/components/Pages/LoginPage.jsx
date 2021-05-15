@@ -38,7 +38,7 @@ const LoginPage = class LoginPage extends React.Component {
             .then(successResponse => {
 
                 this.setState({ isSending: false });
-                const { user, token } = successResponse.data;
+                const { user, token, team } = successResponse.data;
 
                 window.localStorage.setItem('authToken', token);
 
@@ -46,7 +46,7 @@ const LoginPage = class LoginPage extends React.Component {
 
                 this.props.setUser(user);
                 this.props.setAuthenticated(token);
-                this.props.setTeam()
+                this.props.setTeam(team);
 
                 window.location = '/home/';
 

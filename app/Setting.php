@@ -21,7 +21,9 @@ class Setting extends Model
         'maximum_leave_balance' => 'integer',
         'days_until_balance_added' => 'integer',
         'can_approve_own_leave' => 'boolean',
-        'last_leave_balance_added_at' => 'datetime'
+        'last_leave_balance_added_at' => 'datetime',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d'
     ];
 
     public function team()

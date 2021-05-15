@@ -12,7 +12,6 @@ const Navbar = class Navbar extends React.Component {
         }
     }
 
-
     getMobileMenuIconState = () => {
         if (!this.state.open) {
             return (
@@ -137,7 +136,7 @@ const Navbar = class Navbar extends React.Component {
         return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
     }
 
-    getMobileDropdown() {
+    getMobileDropdown = () => {
         if (this.state.open) {
             return (
                 <div className="flex flex-col bg-white p-3 md:hidden space-y-2">
@@ -216,7 +215,7 @@ const Navbar = class Navbar extends React.Component {
                             </NavLink>) : null}
 
 
-                            { this.canSeeUsersLink() ? (
+                            {this.canSeeUsersLink() ? (
                                 <NavLink to="/users" activeClassName="border border-2" className="flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2">
                                     <span>
                                         <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
@@ -261,6 +260,9 @@ const Navbar = class Navbar extends React.Component {
                                         </g></svg>
                                 </span>
                                 <span className="text-gray-800 text-sm">Settings</span>
+                            </NavLink>
+                            <NavLink to="/profile">
+                                <img className="h-8 w-8 rounded-full" src={this.props.user?.hasAvatar ? this.props.user?.avatarUrl : null} alt={this.props.user?.name} />
                             </NavLink>
                         </React.Fragment>
                     ) : (

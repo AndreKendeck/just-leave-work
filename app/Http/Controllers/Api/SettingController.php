@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Setting\UpdateRequest;
+use App\Http\Resources\SettingResource;
+use App\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -12,7 +14,7 @@ class SettingController extends Controller
     {
         return response()
             ->json(
-                auth()->user()->team->settings
+                new SettingResource(auth()->user()->team->settings)
             );
     }
 
@@ -29,7 +31,8 @@ class SettingController extends Controller
 
         return response()
             ->json([
-                'message' => "Settings updated successfully"
+                'message' => "Settings updated successfully",
+                'settings' => new SettingResource(auth()->user()->team->settings)
             ]);
     }
 }

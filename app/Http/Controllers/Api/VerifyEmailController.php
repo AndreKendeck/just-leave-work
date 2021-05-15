@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class VerifyEmailController extends Controller
 {
@@ -62,7 +63,11 @@ class VerifyEmailController extends Controller
                 ], 403);
         }
 
-        auth()->user()->sendEmailVerificationNotification();
+        try {
+            auth()->user()->sendEmailVerificationNotification();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
 
         return response()
             ->json([

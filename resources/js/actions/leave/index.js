@@ -1,15 +1,6 @@
-import api from "../../api"
 
-export const setLeaves = (page = 1) => {
-    return (dispatch) => {
-        api.get(`/leaves/?page=${page}`)
-            .then(success => {
-                return { type: 'SET_LEAVES', payload: success.data }
-            })
-            .catch(failed => {
-                
-            });
-    }
+export const setLeaves = (leaves = []) => {
+    return { type: 'SET_LEAVES', payload: leaves };
 }
 
 export const setSelectedLeave = (leave) => {
@@ -17,5 +8,5 @@ export const setSelectedLeave = (leave) => {
 }
 
 export const deleteLeave = (id) => {
-    return { type: 'DELTET_LEAVE', payload: id }
+    return { type: 'DELETE_LEAVE', payload: id }
 }

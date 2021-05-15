@@ -9,6 +9,7 @@ import Checkbox from '../Form/Checkbox';
 import Field from '../Form/Field';
 import Page from '../Page';
 import { setUser } from '../../actions/user';
+import { setTeam } from '../../actions/team';
 import { setAuthenticated } from '../../actions/auth';
 import ErrorMessage from '../ErrorMessage';
 
@@ -38,16 +39,17 @@ const RegisterPage = class RegisterPage extends React.Component {
 
         api.post('/register/', { email, password, name, terms, team_name })
             .then(success => {
-                
+
                 this.setState({ isSending: false });
 
-                const { user, token } = success.data;
+                const { user, token, team } = success.data;
 
                 window.localStorage.setItem('authToken', token);
 
                 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
                 this.props.setUser(user);
+                this.props.setTeam(team);
                 this.props.setAuthenticated(token);
 
                 window.location = '/home/';
@@ -114,4 +116,4 @@ const RegisterPage = class RegisterPage extends React.Component {
     }
 }
 
-export default connect(null, { setUser, setAuthenticated })(RegisterPage);
+export default connect(null, { setUser, setAuthenticated, setTeam })(RegisterPage);

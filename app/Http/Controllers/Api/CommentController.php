@@ -40,7 +40,7 @@ class CommentController extends Controller
         return response()
             ->json([
                 'message' => "Comment added successfully",
-                'comment' => $comment,
+                'comment' => new Comment($comment),
             ], 201);
     }
 
@@ -64,7 +64,7 @@ class CommentController extends Controller
         }
 
         return response()
-            ->json($comment);
+            ->json(new Comment($comment));
     }
 
     /**
@@ -99,7 +99,7 @@ class CommentController extends Controller
         return response()
             ->json([
                 'message' => "Comment updated successfully",
-                'comment' => $comment,
+                'comment' => new Comment($comment),
             ]);
     }
 
