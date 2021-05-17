@@ -7,7 +7,7 @@ const ErrorMessage = (props) => {
             <div className="w-full">
                 {props.text}
             </div>
-            <button onClick={(event) => { setVisible(false) }} className="hover:bg-red-100 p-1 focus:outline-none rounded">
+            <button onDismiss={props.onDismiss} onClick={(event) => { setVisible(false); props.onDismiss(); }} className="hover:bg-red-100 p-1 focus:outline-none rounded">
                 <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-red-800 h-6 w-6" xmlns="http://www.w3.org/2000/svg" ><g fill="none">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 8l8 8">
                     </path>

@@ -14,11 +14,11 @@ class VerifyEmailController extends Controller
         if (auth()->user()->hasVerifiedEmail()) {
             return response()
                 ->json([
-                    'message' => "You email address has already been verified"
+                    'message' => "You email address has already been verified",
                 ], 403);
         }
         $request->validate([
-            'code' => ['required', 'min:4', 'max:4', 'string']
+            'code' => ['required', 'min:4', 'max:4', 'string'],
         ]);
 
         $emailCode = auth()->user()->emailCode;
@@ -28,9 +28,9 @@ class VerifyEmailController extends Controller
         if (!$isCorrect) {
             return response()
                 ->json([
-                    'errors' =>  [
-                        'code' => ['Code is invalid']
-                    ]
+                    'errors' => [
+                        'code' => ['Code is invalid.'],
+                    ],
                 ], 422);
         }
 
@@ -40,8 +40,8 @@ class VerifyEmailController extends Controller
             return response()
                 ->json([
                     'errors' => [
-                        'code' => ['Code has expired please resend another one']
-                    ]
+                        'code' => ['Code has expired please resend another one.'],
+                    ],
                 ], 422);
         }
 
@@ -49,7 +49,7 @@ class VerifyEmailController extends Controller
 
         return response()
             ->json([
-                'message' => "Your email has been verified"
+                'message' => "Your email has been verified.",
             ]);
     }
 
@@ -59,7 +59,7 @@ class VerifyEmailController extends Controller
         if (auth()->user()->hasVerifiedEmail()) {
             return response()
                 ->json([
-                    'message' => "You email address has already been verified"
+                    'message' => "You email address has already been verified.",
                 ], 403);
         }
 
@@ -67,11 +67,15 @@ class VerifyEmailController extends Controller
             auth()->user()->sendEmailVerificationNotification();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            return response()
+                ->json([
+                    'message' => 'Something went wrong please try again later',
+                ], 500);
         }
 
         return response()
             ->json([
-                'message' => "Email code has been resent"
+                'message' => "Email code has been sent. Please note that the code will expire in 10 minutes",
             ]);
     }
 }

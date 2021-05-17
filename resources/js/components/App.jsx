@@ -19,6 +19,7 @@ import HomePage from './Pages/HomePage';
 import { collect } from 'collect.js';
 import ForbiddenPage from './Pages/Errors/403';
 import IndexPage from './Pages/Leave/IndexPage';
+import VerifyEmailPage from './Pages/VerifyEmailPage';
 
 
 const App = class App extends React.Component {
@@ -72,28 +73,22 @@ const App = class App extends React.Component {
     }
 
     getAuthRoutes = () => {
-        if (this.props.auth?.authenticated && !this.hasVerifiedEmailAddress()) {
-            return (
-                <React.Fragment>
-                    <Route path="/*">
-                        <Redirect to="/verify-email-address" />
-                    </Route>
-                </React.Fragment>
-            )
-        }
         return (
             <React.Fragment>
                 <Route path="/home">
-                    {this.props.auth.authenticated ? <HomePage /> : <Redirect to="/login" />}
+                    {this.props.auth.authenticated ? this.hasVerifiedEmailAddress() ? <HomePage /> : <Redirect to="/verify-email-address" /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/leaves">
-                    {(this.props.auth.authenticated && this.canSeeLeaveLink()) ? <IndexPage /> : <ForbiddenPage />}
+                    {(this.props.auth.authenticated && this.canSeeLeaveLink()) ? this.hasVerifiedEmailAddress() ? <IndexPage /> : <Redirect to="/verify-email-address" /> : <ForbiddenPage />}
                 </Route>
                 <Route path="/my-leaves">
                     {this.props.auth.authenticated ? null : null}
                 </Route>
                 <Route path={['/leaves/view/:id', '/leave/view/:id']} exact={true}>
                     {this.props.auth.authenticated ? null : null}
+                </Route>
+                <Route path="/verify-email-address">
+                    {this.props.auth.authenticated && !this.hasVerifiedEmailAddress() ? <VerifyEmailPage /> : <HomePage />}
                 </Route>
             </React.Fragment>
         )
@@ -134,7 +129,8 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const Application = connect(mapStateToProps,
-    {   setAuthenticated,
+    {
+        setAuthenticated,
         unsetAuthenticated,
         setUser,
         unsetUser,

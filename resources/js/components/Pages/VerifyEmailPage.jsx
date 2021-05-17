@@ -34,23 +34,60 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                 const { message } = success.data;
                 this.setState({ successMessage: message });
             }).catch(failed => {
+                this.setState({ error: failed.response.message });
+            });
+    }
+
+    verifyEmailAddress = (e) => {
+        e.persist();
+    }
+
+    onCodeChange = (e) => {
+        e.persist();
+        this.setState(state => {
+            return {
+                ...state,
+                code: {
+                    ...state.code,
+                    value: e.target.value
+                }
+            }
+        })
+        console.log(this.state);
+    }
+
+    sendCodePost = (e) => {
+        e.persist();
+        const { code: { value: code } } = this.state;
+        this.setState({ isSending: true });
+        api.post('/verify-email', { code })
+            .then(success => {
+                this.setState({ isSending: false });
+                this.setState({ successMessage: success.data.message });
+                /** 
+                 * redirect to the homepage
+                 */
+                setTimeout(() => {
+                    window.location = '/home';
+                }, 2000);
+            }).catch(failed => {
                 this.setState({ isSending: false });
                 if (failed.response.status == 422) {
-                    const errors = failed.response.data;
+                    const { errors } = failed.response.data;
                     this.setState(state => {
                         return {
                             ...state,
                             code: {
                                 ...state.code,
-                                errors: errors[code],
-                                hasError: true
+                                errors: errors.code
                             }
                         }
-                    })
+                    });
+                    return;
                 }
+                this.setState({ error: failed.response.data.message });
             });
     }
-
 
 
     render() {
@@ -58,13 +95,14 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
             <Page className="flex justify-center">
                 <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
                     <Heading>Verify your account</Heading>
-                    <Field name="code" label="Verification Code" />
-                    {this.state.error ? <ErrorMessage text={this.state.error} /> : null}
-                    {this.state.successMessage ? <InfoMessage text={this.state.successMessage} /> : null}
+                    <Field name="code" hasError={this.state.code.hasError}
+                        errors={this.state.code.errors} onKeyUp={(e) => this.onCodeChange(e)} label="Verification Code" />
+                    {this.state.error ? <ErrorMessage onDismiss={() => this.setState({ error: null })} text={this.state.error} /> : null}
+                    {this.state.successMessage ? <InfoMessage onDismiss={() => this.setState({ successMessage: null })} text={this.state.successMessage} /> : null}
                     {this.state.isSending ? (
                         <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
-                    ) : <Button onClick={this.resendCode()}>Verify</Button>}
-                    <Button type="secondary" onClick={this.resendCode()} >Resend code</Button>
+                    ) : <Button onClick={(e) => this.sendCodePost(e)}>Verify</Button>}
+                    <Button type="secondary" onClick={(e) => this.resendCode(e)} >Resend code</Button>
                 </Card>
             </Page>
         )

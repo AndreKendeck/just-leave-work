@@ -135,6 +135,9 @@ const Navbar = class Navbar extends React.Component {
     canSeeUsersLink = () => {
         return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
     }
+    canSeeSettingsLink = () => {
+        return collect(this.props.user?.roles).contains('name', 'team-admin');
+    }
 
     getMobileDropdown = () => {
         if (this.state.open) {
@@ -150,7 +153,7 @@ const Navbar = class Navbar extends React.Component {
     getDesktopMenu() {
         return (
             <div className="flex-row w-full justify-between items-center hidden md:flex">
-                <Link to="/" onClick={(e) => this.setState({ open: false })} className="text-gray-800 text-2xl font-bold w-full">.Work</Link>
+                <Link to="/" onClick={(e) => this.setState({ open: false })} className="text-gray-800 text-2xl font-bold w-full">{this.props.team?.displayName}</Link>
                 <div className="flex flex-row space-x-2 items-center w-full justify-end">
                     {this.props.auth.authenticated ? (
                         <React.Fragment>
@@ -244,25 +247,27 @@ const Navbar = class Navbar extends React.Component {
                                         <circle cx="18.5" cy="13.75" r="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                     </svg>
                                 </span>
-                                <span className="text-gray-800 text-sm">My Leaves</span>
+                                <span className="text-gray-800 text-xs">My Leaves</span>
                             </NavLink>
-                            <NavLink to="/settings" activeClassName="border border-2" className="flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2">
-                                <span>
-                                    <svg version="1.1" className="stroke-current text-gray-700 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-                                        <g fill="none">
-                                            <line x1="7.5" x2="10.5" y1="11" y2="11" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
-                                            <line x1="9" x2="9" y1="11" y2="17" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
-                                            <line x1="9" x2="9" y1="7" y2="8.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
-                                            <line x1="16.5" x2="13.5" y1="13.08" y2="13.08" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
-                                            <line x1="15" x2="15" y1="13" y2="7" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
-                                            <line x1="15" x2="15" y1="17" y2="15.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"></path>
-                                        </g></svg>
-                                </span>
-                                <span className="text-gray-800 text-sm">Settings</span>
-                            </NavLink>
-                            <NavLink to="/profile">
-                                <img className="h-8 w-8 rounded-full" src={this.props.user?.hasAvatar ? this.props.user?.avatarUrl : null} alt={this.props.user?.name} />
+                            { this.canSeeSettingsLink() ? (
+                                <NavLink to="/settings" activeClassName="border border-2" className="flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2">
+                                    <span>
+                                        <svg version="1.1" className="stroke-current text-gray-700 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+                                            <g fill="none">
+                                                <line x1="7.5" x2="10.5" y1="11" y2="11" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
+                                                <line x1="9" x2="9" y1="11" y2="17" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
+                                                <line x1="9" x2="9" y1="7" y2="8.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
+                                                <line x1="16.5" x2="13.5" y1="13.08" y2="13.08" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
+                                                <line x1="15" x2="15" y1="13" y2="7" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
+                                                <line x1="15" x2="15" y1="17" y2="15.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"></path>
+                                            </g></svg>
+                                    </span>
+                                    <span className="text-gray-800 text-sm">Settings</span>
+                                </NavLink>
+                            ) : null}
+                            <NavLink to="/profile" className="mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg">
+                                <img className="h-8 w-8 rounded-full" src={this.props.user?.hasAvatar ? this.props.user?.avatarUrl : this.props.user?.avatarUrl?.encoded} alt={this.props.user?.name} />
                             </NavLink>
                         </React.Fragment>
                     ) : (

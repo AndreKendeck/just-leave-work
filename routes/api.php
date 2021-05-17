@@ -22,7 +22,7 @@ Route::namespace('Api')->group(function () {
 
     Route::post('/verify-email', 'VerifyEmailController@verify')
         ->name('verify.email')->middleware(['auth:sanctum']);
-    Route::get('/resend-code', 'VerifyEmailController@resend')->name('verify.resend')
+    Route::post('/resend-code', 'VerifyEmailController@resend')->name('verify.resend')
         ->middleware(['throttle:4,60', 'auth:sanctum']);
 
     Route::get('/profile', 'ProfileController@index')

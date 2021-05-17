@@ -142,7 +142,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
         $this->emailCode->update([
             'code' => bcrypt($code),
-            'expires_at' => now()->addMinutes(5),
+            'expires_at' => now()->addMinutes(10),
         ]);
 
         Mail::to($this->email)

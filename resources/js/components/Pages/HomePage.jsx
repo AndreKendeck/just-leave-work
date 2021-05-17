@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import Card from '../Card';
 import Page from '../Page';
 
+
 const HomePage = class HomePage extends React.Component {
+
+    componentDidMount() {
+    }
     render() {
         return (
             <Page>
@@ -15,4 +19,10 @@ const HomePage = class HomePage extends React.Component {
     }
 }
 
-export default connect(null, null)(HomePage);
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, null)(HomePage);
