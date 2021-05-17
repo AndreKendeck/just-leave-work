@@ -20,6 +20,8 @@ import { collect } from 'collect.js';
 import ForbiddenPage from './Pages/Errors/403';
 import IndexPage from './Pages/Leave/IndexPage';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
+import MyLeavePage from './Pages/Leave/MyLeavePage';
+import { Component } from 'react';
 
 
 const App = class App extends React.Component {
@@ -60,35 +62,68 @@ const App = class App extends React.Component {
     }
 
 
-    canSeeLeaveLink = () => {
-        return collect(this.props.user?.permissions).contains('name', 'can-approve-leave') && collect(this.props.user?.permissions).contains('name', 'can-deny-leave');
-    }
-
-    canSeeUsersLink = () => {
-        return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
-    }
 
     hasVerifiedEmailAddress = () => {
         return this.props.user?.verified;
+    }
+
+    hasBaseRequirements = () => {
+        return this.props.auth?.authenticated && this.hasVerifiedEmailAddress();
+    }
+
+    currentUserHasRole = (roleName) => {
+        return collect(this.props.user?.roles).contains('name', roleName);
+    }
+
+    canNagivateToComponentPage = (path = '/', requiresVerifiedEmail = true, requiredRoles = [], requiredPermissions = []) => {
+
+
+        if (path === '/verify-email-address') {
+            if (this.hasVerifiedEmailAddress()) {
+                return <Redirect to="/home" />
+            }
+        }
+
+        if (requiresVerifiedEmail) {
+            if (!this.hasVerifiedEmailAddress()) {
+                return <Redirect to="verify-email-address" />;
+            }
+        }
+
+        // then check if the user has the required roles in place
+        if (requiredRoles.length > 0) {
+            const resultFromRoles = requiredRoles.filter(roleName => this.currentUserHasRole(roleName));
+            if (collect(resultFromRoles).contains(false)) {
+                return <ForbiddenPage />
+            }
+        }
+
+        switch (path) {
+            case '/':
+                return <HomePage />;
+            case '/home/':
+                return <HomePage />;
+            case '/leaves/':
+        }
     }
 
     getAuthRoutes = () => {
         return (
             <React.Fragment>
                 <Route path="/home">
-                    {this.props.auth.authenticated ? this.hasVerifiedEmailAddress() ? <HomePage /> : <Redirect to="/verify-email-address" /> : <Redirect to="/login" />}
+                    {this.canNagivateToComponentPage('/home', true)}
                 </Route>
                 <Route path="/leaves">
-                    {(this.props.auth.authenticated && this.canSeeLeaveLink()) ? this.hasVerifiedEmailAddress() ? <IndexPage /> : <Redirect to="/verify-email-address" /> : <ForbiddenPage />}
+                    {this.canNagivateToComponentPage('/leaves', true, [], ['can-approve-leave', 'can-deny-leave'])}
                 </Route>
                 <Route path="/my-leaves">
-                    {this.props.auth.authenticated ? null : null}
+                    {this.canNagivateToComponentPage('/my-leaves', true)}
                 </Route>
                 <Route path={['/leaves/view/:id', '/leave/view/:id']} exact={true}>
                     {this.props.auth.authenticated ? null : null}
                 </Route>
                 <Route path="/verify-email-address">
-                    {this.props.auth.authenticated && !this.hasVerifiedEmailAddress() ? <VerifyEmailPage /> : <HomePage />}
+
                 </Route>
             </React.Fragment>
         )
@@ -141,7 +176,7 @@ const Application = connect(mapStateToProps,
     })(App);
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store} >
         <Application />
-    </Provider>
+    </Provider >
     , document.getElementById('app'));

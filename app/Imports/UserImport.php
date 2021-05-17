@@ -7,18 +7,18 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use App\Mail\WelcomeEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Notifications\CannotImportUser; 
+use App\Notifications\CannotImportUser;
 
 class UserImport implements ToModel, ShouldQueue
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
-        $passwordGenerator = new ComputerPasswordGenerator(); 
+        $passwordGenerator = new ComputerPasswordGenerator();
 
         $passwordGenerator->setUppercase()
             ->setLowercase()
@@ -28,17 +28,20 @@ class UserImport implements ToModel, ShouldQueue
 
         $password = $passwordGenerator->generatePassword();
 
-        $exists = User::where('email' , $row[1] )->exists();
+        $exists = User::where('email', $row[1])->exists();
 
         if ($exists) {
-            auth()->user()->notify( new CannotImportUser("User with the email address {$row[1]} could not be added, [Error - User already exists]") );
-            return null; 
+            try {
+                auth()->user()->notify(new CannotImportUser("User with the email address {$row[1]} could not be added, [Error - User already exists]"));
+            } catch (\Exception $e) {
+                return null;
+            }
         }
 
         $user = new User([
-            'name' => $row[0], 
-            'email' => $row[1], 
-            'password' => bcrypt($password), 
+            'name' => $row[0],
+            'email' => $row[1],
+            'password' => bcrypt($password),
             'leave_balance' => $row[2] ?? 0,
             'team_id' => auth()->user()->team->id
         ]);
@@ -47,7 +50,6 @@ class UserImport implements ToModel, ShouldQueue
 
         $user->sendEmailVerificationNotification();
 
-        return $user; 
-
+        return $user;
     }
 }

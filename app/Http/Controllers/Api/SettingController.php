@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Setting\UpdateRequest;
 use App\Http\Resources\SettingResource;
-use App\Setting;
-use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {

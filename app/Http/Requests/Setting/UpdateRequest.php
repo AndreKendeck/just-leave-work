@@ -24,12 +24,12 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'automatic_leave_approval' => ['required'],
+            'automatic_leave_approval' => ['required', 'boolean'],
             'leave_added_per_cycle' => ['required', 'integer', 'min:0'],
-            'maximum_leave_days' => ['required', 'integer', 'min:'],
+            'maximum_leave_days' => ['required', 'integer', 'min:1'],
             'maximum_leave_balance' => ['required', 'integer', 'min:0'],
             'days_until_balance_added' => ['required', 'integer', 'min:0'],
-            'can_approve_own_leave' => ['required'],
+            'can_approve_own_leave' => ['required', 'boolean'],
         ];
     }
 

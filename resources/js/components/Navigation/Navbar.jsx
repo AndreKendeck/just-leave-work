@@ -267,7 +267,7 @@ const Navbar = class Navbar extends React.Component {
                                 </NavLink>
                             ) : null}
                             <NavLink to="/profile" className="mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg">
-                                <img className="h-8 w-8 rounded-full" src={this.props.user?.hasAvatar ? this.props.user?.avatarUrl : this.props.user?.avatarUrl?.encoded} alt={this.props.user?.name} />
+                                <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
                             </NavLink>
                         </React.Fragment>
                     ) : (

@@ -59,12 +59,18 @@ class UserController extends Controller
                 try {
                     $user->attachPermission($permission, $user->team);
                 } catch (\Exception $e) {
+                    Log::info($e->getMessage());
                     continue;
                 }
             }
         }
 
-        Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
+        try {
+            Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+        }
+
 
         return response()
             ->json([

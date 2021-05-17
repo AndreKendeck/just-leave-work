@@ -16,10 +16,9 @@ class VerifyEmailCodeTest extends TestCase
         $user = factory('App\User')->create([
             'email_verified_at' => null,
         ]);
-        $this->actingAs($user)
+        $response = $this->actingAs($user)
             ->get(route('verify.resend'))
-            ->assertOk()
-            ->assertJsonStructure(['message']);
+            ->assertOk();
         Mail::assertQueued(VerificationEmail::class);
     }
 
