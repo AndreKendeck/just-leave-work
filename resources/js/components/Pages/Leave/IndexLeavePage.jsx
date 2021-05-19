@@ -1,14 +1,14 @@
 import React from 'react';
 import api from '../../../api';
 
-const IndexPage = class IndexPage extends React.Component {
+const IndexLeavePage = class IndexLeavePage extends React.Component {
 
     state = {
         isLoading: false,
     }
 
     componentDidMount() {
-        
+
     }
 
     getLeaves = (pageNumber) => {
@@ -29,4 +29,4 @@ const IndexPage = class IndexPage extends React.Component {
 
 };
 
-export default IndexPage;
+export default IndexLeavePage;

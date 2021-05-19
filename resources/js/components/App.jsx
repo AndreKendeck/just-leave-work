@@ -17,11 +17,12 @@ import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import HomePage from './Pages/HomePage';
 import { collect } from 'collect.js';
-import ForbiddenPage from './Pages/Errors/403';
-import IndexPage from './Pages/Leave/IndexPage';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
 import MyLeavePage from './Pages/Leave/MyLeavePage';
-import { Component } from 'react';
+import IndexLeavePage from './Pages/Leave/IndexLeavePage';
+import ViewLeavePage from './Pages/Leave/ViewLeavePage';
+import CreateLeavePage from './Pages/Leave/CreateLeavePage';
+import ProfilePage from './Pages/ProfilePage';
 
 
 const App = class App extends React.Component {
@@ -46,16 +47,16 @@ const App = class App extends React.Component {
         return (
             <React.Fragment>
                 <Route path="/password-reset/:token">
-                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <ResetPasswordPage />}
+                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ResetPasswordPage />}
                 </Route>
                 <Route path="/login">
-                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <LoginPage />}
+                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <LoginPage />}
                 </Route>
                 <Route path="/register">
-                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <RegisterPage />}
+                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <RegisterPage />}
                 </Route>
                 <Route path="/password-email">
-                    {this.props.auth.authenticated ? <Redirect to="/home" /> : <ForgotPasswordPage />}
+                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ForgotPasswordPage />}
                 </Route>
             </React.Fragment>
         )
@@ -67,62 +68,61 @@ const App = class App extends React.Component {
         return this.props.user?.verified;
     }
 
-    hasBaseRequirements = () => {
-        return this.props.auth?.authenticated && this.hasVerifiedEmailAddress();
+
+    currentUserIsAuthenticated = () => {
+        return this.props.auth?.authenticated;
+    }
+
+    currentUserHasAVerifiedEmailAddress = () => {
+        return this.props.user?.verified;
     }
 
     currentUserHasRole = (roleName) => {
         return collect(this.props.user?.roles).contains('name', roleName);
     }
 
-    canNagivateToComponentPage = (path = '/', requiresVerifiedEmail = true, requiredRoles = [], requiredPermissions = []) => {
-
-
-        if (path === '/verify-email-address') {
-            if (this.hasVerifiedEmailAddress()) {
-                return <Redirect to="/home" />
-            }
-        }
-
-        if (requiresVerifiedEmail) {
-            if (!this.hasVerifiedEmailAddress()) {
-                return <Redirect to="verify-email-address" />;
-            }
-        }
-
-        // then check if the user has the required roles in place
-        if (requiredRoles.length > 0) {
-            const resultFromRoles = requiredRoles.filter(roleName => this.currentUserHasRole(roleName));
-            if (collect(resultFromRoles).contains(false)) {
-                return <ForbiddenPage />
-            }
-        }
-
-        switch (path) {
-            case '/':
-                return <HomePage />;
-            case '/home/':
-                return <HomePage />;
-            case '/leaves/':
-        }
+    currentUserHasPermission = (permissonName) => {
+        return collect(this.props.user?.permission).contains('name', permissonName);
     }
 
     getAuthRoutes = () => {
+        if (this.currentUserIsAuthenticated() && !this.currentUserHasAVerifiedEmailAddress()) {
+            return (
+                <React.Fragment>
+                    <Route path="/*">
+                        <VerifyEmailPage />
+                    </Route>
+                </React.Fragment>
+            )
+        }
         return (
             <React.Fragment>
-                <Route path="/home">
-                    {this.canNagivateToComponentPage('/home', true)}
+
+                <Route path={['/home', '/']} exact={true}>
+                    {this.currentUserIsAuthenticated() ? <HomePage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/leaves">
-                    {this.canNagivateToComponentPage('/leaves', true, [], ['can-approve-leave', 'can-deny-leave'])}
+                    {this.currentUserIsAuthenticated() ? <IndexLeavePage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/my-leaves">
-                    {this.canNagivateToComponentPage('/my-leaves', true)}
+                    {this.currentUserIsAuthenticated() ? <MyLeavePage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path={['/leaves/view/:id', '/leave/view/:id']} exact={true}>
-                    {this.props.auth.authenticated ? null : null}
+                    {this.currentUserIsAuthenticated() ? <ViewLeavePage /> : <Redirect to="/login" />}
                 </Route>
-                <Route path="/verify-email-address">
+                <Route path="/leave/create">
+                    {this.currentUserIsAuthenticated() ? <CreateLeavePage /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/profile">
+                    {this.currentUserIsAuthenticated() ? <ProfilePage /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/settings">
+
+                </Route>
+                <Route path="/users">
+
+                </Route>
+                <Route path="/">
 
                 </Route>
             </React.Fragment>

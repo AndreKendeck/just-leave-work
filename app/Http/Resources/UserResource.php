@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Permission;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -24,8 +23,8 @@ class UserResource extends JsonResource
             'leaveBalance' => $this->leave_balance,
             'lastLoginAt' => $this->last_logged_in_at,
             'avatar' => $this->avatar,
-            'roles' => $request->roles,
-            'permissions' => $request->permissions,
+            'roles' => RoleResource::collection($this->roles),
+            'permissions' => PermissionResource::collection($this->permissions),
             'avatarUrl' => $this->has_avatar ? $this->avatar_url : $this->avatar_url->encoded,
             'totalDaysOnLeave' => $this->total_days_on_leave,
             'hasAvatar' => $this->has_avatar,
