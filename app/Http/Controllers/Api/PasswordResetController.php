@@ -47,7 +47,7 @@ class PasswordResetController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        $resetEntry->delete();
+        DB::table('password_resets')->where('email', $request->email)->delete();
 
         return response()
             ->json([

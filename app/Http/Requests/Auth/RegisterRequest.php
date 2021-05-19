@@ -35,6 +35,8 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
+            'team_name.required' => 'Please enter your Organization',
+            'team_name.min' => 'Organization name should be more than 2 letters',
             'terms.required' => 'Please accept the Terms & Conditions',
             'terms.accepted' => 'Please accept the Terms & Conditions'
         ];

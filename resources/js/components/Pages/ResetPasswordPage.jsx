@@ -38,13 +38,20 @@ const ResetPasswordPage = (props) => {
             .then(success => {
                 setIsSending(false);
                 setMessage(success.data.message);
+                setTimeout(() => {
+                    window.location = '/login';
+                }, 2500);
             }).catch(failed => {
                 setIsSending(false);
                 if (failed.response.status == 422) {
                     setPassword({ ...password, errors: failed.response.data.errors.password });
+                    return;
                 }
+                setError(failed.response.data.message);
             });
     }
+
+
 
     useEffect(() => {
         api.post('/check-password-reset-token', { token, email })
@@ -56,8 +63,9 @@ const ResetPasswordPage = (props) => {
                 setError(failed.response.data.message);
                 setIsLoading(false);
                 return false;
-            })
-    });
+            });
+    }, []);
+
 
     if (isLoading) {
         return (
@@ -87,7 +95,6 @@ const ResetPasswordPage = (props) => {
         <Page className="flex justify-center">
             <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
                 <Heading>Reset your account password</Heading>
-                <Field type="hidden" value={email} name="name" readOnly={true} />
                 <Field type="password" name="password" label="New password" hasError={password.hasError}
                     errors={password.errors} onKeyUp={(e) => { e.persist(); setPassword({ value: e.target.value, errors: [], hasError: false }) }} />
                 <Field type="password" name="password_confirmation" label="Confirm new password" hasError={passwordConfirmation.hasError}
@@ -98,6 +105,7 @@ const ResetPasswordPage = (props) => {
                         Save
                     </Button>
                 )}
+                {error ? <ErrorMessage text={error} /> : null}
                 {message ? <InfoMessage text={message} /> : null}
             </Card>
         </Page>

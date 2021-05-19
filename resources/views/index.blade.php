@@ -10,8 +10,7 @@
 </head>
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">
-    <div id="app">
-
+    <div id="app" style="height: 100vh;display: flex; flex-direction: column; width: 100vw">
     </div>
 </body>
 <script src="{{ asset('js/app.js') }}"></script>

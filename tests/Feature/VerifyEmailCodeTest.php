@@ -46,7 +46,7 @@ class VerifyEmailCodeTest extends TestCase
     {
         $user = factory('App\User')->create();
         $this->actingAs($user)
-            ->get(route('verify.resend'))
+            ->post(route('verify.resend'))
             ->assertForbidden();
     }
 

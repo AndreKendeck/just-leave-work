@@ -102,7 +102,7 @@ const RegisterPage = class RegisterPage extends React.Component {
                     <div className="text-2xl font-bold text-gray-800 text-center items-center">Register an Account</div>
                     <Field type="text" label="Name" name="name" errors={this.state.name.errors} onKeyUp={(e) => this.onFieldChange(e, 'name')} hasError={this.state.name.hasError} />
                     <Field type="email" label="E-mail Address" name="email" hasError={this.state.email.hasError} errors={this.state.email.errors} onKeyUp={(e) => this.onFieldChange(e, 'email')} />
-                    <Field type="text" label="Team name" name="team_name" hasError={this.state.team_name.hasError} errors={this.state.team_name.errors} onKeyUp={(e) => this.onFieldChange(e, 'team_name')} />
+                    <Field type="text" label="Organization" name="team_name" hasError={this.state.team_name.hasError} errors={this.state.team_name.errors} onKeyUp={(e) => this.onFieldChange(e, 'team_name')} />
                     <Field type="password" label="Password" name="password" hasError={this.state.password.hasError} errors={this.state.password.errors} onKeyUp={(e) => this.onFieldChange(e, 'password')} />
                     <Checkbox label="I agree with the Terms &amp; Conditions" errors={this.state.terms.errors} name="terms" onChange={this.onCheckboxCheck} />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={(e) => this.postRegister(e)} >Register</Button>}
