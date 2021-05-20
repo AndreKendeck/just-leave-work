@@ -58,31 +58,14 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                     <span className="text-gray-800 text-sm">Home</span>
                                 </NavLink>
                                 { this.canSeeLeaveLink() ? (<NavLink to="/leaves/" activeClassName="border border-2" className="flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2">
-                                    <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
-                                        <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
-                                            <rect width="18" height="18" x="3" y="3" rx="1.65684" ry="0"></rect><line x1="21" x2="3" y1="8" y2="8"></line>
-                                            <path d="M17.3 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M17.25 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                            <path d="M13.799 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M13.749 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                            <path d="M10.299 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M10.249 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                            <path d="M6.799 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M6.749 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                            <path d="M10.299 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M10.249 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                            <path d="M13.799 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M13.749 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                            <path d="M17.3 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M17.25 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                            <path d="M17.3 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M17.25 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                            <path d="M13.799 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M13.749 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                            <path d="M10.299 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M10.249 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                            <path d="M6.799 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                            <path d="M6.749 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path></g>
+                                    <svg id="Layer_3" className="stroke-current text-gray-700 h-8 w-8" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <line x1="16.5" y1="16" x2="11" y2="16" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <line x1="16.5" y1="12" x2="11" y2="12" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <line x1="16.5" y1="3" x2="16.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <rect x="3" y="4.5" width="18" height="16.5" rx="3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                        <path d="M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                     </svg>
                                     <span className="text-gray-800 text-sm">Leaves</span>
                                 </NavLink>) : null}

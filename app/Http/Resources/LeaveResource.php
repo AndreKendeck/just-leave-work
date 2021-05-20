@@ -26,7 +26,7 @@ class LeaveResource extends JsonResource
             'approvedAt' => $this->approved_at,
             'deniedAt' => $this->denied_at,
             'createdAt' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'updatedAt' => $this->updated_at,
             'numberOfDaysOff' => $this->number_of_days_off,
             'approved' => $this->approved,
             'pending' => $this->pending,

@@ -18,11 +18,14 @@ class ProfileController extends Controller
         }
         $user = \App\User::findOrFail(auth()->id());
 
+        $reasons = \App\Reason::all();
+
         return response()
             ->json([
                 'user' => new UserResource($user),
                 'team' => new TeamResource($user->team),
-                'settings' => new SettingResource($user->team->settings)
+                'settings' => new SettingResource($user->team->settings),
+                'reasons' => $reasons
             ]);
     }
 }

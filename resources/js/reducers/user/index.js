@@ -7,7 +7,7 @@ export const userReducer = (state = {}, action) => {
     if (action.type === 'USER_SET') {
         return action.payload;
     }
-    if (action.type === 'USER_UNSET') {
+    if (action.type === 'UNAUTHENTICATED') {
         return null;
     }
     return state;

@@ -2,7 +2,7 @@ export const teamReducer = (state = {}, action) => {
     switch (action.type) {
         case 'TEAM_SET':
             return action.payload;
-        case 'TEAM_UNSET':
+        case 'UNAUTHENTICATED':
             return null;
         default:
             return state;

@@ -12,6 +12,7 @@ import { setTeam, unsetTeam } from '../actions/team';
 import { setSettings, unsetSettings } from '../actions/settings';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
+import { setReasons } from '../actions/reasons';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
@@ -31,16 +32,15 @@ const App = class App extends React.Component {
         api.get('/profile/')
             .then(successResponse => {
                 this.props.setAuthenticated(localStorage.getItem('authToken'));
-                const { user, team, settings } = successResponse.data;
+                const { user, team, settings, reasons } = successResponse.data;
                 this.props.setUser(user);
                 this.props.setTeam(team);
                 this.props.setSettings(settings);
+                this.props.setReasons(reasons);
+                // this.props.
             })
             .catch(failedResponse => {
                 this.props.unsetAuthenticated();
-                this.props.unsetUser();
-                this.props.unsetTeam();
-                this.props.unsetSettings();
             })
     }
     getGuestRoutes = () => {
@@ -168,11 +168,9 @@ const Application = connect(mapStateToProps,
         setAuthenticated,
         unsetAuthenticated,
         setUser,
-        unsetUser,
         setTeam,
-        unsetTeam,
         setSettings,
-        unsetSettings
+        setReasons
     })(App);
 
 ReactDOM.render(

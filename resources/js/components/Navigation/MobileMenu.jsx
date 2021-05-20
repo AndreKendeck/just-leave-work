@@ -1,7 +1,7 @@
 import { collect } from 'collect.js';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Button from '../Button';
 
 const MobileMenu = class MobileMenu extends React.Component {
@@ -50,7 +50,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                                     </span>
                                 </Link>
 
-                                <Link to="/home" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                <NavLink to="/home" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <span>
                                         <svg version="1.1" className="stroke-current text-gray-700 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                             <g fill="none">
@@ -59,43 +59,28 @@ const MobileMenu = class MobileMenu extends React.Component {
                                             </g>
                                         </svg>
                                     </span>
-                                </Link>
+                                </NavLink>
 
                                 { this.canSeeLeaveLink() ? (
-                                    <Link to="/leaves" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
-                                        <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-800 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
-                                            <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
-                                                <rect width="18" height="18" x="3" y="3" rx="1.65684" ry="0"></rect><line x1="21" x2="3" y1="8" y2="8"></line>
-                                                <path d="M17.3 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M17.25 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                                <path d="M13.799 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M13.749 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                                <path d="M10.299 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M10.249 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                                <path d="M6.799 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M6.749 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                                <path d="M10.299 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M10.249 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                                <path d="M13.799 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M13.749 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                                <path d="M17.3 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M17.25 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"></path>
-                                                <path d="M17.3 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M17.25 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                                <path d="M13.799 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M13.749 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                                <path d="M10.299 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M10.249 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path>
-                                                <path d="M6.799 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"></path>
-                                                <path d="M6.749 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"></path></g>
+                                    <NavLink to="/leaves" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                        <svg id="Layer_3" className="stroke-current text-gray-700 h-8 w-8" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <line x1="16.5" y1="16" x2="11" y2="16" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <line x1="16.5" y1="12" x2="11" y2="12" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <line x1="16.5" y1="3" x2="16.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <rect x="3" y="4.5" width="18" height="16.5" rx="3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                            <path d="M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                         </svg>
-                                    </Link>
+                                    </NavLink>
                                 ) : null}
 
-                                <Link to="/my-leaves" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                <NavLink to="/my-leaves" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <span>
                                         <svg id="Layer_3" data-name="Layer 3" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><line x1="16.5" y1="3" x2="16.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M11,21H6a3,3,0,0,1-3-3V7.5a3,3,0,0,1,3-3H18a3,3,0,0,1,3,3V9" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <line x1="16.5" y1="3" x2="16.5" y2="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                            <path d="M11,21H6a3,3,0,0,1-3-3V7.5a3,3,0,0,1,3-3H18a3,3,0,0,1,3,3V9" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                             <line x1="11.5" y1="16" x2="10.5" y2="16" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                             <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                             <line x1="13" y1="12" x2="10.5" y2="12" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
@@ -104,14 +89,14 @@ const MobileMenu = class MobileMenu extends React.Component {
                                             <circle cx="18.5" cy="13.75" r="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                         </svg>
                                     </span>
-                                </Link>
-                                <Link to="/profile" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                </NavLink>
+                                <NavLink to="/profile" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <svg version="1.1" className="stroke-current text-gray-800 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                         <path d="M12 12c-2.467 0-4.483-2.015-4.483-4.483 0-2.468 2.016-4.517 4.483-4.517 2.467 0 4.483 2.015 4.483 4.483 0 2.468-2.016 4.517-4.483 4.517Zm7 9h-14c-.55 0-1-.45-1-1v-1c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v1c0 .55-.45 1-1 1Z" stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
                                         </path>
                                     </svg>
-                                </Link>
-                                <Link to="/settings" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                </NavLink>
+                                <NavLink to="/settings" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
                                         <g fill="none">
                                             <line x1="13" x2="13" y1="7.5" y2="10.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></line>
@@ -123,7 +108,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 21h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-2.18557e-07 5.32907e-15c2.76142-1.20706e-07 5 2.23858 5 5v8l3.55271e-15 2.18557e-07c0 2.76142-2.23858 5-5 5Z"></path>
                                         </g>
                                     </svg>
-                                </Link>
+                                </NavLink>
                             </React.Fragment>
                         ) : (
                             <React.Fragment>
