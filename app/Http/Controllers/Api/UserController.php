@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Mail\WelcomeEmail;
 use App\User;
 use Illuminate\Http\Request;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -22,7 +24,7 @@ class UserController extends Controller
     {
         $users = User::where('team_id', auth()->user()->team->id)->latest()->paginate(10);
         return response()
-            ->json($users);
+            ->json(UserResource::collection($users));
     }
 
     /**
@@ -57,17 +59,23 @@ class UserController extends Controller
                 try {
                     $user->attachPermission($permission, $user->team);
                 } catch (\Exception $e) {
+                    Log::info($e->getMessage());
                     continue;
                 }
             }
         }
 
-        Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
+        try {
+            Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+        }
+
 
         return response()
             ->json([
                 'message' => 'User created successfully',
-                'user' => $user
+                'user' => new UserResource($user)
             ], 201);
     }
 
@@ -89,7 +97,7 @@ class UserController extends Controller
         }
 
         return response()
-            ->json($user);
+            ->json(new UserResource($user));
     }
 
     /**
@@ -119,7 +127,9 @@ class UserController extends Controller
         if ($request->filled('permissions')) {
             try {
                 $user->syncPermissions($request->permissions);
-            } catch (\Exception $e) { }
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
         }
 
         return response()

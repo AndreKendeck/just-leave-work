@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Leave\StoreRequest;
 use App\Http\Requests\Leave\UpdateRequest;
+use App\Http\Resources\LeaveResource;
 use App\Leave;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class LeaveController extends Controller
             ->paginate(10);
 
         return response()
-            ->json($leaves);
+            ->json(LeaveResource::collection($leaves));
     }
 
     /**
@@ -67,7 +68,6 @@ class LeaveController extends Controller
                         'message' => "Your team does not allow leave for more than {$teamSettings->maximum_leave_days} days",
                     ], 403);
             }
-
         }
 
         $leave = Leave::create([
@@ -93,16 +93,15 @@ class LeaveController extends Controller
                 $leave->approve();
                 return response()->json([
                     'message' => "You leave request has been created & approved",
-                    'leave' => $leave,
+                    'leave' => new LeaveResource($leave),
                 ], 201);
             }
-
         }
 
         return response()
             ->json([
                 'message' => "Your leave request has been created successfully",
-                'leave' => $leave,
+                'leave' => new LeaveResource($leave),
             ], 201);
     }
 
@@ -125,7 +124,7 @@ class LeaveController extends Controller
         }
 
         return response()
-            ->json($leave);
+            ->json(new LeaveResource($leave));
     }
 
     /**
@@ -191,7 +190,7 @@ class LeaveController extends Controller
         return response()
             ->json([
                 'message' => "Leave has been updated",
-                'leave' => $leave,
+                'leave' => new LeaveResource($leave),
             ]);
     }
 

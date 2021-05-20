@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SettingResource;
+use App\Http\Resources\TeamResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Cache;
 
 class ProfileController extends Controller
@@ -13,9 +16,16 @@ class ProfileController extends Controller
             return response()
                 ->get(Cache::get('user'));
         }
-        $user = \App\User::with('team')->findOrFail(auth()->id());
-     
+        $user = \App\User::findOrFail(auth()->id());
+
+        $reasons = \App\Reason::all();
+
         return response()
-            ->json($user);
+            ->json([
+                'user' => new UserResource($user),
+                'team' => new TeamResource($user->team),
+                'settings' => new SettingResource($user->team->settings),
+                'reasons' => $reasons
+            ]);
     }
 }

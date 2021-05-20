@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TeamTest extends TestCase
@@ -15,7 +13,7 @@ class TeamTest extends TestCase
         $this->actingAs($user)
             ->get(route('team'))
             ->assertOk()
-            ->assertJsonStructure(['name', 'leaves_approved', 'members']);
+            ->assertJsonStructure(['name', 'numberOfApprovedLeaves', 'users']);
     }
 
     /** @test **/
@@ -26,13 +24,13 @@ class TeamTest extends TestCase
         $user->attachRole('team-admin', $user->team);
         $this->actingAs($user)
             ->post(route('team.update'), [
-                'name' => $newTeamName
+                'name' => $newTeamName,
             ])->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJsonStructure(['message']);
         $this->assertDatabaseHas('teams', [
             'id' => $user->team->id,
-            'name' => $newTeamName
+            'name' => $newTeamName,
         ]);
     }
 

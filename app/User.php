@@ -37,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'is_banned',
         'has_avatar',
         'is_on_leave',
+        'leave_taken'
     ];
 
     /**
@@ -142,17 +143,22 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
         $this->emailCode->update([
             'code' => bcrypt($code),
-            'expires_at' => now()->addMinutes(5),
+            'expires_at' => now()->addMinutes(10),
         ]);
 
         Mail::to($this->email)
             ->queue(new VerificationEmail($code));
-            
+
         return $code;
     }
-    
+
     public function hasVerifiedEmail()
     {
         return !is_null($this->email_verified_at);
+    }
+
+    public function getLeaveTakenAttribute()
+    {
+        return $this->leaves()->whereNotNull('approved_at')->count();
     }
 }

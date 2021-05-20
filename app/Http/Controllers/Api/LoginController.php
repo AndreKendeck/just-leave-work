@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\TeamResource;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +38,8 @@ class LoginController extends Controller
             ->json([
                 'message' => "Login successful.",
                 'token' => $token,
-                'user' => $user
+                'user' => new UserResource($user),
+                'team' => new TeamResource($user->team)
             ]);
     }
 

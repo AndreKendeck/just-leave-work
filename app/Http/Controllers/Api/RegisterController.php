@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\TeamResource;
+use App\Http\Resources\UserResource;
 use App\Permission;
 use App\Team;
 use App\User;
@@ -21,9 +23,9 @@ class RegisterController extends Controller
         ]);
 
         $team = Team::create([
-            'name' => Str::kebab($request->name),
-            'display_name' => $request->name,
-            'description' => $request->name,
+            'name' => Str::kebab($request->team_name),
+            'display_name' => $request->team_name,
+            'description' => $request->team_name,
         ]);
 
         $user->update([
@@ -53,8 +55,9 @@ class RegisterController extends Controller
         return response()
             ->json([
                 'message' => "You successfully registered",
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token,
+                'team' => new TeamResource($team)
             ], 201);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TeamSettingsTest extends TestCase
@@ -16,12 +14,17 @@ class TeamSettingsTest extends TestCase
             ->get(route('settings'))
             ->assertOk()
             ->assertJsonStructure([
-                'automatic_leave_approval',
-                'leave_added_per_cycle',
-                'maximum_leave_days',
-                'maximum_leave_balance',
-                'days_until_balance_added',
-                'can_approve_own_leave'
+                'id',
+                'teamId',
+                'automaticLeaveApproval',
+                'leaveAddedPerCycle',
+                'maximumLeaveDays',
+                'maximumLeaveBalance',
+                'daysUntilBalanceAdded',
+                'canApproveOwnLeave',
+                'lastLeaveBalanceAddedAt',
+                'createdAt',
+                'updatedAt',
             ]);
     }
 
@@ -31,18 +34,18 @@ class TeamSettingsTest extends TestCase
         $newSettings = [
             'automatic_leave_approval' => $this->faker->randomElement([true, false]),
             'leave_added_per_cycle' => rand(1, 5),
-            'maximum_leave_days'  => 10,
+            'maximum_leave_days' => 10,
             'maximum_leave_balance' => rand(10, 15),
             'days_until_balance_added' => rand(15, 30),
-            'can_approve_own_leave' => $this->faker->randomElement([true, false])
+            'can_approve_own_leave' => $this->faker->randomElement([true, false]),
         ];
 
         $user = factory('App\User')->create();
 
-        $user->attachRole('team-admin' , $user->team);
+        $user->attachRole('team-admin', $user->team);
 
         $this->actingAs($user)
-            ->post(route('settings.update'),  $newSettings)
+            ->post(route('settings.update'), $newSettings)
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJsonStructure(['message']);
@@ -56,12 +59,12 @@ class TeamSettingsTest extends TestCase
         $newSettings = [
             'automatic_leave_approval' => $this->faker->randomElement([true, false]),
             'leave_added_per_cycle' => rand(1, 5),
-            'maximum_leave_days'  => 10,
+            'maximum_leave_days' => 10,
             'maximum_leave_balance' => rand(10, 15),
             'days_until_balance_added' => rand(15, 30),
-            'can_approve_own_leave' => $this->faker->randomElement([true, false])
+            'can_approve_own_leave' => $this->faker->randomElement([true, false]),
         ];
-    
+
         $this->actingAs($user)
             ->post(route('settings.update'), $newSettings)
             ->assertForbidden();

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class VerifyEmailCodeTest extends TestCase
@@ -17,7 +16,7 @@ class VerifyEmailCodeTest extends TestCase
             'email_verified_at' => null,
         ]);
         $this->actingAs($user)
-            ->get(route('verify.resend'))
+            ->post(route('verify.resend'))
             ->assertOk()
             ->assertJsonStructure(['message']);
         Mail::assertQueued(VerificationEmail::class);
@@ -47,7 +46,7 @@ class VerifyEmailCodeTest extends TestCase
     {
         $user = factory('App\User')->create();
         $this->actingAs($user)
-            ->get(route('verify.resend'))
+            ->post(route('verify.resend'))
             ->assertForbidden();
     }
 

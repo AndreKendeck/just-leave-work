@@ -6,6 +6,7 @@ use App\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Requests\Comment\UpdateRequest;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 
 /**
@@ -21,9 +22,9 @@ class CommentController extends Controller
      * @bodyParam leave_id required for the related model this commment belongs to
      * @bodyParam user_id requried for the related model that created this comment
      * @response {
-     *  "id" : 1, 
-     *  "text" : "Example text", 
-     *  "user" : {}, 
+     *  "id" : 1,
+     *  "text" : "Example text",
+     *  "user" : {},
      *  "leave" : {}
      * }
      * @param StoreRequest $request
@@ -40,7 +41,7 @@ class CommentController extends Controller
         return response()
             ->json([
                 'message' => "Comment added successfully",
-                'comment' => $comment,
+                'comment' => new CommentResource($comment),
             ], 201);
     }
 
@@ -64,7 +65,7 @@ class CommentController extends Controller
         }
 
         return response()
-            ->json($comment);
+            ->json(new CommentResource($comment));
     }
 
     /**
@@ -99,7 +100,7 @@ class CommentController extends Controller
         return response()
             ->json([
                 'message' => "Comment updated successfully",
-                'comment' => $comment,
+                'comment' => new CommentResource($comment),
             ]);
     }
 

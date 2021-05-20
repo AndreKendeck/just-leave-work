@@ -9,6 +9,9 @@ import Card from '../Card';
 import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
 import Page from '../Page';
+import { setUser } from '../../actions/user';
+import { setAuthenticated } from '../../actions/auth';
+import { setTeam } from '../../actions/team';
 
 
 const LoginPage = class LoginPage extends React.Component {
@@ -35,13 +38,17 @@ const LoginPage = class LoginPage extends React.Component {
             .then(successResponse => {
 
                 this.setState({ isSending: false });
-                const { user, token } = successResponse.data;
+                const { user, token, team } = successResponse.data;
 
                 window.localStorage.setItem('authToken', token);
 
                 api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-                window.location = '/dashboard';
+                this.props.setUser(user);
+                this.props.setAuthenticated(token);
+                this.props.setTeam(team);
+
+                window.location = '/home/';
 
             }).catch(failedResponse => {
 
@@ -93,6 +100,7 @@ const LoginPage = class LoginPage extends React.Component {
 
 
 
+
     render() {
         return (
             <Page className="flex justify-center">
@@ -102,7 +110,7 @@ const LoginPage = class LoginPage extends React.Component {
                     <Field name="password" errors={this.state.password.errors} hasError={this.state.password.hasError} onKeyUp={this.onPasswordKeyUp} label="Password" type="password" />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={this.postLogin}>Login</Button>}
                     <div className="flex flex-row items-center w-full jutsify-between space-x-2">
-                        <Link to="/register" className="w-full">
+                        <Link to="/password-email" className="w-full">
                             <Button type="soft"> Reset password </Button>
                         </Link>
                         <Link to="/register" className="w-full">
@@ -122,4 +130,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, null)(LoginPage);
+export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated })(LoginPage);
