@@ -101,8 +101,10 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                     {this.state.successMessage ? <InfoMessage onDismiss={() => this.setState({ successMessage: null })} text={this.state.successMessage} /> : null}
                     {this.state.isSending ? (
                         <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
-                    ) : <Button onClick={(e) => this.sendCodePost(e)}>Verify</Button>}
-                    <Button type="secondary" onClick={(e) => this.resendCode(e)} >Resend code</Button>
+                    ) : <React.Fragment>
+                        <Button onClick={(e) => this.sendCodePost(e)}>Verify</Button>
+                        <Button type="secondary" onClick={(e) => this.resendCode(e)} >Resend code</Button>
+                    </React.Fragment>}
                 </Card>
             </Page>
         )

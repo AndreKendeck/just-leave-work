@@ -7,9 +7,9 @@ import reducers from '../reducers';
 import thunk from 'redux-thunk'
 import Navbar from '../components/Navigation/Navbar';
 import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
-import { setUser, unsetUser } from '../actions/user';
-import { setTeam, unsetTeam } from '../actions/team';
-import { setSettings, unsetSettings } from '../actions/settings';
+import { setUser } from '../actions/user';
+import { setTeam } from '../actions/team';
+import { setSettings } from '../actions/settings';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import { setReasons } from '../actions/reasons';

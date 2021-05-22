@@ -21,6 +21,8 @@ class Leave extends Model
         'pending',
         'denied',
         'is_active',
+        'can_delete',
+        'can_edit'
     ];
 
     /**
@@ -116,6 +118,16 @@ class Leave extends Model
         self::creating(function ($model) {
             $model->number = DB::table('leaves')->where('team_id', $model->team_id)->count() + 1;
         });
+    }
+
+    public function getCanDeleteAttribute()
+    {
+        return ($this->user_id == auth()->user()->id) && ($this->pending);
+    }
+
+    public function getCanEditAttribute()
+    {
+        return ($this->user_id == auth()->user()->id) && ($this->pending);
     }
 
     public function getPendingAttribute()

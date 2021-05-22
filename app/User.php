@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -146,8 +147,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
             'expires_at' => now()->addMinutes(10),
         ]);
 
-        Mail::to($this->email)
+        $returnFromMailer = Mail::to($this->email)
             ->queue(new VerificationEmail($code));
+        Log::info($returnFromMailer);
 
         return $code;
     }

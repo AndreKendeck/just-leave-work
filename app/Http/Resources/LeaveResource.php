@@ -32,7 +32,9 @@ class LeaveResource extends JsonResource
             'pending' => $this->pending,
             'denied' => $this->denied,
             'isActive' => $this->is_active,
-            'comments' => $this->comments, 
+            'comments' => $this->comments,
+            'canEdit' => $this->can_edit,
+            'canDelete' => $this->can_delete
         ];
     }
 }
