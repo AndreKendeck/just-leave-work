@@ -34,7 +34,8 @@ class LeaveResource extends JsonResource
             'isActive' => $this->is_active,
             'comments' => $this->comments,
             'canEdit' => $this->can_edit,
-            'canDelete' => $this->can_delete
+            'canDelete' => $this->can_delete, 
+            
         ];
     }
 }

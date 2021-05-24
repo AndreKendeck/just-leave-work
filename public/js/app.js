@@ -79451,9 +79451,10 @@ var Dropdown = function Dropdown(_ref) {
   };
 
   var mapOptions = function mapOptions(options) {
-    return options === null || options === void 0 ? void 0 : options.map(function (option) {
+    return options === null || options === void 0 ? void 0 : options.map(function (option, index) {
       if ((selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.value) === (option === null || option === void 0 ? void 0 : option.value)) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+          key: index,
           className: "text-gray-800 text-base",
           selected: true,
           value: option === null || option === void 0 ? void 0 : option.value
@@ -79461,6 +79462,7 @@ var Dropdown = function Dropdown(_ref) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: index,
         className: "text-gray-800 text-base",
         value: option === null || option === void 0 ? void 0 : option.value
       }, option === null || option === void 0 ? void 0 : option.label);
@@ -79976,7 +79978,7 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-row w-full justify-between items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         to: "/",
-        className: "text-gray-800 text-2xl font-bold w-full"
+        className: "text-gray-800 text-2xl font-bold w-full hover:text-gray-600"
       }, (_this$props$team = this.props.team) === null || _this$props$team === void 0 ? void 0 : _this$props$team.displayName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row space-x-2 items-center w-full justify-end"
       }, this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
@@ -80329,7 +80331,8 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state) {
   return {
     auth: state.auth,
-    user: state.user
+    user: state.user,
+    team: state.team
   };
 };
 
@@ -81201,11 +81204,12 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "getLeavesTableRow", function () {
       var _this$state$leaves;
 
-      return (_this$state$leaves = _this.state.leaves) === null || _this$state$leaves === void 0 ? void 0 : _this$state$leaves.map(function (leave) {
+      return (_this$state$leaves = _this.state.leaves) === null || _this$state$leaves === void 0 ? void 0 : _this$state$leaves.map(function (leave, key) {
         var _leave$reason;
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
-          className: "hover:shadow rounded cursor-pointer"
+          className: "hover:shadow rounded cursor-pointer",
+          key: key
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center"
         }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -81279,7 +81283,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props$user, _this$props$user2, _this$props$user3;
+      var _this$props$user, _this$props$user2, _this$props$user3, _this$props$user4;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_8__["default"], {
         className: "flex flex-col justify-center justify-center space-y-2"
@@ -81315,7 +81319,13 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "text-white text-base"
       }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "w-full lg:w-3/4 "
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-col space-y-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "text-2xl text-white text-base"
+      }, (_this$props$user4 = this.props.user) === null || _this$props$user4 === void 0 ? void 0 : _this$props$user4.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "text-white text-base"
+      }, "Last Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "w-full lg:w-3/4 self-center items-center flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-base md:text-lg text-gray-800"
@@ -81361,7 +81371,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../api */ "./resources/js/api/index.js");
 /* harmony import */ var _ErrorMessage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../ErrorMessage */ "./resources/js/components/ErrorMessage.jsx");
+/* harmony import */ var _InfoMessage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../InfoMessage */ "./resources/js/components/InfoMessage.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -81388,6 +81411,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -81442,7 +81466,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       reason: {
         value: null,
         errors: [],
-        hasError: hasError
+        hasError: false
       }
     });
 
@@ -81479,9 +81503,11 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "mapReasons", function () {
-      var _this$props$reasons;
-
-      return (_this$props$reasons = _this.props.reasons) === null || _this$props$reasons === void 0 ? void 0 : _this$props$reasons.map(function (reason) {
+      var reasons = [{
+        id: 0,
+        name: ''
+      }].concat(_toConsumableArray(_this.props.reasons));
+      return reasons === null || reasons === void 0 ? void 0 : reasons.map(function (reason) {
         return {
           value: reason.id,
           label: reason.name
@@ -81491,6 +81517,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "onReasonChange", function (e) {
       e.persist();
+      console.log(e);
 
       _this.setState(function (state) {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -81517,12 +81544,20 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         description: description,
         reason: reason
       }).then(function (success) {
+        _this.setState({
+          isSending: false
+        });
+
         var message = success.data.message;
 
         _this.setState({
           message: message
         });
       })["catch"](function (failed) {
+        _this.setState({
+          isSending: false
+        });
+
         if (failed.response.status == 422) {
           var _ret = function () {
             var errors = failed.response.data.errors;
@@ -81566,6 +81601,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_1__["default"], {
         className: "w-full md:w-3/2 lg:w-1/2 self-center space-y-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_2__["default"], null, "Apply"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Dropdown__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        errors: this.state.reason.errors,
         onChange: function onChange(e) {
           return _this2.onReasonChange(e);
         },
@@ -81593,22 +81629,34 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         type: "text",
         label: "Description",
         name: "description",
+        errors: this.state.description.errors,
         onKeyUp: function onKeyUp(e) {
           return _this2.setDescription(e);
         }
-      }), this.isSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      }), this.state.isSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_10___default.a, {
         type: "Oval",
         className: "self-center",
         height: 50,
         width: 50,
         color: "Gray"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_9__["default"], {
-        onClick: this.storeLeavePost()
-      }, "Send"), this.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_12__["default"], {
-        text: this.error,
-        onDismiss: this.setState({
-          error: null
-        })
+        onClick: function onClick(e) {
+          return _this2.storeLeavePost();
+        }
+      }, "Send"), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        text: this.state.error,
+        onDismiss: function onDismiss(e) {
+          return _this2.setState({
+            error: null
+          });
+        }
+      }) : null, this.state.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InfoMessage__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        text: this.state.message,
+        onDismiss: function onDismiss(e) {
+          return _this2.setState({
+            message: false
+          });
+        }
       }) : null));
     }
   }]);

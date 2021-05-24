@@ -29,7 +29,8 @@ class UserResource extends JsonResource
             'totalDaysOnLeave' => $this->total_days_on_leave,
             'hasAvatar' => $this->has_avatar,
             'isOnLeave' => $this->is_on_leave,
-            'leaveTaken' => $this->leave_taken
+            'leaveTaken' => $this->leave_taken,
+            'lastLeaveAt' => $this->last_leave_at
         ];
     }
 }

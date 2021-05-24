@@ -38,7 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'is_banned',
         'has_avatar',
         'is_on_leave',
-        'leave_taken'
+        'leave_taken',
+        'last_leave_at',
     ];
 
     /**
@@ -50,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email_code'
+        'password', 'remember_token', 'email_code',
     ];
 
     protected $with = [
@@ -104,7 +105,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         return asset(self::STORAGE_PATH . $this->avatar);
     }
 
-
     public function getIsBannedAttribute()
     {
         return $this->isBanned();
@@ -157,6 +157,14 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     public function hasVerifiedEmail()
     {
         return !is_null($this->email_verified_at);
+    }
+
+    public function getLastLeaveAtAttribute()
+    {
+        if ($this->leaves->count() > 0) {
+            return $this->leaves()->whereNotNull('approved_at')->first()->from;
+        }
+        return null;
     }
 
     public function getLeaveTakenAttribute()

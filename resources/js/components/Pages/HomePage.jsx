@@ -34,9 +34,9 @@ const HomePage = class HomePage extends React.Component {
     }
 
     getLeavesTableRow = () => {
-        return this.state.leaves?.map(leave => {
+        return this.state.leaves?.map((leave, key) => {
             return (
-                <tr className="hover:shadow rounded cursor-pointer">
+                <tr className="hover:shadow rounded cursor-pointer" key={key}>
                     <td className="text-center"> <LeaveStatusBadge leave={leave} /> </td>
                     <td className="text-center"> {leave.reason?.name} </td>
                     <td className="text-center">{moment(leave.from).format('dddd Do MMM')}</td>
@@ -104,7 +104,12 @@ const HomePage = class HomePage extends React.Component {
                             </div>
                         </Heading>
                     </Card>
-                    <Card className="w-full lg:w-3/4 "></Card>
+                    <Card className="w-full lg:w-3/4 ">
+                        <div className="flex flex-col space-y-2">
+                            <span className="text-2xl text-white text-base">{this.props.user?.leaveTaken}</span>
+                            <span className="text-white text-base">Last Leave Taken</span>
+                        </div>
+                    </Card>
                 </div>
                 <Card className="w-full lg:w-3/4 self-center items-center flex flex-col space-y-2">
                     <Heading>

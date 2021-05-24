@@ -14,14 +14,14 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
     }
 
     const mapOptions = (options) => {
-        return options?.map(option => {
+        return options?.map((option, index) => {
             if (selectedOption?.value === option?.value) {
                 return (
-                    <option className="text-gray-800 text-base" selected={true} value={option?.value}>{option?.label}</option>
+                    <option key={index} className="text-gray-800 text-base" selected={true} value={option?.value}>{option?.label}</option>
                 );
             }
             return (
-                <option className="text-gray-800 text-base" value={option?.value}>{option?.label}</option>
+                <option key={index} className="text-gray-800 text-base" value={option?.value}>{option?.label}</option>
             )
         })
     }
