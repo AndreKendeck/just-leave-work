@@ -126,7 +126,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                    <Heading>Apply</Heading>
+                    <Heading>Apply for leave.</Heading>
                     <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onReasonChange(e)} label="Reason" options={this.mapReasons()} />
                     <DatePicker value={this.state.from.value}
                         hasError={this.state.from.hasError} errors={this.state.from.errors} label="Take leave from"

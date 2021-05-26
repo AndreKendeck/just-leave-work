@@ -7,6 +7,7 @@ import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
 import Heading from '../Heading';
+import LeaveDaysLabel from '../LeaveDaysLabel';
 import LeaveStatusBadge from '../LeaveStatusBadge';
 import Modal from '../Modal';
 import Page from '../Page';
@@ -21,7 +22,6 @@ const HomePage = class HomePage extends React.Component {
         isLoading: true,
         isLoadingStatus: false,
         selectedLeave: null,
-        showModal: false
     }
 
     componentDidMount() {
@@ -36,7 +36,7 @@ const HomePage = class HomePage extends React.Component {
                     this.setState({ isLoading: false });
                     this.setState({ error: message });
                 });
-        }, 1500);
+        }, 1000);
     }
 
     onLeaveApprove = (leaveId) => {
@@ -54,25 +54,16 @@ const HomePage = class HomePage extends React.Component {
 
     onLeaveSelect = (leave) => {
         this.setState({ selectedLeave: leave });
-        this.setState({ showModal: true });
     }
 
     getLeavesTableRow = () => {
         return this.state.leaves?.map((leave, key) => {
             return (
                 <tr onClick={(e) => this.onLeaveSelect(leave)} className="hover:shadow rounded cursor-pointer" key={key}>
-                    <td className="text-center"> <LeaveStatusBadge leave={leave} /> </td>
-                    <td className="text-center"> {leave.reason?.name} </td>
-                    <td className="text-center">{moment(leave.from).format('dddd Do MMM')}</td>
-                    <td className="text-center">{moment(leave.until).format('dddd Do MMM')}</td>
-                    { this.canApproveOwnLeave() && leave.isPending ? (
-                        <td>
-                            <div className="flex flex-row space-x-2 items-center">
-                                <Button>Approve</Button>
-                                <Button type="danger">Deny</Button>
-                            </div>
-                        </td>
-                    ) : null}
+                    <td className="text-center text-gray-800"> <LeaveStatusBadge leave={leave} /> </td>
+                    <td className="text-center text-gray-800"> {leave.reason?.name} </td>
+                    <td className="text-center text-gray-800">{moment(leave.from).format('ddd Do MMM')}</td>
+                    <td className="text-center text-gray-800">{moment(leave.until).format('ddd Do MMM')}</td>
                 </tr>
             )
         });
@@ -96,7 +87,6 @@ const HomePage = class HomePage extends React.Component {
                         <th className="font-bold text-center">Reason</th>
                         <th className="font-bold text-center">From</th>
                         <th className="font-bold text-center">Until</th>
-                        {this.canApproveOwnLeave() ? (<th className="font-bold text-center"></th>) : null}
                     </tr>
                 </thead>
                 <tbody>
@@ -110,9 +100,19 @@ const HomePage = class HomePage extends React.Component {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
                 <Modal onClose={(e) => { this.setState({ selectedLeave: null }) }} show={this.state.selectedLeave ? true : false} heading={this.state.selectedLeave?.reason.name} >
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus vitae laboriosam rerum ut aspernatur esse deserunt pariatur animi quidem nihil natus, dolor quas. Quam obcaecati maxime et. Officiis, nulla quo.
+                    <div className="flex flex-col mt-4 space-y-4">
+                        <div className="w-full flex justify-between">
+                            <LeaveStatusBadge leave={this.state.selectedLeave} />
+                            <LeaveDaysLabel leave={this.state.selectedLeave} />
+                        </div>
+                        <div className="flex space-x-2">
+                            <div className="text-gray-600 text-sm">Description:</div>
+                            <div className="text-gray-800 text-sm">{this.state.selectedLeave?.description}</div>
+                        </div>
+                    </div>
+
                 </Modal>
-                <Card className="w-full lg:w-3/4 self-center">
+                <Card className="w-full lg:w-3/4 self-center pointer-cursor">
                     <div className="flex md:flex-row w-full justify-between items-center">
                         <Heading>
                             <div className="flex flex-row space-x-2 items-center">
@@ -128,7 +128,7 @@ const HomePage = class HomePage extends React.Component {
                     </div>
                 </Card>
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-3/4 w-full self-center">
-                    <Card className="w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl">
+                    <Card className="pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl">
                         <Heading>
                             <div className="flex flex-col space-y-2">
                                 <span className="text-2xl text-purple-800">{this.props.user?.leaveBalance}</span>
@@ -136,7 +136,7 @@ const HomePage = class HomePage extends React.Component {
                             </div>
                         </Heading>
                     </Card>
-                    <Card className="w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
+                    <Card className=" pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
                                 <span className="text-2xl text-white text-base">{this.props.user?.leaveTaken}</span>
@@ -144,7 +144,7 @@ const HomePage = class HomePage extends React.Component {
                             </div>
                         </Heading>
                     </Card>
-                    <Card className="w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl ">
+                    <Card className="pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
                                 <span className="text-2xl text-gray-800 text-base">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('dddd Do MMM') : 'Not Applicable'}</span>
@@ -160,7 +160,7 @@ const HomePage = class HomePage extends React.Component {
                     {this.getMyLeavesTable()}
                 </Card>
 
-            </Page>
+            </Page >
         )
     }
 }

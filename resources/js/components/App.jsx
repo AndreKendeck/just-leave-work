@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { compose, createStore } from 'redux';
 import api from '../api';
 import reducers from '../reducers';
-import thunk from 'redux-thunk'
 import Navbar from '../components/Navigation/Navbar';
 import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
 import { setUser } from '../actions/user';
@@ -149,12 +148,14 @@ const App = class App extends React.Component {
         )
     }
 }
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(
-    applyMiddleware(thunk)
-));
 
-const mapStateToProps = (state, ownProps) => {
+
+const store = createStore(reducers,
+     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+
+const mapStateToProps = (state) => {
     return {
         auth: state.auth,
         user: state.user

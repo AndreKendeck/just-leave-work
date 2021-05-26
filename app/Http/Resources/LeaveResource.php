@@ -35,7 +35,7 @@ class LeaveResource extends JsonResource
             'comments' => $this->comments,
             'canEdit' => $this->can_edit,
             'canDelete' => $this->can_delete, 
-            
+            'isForOneDay' => $this->is_for_one_day
         ];
     }
 }

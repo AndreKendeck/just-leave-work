@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +23,8 @@ class Leave extends Model
         'denied',
         'is_active',
         'can_delete',
-        'can_edit'
+        'can_edit',
+        'is_for_one_day'
     ];
 
     /**
@@ -128,6 +130,11 @@ class Leave extends Model
     public function getCanEditAttribute()
     {
         return ($this->user_id == auth()->user()->id) && ($this->pending);
+    }
+
+    public function getIsForOneDayAttribute()
+    {
+        return $this->from->isSameDay($this->until); 
     }
 
     public function getPendingAttribute()
