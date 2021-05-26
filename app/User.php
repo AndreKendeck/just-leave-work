@@ -161,7 +161,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public function getLastLeaveAtAttribute()
     {
-        if ($this->leaves->count() > 0) {
+        if ($this->leaves()->whereNotNull('approved_at')->count() > 0) {
             return $this->leaves()->whereNotNull('approved_at')->first()->from;
         }
         return null;

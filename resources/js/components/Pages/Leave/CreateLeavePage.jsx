@@ -2,7 +2,6 @@ import React from 'react';
 import Card from '../../Card';
 import Heading from '../../Heading';
 import Page from '../../Page';
-import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from '../../Form/DatePicker';
 import Dropdown from '../../Form/Dropdown';
 import { connect } from 'react-redux';

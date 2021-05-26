@@ -119,9 +119,9 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                         <span className="text-gray-800 text-sm">Settings</span>
                                     </NavLink>
                                 ) : null}
-                                <NavLink to="/profile" className="mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg items-center">
+                                <Link to="/profile" className="mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg items-center focus:outline-none">
                                     <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
-                                </NavLink>
+                                </Link>
                             </React.Fragment>
                         ) : (
                             <React.Fragment>
