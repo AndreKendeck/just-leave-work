@@ -6,12 +6,16 @@ import { connect } from 'react-redux';
 import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
+import ErrorMessage from '../ErrorMessage';
 import Heading from '../Heading';
+import InfoMessage from '../InfoMessage';
 import LeaveDaysLabel from '../LeaveDaysLabel';
 import LeaveStatusBadge from '../LeaveStatusBadge';
 import Modal from '../Modal';
 import Page from '../Page';
+import Paginator from '../Paginator';
 import UserLeaveStatusBadge from '../UserLeaveStatusBadge';
+import Table from '../Table';
 
 
 const HomePage = class HomePage extends React.Component {
@@ -20,8 +24,12 @@ const HomePage = class HomePage extends React.Component {
         error: null,
         leaves: [],
         isLoading: true,
-        isLoadingStatus: false,
         selectedLeave: null,
+        modal: {
+            isLoading: false,
+            message: null,
+            error: null
+        }
     }
 
     componentDidMount() {
@@ -39,27 +47,91 @@ const HomePage = class HomePage extends React.Component {
         }, 1000);
     }
 
-    onLeaveApprove = (leaveId) => {
+    clearModalMessagesAndSetLoading = (loading = true) => {
+        this.setState(state => {
+            return {
+                ...state,
+                modal: {
+                    error: null,
+                    message: null,
+                    isLoading: loading
+                }
+            }
+        })
+    }
+
+    addErrorMessageToModal = (message) => {
+        this.setState(state => {
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    error: message,
+                }
+            }
+        })
+    }
+
+    addInfoMessageToModal = (message) => {
+        this.setState(state => {
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    message: message,
+                }
+            }
+        })
+    }
+
+    onLeaveApprove = (leave) => {
         if (!this.canApproveOwnLeave()) {
             return;
         }
-        this.isLoadingStatus({ isLoadingStatus: true });
+        this.clearModalMessagesAndSetLoading(true);
+
+        api.post(`/leaves/approve/${leave.id}`).then(success => {
+            this.clearModalMessagesAndSetLoading(false);
+            const { leave: updatedLeave, message } = success.data;
+            const leaves = this.state.leaves.filter(leave => leave.id != updatedLeave.id);
+            this.setState(state => {
+                return {
+                    ...state,
+                    leaves: [...leaves, updatedLeave]
+                }
+            })
+            this.addInfoMessageToModal(message);
+        }).catch(failed => {
+            this.clearModalMessagesAndSetLoading(false);
+            const { message: error } = failed.response.data;
+            this.addErrorMessageToModal(error);
+        });
     }
 
-    onDenyLeave = (leaveId) => {
+    onDenyLeave = (leave) => {
+        this.setState(state => {
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    isLoading: true
+                }
+            }
+        });
         if (!this.canApproveOwnLeave()) {
             return;
         }
-    }
+        api.post(`/leaves/deny/${leave.id}`).then(success => {
 
-    onLeaveSelect = (leave) => {
-        this.setState({ selectedLeave: leave });
+        }).catch(failed => {
+
+        });
     }
 
     getLeavesTableRow = () => {
         return this.state.leaves?.map((leave, key) => {
             return (
-                <tr onClick={(e) => this.onLeaveSelect(leave)} className="hover:shadow rounded cursor-pointer" key={key}>
+                <tr onClick={(e) => this.setState({ selectedLeave: leave })} className="hover:shadow rounded cursor-pointer" key={key}>
                     <td className="text-center text-gray-800"> <LeaveStatusBadge leave={leave} /> </td>
                     <td className="text-center text-gray-800"> {leave.reason?.name} </td>
                     <td className="text-center text-gray-800">{moment(leave.from).format('ddd Do MMM')}</td>
@@ -80,38 +152,83 @@ const HomePage = class HomePage extends React.Component {
             );
         }
         return (
-            <table className="hidden md:table table table-responsive table-borderless">
-                <thead>
-                    <tr>
-                        <th className="font-bold text-center">Status</th>
-                        <th className="font-bold text-center">Reason</th>
-                        <th className="font-bold text-center">From</th>
-                        <th className="font-bold text-center">Until</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.getLeavesTableRow()}
-                </tbody>
-            </table>
+            <Table headings={['Status', 'Type', 'On', 'Until']}>
+                {this.getLeavesTableRow()}
+            </Table>
         )
+    }
+
+    renderLeaveStatusButtons = (leave) => {
+
+        const canApproveLeave = collect(this.props.user?.permissions).contains('name', 'can-approve-leave');
+
+        if (!canApproveLeave) {
+            return null;
+        }
+
+        if (!leave?.pending) {
+            return null;
+        }
+
+        if (this.state.modal.isLoading) {
+            return <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" />;
+        }
+
+        return (
+            <div className="w-full flex space-x-2 justify-between">
+                <Button onClick={(e) => this.onLeaveApprove(this.state.selectedLeave)}>Approve</Button>
+                <Button onClick={(e) => this.onDenyLeave(this.state.selectedLeave)} type="danger">Deny</Button>
+            </div>
+        )
+
+    }
+
+    renderMobileLeaveCards = () => {
+        return this.state.leaves?.map((leave, key) => {
+            return (
+                <div key={key} onClick={(e) => this.setState({ selectedLeave: leave })} className="md:hidden">
+                    <Card>
+                        <div className="flex flex-col space-y-2 items-center w-full">
+                            <Heading>
+                                {leave.reason.name}
+                            </Heading>
+                            <LeaveStatusBadge leave={leave} />
+                            <LeaveDaysLabel leave={leave} />
+                        </div>
+                    </Card>
+                </div>
+            )
+        });
     }
 
     render() {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
                 <Modal onClose={(e) => { this.setState({ selectedLeave: null }) }} show={this.state.selectedLeave ? true : false} heading={this.state.selectedLeave?.reason.name} >
-                    <div className="flex flex-col mt-4 space-y-4">
-                        <div className="w-full flex justify-between">
-                            <LeaveStatusBadge leave={this.state.selectedLeave} />
-                            <LeaveDaysLabel leave={this.state.selectedLeave} />
-                        </div>
-                        <div className="flex space-x-2">
-                            <div className="text-gray-600 text-sm">Description:</div>
-                            <div className="text-gray-800 text-sm">{this.state.selectedLeave?.description}</div>
-                        </div>
-                    </div>
+                    {this.state.modalIsLoading ? <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> : (
+                        <div className="flex flex-col mt-4 space-y-4">
+                            <div className="w-full flex justify-between">
+                                <LeaveStatusBadge leave={this.state.selectedLeave} />
+                                <LeaveDaysLabel leave={this.state.selectedLeave} />
+                            </div>
+                            <div className="flex w-full justify-between">
+                                <div className="flex space-x-2">
+                                    <div className="text-gray-600 text-sm">Description:</div>
+                                    <div className="text-gray-800 text-sm">{this.state.selectedLeave?.description}</div>
+                                </div>
+                                <div className="flex space-x-2">
+                                    <span className="text-gray-600 text-sm">Comments</span>
+                                </div>
+                            </div>
+                            {this.renderLeaveStatusButtons(this.state.selectedLeave)}
 
-                </Modal>
+                            { this.state.modal.message ? <InfoMessage text={this.state.modal.message} /> : null}
+                            { this.state.modal.error ? <ErrorMessage text={this.state.modal.error} /> : null}
+
+                        </div>
+                    )
+                    }
+                </Modal >
                 <Card className="w-full lg:w-3/4 self-center pointer-cursor">
                     <div className="flex md:flex-row w-full justify-between items-center">
                         <Heading>
@@ -153,14 +270,15 @@ const HomePage = class HomePage extends React.Component {
                         </Heading>
                     </Card>
                 </div>
-                <Card className="w-full lg:w-3/4 self-center items-center flex flex-col space-y-2">
+                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center  flex-col space-y-2">
                     <Heading>
                         <span className="text-base md:text-lg text-gray-800">Leave History</span>
                     </Heading>
                     {this.getMyLeavesTable()}
                 </Card>
-
-            </Page >
+                { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> : this.renderMobileLeaveCards()}
+                <Paginator onFirstPage={true} />
+            </Page>
         )
     }
 }

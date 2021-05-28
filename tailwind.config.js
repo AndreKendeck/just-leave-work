@@ -1,6 +1,9 @@
 const { colors } = require("tailwindcss/defaultTheme");
 
 module.exports = {
+    purge: [
+        // './resources/**/*.jsx',
+    ],
     variants: {},
     plugins: [
         require("@tailwindcss/custom-forms"),
@@ -29,7 +32,7 @@ module.exports = {
         gridRow: false,
         gridRowStart: false,
         gridRowEnd: false,
-        gridAutoFlow: false, 
+        gridAutoFlow: false,
         gap: false
     },
 };

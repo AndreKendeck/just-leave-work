@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
         return [
             'text' => ['required', 'min:1', 'string'],
             'leave_id' => ['required', Rule::exists('leaves', 'id')
-                ->where('team_id', auth()->id())]
+                ->where('team_id', auth()->user()->team_id)]
         ];
     }
 }

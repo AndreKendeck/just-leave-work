@@ -78269,6 +78269,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pages_Leave_ViewLeavePage__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Pages/Leave/ViewLeavePage */ "./resources/js/components/Pages/Leave/ViewLeavePage.jsx");
 /* harmony import */ var _Pages_Leave_CreateLeavePage__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Pages/Leave/CreateLeavePage */ "./resources/js/components/Pages/Leave/CreateLeavePage.jsx");
 /* harmony import */ var _Pages_ProfilePage__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Pages/ProfilePage */ "./resources/js/components/Pages/ProfilePage.jsx");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/index.js");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_25__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -78319,6 +78321,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -78334,6 +78337,10 @@ var App = /*#__PURE__*/function (_React$Component) {
     }
 
     _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      initializing: true
+    });
 
     _defineProperty(_assertThisInitialized(_this), "getGuestRoutes", function () {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
@@ -78428,7 +78435,15 @@ var App = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "getMiscRoutes", function () {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+        path: "/about"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+        path: "/terms-and-conditions"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+        path: "/privacy-policy"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+        path: "/contact-us"
+      }));
     });
 
     return _this;
@@ -78441,6 +78456,10 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       // we need to get the data we have from the serve
       _api__WEBPACK_IMPORTED_MODULE_4__["default"].get('/profile/').then(function (successResponse) {
+        _this2.setState({
+          initializing: false
+        });
+
         _this2.props.setAuthenticated(localStorage.getItem('authToken'));
 
         var _successResponse$data = successResponse.data,
@@ -78455,15 +78474,30 @@ var App = /*#__PURE__*/function (_React$Component) {
 
         _this2.props.setSettings(settings);
 
-        _this2.props.setReasons(reasons); // this.props.
-
+        _this2.props.setReasons(reasons);
       })["catch"](function (failedResponse) {
+        _this2.setState({
+          initializing: false
+        });
+
         _this2.props.unsetAuthenticated();
       });
     }
   }, {
     key: "render",
     value: function render() {
+      if (this.state.initializing) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "flex flex-1 self-center"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_25___default.a, {
+          type: "Oval",
+          className: "self-center",
+          height: 120,
+          width: 120,
+          color: "Gray"
+        }));
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-col space-y-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navigation_Navbar__WEBPACK_IMPORTED_MODULE_6__["default"], null), this.getGuestRoutes(), this.getMiscRoutes(), this.getAuthRoutes()));
@@ -78991,7 +79025,7 @@ var LeaveDaysLabel = function LeaveDaysLabel(_ref) {
     className: "flex text-sm text-gray-800"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-gray-500 text-sm"
-  }, "From:\xA0"), " ", moment__WEBPACK_IMPORTED_MODULE_0___default()(leave === null || leave === void 0 ? void 0 : leave.from).format('ddd Do MMM')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+  }, "On:\xA0"), " ", moment__WEBPACK_IMPORTED_MODULE_0___default()(leave === null || leave === void 0 ? void 0 : leave.from).format('ddd Do MMM')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "flex text-sm text-gray-800"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-gray-500 text-sm"
@@ -80618,13 +80652,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../api */ "./resources/js/api/index.js");
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Heading */ "./resources/js/components/Heading.jsx");
-/* harmony import */ var _LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../LeaveDaysLabel */ "./resources/js/components/LeaveDaysLabel.jsx");
-/* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
-/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Modal */ "./resources/js/components/Modal.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
-/* harmony import */ var _UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../UserLeaveStatusBadge */ "./resources/js/components/UserLeaveStatusBadge.jsx");
+/* harmony import */ var _ErrorMessage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../ErrorMessage */ "./resources/js/components/ErrorMessage.jsx");
+/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Heading */ "./resources/js/components/Heading.jsx");
+/* harmony import */ var _InfoMessage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../InfoMessage */ "./resources/js/components/InfoMessage.jsx");
+/* harmony import */ var _LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../LeaveDaysLabel */ "./resources/js/components/LeaveDaysLabel.jsx");
+/* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Modal */ "./resources/js/components/Modal.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _Paginator__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Paginator */ "./resources/js/components/Paginator.jsx");
+/* harmony import */ var _UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../UserLeaveStatusBadge */ "./resources/js/components/UserLeaveStatusBadge.jsx");
+/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Table */ "./resources/js/components/Table.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -80663,6 +80717,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
+
 var HomePage = /*#__PURE__*/function (_React$Component) {
   _inherits(HomePage, _React$Component);
 
@@ -80683,30 +80741,96 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       error: null,
       leaves: [],
       isLoading: true,
-      isLoadingStatus: false,
-      selectedLeave: null
+      selectedLeave: null,
+      modal: {
+        isLoading: false,
+        message: null,
+        error: null
+      }
     });
 
-    _defineProperty(_assertThisInitialized(_this), "onLeaveApprove", function (leaveId) {
+    _defineProperty(_assertThisInitialized(_this), "clearModalMessagesAndSetLoading", function () {
+      var loading = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+      _this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          modal: {
+            error: null,
+            message: null,
+            isLoading: loading
+          }
+        });
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "addErrorMessageToModal", function (message) {
+      _this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          modal: _objectSpread(_objectSpread({}, state.modal), {}, {
+            error: message
+          })
+        });
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "addInfoMessageToModal", function (message) {
+      _this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          modal: _objectSpread(_objectSpread({}, state.modal), {}, {
+            message: message
+          })
+        });
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onLeaveApprove", function (leave) {
       if (!_this.canApproveOwnLeave()) {
         return;
       }
 
-      _this.isLoadingStatus({
-        isLoadingStatus: true
+      _this.clearModalMessagesAndSetLoading(true);
+
+      _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/approve/".concat(leave.id)).then(function (success) {
+        _this.clearModalMessagesAndSetLoading(false);
+
+        var _success$data = success.data,
+            updatedLeave = _success$data.leave,
+            message = _success$data.message;
+
+        var leaves = _this.state.leaves.filter(function (leave) {
+          return leave.id != updatedLeave.id;
+        });
+
+        _this.setState(function (state) {
+          return _objectSpread(_objectSpread({}, state), {}, {
+            leaves: [].concat(_toConsumableArray(leaves), [updatedLeave])
+          });
+        });
+
+        _this.addInfoMessageToModal(message);
+      })["catch"](function (failed) {
+        _this.clearModalMessagesAndSetLoading(false);
+
+        var error = failed.response.data.message;
+
+        _this.addErrorMessageToModal(error);
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "onDenyLeave", function (leaveId) {
+    _defineProperty(_assertThisInitialized(_this), "onDenyLeave", function (leave) {
+      _this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          modal: _objectSpread(_objectSpread({}, state.modal), {}, {
+            isLoading: true
+          })
+        });
+      });
+
       if (!_this.canApproveOwnLeave()) {
         return;
       }
-    });
 
-    _defineProperty(_assertThisInitialized(_this), "onLeaveSelect", function (leave) {
-      _this.setState({
-        selectedLeave: leave
-      });
+      _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/deny/".concat(leave.id)).then(function (success) {})["catch"](function (failed) {});
     });
 
     _defineProperty(_assertThisInitialized(_this), "getLeavesTableRow", function () {
@@ -80717,13 +80841,15 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("tr", {
           onClick: function onClick(e) {
-            return _this.onLeaveSelect(leave);
+            return _this.setState({
+              selectedLeave: leave
+            });
           },
           className: "hover:shadow rounded cursor-pointer",
           key: key
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("td", {
           className: "text-center text-gray-800"
-        }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_12__["default"], {
           leave: leave
         }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("td", {
           className: "text-center text-gray-800"
@@ -80752,17 +80878,68 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         });
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("table", {
-        className: "hidden md:table table table-responsive table-borderless"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("th", {
-        className: "font-bold text-center"
-      }, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("th", {
-        className: "font-bold text-center"
-      }, "Reason"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("th", {
-        className: "font-bold text-center"
-      }, "From"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("th", {
-        className: "font-bold text-center"
-      }, "Until"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("tbody", null, _this.getLeavesTableRow()));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_17__["default"], {
+        headings: ['Status', 'Type', 'On', 'Until']
+      }, _this.getLeavesTableRow());
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "renderLeaveStatusButtons", function (leave) {
+      var _this$props$user2;
+
+      var canApproveLeave = Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])((_this$props$user2 = _this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.permissions).contains('name', 'can-approve-leave');
+
+      if (!canApproveLeave) {
+        return null;
+      }
+
+      if (!(leave === null || leave === void 0 ? void 0 : leave.pending)) {
+        return null;
+      }
+
+      if (_this.state.modal.isLoading) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_3___default.a, {
+          type: "Oval",
+          className: "self-center",
+          height: 80,
+          width: 80,
+          color: "Gray"
+        });
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+        className: "w-full flex space-x-2 justify-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        onClick: function onClick(e) {
+          return _this.onLeaveApprove(_this.state.selectedLeave);
+        }
+      }, "Approve"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        onClick: function onClick(e) {
+          return _this.onDenyLeave(_this.state.selectedLeave);
+        },
+        type: "danger"
+      }, "Deny"));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "renderMobileLeaveCards", function () {
+      var _this$state$leaves2;
+
+      return (_this$state$leaves2 = _this.state.leaves) === null || _this$state$leaves2 === void 0 ? void 0 : _this$state$leaves2.map(function (leave, key) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+          key: key,
+          onClick: function onClick(e) {
+            return _this.setState({
+              selectedLeave: leave
+            });
+          },
+          className: "md:hidden"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+          className: "flex flex-col space-y-2 items-center w-full"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, leave.reason.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_12__["default"], {
+          leave: leave
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_11__["default"], {
+          leave: leave
+        }))));
+      });
     });
 
     return _this;
@@ -80803,15 +80980,15 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       var _this3 = this,
           _this$state$selectedL,
           _this$state$selectedL2,
-          _this$props$user2,
           _this$props$user3,
           _this$props$user4,
           _this$props$user5,
-          _this$props$user6;
+          _this$props$user6,
+          _this$props$user7;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_14__["default"], {
         className: "flex flex-col justify-center justify-center space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_13__["default"], {
         onClose: function onClose(e) {
           _this3.setState({
             selectedLeave: null
@@ -80819,63 +80996,87 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         },
         show: this.state.selectedLeave ? true : false,
         heading: (_this$state$selectedL = this.state.selectedLeave) === null || _this$state$selectedL === void 0 ? void 0 : _this$state$selectedL.reason.name
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, this.state.modalIsLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        type: "Oval",
+        className: "self-center",
+        height: 80,
+        width: 80,
+        color: "Gray"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col mt-4 space-y-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "w-full flex justify-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_12__["default"], {
         leave: this.state.selectedLeave
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_11__["default"], {
         leave: this.state.selectedLeave
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+        className: "flex w-full justify-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex space-x-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "text-gray-600 text-sm"
       }, "Description:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "text-gray-800 text-sm"
-      }, (_this$state$selectedL2 = this.state.selectedLeave) === null || _this$state$selectedL2 === void 0 ? void 0 : _this$state$selectedL2.description)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, (_this$state$selectedL2 = this.state.selectedLeave) === null || _this$state$selectedL2 === void 0 ? void 0 : _this$state$selectedL2.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+        className: "flex space-x-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+        className: "text-gray-600 text-sm"
+      }, "Comments"))), this.renderLeaveStatusButtons(this.state.selectedLeave), this.state.modal.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_InfoMessage__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        text: this.state.modal.message
+      }) : null, this.state.modal.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        text: this.state.modal.error
+      }) : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "w-full lg:w-3/4 self-center pointer-cursor"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex md:flex-row w-full justify-between items-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-row space-x-2 items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-sm md:text-base"
-      }, (_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      }, (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_16__["default"], {
         user: this.props.user
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-sm md:text-base"
       }, moment__WEBPACK_IMPORTED_MODULE_1___default()().format('dddd Do MMM'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-3/4 w-full self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-purple-800"
-      }, (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, (_this$props$user4 = this.props.user) === null || _this$props$user4 === void 0 ? void 0 : _this$props$user4.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-purple-800 text-base"
       }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: " pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-white text-base"
-      }, (_this$props$user4 = this.props.user) === null || _this$props$user4 === void 0 ? void 0 : _this$props$user4.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, (_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-white text-base"
       }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl "
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-gray-800 text-base"
-      }, ((_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.lastLeaveAt) ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.lastLeaveAt).format('dddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, ((_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.lastLeaveAt) ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.lastLeaveAt).format('dddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-gray-800 text-base"
       }, "Last Leave Taken"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        className: "w-full lg:w-3/4 self-center items-center flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+        className: "hidden md:flex w-full lg:w-3/4 self-center items-center  flex-col space-y-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-base md:text-lg text-gray-800"
-      }, "Leave History")), this.getMyLeavesTable()));
+      }, "Leave History")), this.getMyLeavesTable()), this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        type: "Oval",
+        className: "md:hidden self-center",
+        height: 80,
+        width: 80,
+        color: "Gray"
+      }) : this.renderMobileLeaveCards(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_15__["default"], {
+        onFirstPage: true
+      }));
     }
   }]);
 
@@ -81442,6 +81643,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_user__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../actions/user */ "./resources/js/actions/user/index.js");
 /* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth/index.js");
 /* harmony import */ var _actions_team__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../actions/team */ "./resources/js/actions/team/index.js");
+/* harmony import */ var _actions_settings__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../actions/settings */ "./resources/js/actions/settings/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -81469,6 +81671,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -81535,7 +81738,8 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
         var _successResponse$data = successResponse.data,
             user = _successResponse$data.user,
             token = _successResponse$data.token,
-            team = _successResponse$data.team;
+            team = _successResponse$data.team,
+            settings = _successResponse$data.settings;
         window.localStorage.setItem('authToken', token);
         _api__WEBPACK_IMPORTED_MODULE_4__["default"].defaults.headers.common['Authorization'] = "Bearer ".concat(token);
 
@@ -81544,6 +81748,8 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
         _this.props.setAuthenticated(token);
 
         _this.props.setTeam(team);
+
+        _this.props.setSettings(settings);
 
         window.location = '/home/';
       })["catch"](function (failedResponse) {
@@ -81563,10 +81769,10 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
 
         var _loop = function _loop(key) {
           _this.setState(function (state) {
-            return _defineProperty({}, key, _objectSpread(_objectSpread({}, state[key]), {}, {
+            return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, state[key]), {}, {
               errors: errors[key],
               hasError: true
-            }));
+            })));
           });
         };
 
@@ -81580,11 +81786,11 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
       event.persist();
 
       _this.setState(function (state) {
-        return {
+        return _objectSpread(_objectSpread({}, state), {}, {
           email: {
             value: event.target.value
           }
-        };
+        });
       });
     });
 
@@ -81592,11 +81798,11 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
       event.persist();
 
       _this.setState(function (state) {
-        return {
+        return _objectSpread(_objectSpread({}, state), {}, {
           password: {
             value: event.target.value
           }
-        };
+        });
       });
     });
 
@@ -81662,7 +81868,7 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
   return LoginPage;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+var mapStateToProps = function mapStateToProps(state) {
   return {
     state: state
   };
@@ -81671,7 +81877,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, {
   setUser: _actions_user__WEBPACK_IMPORTED_MODULE_10__["setUser"],
   setTeam: _actions_team__WEBPACK_IMPORTED_MODULE_12__["setTeam"],
-  setAuthenticated: _actions_auth__WEBPACK_IMPORTED_MODULE_11__["setAuthenticated"]
+  setAuthenticated: _actions_auth__WEBPACK_IMPORTED_MODULE_11__["setAuthenticated"],
+  setSettings: _actions_settings__WEBPACK_IMPORTED_MODULE_13__["setSettings"]
 })(LoginPage));
 
 /***/ }),
@@ -82512,6 +82719,121 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, null)(VerifyEmailPage));
+
+/***/ }),
+
+/***/ "./resources/js/components/Paginator.jsx":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Paginator.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Paginator = function Paginator(_ref) {
+  var onPreviousPage = _ref.onPreviousPage,
+      onNextPage = _ref.onNextPage,
+      onFirstPage = _ref.onFirstPage,
+      onLastPage = _ref.onLastPage,
+      numberOfPages = _ref.numberOfPages,
+      activePage = _ref.activePage;
+
+  var renderBackButton = function renderBackButton() {
+    if (onFirstPage) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        disabled: true,
+        className: "bg-gray-300 focus:outline-none rounded-lg p-2 cursor-not-allowed"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+        version: "1.1",
+        className: "stroke-current h-8 w-8 text-gray-500",
+        viewBox: "0 0 24 24"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
+        fill: "none"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "stroke-width": "1.5",
+        d: "M4.01 11.98h14.99"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "stroke-width": "1.5",
+        d: "M10.013 5.988l-6.011 6.012 6.011 6.012"
+      }))));
+    }
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "bg-white focus:outline-none hover:shadow-sm rounded-lg p-2 transform hover:-translate-y-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+      version: "1.1",
+      className: "stroke-current h-8 w-8 text-gray-800",
+      viewBox: "0 0 24 24"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
+      fill: "none"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      "stroke-width": "1.5",
+      d: "M4.01 11.98h14.99"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      "stroke-width": "1.5",
+      d: "M10.013 5.988l-6.011 6.012 6.011 6.012"
+    }))));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-full p-3 flex flex-row space-x-2"
+  }, renderBackButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 transform hover:-translate-y-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-lg w-full text-purple-500"
+  }, "3")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Paginator);
+
+/***/ }),
+
+/***/ "./resources/js/components/Table.jsx":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Table.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Table = function Table(_ref) {
+  var _ref$headings = _ref.headings,
+      headings = _ref$headings === void 0 ? [] : _ref$headings,
+      children = _ref.children;
+
+  var renderHeadings = function renderHeadings() {
+    return headings === null || headings === void 0 ? void 0 : headings.map(function (heading, key) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        key: key,
+        className: "font-bold text-center"
+      }, heading);
+    });
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "hidden md:table table table-responsive table-borderless"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, renderHeadings())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, children));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Table);
 
 /***/ }),
 

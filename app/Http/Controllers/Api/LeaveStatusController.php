@@ -54,6 +54,7 @@ class LeaveStatusController extends Controller
 
         return response()
             ->json([
+                'leave' => $leave, 
                 'message' => "Leave has been approved",
             ]);
     }

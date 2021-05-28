@@ -18,7 +18,7 @@ class LeaveResource extends JsonResource
             'id' => $this->id,
             'teamId' => $this->team_id,
             'number' => $this->number,
-            'userId' => $this->userId,
+            'userId' => $this->user_id,
             'reason' => $this->reason,
             'description' => $this->description,
             'from' => $this->from,

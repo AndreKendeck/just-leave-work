@@ -9,9 +9,11 @@ class CommentTest extends TestCase
     /** @test **/
     public function a_user_can_comment_on_a_leave()
     {
-        $leave = factory('App\Leave')->create();
-
-        $user = $leave->user;
+        $user = factory('App\User')->create(); 
+        $leave = factory('App\Leave')->create([
+            'team_id' => $user->team_id, 
+            'user_id' => $user->id
+        ]);
 
         $commentText = $this->faker->sentences(5, true);
 
