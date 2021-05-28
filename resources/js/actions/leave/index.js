@@ -10,3 +10,7 @@ export const setSelectedLeave = (leave) => {
 export const deleteLeave = (id) => {
     return { type: 'DELETE_LEAVE', payload: id }
 }
+
+export const approveLeave = (id) => {
+    return { type: 'APPROVE_LEAVE', payload: id }
+}

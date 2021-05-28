@@ -74,7 +74,21 @@ const MobileMenu = class MobileMenu extends React.Component {
                                         </svg>
                                     </NavLink>
                                 ) : null}
-
+                                { this.canSeeUsersLink() ? (
+                                    <NavLink to="/users" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                        <span>
+                                            <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
+                                                <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                                                    <path d="M20.7925,9.52352c0.790031,0.790031 0.790031,2.07092 0,2.86095c-0.790031,0.790031 -2.07092,0.790031 -2.86095,1.77636e-15c-0.790031,-0.790031 -0.790031,-2.07092 0,-2.86095c0.790031,-0.790031 2.07092,-0.790031 2.86095,-1.77636e-15"></path>
+                                                    <path d="M14.2026,5.91236c1.21648,1.21648 1.21648,3.18879 0,4.40528c-1.21648,1.21648 -3.18879,1.21648 -4.40528,0c-1.21648,-1.21648 -1.21648,-3.18879 0,-4.40528c1.21648,-1.21648 3.18879,-1.21648 4.40528,0"></path>
+                                                    <path d="M6.06848,9.52352c0.790031,0.790031 0.790031,2.07092 0,2.86095c-0.790031,0.790031 -2.07092,0.790031 -2.86095,1.77636e-15c-0.790031,-0.790031 -0.790031,-2.07092 0,-2.86095c0.790031,-0.790031 2.07092,-0.790031 2.86095,-1.77636e-15"></path>
+                                                    <path d="M23,19v-1.096c0,-1.381 -1.119,-2.5 -2.5,-2.5h-0.801"></path>
+                                                    <path d="M1,19v-1.096c0,-1.381 1.119,-2.5 2.5,-2.5h0.801"></path>
+                                                    <path d="M17.339,19v-1.601c0,-1.933 -1.567,-3.5 -3.5,-3.5h-3.679c-1.933,0 -3.5,1.567 -3.5,3.5v1.601"></path></g>
+                                            </svg>
+                                        </span>
+                                    </NavLink>
+                                ) : null}
                                 <NavLink to="/my-leaves" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <span>
                                         <svg id="Layer_3" data-name="Layer 3" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

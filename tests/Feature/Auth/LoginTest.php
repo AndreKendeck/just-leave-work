@@ -18,7 +18,7 @@ class LoginTest extends TestCase
             'password' => 'password'
         ])->assertOk()
             ->assertJsonStructure([
-                'user', 'message', 'token'
+                'user', 'message', 'token', 'team', 'settings'
             ]);
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_type' => get_class($user),

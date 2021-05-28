@@ -23,7 +23,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
         return (
             <div className="hidden md:flex flex-col bg-white shadow rounded lg:p-4 p-2 mt-4 mx-4">
                 <div className="flex flex-row w-full justify-between items-center">
-                    <Link to="/" className="text-gray-800 text-2xl font-bold w-full">{this.props.team?.displayName}</Link>
+                    <Link to="/" className="text-gray-800 text-2xl font-bold w-full hover:text-gray-600">{this.props.team?.displayName}</Link>
                     <div className="flex flex-row space-x-2 items-center w-full justify-end">
                         {this.props.auth.authenticated ? (
                             <React.Fragment>
@@ -119,9 +119,9 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                         <span className="text-gray-800 text-sm">Settings</span>
                                     </NavLink>
                                 ) : null}
-                                <NavLink to="/profile" className="mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg items-center">
+                                <Link to="/profile" className="mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg items-center focus:outline-none">
                                     <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
-                                </NavLink>
+                                </Link>
                             </React.Fragment>
                         ) : (
                             <React.Fragment>
@@ -143,7 +143,8 @@ const DesktopMenu = class DesktopMenu extends React.Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,
-        user: state.user
+        user: state.user,
+        team: state.team
     }
 }
 export default connect(mapStateToProps, null)(DesktopMenu);

@@ -8,6 +8,8 @@ use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use App\Mail\WelcomeEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\CannotImportUser;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class UserImport implements ToModel, ShouldQueue
 {
@@ -34,7 +36,7 @@ class UserImport implements ToModel, ShouldQueue
             try {
                 auth()->user()->notify(new CannotImportUser("User with the email address {$row[1]} could not be added, [Error - User already exists]"));
             } catch (\Exception $e) {
-                return null;
+                return Log::error($e->getMessage());
             }
         }
 
@@ -48,7 +50,11 @@ class UserImport implements ToModel, ShouldQueue
 
         Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
 
-        $user->sendEmailVerificationNotification();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
 
         return $user;
     }

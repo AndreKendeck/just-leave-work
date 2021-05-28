@@ -12,6 +12,7 @@ import Page from '../Page';
 import { setUser } from '../../actions/user';
 import { setAuthenticated } from '../../actions/auth';
 import { setTeam } from '../../actions/team';
+import { setSettings } from '../../actions/settings';
 
 
 const LoginPage = class LoginPage extends React.Component {
@@ -38,7 +39,7 @@ const LoginPage = class LoginPage extends React.Component {
             .then(successResponse => {
 
                 this.setState({ isSending: false });
-                const { user, token, team } = successResponse.data;
+                const { user, token, team, settings } = successResponse.data;
 
                 window.localStorage.setItem('authToken', token);
 
@@ -47,6 +48,7 @@ const LoginPage = class LoginPage extends React.Component {
                 this.props.setUser(user);
                 this.props.setAuthenticated(token);
                 this.props.setTeam(team);
+                this.props.setSettings(settings);
 
                 window.location = '/home/';
 
@@ -64,6 +66,7 @@ const LoginPage = class LoginPage extends React.Component {
                 for (const key in errors) {
                     this.setState(state => {
                         return {
+                            ...state,
                             [key]: {
                                 ...state[key],
                                 errors: errors[key],
@@ -80,6 +83,7 @@ const LoginPage = class LoginPage extends React.Component {
         event.persist();
         this.setState(state => {
             return {
+                ...state,
                 email: {
                     value: event.target.value
                 }
@@ -91,6 +95,7 @@ const LoginPage = class LoginPage extends React.Component {
         event.persist();
         this.setState(state => {
             return {
+                ...state,
                 password: {
                     value: event.target.value
                 }
@@ -124,10 +129,10 @@ const LoginPage = class LoginPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         state
     }
 }
 
-export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated })(LoginPage);
+export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated, setSettings })(LoginPage);

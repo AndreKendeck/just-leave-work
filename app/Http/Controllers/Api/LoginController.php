@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\SettingResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
 use App\User;
@@ -39,7 +40,8 @@ class LoginController extends Controller
                 'message' => "Login successful.",
                 'token' => $token,
                 'user' => new UserResource($user),
-                'team' => new TeamResource($user->team)
+                'team' => new TeamResource($user->team), 
+                'settings' => new SettingResource($user->team->settings)
             ]);
     }
 

@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { compose, createStore } from 'redux';
 import api from '../api';
 import reducers from '../reducers';
-import thunk from 'redux-thunk'
 import Navbar from '../components/Navigation/Navbar';
 import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
-import { setUser, unsetUser } from '../actions/user';
-import { setTeam, unsetTeam } from '../actions/team';
-import { setSettings, unsetSettings } from '../actions/settings';
+import { setUser } from '../actions/user';
+import { setTeam } from '../actions/team';
+import { setSettings } from '../actions/settings';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import { setReasons } from '../actions/reasons';
@@ -24,22 +23,29 @@ import IndexLeavePage from './Pages/Leave/IndexLeavePage';
 import ViewLeavePage from './Pages/Leave/ViewLeavePage';
 import CreateLeavePage from './Pages/Leave/CreateLeavePage';
 import ProfilePage from './Pages/ProfilePage';
+import Loader from 'react-loader-spinner';
 
 
 const App = class App extends React.Component {
+
+    state = {
+        initializing: true
+    }
+
     componentDidMount() {
         // we need to get the data we have from the serve
         api.get('/profile/')
             .then(successResponse => {
+                this.setState({ initializing: false });
                 this.props.setAuthenticated(localStorage.getItem('authToken'));
                 const { user, team, settings, reasons } = successResponse.data;
                 this.props.setUser(user);
                 this.props.setTeam(team);
                 this.props.setSettings(settings);
                 this.props.setReasons(reasons);
-                // this.props.
             })
             .catch(failedResponse => {
+                this.setState({ initializing: false });
                 this.props.unsetAuthenticated();
             })
     }
@@ -132,11 +138,22 @@ const App = class App extends React.Component {
     getMiscRoutes = () => {
         return (
             <React.Fragment>
+                <Route path="/about" />
+                <Route path="/terms-and-conditions" />
+                <Route path="/privacy-policy" />
+                <Route path="/contact-us" />
             </React.Fragment>
         )
     }
 
     render() {
+        if (this.state.initializing) {
+            return (
+                <div className="flex flex-1 self-center">
+                    <Loader type="Oval" className="self-center" height={120} width={120} color="Gray" />
+                </div>
+            );
+        }
         return (
             <div className="flex flex-col space-y-4">
                 <BrowserRouter>
@@ -149,12 +166,14 @@ const App = class App extends React.Component {
         )
     }
 }
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(
-    applyMiddleware(thunk)
-));
 
-const mapStateToProps = (state, ownProps) => {
+
+const store = createStore(reducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+
+const mapStateToProps = (state) => {
     return {
         auth: state.auth,
         user: state.user
