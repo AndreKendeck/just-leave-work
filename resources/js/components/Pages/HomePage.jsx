@@ -207,7 +207,7 @@ const HomePage = class HomePage extends React.Component {
                 <Modal onClose={(e) => { this.setState({ selectedLeave: null }) }} show={this.state.selectedLeave ? true : false} heading={this.state.selectedLeave?.reason.name} >
                     {this.state.modalIsLoading ? <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> : (
                         <div className="flex flex-col mt-4 space-y-4">
-                            <div className="w-full flex justify-between">
+                            <div className="w-full flex flex-col md:flex-row space-y-1 items-center md:space-y-0 justify-between">
                                 <LeaveStatusBadge leave={this.state.selectedLeave} />
                                 <LeaveDaysLabel leave={this.state.selectedLeave} />
                             </div>

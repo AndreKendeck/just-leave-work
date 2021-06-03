@@ -24,7 +24,14 @@ class LeaveController extends Controller
             ->paginate(10);
 
         return response()
-            ->json(LeaveResource::collection($leaves));
+            ->json([
+                'leaves' => LeaveResource::collection($leaves),
+                'from' => $leaves->firstItem(),
+                'perPage' => $leaves->perPage(),
+                'to' => $leaves->lastPage(),
+                'total' => $leaves->total(),
+                'currentPage' => $leaves->currentPage()
+            ]);
     }
 
     /**

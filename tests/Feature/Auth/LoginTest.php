@@ -35,4 +35,15 @@ class LoginTest extends TestCase
         ])->assertStatus(422)
             ->assertJsonStructure(['errors']);
     }
+
+    /** @test **/
+    public function a_blocked_user_cannot_login_to_the_application()
+    {
+        $user = factory('App\User')->create();
+        $user->ban();
+        $this->post(route('login'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ])->assertStatus(403);
+    }
 }
