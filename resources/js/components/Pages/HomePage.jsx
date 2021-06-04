@@ -23,6 +23,7 @@ const HomePage = class HomePage extends React.Component {
     state = {
         error: null,
         leaves: [],
+        paginator: null,
         isLoading: true,
         selectedLeave: null,
         modal: {
@@ -36,8 +37,9 @@ const HomePage = class HomePage extends React.Component {
         setTimeout(() => {
             api.get('/my-leaves')
                 .then(success => {
-                    const leaves = success.data;
+                    const { leaves, currentPage, from, perPage, to, total } = success.data;
                     this.setState({ leaves: leaves });
+                    this.setState({ paginator: { currentPage, from, perPage, to, total } });
                     this.setState({ isLoading: false });
                 }).catch(failed => {
                     const message = failed.response.data;
@@ -277,7 +279,6 @@ const HomePage = class HomePage extends React.Component {
                     {this.getMyLeavesTable()}
                 </Card>
                 { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> : this.renderMobileLeaveCards()}
-                <Paginator onFirstPage={true} />
             </Page>
         )
     }
