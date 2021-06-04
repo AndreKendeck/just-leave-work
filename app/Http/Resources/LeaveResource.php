@@ -14,6 +14,7 @@ class LeaveResource extends JsonResource
      */
     public function toArray($request)
     {
+        
         return [
             'id' => $this->id,
             'teamId' => $this->team_id,
@@ -34,8 +35,8 @@ class LeaveResource extends JsonResource
             'isActive' => $this->is_active,
             'comments' => $this->comments,
             'canEdit' => $this->can_edit,
-            'canDelete' => $this->can_delete, 
-            'isForOneDay' => $this->is_for_one_day
+            'canDelete' => $this->can_delete,
+            'isForOneDay' => $this->is_for_one_day,
         ];
     }
 }

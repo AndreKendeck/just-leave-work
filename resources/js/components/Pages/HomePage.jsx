@@ -47,17 +47,27 @@ const HomePage = class HomePage extends React.Component {
         }, 1000);
     }
 
-    clearModalMessagesAndSetLoading = (loading = true) => {
+    clearModalMessages = () => {
         this.setState(state => {
             return {
                 ...state,
                 modal: {
                     error: null,
                     message: null,
-                    isLoading: loading
                 }
             }
         })
+    }
+
+    setModalLoadingState = (loading = true) => {
+        this.setState(state => {
+            return {
+                ...state,
+                modal: {
+                    isLoading: loading
+                }
+            }
+        });
     }
 
     addErrorMessageToModal = (message) => {
@@ -88,27 +98,32 @@ const HomePage = class HomePage extends React.Component {
         if (!this.canApproveOwnLeave()) {
             return;
         }
-        this.clearModalMessagesAndSetLoading(true);
+        this.clearModalMessages();
+        this.setModalLoadingState(true);
 
         api.post(`/leaves/approve/${leave.id}`).then(success => {
-            this.clearModalMessagesAndSetLoading(false);
+            this.clearModalMessages();
+            this.setModalLoadingState(false);
             const { leave: updatedLeave, message } = success.data;
-            const leaves = this.state.leaves.filter(leave => leave.id != updatedLeave.id);
+            const leaves = collect(this.state.leaves);
+            leaves.replace(leave, updatedLeave);
             this.setState(state => {
                 return {
-                    ...state,
-                    leaves: [...leaves, updatedLeave]
+                    leaves: leaves
                 }
             })
             this.addInfoMessageToModal(message);
         }).catch(failed => {
-            this.clearModalMessagesAndSetLoading(false);
+            this.clearModalMessages();
+            this.setModalLoadingState(false);
             const { message: error } = failed.response.data;
             this.addErrorMessageToModal(error);
         });
     }
 
     onDenyLeave = (leave) => {
+        this.setModalLoadingState(true);
+        this.clearModalMessages();
         this.setState(state => {
             return {
                 ...state,
@@ -122,16 +137,33 @@ const HomePage = class HomePage extends React.Component {
             return;
         }
         api.post(`/leaves/deny/${leave.id}`).then(success => {
+            this.setModalLoadingState(false);
+            const { message } = failed.response.data;
+            this.setState(state => {
+                return {
+                    modal: {
+                        message: message
+                    }
+                }
+            });
 
         }).catch(failed => {
-
+            this.setModalLoadingState(false);
+            const { error: message } = failed.response.data;
+            this.setState(state => {
+                return {
+                    modal: {
+                        error: message
+                    }
+                }
+            })
         });
     }
 
     getLeavesTableRow = () => {
         return this.state.leaves?.map((leave, key) => {
             return (
-                <tr onClick={(e) => this.setState({ selectedLeave: leave })} className="hover:shadow rounded cursor-pointer" key={key}>
+                <tr onClick={(e) => this.setState({ selectedLeave: leave })} className="hover:bg-gray-200 rounded cursor-pointer" key={key}>
                     <td className="text-center text-gray-800"> <LeaveStatusBadge leave={leave} /> </td>
                     <td className="text-center text-gray-800"> {leave.reason?.name} </td>
                     <td className="text-center text-gray-800">{moment(leave.from).format('ddd Do MMM')}</td>
@@ -239,7 +271,7 @@ const HomePage = class HomePage extends React.Component {
                         </Heading>
                         <Heading>
                             <span className="text-sm md:text-base">
-                                {moment().format('dddd Do MMM')}
+                                {moment().format('ddd Do MMM')}
                             </span>
                         </Heading>
                     </div>
@@ -264,7 +296,7 @@ const HomePage = class HomePage extends React.Component {
                     <Card className="pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-gray-800 text-base">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('dddd Do MMM') : 'Not Applicable'}</span>
+                                <span className="text-2xl text-gray-800 text-base">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'}</span>
                                 <span className="text-gray-800 text-base">Last Leave Taken</span>
                             </div>
                         </Heading>
@@ -277,7 +309,7 @@ const HomePage = class HomePage extends React.Component {
                     {this.getMyLeavesTable()}
                 </Card>
                 { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> : this.renderMobileLeaveCards()}
-                <Paginator onFirstPage={true} />
+                <Paginator onFirstPage={true} numberOfPages={10} />
             </Page>
         )
     }

@@ -78214,7 +78214,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-// require('./components/Example');
 
 
 __webpack_require__(/*! ./components/App */ "./resources/js/components/App.jsx");
@@ -80664,18 +80663,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Table */ "./resources/js/components/Table.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -80749,14 +80736,23 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }
     });
 
-    _defineProperty(_assertThisInitialized(_this), "clearModalMessagesAndSetLoading", function () {
+    _defineProperty(_assertThisInitialized(_this), "clearModalMessages", function () {
+      _this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          modal: {
+            error: null,
+            message: null
+          }
+        });
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "setModalLoadingState", function () {
       var loading = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
       _this.setState(function (state) {
         return _objectSpread(_objectSpread({}, state), {}, {
           modal: {
-            error: null,
-            message: null,
             isLoading: loading
           }
         });
@@ -80788,28 +80784,32 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         return;
       }
 
-      _this.clearModalMessagesAndSetLoading(true);
+      _this.clearModalMessages();
+
+      _this.setModalLoadingState(true);
 
       _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/approve/".concat(leave.id)).then(function (success) {
-        _this.clearModalMessagesAndSetLoading(false);
+        _this.clearModalMessages();
+
+        _this.setModalLoadingState(false);
 
         var _success$data = success.data,
             updatedLeave = _success$data.leave,
             message = _success$data.message;
-
-        var leaves = _this.state.leaves.filter(function (leave) {
-          return leave.id != updatedLeave.id;
-        });
+        var leaves = Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])(_this.state.leaves);
+        leaves.replace(leave, updatedLeave);
 
         _this.setState(function (state) {
-          return _objectSpread(_objectSpread({}, state), {}, {
-            leaves: [].concat(_toConsumableArray(leaves), [updatedLeave])
-          });
+          return {
+            leaves: leaves
+          };
         });
 
         _this.addInfoMessageToModal(message);
       })["catch"](function (failed) {
-        _this.clearModalMessagesAndSetLoading(false);
+        _this.clearModalMessages();
+
+        _this.setModalLoadingState(false);
 
         var error = failed.response.data.message;
 
@@ -80818,6 +80818,10 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "onDenyLeave", function (leave) {
+      _this.setModalLoadingState(true);
+
+      _this.clearModalMessages();
+
       _this.setState(function (state) {
         return _objectSpread(_objectSpread({}, state), {}, {
           modal: _objectSpread(_objectSpread({}, state.modal), {}, {
@@ -80830,7 +80834,31 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         return;
       }
 
-      _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/deny/".concat(leave.id)).then(function (success) {})["catch"](function (failed) {});
+      _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/deny/".concat(leave.id)).then(function (success) {
+        _this.setModalLoadingState(false);
+
+        var message = failed.response.data.message;
+
+        _this.setState(function (state) {
+          return {
+            modal: {
+              message: message
+            }
+          };
+        });
+      })["catch"](function (failed) {
+        _this.setModalLoadingState(false);
+
+        var message = failed.response.data.error;
+
+        _this.setState(function (state) {
+          return {
+            modal: {
+              error: message
+            }
+          };
+        });
+      });
     });
 
     _defineProperty(_assertThisInitialized(_this), "getLeavesTableRow", function () {
@@ -80845,7 +80873,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
               selectedLeave: leave
             });
           },
-          className: "hover:shadow rounded cursor-pointer",
+          className: "hover:bg-gray-200 rounded cursor-pointer",
           key: key
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("td", {
           className: "text-center text-gray-800"
@@ -81038,7 +81066,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         user: this.props.user
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-sm md:text-base"
-      }, moment__WEBPACK_IMPORTED_MODULE_1___default()().format('dddd Do MMM'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, moment__WEBPACK_IMPORTED_MODULE_1___default()().format('ddd Do MMM'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-3/4 w-full self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl"
@@ -81062,7 +81090,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-gray-800 text-base"
-      }, ((_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.lastLeaveAt) ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.lastLeaveAt).format('dddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, ((_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.lastLeaveAt) ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-gray-800 text-base"
       }, "Last Leave Taken"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "hidden md:flex w-full lg:w-3/4 self-center items-center  flex-col space-y-2"
@@ -81075,7 +81103,8 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         width: 80,
         color: "Gray"
       }) : this.renderMobileLeaveCards(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_15__["default"], {
-        onFirstPage: true
+        onFirstPage: true,
+        numberOfPages: 10
       }));
     }
   }]);
@@ -82733,6 +82762,18 @@ var mapStateToProps = function mapStateToProps(state) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 var Paginator = function Paginator(_ref) {
@@ -82741,7 +82782,31 @@ var Paginator = function Paginator(_ref) {
       onFirstPage = _ref.onFirstPage,
       onLastPage = _ref.onLastPage,
       numberOfPages = _ref.numberOfPages,
-      activePage = _ref.activePage;
+      activePage = _ref.activePage,
+      onPageSelect = _ref.onPageSelect;
+
+  var renderPageButtons = function renderPageButtons(numberOfPages) {
+    var result = [];
+
+    var _loop = function _loop(i) {
+      var isActivePage = i + 1 === activePage;
+      result = [].concat(_toConsumableArray(result), [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        key: i,
+        onClick: function onClick(e) {
+          return onPageSelect(i + 1);
+        },
+        className: "bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 transform hover:-translate-y-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-lg w-full ".concat(isActivePage ? 'text-purple-500' : 'text-gray-800', " ")
+      }, i + 1))]);
+    };
+
+    for (var i = 0; i < numberOfPages; i++) {
+      _loop(i);
+    }
+
+    return result;
+  };
 
   var renderBackButton = function renderBackButton() {
     if (onFirstPage) {
@@ -82768,6 +82833,9 @@ var Paginator = function Paginator(_ref) {
     }
 
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      onClick: function onClick(e) {
+        return onPreviousPage(activePage - 1);
+      },
       className: "bg-white focus:outline-none hover:shadow-sm rounded-lg p-2 transform hover:-translate-y-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
       version: "1.1",
@@ -82788,13 +82856,55 @@ var Paginator = function Paginator(_ref) {
     }))));
   };
 
+  var renderNextButton = function renderNextButton() {
+    if (onLastPage) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        disabled: true,
+        className: "bg-gray-300 focus:outline-none rounded-lg p-2 cursor-not-allowed"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+        version: "1.1",
+        className: "stroke-current h-8 w-8 text-gray-800",
+        viewBox: "0 0 24 24"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
+        "stroke-linecap": "round",
+        "stroke-width": "1.5",
+        fill: "none",
+        "stroke-linejoin": "round"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        d: "M19,12h-14"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        d: "M14,17l5,-5"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        d: "M14,7l5,5"
+      }))));
+    }
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      onClick: function onClick(e) {
+        return onNextPage(activePage + 1);
+      },
+      className: "bg-white focus:outline-none hover:shadow-sm rounded-lg p-2 transform hover:-translate-y-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+      version: "1.1",
+      className: "stroke-current h-8 w-8 text-gray-800",
+      viewBox: "0 0 24 24"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
+      "stroke-linecap": "round",
+      "stroke-width": "1.5",
+      fill: "none",
+      "stroke-linejoin": "round"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+      d: "M19,12h-14"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+      d: "M14,17l5,-5"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+      d: "M14,7l5,5"
+    }))));
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full p-3 flex flex-row space-x-2"
-  }, renderBackButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 transform hover:-translate-y-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-lg w-full text-purple-500"
-  }, "3")));
+  }, renderBackButton(), renderPageButtons(numberOfPages), renderNextButton());
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Paginator);

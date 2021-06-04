@@ -35,10 +35,10 @@ class LeaveController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $from = Carbon::create($request->from);
-        $to = Carbon::create($request->until);
+        $from = new Carbon($request->from);
+        $until = new Carbon($request->until);
 
-        $invalidDate = ($from > $to) || ($from === $to);
+        $invalidDate = ($from > $until);
 
         if ($invalidDate) {
             return response()->json([
@@ -60,7 +60,7 @@ class LeaveController extends Controller
 
         if ($teamSettings->maximum_leave_days !== 0) {
 
-            $maximumLeaveDaysReached = ($from->diffInDays($to) > $teamSettings->maximum_leave_days);
+            $maximumLeaveDaysReached = ($from->diffInDays($until) > $teamSettings->maximum_leave_days);
 
             if ($maximumLeaveDaysReached) {
                 return response()
@@ -76,7 +76,7 @@ class LeaveController extends Controller
             'reason_id' => $request->reason,
             'description' => $request->description,
             'from' => $from,
-            'until' => $to,
+            'until' => $until,
         ]);
 
         /**
@@ -87,7 +87,7 @@ class LeaveController extends Controller
 
         if ($teamAllowsForAutomaticApprovals) {
             // we want to check if the user has a positive balance first
-            $willResultInANegativeBalance = $from->diffInDays($to) > auth()->user()->leave_balance;
+            $willResultInANegativeBalance = $from->diffInDays($until) > auth()->user()->leave_balance;
 
             if (!$willResultInANegativeBalance) {
                 $leave->approve();
