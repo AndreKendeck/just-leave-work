@@ -23,6 +23,15 @@ class LoginController extends Controller
             return $this->loginFailed();
         }
 
+        if ($user->isBanned()) {
+            return response()
+                ->json([
+                    'errors' => [
+                        'email' => 'Your account has been blocked you cannot log in.'
+                    ]
+                ], 403);
+        }
+
         $validLogin = Hash::check($loginRequest->password, $user->password);
 
         if (!$validLogin) {
@@ -40,7 +49,7 @@ class LoginController extends Controller
                 'message' => "Login successful.",
                 'token' => $token,
                 'user' => new UserResource($user),
-                'team' => new TeamResource($user->team), 
+                'team' => new TeamResource($user->team),
                 'settings' => new SettingResource($user->team->settings)
             ]);
     }

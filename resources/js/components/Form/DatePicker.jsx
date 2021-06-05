@@ -1,6 +1,7 @@
 import { collect } from 'collect.js';
+import moment from 'moment';
 import React from 'react';
-import ReactDatePicker from 'react-datepicker';
+import Calendar from 'react-calendar';
 
 
 const DatePicker = ({ value, errors, name, label, onChange, hasError }) => {
@@ -10,11 +11,10 @@ const DatePicker = ({ value, errors, name, label, onChange, hasError }) => {
             return <span className="text-red-800 text-sm" key={index}>{error}</span>
         })
     }
-
     return (
         <div className="flex flex-col space-y-1">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <ReactDatePicker selected={value} className={`form-input border-2  rounded-lg w-full ${hasError ? 'border-red-500' : 'border-gray-300'}`} onChange={onChange} />
+            <Calendar returnValue="range" selectRange={true} allowPartialRange={true} onChange={onChange} value={value} className="form-input" />
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>

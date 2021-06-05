@@ -50,7 +50,7 @@ class UserController extends Controller
             'leave_balance' => $request->leave_balance
         ]);
 
-        if ($request->has('is_admin')) {
+        if ($request->filled('is_admin')) {
             $user->attachRole('team-admin', $user->team);
         }
 

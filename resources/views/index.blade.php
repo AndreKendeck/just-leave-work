@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Justleave.work | Leave Planner</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
 </head>
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">

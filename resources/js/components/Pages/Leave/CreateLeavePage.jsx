@@ -11,6 +11,7 @@ import Loader from 'react-loader-spinner';
 import api from '../../../api';
 import ErrorMessage from '../../ErrorMessage';
 import InfoMessage from '../../InfoMessage';
+import moment from 'moment';
 
 const CreateLeavePage = class CreateLeavePage extends React.Component {
 
@@ -20,7 +21,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         isSending: false,
         reasons: [],
         from: { value: null, errors: [], hasError: false },
-        until: { value: null, errors: [], hasError: false },
+        until: { value: null, errors: [] },
         description: { value: null, errors: [], hasError: false },
         reason: { value: null, errors: [], hasError: false },
     }
@@ -28,15 +29,22 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
 
     setFromDate = (date) => {
-        this.setState(state => {
-            return {
-                ...state,
-                from: {
-                    ...state.from,
-                    value: date,
+        if (date.length === 2) {
+            this.setState(state => {
+                return {
+                    ...state,
+                    from: {
+                        ...state.from,
+                        value: moment(date[0]).format('M-D-Y'),
+                    },
+                    until: {
+                        ...state.until,
+                        value: moment(date[1]).format('M-D-Y')
+                    }
                 }
-            }
-        })
+            })
+        }
+
     }
 
     setUntilDate = (date) => {
@@ -122,18 +130,23 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             });
     }
 
+    getJavascriptDateForCalendar = (date) => {
+        const result = moment(date);
+        if (result.isValid()) {
+            return result.toDate();
+        }
+        return moment().toDate();
+    }
+
     render() {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <Heading>Apply for leave.</Heading>
                     <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onReasonChange(e)} label="Reason" options={this.mapReasons()} />
-                    <DatePicker value={this.state.from.value}
-                        hasError={this.state.from.hasError} errors={this.state.from.errors} label="Take leave from"
+                    <DatePicker value={[this.getJavascriptDateForCalendar(this.state.from?.value), this.getJavascriptDateForCalendar(this.state.until?.value)]}
+                        errors={[...this.state.from.errors, this.state.until.errors]} label="Calendar"
                         className="form-input" onChange={(date) => { this.setFromDate(date); }} />
-                    <DatePicker value={this.state.until.value}
-                        hasError={this.state.until.hasError} errors={this.state.until.errors} label="Until"
-                        className="form-input" onChange={(date) => { this.setUntilDate(date); }} />
                     <Field type="text" label="Description" name="description" errors={this.state.description.errors} onKeyUp={(e) => this.setDescription(e)} />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
                         <Button onClick={e => this.storeLeavePost()} >Send</Button>

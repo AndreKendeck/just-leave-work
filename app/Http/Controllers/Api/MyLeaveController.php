@@ -16,13 +16,16 @@ class MyLeaveController extends Controller
      */
     public function __invoke(Request $request)
     {
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $leaves */
         $leaves = auth()->user()->leaves()->paginate(10);
 
         return response()
-            ->json(
-                ['leaves' => LeaveResource::collection($leaves),
-                    'from' => $leaves->firstItem(), 'to' => $leaves->lastItem() , 'firs'=> $leaves->url(1) ]
-            );
+            ->json([
+                'leaves' => LeaveResource::collection($leaves),
+                'from' => $leaves->firstItem(),
+                'perPage' => $leaves->perPage(),
+                'to' => $leaves->lastPage(),
+                'total' => $leaves->total(),
+                'currentPage' => $leaves->currentPage()
+            ]);
     }
 }
