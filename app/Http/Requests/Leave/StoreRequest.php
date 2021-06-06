@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Leave;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \Illuminate\Validation\Rule; 
 
 class StoreRequest extends FormRequest
 {
@@ -28,6 +29,8 @@ class StoreRequest extends FormRequest
             'description' => ['required', 'min:3', 'string'],
             'from' => ['date', 'required'],
             'until' => ['date', 'required'],
+            'notifyUser' => ['nullable', 
+            Rule::exists('users' , 'id' )->where('team_id' , auth()->user()->team_id ) ],
         ];
     }
 
@@ -38,6 +41,7 @@ class StoreRequest extends FormRequest
             'until.date' => ['Please enter a valid date'],
             'from.required' => ['Please enter your leave starting date'],
             'until.required' => ['Please enter your leave ending date'],
+            'notifyUser.exists' => ['Please select a valid user to notify']
         ];
     }
 }

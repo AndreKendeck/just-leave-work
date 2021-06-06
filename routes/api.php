@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace('Api')->group(function () {
+Route::namespace ('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -70,8 +70,9 @@ Route::namespace('Api')->group(function () {
         Route::post('/settings', 'SettingController@update')
             ->name('settings.update');
 
-
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
+        Route::get('/team/approvers-and-deniers', 'TeamController@getUserWhoCanApproveOrDenyLeave')
+            ->name('team.approvers-and-deniers');
     });
 });

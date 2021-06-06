@@ -7,8 +7,11 @@ use App\Http\Requests\Leave\StoreRequest;
 use App\Http\Requests\Leave\UpdateRequest;
 use App\Http\Resources\LeaveResource;
 use App\Leave;
+use App\Mail\LeaveRequestEmail;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class LeaveController extends Controller
 {
@@ -30,7 +33,7 @@ class LeaveController extends Controller
                 'perPage' => $leaves->perPage(),
                 'to' => $leaves->lastPage(),
                 'total' => $leaves->total(),
-                'currentPage' => $leaves->currentPage()
+                'currentPage' => $leaves->currentPage(),
             ]);
     }
 
@@ -85,6 +88,17 @@ class LeaveController extends Controller
             'from' => $from,
             'until' => $until,
         ]);
+
+        /**
+         * Send an email notification to the relevant party about ones leave request
+         */
+        if ($request->filled('notifyUser')) {
+            $userToNotify = User::findOrFail($request->notifyUser);
+            if ($userToNotify->hasPermission('can-approve-leave') || $userToNotify->hasPermission('can-deny-leave')) {
+                Mail::to($userToNotify->email)
+                    ->queue(new LeaveRequestEmail($leave));
+            }
+        }
 
         /**
          * Automatic leave approval

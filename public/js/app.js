@@ -68673,7 +68673,6 @@ var DatePicker = function DatePicker(_ref) {
     });
   };
 
-  console.log(value);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
     className: "flex flex-col space-y-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("label", {
@@ -70647,6 +70646,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "state", {
       error: null,
       leaves: [],
+      paginator: null,
       isLoading: true,
       selectedLeave: null,
       modal: {
@@ -70840,7 +70840,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         return null;
       }
 
-      if (!(leave === null || leave === void 0 ? void 0 : leave.pending)) {
+      if (!(leave !== null && leave !== void 0 && leave.pending)) {
         return null;
       }
 
@@ -70900,10 +70900,26 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
 
       setTimeout(function () {
         _api__WEBPACK_IMPORTED_MODULE_5__["default"].get('/my-leaves').then(function (success) {
-          var leaves = success.data;
+          var _success$data2 = success.data,
+              leaves = _success$data2.leaves,
+              currentPage = _success$data2.currentPage,
+              from = _success$data2.from,
+              perPage = _success$data2.perPage,
+              to = _success$data2.to,
+              total = _success$data2.total;
 
           _this2.setState({
             leaves: leaves
+          });
+
+          _this2.setState({
+            paginator: {
+              currentPage: currentPage,
+              from: from,
+              perPage: perPage,
+              to: to,
+              total: total
+            }
           });
 
           _this2.setState({
@@ -71010,7 +71026,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-gray-800 text-base"
-      }, ((_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.lastLeaveAt) ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, (_this$props$user6 = this.props.user) !== null && _this$props$user6 !== void 0 && _this$props$user6.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-gray-800 text-base"
       }, "Last Leave Taken"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "hidden md:flex w-full lg:w-3/4 self-center items-center  flex-col space-y-2"
@@ -71022,10 +71038,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         height: 80,
         width: 80,
         color: "Gray"
-      }) : this.renderMobileLeaveCards(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_15__["default"], {
-        onFirstPage: true,
-        numberOfPages: 10
-      }));
+      }) : this.renderMobileLeaveCards());
     }
   }]);
 
@@ -71389,6 +71402,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api */ "./resources/js/api/index.js");
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Card */ "./resources/js/components/Card.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Table */ "./resources/js/components/Table.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -71416,6 +71432,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
 var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
   _inherits(IndexLeavePage, _React$Component);
 
@@ -71432,17 +71451,30 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call.apply(_super, [this].concat(args));
 
-    _defineProperty(_assertThisInitialized(_this), "state", {
+    _defineProperty(_assertThisInitialized(_this), "state", _defineProperty({
       isLoading: false,
       leaves: [],
       filters: {
         status: null,
         reasons: []
-      }
-    });
+      },
+      error: null
+    }, "isLoading", false));
 
     _defineProperty(_assertThisInitialized(_this), "getLeaves", function (pageNumber) {
-      _api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/leaves/?page=".concat(pageNumber)).then(function (success) {})["catch"](function (failed) {});
+      _this.toggleLoadingState(true);
+
+      _api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/leaves/?page=".concat(pageNumber)).then(function (success) {
+        _this.toggleLoadingState(false);
+
+        var leaves = success.data.leaves;
+      })["catch"](function (failed) {
+        _this.toggleLoadingState(false);
+
+        _this.setState({
+          error: failed.response.data.message
+        });
+      });
     });
 
     _defineProperty(_assertThisInitialized(_this), "filterLeaves", function () {
@@ -71474,16 +71506,55 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
       return leaves;
     });
 
+    _defineProperty(_assertThisInitialized(_this), "renderLeavesRow", function () {
+      return _this.filterLeaves().map(function (leave, key) {
+        var _leave$reason;
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          onClick: function onClick(e) {
+            return _this.setState({
+              selectedLeave: leave
+            });
+          },
+          className: "hover:shadow rounded cursor-pointer",
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "text-center text-gray-800"
+        }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LeaveStatusBadge, {
+          leave: leave
+        }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "text-center text-gray-800"
+        }, " ", (_leave$reason = leave.reason) === null || _leave$reason === void 0 ? void 0 : _leave$reason.name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "text-center text-gray-800"
+        }, moment(leave.from).format('ddd Do MMM')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          className: "text-center text-gray-800"
+        }, moment(leave.until).format('ddd Do MMM')));
+      });
+    });
+
     return _this;
   }
 
   _createClass(IndexLeavePage, [{
     key: "componentDidMount",
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+      this.getLeaves(1);
+    }
+  }, {
+    key: "toggleLoadingState",
+    value: function toggleLoadingState(isLoading) {
+      this.setState({
+        isLoading: isLoading
+      });
+    }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        className: "flex flex-col space-y-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        headings: ['Status', 'Type', 'On', 'Until']
+      }, this.renderLeavesRow())));
     }
   }]);
 
