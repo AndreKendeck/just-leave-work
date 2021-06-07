@@ -22,8 +22,15 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $leaves = Leave::with('user:id,name')->where('team_id', auth()->user()->team_id)
-            ->latest()
+
+        $leaves = Leave::where('team_id', auth()->user()->team_id);
+
+        
+        if (request()->get('year')) {
+            $leaves->whereYear('from', '=', request('year'));
+            dd("It works");
+        }
+        $leaves->latest()
             ->paginate(10);
 
         return response()

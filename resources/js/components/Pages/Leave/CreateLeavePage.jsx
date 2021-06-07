@@ -24,21 +24,29 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         until: { value: null, errors: [] },
         description: { value: null, errors: [], hasError: false },
         reason: { value: null, errors: [], hasError: false },
+        users: [],
+        notifyUser: { value: null, errors: [], hasError: false }
     }
 
 
+    componentDidMount() {
+        api.get('/team/approvers-and-deniers').
+            then(success => {
+                this.setState({ users: success.data });
+            }).catch(failed => {
+                this.setState({ error: failed.response.data.error });
+            });
+    }
 
-    setFromDate = (date) => {
+    setDates = (date) => {
         if (date.length === 2) {
             this.setState(state => {
                 return {
                     ...state,
                     from: {
-                        ...state.from,
                         value: moment(date[0]).format('M-D-Y'),
                     },
                     until: {
-                        ...state.until,
                         value: moment(date[1]).format('M-D-Y')
                     }
                 }
@@ -47,17 +55,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
     }
 
-    setUntilDate = (date) => {
-        this.setState(state => {
-            return {
-                ...state,
-                until: {
-                    ...state.until,
-                    value: date,
-                }
-            }
-        })
-    }
 
     setDescription = (e) => {
         e.persist();
@@ -65,7 +62,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             return {
                 ...state,
                 description: {
-                    ...state.description,
                     value: e.target.value
                 }
             }
@@ -118,7 +114,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                             return {
                                 ...state,
                                 [key]: {
-                                    ...state[key],
+                                    hasError: true,
                                     errors: errors[key]
                                 }
                             }
@@ -126,7 +122,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                     }
                     return;
                 }
-                this.setState({ error: failed.response.message });
+                this.setState({ error: failed.response.data.message });
             });
     }
 
@@ -138,6 +134,27 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         return moment().toDate();
     }
 
+    onNotifyUserChange = (e) => {
+        e.persist();
+        this.setState(state => {
+            return {
+                ...state,
+                notifyUser: {
+                    value: e.target.value
+                }
+            }
+        });
+    }
+
+    mapNotifiableUsers() {
+        return this.state.users?.map(user => {
+            return {
+                value: user.id,
+                label: user.name
+            }
+        });
+    }
+
     render() {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
@@ -146,8 +163,14 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                     <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onReasonChange(e)} label="Reason" options={this.mapReasons()} />
                     <DatePicker value={[this.getJavascriptDateForCalendar(this.state.from?.value), this.getJavascriptDateForCalendar(this.state.until?.value)]}
                         errors={[...this.state.from.errors, this.state.until.errors]} label="Calendar"
-                        className="form-input" onChange={(date) => { this.setFromDate(date); }} />
+                        className="form-input" onChange={(date) => { this.setDates(date) }} />
                     <Field type="text" label="Description" name="description" errors={this.state.description.errors} onKeyUp={(e) => this.setDescription(e)} />
+                    <Dropdown errors={this.state.notifyUser.errors}
+                        label="Notify - Optional"
+                        name="notifyUser"
+                        errors={this.state.notifyUser.errors}
+                        options={this.mapNotifiableUsers()}
+                        onChange={(e) => { this.onNotifyUserChange(e) }} />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
                         <Button onClick={e => this.storeLeavePost()} >Send</Button>
                     )}

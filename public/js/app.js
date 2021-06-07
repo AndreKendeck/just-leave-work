@@ -68412,7 +68412,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-col space-y-4"
+        className: "flex flex-col space-y-4 z-10"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navigation_Navbar__WEBPACK_IMPORTED_MODULE_6__["default"], null), this.getGuestRoutes(), this.getMiscRoutes(), this.getAuthRoutes()));
     }
   }]);
@@ -69264,13 +69264,16 @@ var Modal = function Modal(_ref) {
 
   if (visible) {
     return /*#__PURE__*/react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.createPortal( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "absolute bg-gray-800 bg-opacity-25 h-screen w-screen z-10",
+      className: "absolute bg-gray-800 bg-opacity-25 w-full z-20",
+      style: {
+        height: '110%'
+      },
       onClick: function onClick(e) {
         setVisible(false);
         onClose(e);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "flex flex-col justify-center items-center w-screen h-screen"
+      className: "flex flex-col justify-center items-center w-full h-full"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "w-11/12 lg:w-1/2",
       onClick: function onClick(e) {
@@ -70305,7 +70308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Page = function Page(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-col space-y-4 px-4 w-full h-full"
+    className: "flex flex-col space-y-4 px-4 w-full h-full pb-20"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full flex flex-col space-y-4 self-center items-center w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -70699,88 +70702,6 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "onLeaveApprove", function (leave) {
-      if (!_this.canApproveOwnLeave()) {
-        return;
-      }
-
-      _this.clearModalMessages();
-
-      _this.setModalLoadingState(true);
-
-      _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/approve/".concat(leave.id)).then(function (success) {
-        _this.clearModalMessages();
-
-        _this.setModalLoadingState(false);
-
-        var _success$data = success.data,
-            updatedLeave = _success$data.leave,
-            message = _success$data.message;
-        var leaves = Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])(_this.state.leaves);
-        leaves.replace(leave, updatedLeave);
-
-        _this.setState(function (state) {
-          return {
-            leaves: leaves
-          };
-        });
-
-        _this.addInfoMessageToModal(message);
-      })["catch"](function (failed) {
-        _this.clearModalMessages();
-
-        _this.setModalLoadingState(false);
-
-        var error = failed.response.data.message;
-
-        _this.addErrorMessageToModal(error);
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onDenyLeave", function (leave) {
-      _this.setModalLoadingState(true);
-
-      _this.clearModalMessages();
-
-      _this.setState(function (state) {
-        return _objectSpread(_objectSpread({}, state), {}, {
-          modal: _objectSpread(_objectSpread({}, state.modal), {}, {
-            isLoading: true
-          })
-        });
-      });
-
-      if (!_this.canApproveOwnLeave()) {
-        return;
-      }
-
-      _api__WEBPACK_IMPORTED_MODULE_5__["default"].post("/leaves/deny/".concat(leave.id)).then(function (success) {
-        _this.setModalLoadingState(false);
-
-        var message = failed.response.data.message;
-
-        _this.setState(function (state) {
-          return {
-            modal: {
-              message: message
-            }
-          };
-        });
-      })["catch"](function (failed) {
-        _this.setModalLoadingState(false);
-
-        var message = failed.response.data.error;
-
-        _this.setState(function (state) {
-          return {
-            modal: {
-              error: message
-            }
-          };
-        });
-      });
-    });
-
     _defineProperty(_assertThisInitialized(_this), "getLeavesTableRow", function () {
       var _this$state$leaves;
 
@@ -70809,12 +70730,6 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "canApproveOwnLeave", function () {
-      var _this$props$settings, _this$props$user;
-
-      return ((_this$props$settings = _this.props.settings) === null || _this$props$settings === void 0 ? void 0 : _this$props$settings.canApproveOwnLeave) && Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])((_this$props$user = _this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.permissions).contains('name', 'can-approve-leave');
-    });
-
     _defineProperty(_assertThisInitialized(_this), "getMyLeavesTable", function () {
       if (_this.state.isLoading) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_3___default.a, {
@@ -70829,43 +70744,6 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_17__["default"], {
         headings: ['Status', 'Type', 'On', 'Until']
       }, _this.getLeavesTableRow());
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "renderLeaveStatusButtons", function (leave) {
-      var _this$props$user2;
-
-      var canApproveLeave = Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])((_this$props$user2 = _this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.permissions).contains('name', 'can-approve-leave');
-
-      if (!canApproveLeave) {
-        return null;
-      }
-
-      if (!(leave !== null && leave !== void 0 && leave.pending)) {
-        return null;
-      }
-
-      if (_this.state.modal.isLoading) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_3___default.a, {
-          type: "Oval",
-          className: "self-center",
-          height: 80,
-          width: 80,
-          color: "Gray"
-        });
-      }
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "w-full flex space-x-2 justify-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        onClick: function onClick(e) {
-          return _this.onLeaveApprove(_this.state.selectedLeave);
-        }
-      }, "Approve"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        onClick: function onClick(e) {
-          return _this.onDenyLeave(_this.state.selectedLeave);
-        },
-        type: "danger"
-      }, "Deny"));
     });
 
     _defineProperty(_assertThisInitialized(_this), "renderMobileLeaveCards", function () {
@@ -70900,13 +70778,13 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
 
       setTimeout(function () {
         _api__WEBPACK_IMPORTED_MODULE_5__["default"].get('/my-leaves').then(function (success) {
-          var _success$data2 = success.data,
-              leaves = _success$data2.leaves,
-              currentPage = _success$data2.currentPage,
-              from = _success$data2.from,
-              perPage = _success$data2.perPage,
-              to = _success$data2.to,
-              total = _success$data2.total;
+          var _success$data = success.data,
+              leaves = _success$data.leaves,
+              currentPage = _success$data.currentPage,
+              from = _success$data.from,
+              perPage = _success$data.perPage,
+              to = _success$data.to,
+              total = _success$data.total;
 
           _this2.setState({
             leaves: leaves
@@ -70944,11 +70822,12 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       var _this3 = this,
           _this$state$selectedL,
           _this$state$selectedL2,
+          _this$state$selectedL3,
+          _this$props$user,
+          _this$props$user2,
           _this$props$user3,
           _this$props$user4,
-          _this$props$user5,
-          _this$props$user6,
-          _this$props$user7;
+          _this$props$user5;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_14__["default"], {
         className: "flex flex-col justify-center justify-center space-y-2"
@@ -70969,28 +70848,22 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex flex-col mt-4 space-y-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "w-full flex flex-col md:flex-row space-y-1 items-center md:space-y-0 justify-between"
+        className: "w-full flex flex-col md:flex-row space-y-2 items-center md:space-y-0 justify-between"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_12__["default"], {
         leave: this.state.selectedLeave
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_11__["default"], {
         leave: this.state.selectedLeave
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "flex w-full justify-between"
+        className: "flex flex-col space-y-2 w-full justify-between"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex space-x-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-        className: "text-gray-600 text-sm"
-      }, "Description:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "text-gray-800 text-sm"
       }, (_this$state$selectedL2 = this.state.selectedLeave) === null || _this$state$selectedL2 === void 0 ? void 0 : _this$state$selectedL2.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex space-x-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-gray-600 text-sm"
-      }, "Comments"))), this.renderLeaveStatusButtons(this.state.selectedLeave), this.state.modal.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_InfoMessage__WEBPACK_IMPORTED_MODULE_10__["default"], {
-        text: this.state.modal.message
-      }) : null, this.state.modal.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        text: this.state.modal.error
-      }) : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, " (", (_this$state$selectedL3 = this.state.selectedLeave) === null || _this$state$selectedL3 === void 0 ? void 0 : _this$state$selectedL3.comments.length, ") Comments"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "w-full lg:w-3/4 self-center pointer-cursor"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "flex md:flex-row w-full justify-between items-center"
@@ -70998,7 +70871,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-row space-x-2 items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-sm md:text-base"
-      }, (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      }, (_this$props$user = this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_16__["default"], {
         user: this.props.user
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-sm md:text-base"
@@ -71010,7 +70883,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-purple-800"
-      }, (_this$props$user4 = this.props.user) === null || _this$props$user4 === void 0 ? void 0 : _this$props$user4.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, (_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-purple-800 text-base"
       }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: " pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
@@ -71018,7 +70891,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-white text-base"
-      }, (_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-white text-base"
       }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: "pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl "
@@ -71026,10 +70899,10 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-2xl text-gray-800 text-base"
-      }, (_this$props$user6 = this.props.user) !== null && _this$props$user6 !== void 0 && _this$props$user6.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
+      }, (_this$props$user4 = this.props.user) !== null && _this$props$user4 !== void 0 && _this$props$user4.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_1___default()((_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-gray-800 text-base"
       }, "Last Leave Taken"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        className: "hidden md:flex w-full lg:w-3/4 self-center items-center  flex-col space-y-2"
+        className: "hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2 "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", {
         className: "text-base md:text-lg text-gray-800"
       }, "Leave History")), this.getMyLeavesTable()), this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_3___default.a, {
@@ -71176,32 +71049,28 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         value: null,
         errors: [],
         hasError: false
+      },
+      users: [],
+      notifyUser: {
+        value: null,
+        errors: [],
+        hasError: false
       }
     });
 
-    _defineProperty(_assertThisInitialized(_this), "setFromDate", function (date) {
+    _defineProperty(_assertThisInitialized(_this), "setDates", function (date) {
       if (date.length === 2) {
         _this.setState(function (state) {
           return _objectSpread(_objectSpread({}, state), {}, {
-            from: _objectSpread(_objectSpread({}, state.from), {}, {
+            from: {
               value: moment__WEBPACK_IMPORTED_MODULE_13___default()(date[0]).format('M-D-Y')
-            }),
-            until: _objectSpread(_objectSpread({}, state.until), {}, {
+            },
+            until: {
               value: moment__WEBPACK_IMPORTED_MODULE_13___default()(date[1]).format('M-D-Y')
-            })
+            }
           });
         });
       }
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "setUntilDate", function (date) {
-      _this.setState(function (state) {
-        return _objectSpread(_objectSpread({}, state), {}, {
-          until: _objectSpread(_objectSpread({}, state.until), {}, {
-            value: date
-          })
-        });
-      });
     });
 
     _defineProperty(_assertThisInitialized(_this), "setDescription", function (e) {
@@ -71209,9 +71078,9 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
 
       _this.setState(function (state) {
         return _objectSpread(_objectSpread({}, state), {}, {
-          description: _objectSpread(_objectSpread({}, state.description), {}, {
+          description: {
             value: e.target.value
-          })
+          }
         });
       });
     });
@@ -71278,9 +71147,10 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
 
             var _loop = function _loop(key) {
               _this.setState(function (state) {
-                return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, state[key]), {}, {
+                return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, key, {
+                  hasError: true,
                   errors: errors[key]
-                })));
+                }));
               });
             };
 
@@ -71297,7 +71167,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         }
 
         _this.setState({
-          error: failed.response.message
+          error: failed.response.data.message
         });
       });
     });
@@ -71312,15 +71182,55 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       return moment__WEBPACK_IMPORTED_MODULE_13___default()().toDate();
     });
 
+    _defineProperty(_assertThisInitialized(_this), "onNotifyUserChange", function (e) {
+      e.persist();
+
+      _this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          notifyUser: {
+            value: e.target.value
+          }
+        });
+      });
+    });
+
     return _this;
   }
 
   _createClass(CreateLeavePage, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_10__["default"].get('/team/approvers-and-deniers').then(function (success) {
+        _this2.setState({
+          users: success.data
+        });
+      })["catch"](function (failed) {
+        _this2.setState({
+          error: failed.response.data.error
+        });
+      });
+    }
+  }, {
+    key: "mapNotifiableUsers",
+    value: function mapNotifiableUsers() {
+      var _this$state$users;
+
+      return (_this$state$users = this.state.users) === null || _this$state$users === void 0 ? void 0 : _this$state$users.map(function (user) {
+        return {
+          value: user.id,
+          label: user.name
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this,
+      var _this3 = this,
           _this$state$from,
-          _this$state$until;
+          _this$state$until,
+          _React$createElement;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "flex flex-col justify-center justify-center space-y-2"
@@ -71329,7 +71239,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_2__["default"], null, "Apply for leave."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Dropdown__WEBPACK_IMPORTED_MODULE_5__["default"], {
         errors: this.state.reason.errors,
         onChange: function onChange(e) {
-          return _this2.onReasonChange(e);
+          return _this3.onReasonChange(e);
         },
         label: "Reason",
         options: this.mapReasons()
@@ -71339,7 +71249,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         label: "Calendar",
         className: "form-input",
         onChange: function onChange(date) {
-          _this2.setFromDate(date);
+          _this3.setDates(date);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_7__["default"], {
         type: "text",
@@ -71347,9 +71257,15 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         name: "description",
         errors: this.state.description.errors,
         onKeyUp: function onKeyUp(e) {
-          return _this2.setDescription(e);
+          return _this3.setDescription(e);
         }
-      }), this.state.isSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_9___default.a, {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Dropdown__WEBPACK_IMPORTED_MODULE_5__["default"], (_React$createElement = {
+        errors: this.state.notifyUser.errors,
+        label: "Notify - Optional",
+        name: "notifyUser"
+      }, _defineProperty(_React$createElement, "errors", this.state.notifyUser.errors), _defineProperty(_React$createElement, "options", this.mapNotifiableUsers()), _defineProperty(_React$createElement, "onChange", function onChange(e) {
+        _this3.onNotifyUserChange(e);
+      }), _React$createElement)), this.state.isSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_9___default.a, {
         type: "Oval",
         className: "self-center",
         height: 50,
@@ -71357,19 +71273,19 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         color: "Gray"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_8__["default"], {
         onClick: function onClick(e) {
-          return _this2.storeLeavePost();
+          return _this3.storeLeavePost();
         }
       }, "Send"), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_11__["default"], {
         text: this.state.error,
         onDismiss: function onDismiss(e) {
-          return _this2.setState({
+          return _this3.setState({
             error: null
           });
         }
       }) : null, this.state.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InfoMessage__WEBPACK_IMPORTED_MODULE_12__["default"], {
         text: this.state.message,
         onDismiss: function onDismiss(e) {
-          return _this2.setState({
+          return _this3.setState({
             message: false
           });
         }
@@ -71399,12 +71315,17 @@ var mapStateToProps = function mapStateToProps(state) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api */ "./resources/js/api/index.js");
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Page */ "./resources/js/components/Page.jsx");
-/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Table */ "./resources/js/components/Table.jsx");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/index.js");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../api */ "./resources/js/api/index.js");
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Card */ "./resources/js/components/Card.jsx");
+/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Heading */ "./resources/js/components/Heading.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Table */ "./resources/js/components/Table.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -71428,6 +71349,9 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 
 
@@ -71464,7 +71388,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "getLeaves", function (pageNumber) {
       _this.toggleLoadingState(true);
 
-      _api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/leaves/?page=".concat(pageNumber)).then(function (success) {
+      _api__WEBPACK_IMPORTED_MODULE_3__["default"].get("/leaves/?page=".concat(pageNumber)).then(function (success) {
         _this.toggleLoadingState(false);
 
         var leaves = success.data.leaves;
@@ -71510,7 +71434,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
       return _this.filterLeaves().map(function (leave, key) {
         var _leave$reason;
 
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
           onClick: function onClick(e) {
             return _this.setState({
               selectedLeave: leave
@@ -71518,17 +71442,17 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
           },
           className: "hover:shadow rounded cursor-pointer",
           key: key
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-800"
-        }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LeaveStatusBadge, {
+        }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(LeaveStatusBadge, {
           leave: leave
-        }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-800"
-        }, " ", (_leave$reason = leave.reason) === null || _leave$reason === void 0 ? void 0 : _leave$reason.name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        }, " ", (_leave$reason = leave.reason) === null || _leave$reason === void 0 ? void 0 : _leave$reason.name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-800"
-        }, moment(leave.from).format('ddd Do MMM')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        }, moment__WEBPACK_IMPORTED_MODULE_0___default()(leave.from).format('ddd Do MMM')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-800"
-        }, moment(leave.until).format('ddd Do MMM')));
+        }, moment__WEBPACK_IMPORTED_MODULE_0___default()(leave.until).format('ddd Do MMM')));
       });
     });
 
@@ -71550,16 +71474,22 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_6__["default"], {
         className: "flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], null, this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        type: "Oval",
+        className: "self-center",
+        height: 80,
+        width: 80,
+        color: "Gray"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_7__["default"], {
         headings: ['Status', 'Type', 'On', 'Until']
       }, this.renderLeavesRow())));
     }
   }]);
 
   return IndexLeavePage;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (IndexLeavePage);
 

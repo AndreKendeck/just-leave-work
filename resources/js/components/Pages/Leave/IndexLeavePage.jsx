@@ -1,6 +1,9 @@
+import moment from 'moment';
 import React from 'react';
+import Loader from 'react-loader-spinner';
 import api from '../../../api';
 import Card from '../../Card';
+import Heading from '../../Heading';
 import Page from '../../Page';
 import Table from '../../Table';
 
@@ -79,9 +82,13 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                 <Card>
                 </Card>
                 <Card>
-                    <Table headings={['Status', 'Type', 'On', 'Until']}>
-                        {this.renderLeavesRow()}
-                    </Table>
+                    
+                    {this.state.isLoading ?
+                        <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> :
+                        <Table headings={['Status', 'Type', 'On', 'Until']}>
+                            {this.renderLeavesRow()}
+                        </Table>
+                    }
                 </Card>
             </Page>
         );

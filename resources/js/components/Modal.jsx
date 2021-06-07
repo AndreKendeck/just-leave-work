@@ -16,8 +16,8 @@ const Modal = ({ heading, show = true, children, onClose }) => {
     if (visible) {
         return (
             ReactDOM.createPortal(
-                <div className="absolute bg-gray-800 bg-opacity-25 h-screen w-screen z-10" onClick={(e) => { setVisible(false); onClose(e) }}>
-                    <div className="flex flex-col justify-center items-center w-screen h-screen">
+                <div className="absolute bg-gray-800 bg-opacity-25 w-full z-20" style={{ height: '110%' }} onClick={(e) => { setVisible(false); onClose(e) }}>
+                    <div className="flex flex-col justify-center items-center w-full h-full">
                         <div className="w-11/12 lg:w-1/2" onClick={(e) => e.stopPropagation()}>
                             <Card>
                                 <div className="flex w-full justify-between">

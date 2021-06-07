@@ -96,71 +96,6 @@ const HomePage = class HomePage extends React.Component {
         })
     }
 
-    onLeaveApprove = (leave) => {
-        if (!this.canApproveOwnLeave()) {
-            return;
-        }
-        this.clearModalMessages();
-        this.setModalLoadingState(true);
-
-        api.post(`/leaves/approve/${leave.id}`).then(success => {
-            this.clearModalMessages();
-            this.setModalLoadingState(false);
-            const { leave: updatedLeave, message } = success.data;
-            const leaves = collect(this.state.leaves);
-            leaves.replace(leave, updatedLeave);
-            this.setState(state => {
-                return {
-                    leaves: leaves
-                }
-            })
-            this.addInfoMessageToModal(message);
-        }).catch(failed => {
-            this.clearModalMessages();
-            this.setModalLoadingState(false);
-            const { message: error } = failed.response.data;
-            this.addErrorMessageToModal(error);
-        });
-    }
-
-    onDenyLeave = (leave) => {
-        this.setModalLoadingState(true);
-        this.clearModalMessages();
-        this.setState(state => {
-            return {
-                ...state,
-                modal: {
-                    ...state.modal,
-                    isLoading: true
-                }
-            }
-        });
-        if (!this.canApproveOwnLeave()) {
-            return;
-        }
-        api.post(`/leaves/deny/${leave.id}`).then(success => {
-            this.setModalLoadingState(false);
-            const { message } = failed.response.data;
-            this.setState(state => {
-                return {
-                    modal: {
-                        message: message
-                    }
-                }
-            });
-
-        }).catch(failed => {
-            this.setModalLoadingState(false);
-            const { error: message } = failed.response.data;
-            this.setState(state => {
-                return {
-                    modal: {
-                        error: message
-                    }
-                }
-            })
-        });
-    }
 
     getLeavesTableRow = () => {
         return this.state.leaves?.map((leave, key) => {
@@ -175,10 +110,6 @@ const HomePage = class HomePage extends React.Component {
         });
     }
 
-    canApproveOwnLeave = () => {
-        return this.props.settings?.canApproveOwnLeave && collect(this.props.user?.permissions).contains('name', 'can-approve-leave');
-    }
-
     getMyLeavesTable = () => {
         if (this.state.isLoading) {
             return (
@@ -190,31 +121,6 @@ const HomePage = class HomePage extends React.Component {
                 {this.getLeavesTableRow()}
             </Table>
         )
-    }
-
-    renderLeaveStatusButtons = (leave) => {
-
-        const canApproveLeave = collect(this.props.user?.permissions).contains('name', 'can-approve-leave');
-
-        if (!canApproveLeave) {
-            return null;
-        }
-
-        if (!leave?.pending) {
-            return null;
-        }
-
-        if (this.state.modal.isLoading) {
-            return <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" />;
-        }
-
-        return (
-            <div className="w-full flex space-x-2 justify-between">
-                <Button onClick={(e) => this.onLeaveApprove(this.state.selectedLeave)}>Approve</Button>
-                <Button onClick={(e) => this.onDenyLeave(this.state.selectedLeave)} type="danger">Deny</Button>
-            </div>
-        )
-
     }
 
     renderMobileLeaveCards = () => {
@@ -241,24 +147,18 @@ const HomePage = class HomePage extends React.Component {
                 <Modal onClose={(e) => { this.setState({ selectedLeave: null }) }} show={this.state.selectedLeave ? true : false} heading={this.state.selectedLeave?.reason.name} >
                     {this.state.modalIsLoading ? <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> : (
                         <div className="flex flex-col mt-4 space-y-4">
-                            <div className="w-full flex flex-col md:flex-row space-y-1 items-center md:space-y-0 justify-between">
+                            <div className="w-full flex flex-col md:flex-row space-y-2 items-center md:space-y-0 justify-between">
                                 <LeaveStatusBadge leave={this.state.selectedLeave} />
                                 <LeaveDaysLabel leave={this.state.selectedLeave} />
                             </div>
-                            <div className="flex w-full justify-between">
+                            <div className="flex flex-col space-y-2 w-full justify-between">
                                 <div className="flex space-x-2">
-                                    <div className="text-gray-600 text-sm">Description:</div>
                                     <div className="text-gray-800 text-sm">{this.state.selectedLeave?.description}</div>
                                 </div>
                                 <div className="flex space-x-2">
-                                    <span className="text-gray-600 text-sm">Comments</span>
+                                    <span className="text-gray-600 text-sm"> ({this.state.selectedLeave?.comments.length}) Comments</span>
                                 </div>
                             </div>
-                            {this.renderLeaveStatusButtons(this.state.selectedLeave)}
-
-                            { this.state.modal.message ? <InfoMessage text={this.state.modal.message} /> : null}
-                            { this.state.modal.error ? <ErrorMessage text={this.state.modal.error} /> : null}
-
                         </div>
                     )
                     }
@@ -304,7 +204,7 @@ const HomePage = class HomePage extends React.Component {
                         </Heading>
                     </Card>
                 </div>
-                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center  flex-col space-y-2">
+                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2 ">
                     <Heading>
                         <span className="text-base md:text-lg text-gray-800">Leave History</span>
                     </Heading>
