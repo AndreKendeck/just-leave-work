@@ -1,21 +1,19 @@
-import { collect } from 'collect.js';
 import moment from 'moment';
 import React from 'react';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import api from '../../api';
-import Button from '../Button';
 import Card from '../Card';
-import ErrorMessage from '../ErrorMessage';
 import Heading from '../Heading';
-import InfoMessage from '../InfoMessage';
 import LeaveDaysLabel from '../LeaveDaysLabel';
 import LeaveStatusBadge from '../LeaveStatusBadge';
 import Modal from '../Modal';
 import Page from '../Page';
-import Paginator from '../Paginator';
 import UserLeaveStatusBadge from '../UserLeaveStatusBadge';
 import Table from '../Table';
+import ViewButtonLink from '../ViewButtonLink';
+import EditButtonLink from '../EditButtonLink';
+import Paginator from '../Paginator';
 
 
 const HomePage = class HomePage extends React.Component {
@@ -26,85 +24,61 @@ const HomePage = class HomePage extends React.Component {
         paginator: null,
         isLoading: true,
         selectedLeave: null,
-        modal: {
-            isLoading: false,
-            message: null,
-            error: null
-        }
+        currentPage: 1,
+        from: null,
+        perPage: null,
+        to: null,
+        total: null
     }
 
     componentDidMount() {
         setTimeout(() => {
-            api.get('/my-leaves')
-                .then(success => {
-                    const { leaves, currentPage, from, perPage, to, total } = success.data;
-                    this.setState({ leaves: leaves });
-                    this.setState({ paginator: { currentPage, from, perPage, to, total } });
-                    this.setState({ isLoading: false });
-                }).catch(failed => {
-                    const message = failed.response.data;
-                    this.setState({ isLoading: false });
-                    this.setState({ error: message });
-                });
+            this.getLeaves(this.state.currentPage);
         }, 1000);
     }
 
-    clearModalMessages = () => {
-        this.setState(state => {
-            return {
-                ...state,
-                modal: {
-                    error: null,
-                    message: null,
-                }
+    getLeaves = (page) => [
+        api.get('/my-leaves', {
+            params: {
+                page
             }
+        }).then(success => {
+            const { leaves, currentPage, from, perPage, to, total } = success.data;
+            this.setState({ leaves: leaves });
+            this.setState(state => {
+                return {
+                    ...state,
+                    from,
+                    currentPage,
+                    perPage,
+                    to,
+                    total
+                }
+            });
+            this.setState({ isLoading: false });
+        }).catch(failed => {
+            const message = failed.response.data;
+            this.setState({ isLoading: false });
+            this.setState({ error: message });
         })
-    }
+    ]
 
-    setModalLoadingState = (loading = true) => {
-        this.setState(state => {
-            return {
-                ...state,
-                modal: {
-                    isLoading: loading
-                }
-            }
-        });
-    }
-
-    addErrorMessageToModal = (message) => {
-        this.setState(state => {
-            return {
-                ...state,
-                modal: {
-                    ...state.modal,
-                    error: message,
-                }
-            }
-        })
-    }
-
-    addInfoMessageToModal = (message) => {
-        this.setState(state => {
-            return {
-                ...state,
-                modal: {
-                    ...state.modal,
-                    message: message,
-                }
-            }
-        })
-    }
 
 
     getLeavesTableRow = () => {
         return this.state.leaves?.map((leave, key) => {
             return (
-                <tr onClick={(e) => this.setState({ selectedLeave: leave })} className="hover:bg-gray-200 rounded cursor-pointer" key={key}>
-                    <td className="text-center text-gray-800"> <LeaveStatusBadge leave={leave} /> </td>
-                    <td className="text-center text-gray-800"> {leave.reason?.name} </td>
-                    <td className="text-center text-gray-800">{moment(leave.from).format('ddd Do MMM')}</td>
-                    <td className="text-center text-gray-800">{moment(leave.until).format('ddd Do MMM')}</td>
+                <tr className="rounded" key={key}>
+                    <td className="text-center text-gray-600 text-sm"> <LeaveStatusBadge leave={leave} /> </td>
+                    <td className="text-center text-gray-600 text-sm"> {leave.reason?.name} </td>
+                    <td className="text-center text-gray-600 text-sm">{moment(leave.from).format('Do MMM YYYY')}</td>
+                    <td className="text-center text-gray-600 text-sm">{moment(leave.until).format('Do MMM YYYY')}</td>
+                    <td className="text-center relative">
+                        <div className="flex flex-row space-x-2 items-center">
+                            <ViewButtonLink url={`/leave/view/${leave.id}`} />
+                            {leave.canEdit ? <EditButtonLink url={`/leave/edit/${leave.id}`} /> : null}
+                        </div>
+                    </td>
                 </tr>
             )
         });
@@ -117,7 +91,7 @@ const HomePage = class HomePage extends React.Component {
             );
         }
         return (
-            <Table headings={['Status', 'Type', 'On', 'Until']}>
+            <Table headings={['Status', 'Type', 'On', 'Until', '']}>
                 {this.getLeavesTableRow()}
             </Table>
         )
@@ -141,28 +115,13 @@ const HomePage = class HomePage extends React.Component {
         });
     }
 
+    onPageSelect = (page) => {
+        this.getLeaves(page);
+    }
+
     render() {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
-                <Modal onClose={(e) => { this.setState({ selectedLeave: null }) }} show={this.state.selectedLeave ? true : false} heading={this.state.selectedLeave?.reason.name} >
-                    {this.state.modalIsLoading ? <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> : (
-                        <div className="flex flex-col mt-4 space-y-4">
-                            <div className="w-full flex flex-col md:flex-row space-y-2 items-center md:space-y-0 justify-between">
-                                <LeaveStatusBadge leave={this.state.selectedLeave} />
-                                <LeaveDaysLabel leave={this.state.selectedLeave} />
-                            </div>
-                            <div className="flex flex-col space-y-2 w-full justify-between">
-                                <div className="flex space-x-2">
-                                    <div className="text-gray-800 text-sm">{this.state.selectedLeave?.description}</div>
-                                </div>
-                                <div className="flex space-x-2">
-                                    <span className="text-gray-600 text-sm"> ({this.state.selectedLeave?.comments.length}) Comments</span>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                    }
-                </Modal >
                 <Card className="w-full lg:w-3/4 self-center pointer-cursor">
                     <div className="flex md:flex-row w-full justify-between items-center">
                         <Heading>
@@ -204,11 +163,17 @@ const HomePage = class HomePage extends React.Component {
                         </Heading>
                     </Card>
                 </div>
-                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2 ">
+                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
                     <Heading>
                         <span className="text-base md:text-lg text-gray-800">Leave History</span>
                     </Heading>
                     {this.getMyLeavesTable()}
+                    <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
+                        onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}
+                        onPageSelect={(page) => this.onPageSelect(page)}
+                        onLastPage={this.state.to === this.state.currentPage}
+                        onFirstPage={this.state.currentPage === 1}
+                        activePage={this.state.currentPage} numberOfPages={this.state.to} />
                 </Card>
                 { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> : this.renderMobileLeaveCards()}
             </Page>

@@ -3,7 +3,6 @@ import { useParams } from 'react-router';
 
 const EditLeavePage = () => {
     const { id } = useParams();
-    useEffect();
     return (
         <div></div>
     );

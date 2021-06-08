@@ -1,10 +1,10 @@
 import { collect } from 'collect.js';
-import moment from 'moment';
+
 import React from 'react';
-import Calendar from 'react-calendar';
+import ReactDatePicker from 'react-datepicker';
 
 
-const DatePicker = ({ value, errors, name, label, onChange, hasError }) => {
+const DatePicker = ({ value, errors, name, label, onChange }) => {
 
     const getErrors = () => {
         return collect(errors).flatten().map((error, index) => {
@@ -14,7 +14,7 @@ const DatePicker = ({ value, errors, name, label, onChange, hasError }) => {
     return (
         <div className="flex flex-col space-y-1">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <Calendar returnValue="range" selectRange={true} allowPartialRange={true} onChange={onChange} value={value} className="form-input" />
+            <ReactDatePicker className="form-input border-2 rounded-lg w-full" selected={value} onChange={(date) => onChange(date)} />
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>

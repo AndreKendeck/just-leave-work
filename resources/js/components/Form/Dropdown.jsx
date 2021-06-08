@@ -28,7 +28,7 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
     return (
         <div className="flex flex-col space-y-1">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <select onChange={onChange} name={name} id={name} className={`form-select border-2  rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`}>
+            <select defaultValue="Choose" onChange={onChange} name={name} id={name} className={`form-select border-2  rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`}>
                 {mapOptions(options)}
             </select>
             <div className="flex flex-col space-y-1">

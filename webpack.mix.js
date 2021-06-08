@@ -14,4 +14,5 @@ require('mix-tailwindcss');
 
 mix.react('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('node_modules/react-datepicker/src/stylesheets/datepicker.scss', 'public/css')
     .tailwind();

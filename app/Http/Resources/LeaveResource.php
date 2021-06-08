@@ -14,12 +14,11 @@ class LeaveResource extends JsonResource
      */
     public function toArray($request)
     {
-        
+
         return [
             'id' => $this->id,
             'teamId' => $this->team_id,
             'number' => $this->number,
-            'userId' => $this->user_id,
             'reason' => $this->reason,
             'description' => $this->description,
             'from' => $this->from,
@@ -29,6 +28,11 @@ class LeaveResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'numberOfDaysOff' => $this->number_of_days_off,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'avatarUrl' => $this->user->has_avatar ? $this->user->avatar_url : $this->user->avatar_url->encoded
+            ],
             'approved' => $this->approved,
             'pending' => $this->pending,
             'denied' => $this->denied,

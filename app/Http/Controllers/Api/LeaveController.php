@@ -20,18 +20,22 @@ class LeaveController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $leaves = Leave::where('team_id', auth()->user()->team_id);
+        $year = $request->year ? $request->year : now()->format('Y');
 
-        
-        if (request()->get('year')) {
-            $leaves->whereYear('from', '=', request('year'));
-            dd("It works");
-        }
-        $leaves->latest()
+        $leaves = Leave::with(['user'])->where('team_id', auth()->user()->team_id)
+            ->whereYear('from' , '=', $year)
+            ->latest()
             ->paginate(10);
+
+        if ($request->year) {
+            $leaves = Leave::where('team_id', auth()->user()->team_id)
+                ->whereYear('from', '=', $request->year)
+                ->latest()
+                ->paginate(10);
+        }
 
         return response()
             ->json([

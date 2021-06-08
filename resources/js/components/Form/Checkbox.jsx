@@ -9,7 +9,7 @@ const Checkbox = (props) => {
         })
     }
     return (
-        <React.Fragment>
+        <div className="flex flex-col space-y-1">
             <div className="flex flex-row space-x-1 items-center">
                 <input type='checkbox' onChange={props.onChange} id={props.name} name={props.name}
                     className={`form-checkbox border-2 text-gray-800`} checked={props.checked} />
@@ -18,7 +18,7 @@ const Checkbox = (props) => {
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>
-        </React.Fragment>
+        </div>
     )
 }
 
