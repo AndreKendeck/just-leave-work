@@ -71,6 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     {
         return !is_null($this->avatar);
     }
+
     public function getTotalDaysOnLeaveAttribute()
     {
         return $this->leaves()->whereNotNull('approved_at')->get()->sum('number_of_days_off');

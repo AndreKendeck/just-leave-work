@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Mail\LeaveRequestEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -248,7 +251,7 @@ class LeaveTest extends TestCase
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
         ]);
-        $user->attachPermission('can-deny-leave' , $user->team);
+        $user->attachPermission('can-deny-leave', $user->team);
         $this->actingAs($user)
             ->post(route('leaves.deny', $leave->id))
             ->assertOk();
@@ -300,5 +303,37 @@ class LeaveTest extends TestCase
                 'until' => $leave->until->format('Y-m-d'),
             ])->assertForbidden()
             ->assertJsonStructure(['message']);
+    }
+
+    /** @test **/
+    public function a_user_can_send_a_leave_notification_to_another_user_with_the_right_permisisons()
+    {
+        Mail::fake();
+        Queue::fake();
+        $user = factory('App\User')->create();
+        $userToNotify = factory('App\User')->create([
+            'team_id' => $user->team->id,
+        ]);
+
+        $leave = factory('App\Leave')->make([
+            'team_id' => $user->team->id,
+            'user_id' => $user->id,
+            'from' => today(),
+            'until' => today()->addDays(10),
+        ]);
+
+        $userToNotify->attachPermission('can-approve-leave', $user->team);
+
+        $this->actingAs($user)
+            ->post(route('leaves.store'), [
+                'reason' => $leave->reason->id,
+                'description' => $leave->description,
+                'from' => $leave->from->format('Y-m-d'),
+                'until' => $leave->until->format('Y-m-d'),
+                'notifyUser' => $userToNotify->id,
+            ])
+            ->assertJsonStructure(['message', 'leave'])
+            ->assertCreated();
+        Mail::assertQueued(LeaveRequestEmail::class);
     }
 }

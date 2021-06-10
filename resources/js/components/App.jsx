@@ -24,6 +24,7 @@ import ViewLeavePage from './Pages/Leave/ViewLeavePage';
 import CreateLeavePage from './Pages/Leave/CreateLeavePage';
 import ProfilePage from './Pages/ProfilePage';
 import Loader from 'react-loader-spinner';
+import EditLeavePage from './Pages/Leave/EditLeavePage';
 
 
 const App = class App extends React.Component {
@@ -113,8 +114,11 @@ const App = class App extends React.Component {
                 <Route path="/my-leaves">
                     {this.currentUserIsAuthenticated() ? <MyLeavePage /> : <Redirect to="/login" />}
                 </Route>
-                <Route path={['/leaves/view/:id', '/leave/view/:id']} exact={true}>
+                <Route path="/leave/view/:id" exact={true}>
                     {this.currentUserIsAuthenticated() ? <ViewLeavePage /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/leave/edit/:id" exact={true}>
+                    {this.currentUserIsAuthenticated() ? <EditLeavePage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/leave/create">
                     {this.currentUserIsAuthenticated() ? <CreateLeavePage /> : <Redirect to="/login" />}
@@ -155,7 +159,7 @@ const App = class App extends React.Component {
             );
         }
         return (
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-4 z-10">
                 <BrowserRouter>
                     <Navbar />
                     {this.getGuestRoutes()}

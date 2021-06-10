@@ -16,6 +16,9 @@ const Field = (props) => {
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>
+            { props.tip ? (
+                <div className="w-full text-gray-500 text-sm">{props.tip}</div>
+            ) : null}
         </div>
     )
 }

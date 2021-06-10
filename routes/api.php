@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace('Api')->group(function () {
+Route::namespace ('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -32,7 +32,7 @@ Route::namespace('Api')->group(function () {
     Route::post('/check-password-reset-token', 'CheckPasswordResetController')->name('password.token.check');
     Route::post('/reset-password', 'PasswordResetController@store')->name('password.reset');
 
-    Route::middleware(['auth:sanctum', 'logs-out-banned-user', 'verified'])->group(function () {
+    Route::middleware(['auth:sanctum', 'forbid-banned-user', 'verified'])->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');
         Route::apiResource('leaves', 'LeaveController')->parameters([
@@ -47,6 +47,8 @@ Route::namespace('Api')->group(function () {
         Route::apiResource('users', 'UserController')->parameters([
             'users' => 'id',
         ]);
+        Route::post('/users/ban/{id}', 'BanUserController@store')->name('users.ban');
+        Route::post('/users/unban/{id}', 'BanUserController@update')->name('users.unban');
 
         Route::post('/users/import', 'ImportUserController@import')
             ->name('users.import');
@@ -68,8 +70,9 @@ Route::namespace('Api')->group(function () {
         Route::post('/settings', 'SettingController@update')
             ->name('settings.update');
 
-
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
+        Route::get('/team/approvers-and-deniers', 'TeamController@getUserWhoCanApproveOrDenyLeave')
+            ->name('team.approvers-and-deniers');
     });
 });

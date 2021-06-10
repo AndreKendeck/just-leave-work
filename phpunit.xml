@@ -24,5 +24,6 @@ printerClass="LimeDeck\Testing\Printer" xsi:noNamespaceSchemaLocation="./vendor/
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="MAIL_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <enn name="QUEUE_CONNECTION" value="sync"/>
     </php>
 </phpunit>

@@ -1,11 +1,9 @@
 import { collect } from 'collect.js';
 import React from 'react';
 
-/**
- * options should structure in this way
- * @var {object} { value : any , label : any }
- */
-const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onChange }) => {
+
+
+const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onChange, tip }) => {
 
     const getErrors = (errors) => {
         return collect(errors).flatten().map((error, index) => {
@@ -26,14 +24,17 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
         })
     }
     return (
-        <div className="flex flex-col space-y-1">
+        <div className="flex flex-col space-y-1 w-full">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <select onChange={onChange} name={name} id={name} className={`form-select border-2  rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`}>
+            <select defaultValue="Choose" onChange={onChange} name={name} id={name} className={`form-select border-2  rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`}>
                 {mapOptions(options)}
             </select>
             <div className="flex flex-col space-y-1">
                 {getErrors(errors)}
             </div>
+            { tip ? (
+                <div className="w-full text-gray-500 text-sm">{tip}</div>
+            ) : null}
         </div>
     )
 }

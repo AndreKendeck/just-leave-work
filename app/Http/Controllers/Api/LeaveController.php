@@ -7,8 +7,11 @@ use App\Http\Requests\Leave\StoreRequest;
 use App\Http\Requests\Leave\UpdateRequest;
 use App\Http\Resources\LeaveResource;
 use App\Leave;
+use App\Mail\LeaveRequestEmail;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class LeaveController extends Controller
 {
@@ -17,14 +20,32 @@ class LeaveController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $leaves = Leave::with('user:id,name')->where('team_id', auth()->user()->team_id)
+
+        $year = $request->year ? $request->year : now()->format('Y');
+
+        $leaves = Leave::with(['user'])->where('team_id', auth()->user()->team_id)
+            ->whereYear('from', '=', $year)
             ->latest()
             ->paginate(10);
 
+        if ($request->year) {
+            $leaves = Leave::where('team_id', auth()->user()->team_id)
+                ->whereYear('from', '=', $request->year)
+                ->latest()
+                ->paginate(10);
+        }
+
         return response()
-            ->json(LeaveResource::collection($leaves));
+            ->json([
+                'leaves' => LeaveResource::collection($leaves),
+                'from' => $leaves->firstItem(),
+                'perPage' => $leaves->perPage(),
+                'to' => $leaves->lastPage(),
+                'total' => $leaves->total(),
+                'currentPage' => $leaves->currentPage(),
+            ]);
     }
 
     /**
@@ -35,10 +56,17 @@ class LeaveController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $from = Carbon::create($request->from);
-        $to = Carbon::create($request->until);
+        $from = new Carbon($request->from);
 
-        $invalidDate = ($from > $to) || ($from === $to);
+        $until = new Carbon($request->from);
+
+        if ($request->filled('until')) {
+
+            $until = new Carbon($request->until);
+        }
+
+
+        $invalidDate = ($from > $until);
 
         if ($invalidDate) {
             return response()->json([
@@ -60,7 +88,7 @@ class LeaveController extends Controller
 
         if ($teamSettings->maximum_leave_days !== 0) {
 
-            $maximumLeaveDaysReached = ($from->diffInDays($to) > $teamSettings->maximum_leave_days);
+            $maximumLeaveDaysReached = ($from->diffInDays($until) > $teamSettings->maximum_leave_days);
 
             if ($maximumLeaveDaysReached) {
                 return response()
@@ -76,8 +104,19 @@ class LeaveController extends Controller
             'reason_id' => $request->reason,
             'description' => $request->description,
             'from' => $from,
-            'until' => $to,
+            'until' => $until,
         ]);
+
+        /**
+         * Send an email notification to the relevant party about ones leave request
+         */
+        if ($request->filled('notifyUser')) {
+            $userToNotify = User::findOrFail($request->notifyUser);
+            if ($userToNotify->hasPermission('can-approve-leave') || $userToNotify->hasPermission('can-deny-leave')) {
+                Mail::to($userToNotify->email)
+                    ->queue(new LeaveRequestEmail($leave));
+            }
+        }
 
         /**
          * Automatic leave approval
@@ -87,7 +126,7 @@ class LeaveController extends Controller
 
         if ($teamAllowsForAutomaticApprovals) {
             // we want to check if the user has a positive balance first
-            $willResultInANegativeBalance = $from->diffInDays($to) > auth()->user()->leave_balance;
+            $willResultInANegativeBalance = $from->diffInDays($until) > auth()->user()->leave_balance;
 
             if (!$willResultInANegativeBalance) {
                 $leave->approve();

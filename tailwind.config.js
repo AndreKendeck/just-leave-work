@@ -2,7 +2,7 @@ const { colors } = require("tailwindcss/defaultTheme");
 
 module.exports = {
     purge: [
-        // './resources/**/*.jsx',
+        './resources/**/*.jsx',
     ],
     variants: {},
     plugins: [

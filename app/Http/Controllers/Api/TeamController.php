@@ -19,23 +19,33 @@ class TeamController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'min:2', 'max:255']
+            'name' => ['required', 'min:2', 'max:255'],
         ]);
 
         if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
             return response()
                 ->json([
-                    'message' => "You are not allowed to make this request"
+                    'message' => "You are not allowed to make this request",
                 ], 403);
         }
 
         auth()->user()->team->update([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
         return response()
             ->json([
-                'message' => "Team name updated"
+                'message' => "Team name updated",
             ]);
+    }
+
+    public function getUserWhoCanApproveOrDenyLeave()
+    {
+        $users = auth()->user()->team->users->filter(function (\App\User $user) {
+            return ($user->id != auth()->id()) &&
+                ($user->hasPermission('can-approve-leave') || $user->hasPermission('can-deny-leave'));
+        });
+        return response()
+            ->json($users);
     }
 }
