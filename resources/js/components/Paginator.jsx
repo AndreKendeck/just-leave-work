@@ -21,8 +21,8 @@ const Paginator = ({ onPreviousPage, onNextPage, onFirstPage, onLastPage, number
                 <button disabled={true} className="bg-gray-300 focus:outline-none rounded-lg p-2 cursor-not-allowed">
                     <svg version="1.1" className="stroke-current h-6 w-6 text-gray-500" viewBox="0 0 24 24" >
                         <g fill="none">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.01 11.98h14.99"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
                         </g>
                     </svg>
                 </button>
@@ -32,8 +32,8 @@ const Paginator = ({ onPreviousPage, onNextPage, onFirstPage, onLastPage, number
             <button onClick={(e) => onPreviousPage((activePage - 1))} className="bg-white focus:outline-none hover:shadow-sm rounded-lg p-2 transform hover:-translate-y-1">
                 <svg version="1.1" className="stroke-current h-6 w-6 text-gray-800" viewBox="0 0 24 24" >
                     <g fill="none">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.01 11.98h14.99"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
                     </g>
                 </svg>
             </button>
@@ -45,7 +45,7 @@ const Paginator = ({ onPreviousPage, onNextPage, onFirstPage, onLastPage, number
             return (
                 <button disabled={true} className="bg-gray-300 focus:outline-none rounded-lg p-2 cursor-not-allowed">
                     <svg version="1.1" className="stroke-current h-6 w-6 text-gray-800" viewBox="0 0 24 24" >
-                        <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                        <g strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
                             <path d="M19,12h-14"></path>
                             <path d="M14,17l5,-5"></path>
                             <path d="M14,7l5,5"></path></g>
@@ -57,7 +57,7 @@ const Paginator = ({ onPreviousPage, onNextPage, onFirstPage, onLastPage, number
         return (
             <button onClick={(e) => onNextPage(activePage + 1)} className="bg-white focus:outline-none hover:shadow-sm rounded-lg p-2 transform hover:-translate-y-1">
                 <svg version="1.1" className="stroke-current h-6 w-6 text-gray-800" viewBox="0 0 24 24" >
-                    <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                    <g strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
                         <path d="M19,12h-14"></path>
                         <path d="M14,17l5,-5"></path>
                         <path d="M14,7l5,5"></path></g>

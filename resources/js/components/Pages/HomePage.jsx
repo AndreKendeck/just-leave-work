@@ -7,13 +7,13 @@ import Card from '../Card';
 import Heading from '../Heading';
 import LeaveDaysLabel from '../LeaveDaysLabel';
 import LeaveStatusBadge from '../LeaveStatusBadge';
-import Modal from '../Modal';
 import Page from '../Page';
 import UserLeaveStatusBadge from '../UserLeaveStatusBadge';
 import Table from '../Table';
 import ViewButtonLink from '../ViewButtonLink';
 import EditButtonLink from '../EditButtonLink';
 import Paginator from '../Paginator';
+import { Link } from 'react-router-dom';
 
 
 const HomePage = class HomePage extends React.Component {
@@ -100,7 +100,7 @@ const HomePage = class HomePage extends React.Component {
     renderMobileLeaveCards = () => {
         return this.state.leaves?.map((leave, key) => {
             return (
-                <div key={key} onClick={(e) => this.setState({ selectedLeave: leave })} className="md:hidden">
+                <Link to={`/leave/view/${leave.id}`} key={key} className="md:hidden">
                     <Card>
                         <div className="flex flex-col space-y-2 items-center w-full">
                             <Heading>
@@ -110,7 +110,7 @@ const HomePage = class HomePage extends React.Component {
                             <LeaveDaysLabel leave={leave} />
                         </div>
                     </Card>
-                </div>
+                </Link>
             )
         });
     }
@@ -168,14 +168,15 @@ const HomePage = class HomePage extends React.Component {
                         <span className="text-base md:text-lg text-gray-800">Leave History</span>
                     </Heading>
                     {this.getMyLeavesTable()}
-                    <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
-                        onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}
-                        onPageSelect={(page) => this.onPageSelect(page)}
-                        onLastPage={this.state.to === this.state.currentPage}
-                        onFirstPage={this.state.currentPage === 1}
-                        activePage={this.state.currentPage} numberOfPages={this.state.to} />
                 </Card>
-                { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> : this.renderMobileLeaveCards()}
+                { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> :
+                    (<div className="w-full overflow-auto space-y-2 flex flex-col md:hidden" style={{ height: '300px' }} > {this.renderMobileLeaveCards()} </div>)}
+                <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
+                    onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}
+                    onPageSelect={(page) => this.onPageSelect(page)}
+                    onLastPage={this.state.to === this.state.currentPage}
+                    onFirstPage={this.state.currentPage === 1}
+                    activePage={this.state.currentPage} numberOfPages={this.state.to} />
             </Page>
         )
     }

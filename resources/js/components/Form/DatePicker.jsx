@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 
 
-const DatePicker = ({ value, errors, name, label, onChange }) => {
+const DatePicker = ({ value, errors, name, label, onChange, tip }) => {
 
     const getErrors = () => {
         return collect(errors).flatten().map((error, index) => {
@@ -18,6 +18,9 @@ const DatePicker = ({ value, errors, name, label, onChange }) => {
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>
+            { tip ? (
+                <div className="w-full text-gray-500 text-sm">{tip}</div>
+            ) : null}
         </div>
     )
 }

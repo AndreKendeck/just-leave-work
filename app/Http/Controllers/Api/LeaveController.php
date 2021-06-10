@@ -26,7 +26,7 @@ class LeaveController extends Controller
         $year = $request->year ? $request->year : now()->format('Y');
 
         $leaves = Leave::with(['user'])->where('team_id', auth()->user()->team_id)
-            ->whereYear('from' , '=', $year)
+            ->whereYear('from', '=', $year)
             ->latest()
             ->paginate(10);
 
@@ -57,7 +57,14 @@ class LeaveController extends Controller
     public function store(StoreRequest $request)
     {
         $from = new Carbon($request->from);
-        $until = new Carbon($request->until);
+
+        $until = new Carbon($request->from);
+
+        if ($request->filled('until')) {
+
+            $until = new Carbon($request->until);
+        }
+
 
         $invalidDate = ($from > $until);
 

@@ -77277,9 +77277,9 @@ var EditButtonLink = function EditButtonLink(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4",
     fill: "none",
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5"
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z",
     fill: "none",
@@ -77431,7 +77431,8 @@ var DatePicker = function DatePicker(_ref) {
       errors = _ref.errors,
       name = _ref.name,
       label = _ref.label,
-      _onChange = _ref.onChange;
+      _onChange = _ref.onChange,
+      tip = _ref.tip;
 
   var getErrors = function getErrors() {
     return Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])(errors).flatten().map(function (error, index) {
@@ -77455,7 +77456,9 @@ var DatePicker = function DatePicker(_ref) {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-1"
-  }, getErrors()));
+  }, getErrors()), tip ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "w-full text-gray-500 text-sm"
+  }, tip) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (DatePicker);
@@ -77477,10 +77480,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
-/**
- * options should structure in this way
- * @var {object} { value : any , label : any }
- */
 
 var Dropdown = function Dropdown(_ref) {
   var options = _ref.options,
@@ -77489,7 +77488,8 @@ var Dropdown = function Dropdown(_ref) {
       selectedOption = _ref.selectedOption,
       name = _ref.name,
       label = _ref.label,
-      onChange = _ref.onChange;
+      onChange = _ref.onChange,
+      tip = _ref.tip;
 
   var getErrors = function getErrors(errors) {
     return Object(collect_js__WEBPACK_IMPORTED_MODULE_0__["collect"])(errors).flatten().map(function (error, index) {
@@ -77520,7 +77520,7 @@ var Dropdown = function Dropdown(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "flex flex-col space-y-1"
+    className: "flex flex-col space-y-1 w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
     htmlFor: name,
     className: "text-gray-600"
@@ -77532,7 +77532,9 @@ var Dropdown = function Dropdown(_ref) {
     className: "form-select border-2  rounded-lg ".concat(hasError ? 'border-red-500' : 'border-gray-300')
   }, mapOptions(options)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-1"
-  }, getErrors(errors)));
+  }, getErrors(errors)), tip ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "w-full text-gray-500 text-sm"
+  }, tip) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Dropdown);
@@ -77581,7 +77583,9 @@ var Field = function Field(props) {
     className: "form-input border-2  rounded-lg ".concat(props.hasError ? 'border-red-500' : 'border-gray-300')
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-1"
-  }, getErrors()));
+  }, getErrors()), props.tip ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "w-full text-gray-500 text-sm"
+  }, props.tip) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Field);
@@ -77754,9 +77758,9 @@ var LeaveStatusBadge = function LeaveStatusBadge(_ref) {
       width: "18",
       height: "16.5",
       rx: "3",
-      "stroke-width": "1.5",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
+      strokeWidth: "1.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
       fill: "none"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
       x1: "7.5",
@@ -77764,33 +77768,33 @@ var LeaveStatusBadge = function LeaveStatusBadge(_ref) {
       x2: "7.5",
       y2: "6",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
       x1: "16.5",
       y1: "3",
       x2: "16.5",
       y2: "6",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
       d: "M10.4,11.8,11.60107,13,13.6,11",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
       x1: "17",
       y1: "16.98624",
       x2: "7",
       y2: "16.98624",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-sm"
     }, "Approved"));
@@ -77811,27 +77815,27 @@ var LeaveStatusBadge = function LeaveStatusBadge(_ref) {
       x2: "7.5",
       y2: "6",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
       x1: "16.5",
       y1: "3",
       x2: "16.5",
       y2: "6",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
       x: "3",
       y: "4.5",
       width: "18",
       height: "16.5",
       rx: "3",
-      "stroke-width": "1.5",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
+      strokeWidth: "1.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
       fill: "none"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
       x1: "17",
@@ -77839,21 +77843,21 @@ var LeaveStatusBadge = function LeaveStatusBadge(_ref) {
       x2: "7",
       y2: "17",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
       d: "M13.5,10.5l-3,3",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
       d: "M10.5,10.5l3,3",
       fill: "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5"
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5"
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-sm"
     }, "Denied"));
@@ -77873,104 +77877,104 @@ var LeaveStatusBadge = function LeaveStatusBadge(_ref) {
     x2: "3",
     y1: "8",
     y2: "8",
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5"
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M17.5 13l-1.96701e-07 3.55271e-15c2.48528-1.08635e-07 4.5 2.01472 4.5 4.5 1.08635e-07 2.48528-2.01472 4.5-4.5 4.5 -2.48528 1.08635e-07-4.5-2.01472-4.5-4.5l4.79616e-14 4.8278e-07c-3.75267e-07-2.48528 2.01472-4.5 4.5-4.5 6.09575e-08-8.88178e-15 1.35744e-07-1.95399e-14 1.96701e-07-2.66454e-14"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M14.673 21h-8.673l-1.31134e-07-3.55271e-15c-1.65685-7.24234e-08-3-1.34315-3-3 0 0 0-3.55271e-15 0-3.55271e-15v-12l3.37508e-14 4.52987e-07c-2.50178e-07-1.65685 1.34315-3 3-3h12l-1.31134e-07 2.66454e-15c1.65685-7.24234e-08 3 1.34315 3 3v8.673"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
     x1: "17.72",
     x2: "17.72",
     y1: "15.29",
     y2: "17.68",
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5"
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", {
     x1: "15.77",
     x2: "17.72",
     y1: "17.68",
     y2: "17.68",
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5"
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M6.799 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M6.749 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M10.3 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M10.25 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M6.799 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M6.749 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M10.3 14.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M10.25 14.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M13.799 11.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M13.749 11.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 1.77636e-15 0 1.77636e-15"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M6.799 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M6.749 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M10.3 17.5v0c0 .0276142-.0223858.05-.05.05 -.0276142 0-.05-.0223858-.05-.05 0-.0276142.0223858-.05.05-.05"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5",
     d: "M10.25 17.45h-2.18557e-09c.0276142-1.20706e-09.05.0223858.05.05 0 0 0 0 0 0"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-sm"
@@ -77978,108 +77982,6 @@ var LeaveStatusBadge = function LeaveStatusBadge(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (LeaveStatusBadge);
-
-/***/ }),
-
-/***/ "./resources/js/components/Modal.jsx":
-/*!*******************************************!*\
-  !*** ./resources/js/components/Modal.jsx ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Heading */ "./resources/js/components/Heading.jsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-var Modal = function Modal(_ref) {
-  var heading = _ref.heading,
-      _ref$show = _ref.show,
-      show = _ref$show === void 0 ? true : _ref$show,
-      children = _ref.children,
-      onClose = _ref.onClose;
-
-  /** Set the default state */
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(show),
-      _useState2 = _slicedToArray(_useState, 2),
-      visible = _useState2[0],
-      setVisible = _useState2[1];
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    setVisible(show);
-  }, [show]);
-
-  if (visible) {
-    return /*#__PURE__*/react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.createPortal( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "absolute bg-gray-800 bg-opacity-25 w-full z-20",
-      style: {
-        height: '120%'
-      },
-      onClick: function onClick(e) {
-        setVisible(false);
-        onClose(e);
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "flex flex-col justify-center items-center w-full h-full"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "w-11/12 lg:w-1/2",
-      onClick: function onClick(e) {
-        return e.stopPropagation();
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "flex w-full justify-between"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, heading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: function onClick(e) {
-        setVisible(false);
-        onClose(e);
-      },
-      className: "focus:outline-none hover:bg-gray-200 rounded p-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-      version: "1.1",
-      className: "stroke-current h-6 w-6 text-gray-800",
-      viewBox: "0 0 24 24",
-      xmlns: "http://www.w3.org/2000/svg"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-      fill: "none"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5",
-      d: "M8 8l8 8"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5",
-      d: "M16 8l-8 8"
-    }))))), children)))), document.getElementById('modal'));
-  }
-
-  return null;
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Modal);
 
 /***/ }),
 
@@ -78169,7 +78071,7 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
   _createClass(DesktopMenu, [{
     key: "render",
     value: function render() {
-      var _this$props$team, _this$props$user6, _this$props$user7;
+      var _this$props$team, _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _React$createElement26, _React$createElement27, _React$createElement28, _React$createElement29, _React$createElement30, _React$createElement31, _React$createElement32, _React$createElement33, _React$createElement34, _this$props$user6, _this$props$user7;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "hidden md:flex flex-col bg-white shadow rounded lg:p-4 p-2 mt-4 mx-4"
@@ -78190,55 +78092,28 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
         fill: "none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M15 3v2"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M7 3v2"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M3 8h16"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M19 12.417v-6.417c0-1.105-.895-2-2-2h-12c-1.105 0-2 .895-2 2v11c0 1.105.895 2 2 2h7.417"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M6.999 10.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M6.999 14.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M10.75 11.001c0 .138.112.25.25.249 .138 0 .25-.112.25-.25 0-.138-.112-.25-.25-.25 -.138 0-.25.112-.25.251"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-width": "1.5",
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement, "strokeLinejoin", "round"), _defineProperty(_React$createElement, "strokeWidth", "1.5"), _defineProperty(_React$createElement, "d", "M15 3v2"), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement2 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement2, "strokeLinejoin", "round"), _defineProperty(_React$createElement2, "strokeWidth", "1.5"), _defineProperty(_React$createElement2, "d", "M7 3v2"), _React$createElement2)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement3 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement3, "strokeLinejoin", "round"), _defineProperty(_React$createElement3, "strokeWidth", "1.5"), _defineProperty(_React$createElement3, "d", "M3 8h16"), _React$createElement3)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement4 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement4, "strokeLinejoin", "round"), _defineProperty(_React$createElement4, "strokeWidth", "1.5"), _defineProperty(_React$createElement4, "d", "M19 12.417v-6.417c0-1.105-.895-2-2-2h-12c-1.105 0-2 .895-2 2v11c0 1.105.895 2 2 2h7.417"), _React$createElement4)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement5 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement5, "strokeLinejoin", "round"), _defineProperty(_React$createElement5, "strokeWidth", "1.5"), _defineProperty(_React$createElement5, "d", "M6.999 10.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"), _React$createElement5)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement6 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement6, "strokeLinejoin", "round"), _defineProperty(_React$createElement6, "strokeWidth", "1.5"), _defineProperty(_React$createElement6, "d", "M6.999 14.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"), _React$createElement6)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement7 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement7, "strokeLinejoin", "round"), _defineProperty(_React$createElement7, "strokeWidth", "1.5"), _defineProperty(_React$createElement7, "d", "M10.75 11.001c0 .138.112.25.25.249 .138 0 .25-.112.25-.25 0-.138-.112-.25-.25-.25 -.138 0-.25.112-.25.251"), _React$createElement7)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeWidth: "1.5",
         d: "M17 22c-2.761 0-5-2.238-5-5 0-2.704 2.3-5.003 5.004-5 2.76.002 4.996 2.24 4.996 5 0 2.761-2.238 5-5 5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M17 15v4"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M19 17h-4"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement8 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement8, "strokeLinejoin", "round"), _defineProperty(_React$createElement8, "strokeWidth", "1.5"), _defineProperty(_React$createElement8, "d", "M17 15v4"), _React$createElement8)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement9 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement9, "strokeLinejoin", "round"), _defineProperty(_React$createElement9, "strokeWidth", "1.5"), _defineProperty(_React$createElement9, "d", "M19 17h-4"), _React$createElement9))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-white text-xs"
       }, "Apply")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/home",
@@ -78252,14 +78127,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
         fill: "none"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-width": "1.5",
+        strokeWidth: "1.5",
         d: "M19.842 8.299l-6-4.667c-1.083-.843-2.6-.843-3.684 0l-6 4.667c-.731.568-1.158 1.442-1.158 2.368v7.333c0 1.657 1.343 3 3 3h12c1.657 0 3-1.343 3-3v-7.333c0-.926-.427-1.8-1.158-2.368Z"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement10 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement10, "strokeLinejoin", "round"), _defineProperty(_React$createElement10, "strokeWidth", "1.5"), _defineProperty(_React$createElement10, "d", "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"), _React$createElement10))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-gray-800 text-sm"
       }, "Home")), this.canSeeLeaveLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/leaves/",
@@ -78271,65 +78143,51 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         "data-name": "Layer 3",
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement11 = {
         x1: "16.5",
         y1: "16",
         x2: "11",
         y2: "16",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement11, "strokeLinejoin", "round"), _defineProperty(_React$createElement11, "strokeWidth", "1.5"), _React$createElement11)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement12 = {
         d: "M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement12, "strokeLinejoin", "round"), _defineProperty(_React$createElement12, "strokeWidth", "1.5"), _React$createElement12)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement13 = {
         x1: "16.5",
         y1: "12",
         x2: "11",
         y2: "12",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement13, "strokeLinejoin", "round"), _defineProperty(_React$createElement13, "strokeWidth", "1.5"), _React$createElement13)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement14 = {
         x1: "7.5",
         y1: "3",
         x2: "7.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement14, "strokeLinejoin", "round"), _defineProperty(_React$createElement14, "strokeWidth", "1.5"), _React$createElement14)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement15 = {
         x1: "16.5",
         y1: "3",
         x2: "16.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("rect", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement15, "strokeLinejoin", "round"), _defineProperty(_React$createElement15, "strokeWidth", "1.5"), _React$createElement15)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("rect", (_React$createElement16 = {
         x: "3",
         y: "4.5",
         width: "18",
         height: "16.5",
         rx: "3",
-        "stroke-width": "1.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        fill: "none"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeWidth: "1.5",
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement16, "strokeLinejoin", "round"), _defineProperty(_React$createElement16, "fill", "none"), _React$createElement16)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement17 = {
         d: "M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement17, "strokeLinejoin", "round"), _defineProperty(_React$createElement17, "strokeWidth", "1.5"), _React$createElement17))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-gray-800 text-sm"
       }, "Leaves")) : null, this.canSeeUsersLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/users",
@@ -78340,12 +78198,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         viewBox: "0 0 24 24",
         className: "stroke-current text-gray-700 h-8 w-8",
         xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
-        fill: "none",
-        "stroke-linejoin": "round"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", _defineProperty({
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
+        fill: "none"
+      }, "strokeLinejoin", "round"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M20.7925,9.52352c0.790031,0.790031 0.790031,2.07092 0,2.86095c-0.790031,0.790031 -2.07092,0.790031 -2.86095,1.77636e-15c-0.790031,-0.790031 -0.790031,-2.07092 0,-2.86095c0.790031,-0.790031 2.07092,-0.790031 2.86095,-1.77636e-15"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M14.2026,5.91236c1.21648,1.21648 1.21648,3.18879 0,4.40528c-1.21648,1.21648 -3.18879,1.21648 -4.40528,0c-1.21648,-1.21648 -1.21648,-3.18879 0,-4.40528c1.21648,-1.21648 3.18879,-1.21648 4.40528,0"
@@ -78369,75 +78226,57 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         className: "stroke-current text-gray-700 h-8 w-8",
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement19 = {
         x1: "7.5",
         y1: "3",
         x2: "7.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement19, "strokeLinejoin", "round"), _defineProperty(_React$createElement19, "strokeWidth", "1.5"), _React$createElement19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement20 = {
         x1: "16.5",
         y1: "3",
         x2: "16.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement20, "strokeLinejoin", "round"), _defineProperty(_React$createElement20, "strokeWidth", "1.5"), _React$createElement20)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement21 = {
         d: "M11,21H6a3,3,0,0,1-3-3V7.5a3,3,0,0,1,3-3H18a3,3,0,0,1,3,3V9",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement21, "strokeLinejoin", "round"), _defineProperty(_React$createElement21, "strokeWidth", "1.5"), _React$createElement21)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement22 = {
         x1: "11.5",
         y1: "16",
         x2: "10.5",
         y2: "16",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement22, "strokeLinejoin", "round"), _defineProperty(_React$createElement22, "strokeWidth", "1.5"), _React$createElement22)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement23 = {
         d: "M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement23, "strokeLinejoin", "round"), _defineProperty(_React$createElement23, "strokeWidth", "1.5"), _React$createElement23)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement24 = {
         x1: "13",
         y1: "12",
         x2: "10.5",
         y2: "12",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement24, "strokeLinejoin", "round"), _defineProperty(_React$createElement24, "strokeWidth", "1.5"), _React$createElement24)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement25 = {
         d: "M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement25, "strokeLinejoin", "round"), _defineProperty(_React$createElement25, "strokeWidth", "1.5"), _React$createElement25)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement26 = {
         d: "M15,20.5v-.406A2.1,2.1,0,0,1,17.094,18h2.812A2.1,2.1,0,0,1,22,20.094V20.5a.5.5,0,0,1-.5.5h-6A.5.5,0,0,1,15,20.5Z",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("circle", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement26, "strokeLinejoin", "round"), _defineProperty(_React$createElement26, "strokeWidth", "1.5"), _React$createElement26)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("circle", (_React$createElement27 = {
         cx: "18.5",
         cy: "13.75",
         r: "2",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement27, "strokeLinejoin", "round"), _defineProperty(_React$createElement27, "strokeWidth", "1.5"), _React$createElement27)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-gray-800 text-xs"
       }, "My Leaves")), this.canSeeSettingsLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/settings",
@@ -78450,60 +78289,45 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
         fill: "none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement28 = {
         x1: "7.5",
         x2: "10.5",
         y1: "11",
         y2: "11",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement28, "strokeLinejoin", "round"), _defineProperty(_React$createElement28, "strokeWidth", "1.5"), _React$createElement28)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement29 = {
         x1: "9",
         x2: "9",
         y1: "11",
         y2: "17",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement29, "strokeLinejoin", "round"), _defineProperty(_React$createElement29, "strokeWidth", "1.5"), _React$createElement29)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement30 = {
         x1: "9",
         x2: "9",
         y1: "7",
         y2: "8.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement30, "strokeLinejoin", "round"), _defineProperty(_React$createElement30, "strokeWidth", "1.5"), _React$createElement30)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement31 = {
         x1: "16.5",
         x2: "13.5",
         y1: "13.08",
         y2: "13.08",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement31, "strokeLinejoin", "round"), _defineProperty(_React$createElement31, "strokeWidth", "1.5"), _React$createElement31)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement32 = {
         x1: "15",
         x2: "15",
         y1: "13",
         y2: "7",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement32, "strokeLinejoin", "round"), _defineProperty(_React$createElement32, "strokeWidth", "1.5"), _React$createElement32)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement33 = {
         x1: "15",
         x2: "15",
         y1: "17",
         y2: "15.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
-        d: "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement33, "strokeLinejoin", "round"), _defineProperty(_React$createElement33, "strokeWidth", "1.5"), _React$createElement33)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement34 = {
+        strokeLinejoin: "round"
+      }, _defineProperty(_React$createElement34, "strokeLinejoin", "round"), _defineProperty(_React$createElement34, "strokeWidth", "1.5"), _defineProperty(_React$createElement34, "d", "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"), _React$createElement34))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-gray-800 text-sm"
       }, "Settings")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         to: "/profile",
@@ -78645,52 +78469,52 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
         fill: "none"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M15 3v2"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M7 3v2"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M3 8h16"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M19 12.417v-6.417c0-1.105-.895-2-2-2h-12c-1.105 0-2 .895-2 2v11c0 1.105.895 2 2 2h7.417"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M6.999 10.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M6.999 14.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M10.75 11.001c0 .138.112.25.25.249 .138 0 .25-.112.25-.25 0-.138-.112-.25-.25-.25 -.138 0-.25.112-.25.251"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-width": "1.5",
+        strokeWidth: "1.5",
         d: "M17 22c-2.761 0-5-2.238-5-5 0-2.704 2.3-5.003 5.004-5 2.76.002 4.996 2.24 4.996 5 0 2.761-2.238 5-5 5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M17 15v4"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M19 17h-4"
       }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/home",
@@ -78704,12 +78528,12 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
         fill: "none"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-width": "1.5",
+        strokeWidth: "1.5",
         d: "M19.842 8.299l-6-4.667c-1.083-.843-2.6-.843-3.684 0l-6 4.667c-.731.568-1.158 1.442-1.158 2.368v7.333c0 1.657 1.343 3 3 3h12c1.657 0 3-1.343 3-3v-7.333c0-.926-.427-1.8-1.158-2.368Z"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"
       }))))), this.canSeeLeaveLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/leaves",
@@ -78727,58 +78551,58 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         x2: "11",
         y2: "16",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "16.5",
         y1: "12",
         x2: "11",
         y2: "12",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "7.5",
         y1: "3",
         x2: "7.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "16.5",
         y1: "3",
         x2: "16.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("rect", {
         x: "3",
         y: "4.5",
         width: "18",
         height: "16.5",
         rx: "3",
-        "stroke-width": "1.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
+        strokeWidth: "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
         fill: "none"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }))) : null, this.canSeeUsersLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/users",
         activeClassName: "border-2",
@@ -78789,10 +78613,10 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         className: "stroke-current text-gray-700 h-8 w-8",
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeWidth: "1.5",
         fill: "none",
-        "stroke-linejoin": "round"
+        strokeLinejoin: "round"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M20.7925,9.52352c0.790031,0.790031 0.790031,2.07092 0,2.86095c-0.790031,0.790031 -2.07092,0.790031 -2.86095,1.77636e-15c-0.790031,-0.790031 -0.790031,-2.07092 0,-2.86095c0.790031,-0.790031 2.07092,-0.790031 2.86095,-1.77636e-15"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
@@ -78821,68 +78645,68 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         x2: "7.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "16.5",
         y1: "3",
         x2: "16.5",
         y2: "6",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M11,21H6a3,3,0,0,1-3-3V7.5a3,3,0,0,1,3-3H18a3,3,0,0,1,3,3V9",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "11.5",
         y1: "16",
         x2: "10.5",
         y2: "16",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "13",
         y1: "12",
         x2: "10.5",
         y2: "12",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M15,20.5v-.406A2.1,2.1,0,0,1,17.094,18h2.812A2.1,2.1,0,0,1,22,20.094V20.5a.5.5,0,0,1-.5.5h-6A.5.5,0,0,1,15,20.5Z",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("circle", {
         cx: "18.5",
         cy: "13.75",
         r: "2",
         fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/profile",
         activeClassName: "border-2",
@@ -78894,10 +78718,10 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M12 12c-2.467 0-4.483-2.015-4.483-4.483 0-2.468 2.016-4.517 4.483-4.517 2.467 0 4.483 2.015 4.483 4.483 0 2.468-2.016 4.517-4.483 4.517Zm7 9h-14c-.55 0-1-.45-1-1v-1c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v1c0 .55-.45 1-1 1Z",
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeWidth: "1.5",
         fill: "none",
-        "stroke-linejoin": "round"
+        strokeLinejoin: "round"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/settings",
         activeClassName: "border-2",
@@ -78914,53 +78738,53 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         x2: "13",
         y1: "7.5",
         y2: "10.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "13",
         x2: "7",
         y1: "9",
         y2: "9",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "17",
         x2: "15.5",
         y1: "9",
         y2: "9",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "10.92",
         x2: "10.92",
         y1: "16.5",
         y2: "13.5",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "11",
         x2: "17",
         y1: "15",
         y2: "15",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", {
         x1: "7",
         x2: "8.5",
         y1: "15",
         y2: "15",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M16 21h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-2.18557e-07 5.32907e-15c2.76142-1.20706e-07 5 2.23858 5 5v8l3.55271e-15 2.18557e-07c0 2.76142-2.23858 5-5 5Z"
       }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         to: "/login"
@@ -79296,10 +79120,10 @@ var ForgotPasswordPage = /*#__PURE__*/function (_React$Component) {
         className: "stroke-current h-6 w-6 text-white",
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeWidth: "1.5",
         fill: "none",
-        "stroke-linejoin": "round"
+        strokeLinejoin: "round"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M5,12h14"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -79342,13 +79166,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Heading */ "./resources/js/components/Heading.jsx");
 /* harmony import */ var _LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../LeaveDaysLabel */ "./resources/js/components/LeaveDaysLabel.jsx");
 /* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
-/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Modal */ "./resources/js/components/Modal.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
-/* harmony import */ var _UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../UserLeaveStatusBadge */ "./resources/js/components/UserLeaveStatusBadge.jsx");
-/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Table */ "./resources/js/components/Table.jsx");
-/* harmony import */ var _ViewButtonLink__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../ViewButtonLink */ "./resources/js/components/ViewButtonLink.jsx");
-/* harmony import */ var _EditButtonLink__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../EditButtonLink */ "./resources/js/components/EditButtonLink.jsx");
-/* harmony import */ var _Paginator__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Paginator */ "./resources/js/components/Paginator.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../UserLeaveStatusBadge */ "./resources/js/components/UserLeaveStatusBadge.jsx");
+/* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Table */ "./resources/js/components/Table.jsx");
+/* harmony import */ var _ViewButtonLink__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ViewButtonLink */ "./resources/js/components/ViewButtonLink.jsx");
+/* harmony import */ var _EditButtonLink__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../EditButtonLink */ "./resources/js/components/EditButtonLink.jsx");
+/* harmony import */ var _Paginator__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Paginator */ "./resources/js/components/Paginator.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -79490,9 +79314,9 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
           className: "text-center relative"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "flex flex-row space-x-2 items-center"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ViewButtonLink__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ViewButtonLink__WEBPACK_IMPORTED_MODULE_12__["default"], {
           url: "/leave/view/".concat(leave.id)
-        }), leave.canEdit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_EditButtonLink__WEBPACK_IMPORTED_MODULE_14__["default"], {
+        }), leave.canEdit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_EditButtonLink__WEBPACK_IMPORTED_MODULE_13__["default"], {
           url: "/leave/edit/".concat(leave.id)
         }) : null)));
       });
@@ -79509,7 +79333,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         });
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_11__["default"], {
         headings: ['Status', 'Type', 'On', 'Until', '']
       }, _this.getLeavesTableRow());
     });
@@ -79518,13 +79342,9 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       var _this$state$leaves2;
 
       return (_this$state$leaves2 = _this.state.leaves) === null || _this$state$leaves2 === void 0 ? void 0 : _this$state$leaves2.map(function (leave, key) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__["Link"], {
+          to: "/leave/view/".concat(leave.id),
           key: key,
-          onClick: function onClick(e) {
-            return _this.setState({
-              selectedLeave: leave
-            });
-          },
           className: "md:hidden"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "flex flex-col space-y-2 items-center w-full"
@@ -79562,7 +79382,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
           _this$props$user5,
           _this3 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_9__["default"], {
         className: "flex flex-col justify-center justify-center space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "w-full lg:w-3/4 self-center pointer-cursor"
@@ -79572,7 +79392,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-row space-x-2 items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-sm md:text-base"
-      }, (_this$props$user = this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      }, (_this$props$user = this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__["default"], {
         user: this.props.user
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-sm md:text-base"
@@ -79606,7 +79426,18 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-base md:text-lg text-gray-800"
-      }, "Leave History")), this.getMyLeavesTable(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_15__["default"], {
+      }, "Leave History")), this.getMyLeavesTable()), this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        type: "Oval",
+        className: "md:hidden self-center",
+        height: 80,
+        width: 80,
+        color: "Gray"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "w-full overflow-auto space-y-2 flex flex-col md:hidden",
+        style: {
+          height: '300px'
+        }
+      }, " ", this.renderMobileLeaveCards(), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_14__["default"], {
         onNextPage: function onNextPage() {
           return _this3.onPageSelect(_this3.state.currentPage + 1);
         },
@@ -79620,13 +79451,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         onFirstPage: this.state.currentPage === 1,
         activePage: this.state.currentPage,
         numberOfPages: this.state.to
-      })), this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        type: "Oval",
-        className: "md:hidden self-center",
-        height: 80,
-        width: 80,
-        color: "Gray"
-      }) : this.renderMobileLeaveCards());
+      }));
     }
   }]);
 
@@ -79670,7 +79495,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _InfoMessage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../InfoMessage */ "./resources/js/components/InfoMessage.jsx");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _Form_Checkbox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Form/Checkbox */ "./resources/js/components/Form/Checkbox.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -79710,7 +79534,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -79773,15 +79596,14 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         value: null,
         errors: [],
         hasError: false
-      },
-      onlyOneDay: false
+      }
     });
 
     _defineProperty(_assertThisInitialized(_this), "setFromDate", function (value) {
       _this.setState(function (state) {
         return _objectSpread(_objectSpread({}, state), {}, {
           from: {
-            value: value
+            value: moment__WEBPACK_IMPORTED_MODULE_13___default()(value).format('L')
           }
         });
       });
@@ -79795,7 +79617,7 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       _this.setState(function (state) {
         return _objectSpread(_objectSpread({}, state), {}, {
           until: {
-            value: value
+            value: moment__WEBPACK_IMPORTED_MODULE_13___default()(value).format('L')
           }
         });
       });
@@ -79899,14 +79721,14 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "getJavascriptDateForCalendar", function (date) {
-      var result = moment__WEBPACK_IMPORTED_MODULE_13___default()(date);
+    _defineProperty(_assertThisInitialized(_this), "getJavascriptDateForCalendar", function () {
+      var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-      if (result.isValid()) {
-        return result.toDate();
+      if (date) {
+        return moment__WEBPACK_IMPORTED_MODULE_13___default()(date).toDate();
       }
 
-      return moment__WEBPACK_IMPORTED_MODULE_13___default()().toDate();
+      return date;
     });
 
     _defineProperty(_assertThisInitialized(_this), "onNotifyUserChange", function (e) {
@@ -79959,7 +79781,6 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
       var _this3 = this,
           _React$createElement;
 
-      console.log(this.state);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "flex flex-col justify-center justify-center space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -79973,33 +79794,20 @@ var CreateLeavePage = /*#__PURE__*/function (_React$Component) {
         options: this.mapReasons()
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-col lg:flex-row w-full space-y-2 lg:space-y-0 lg:space-x-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-col space-y-2 "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_DatePicker__WEBPACK_IMPORTED_MODULE_4__["default"], {
         value: this.getJavascriptDateForCalendar(this.state.from.value),
         errors: this.state.from.errors,
-        label: "First day of leave",
+        label: "Starting Date",
         className: "form-input",
         onChange: function onChange(date) {
           _this3.setFromDate(date);
         }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Checkbox__WEBPACK_IMPORTED_MODULE_14__["default"], {
-        name: "onlyOneDay",
-        label: "Only for the day",
-        onChange: function onChange(e) {
-          _this3.setState({
-            onlyOneDay: !_this3.state.onlyOneDay
-          });
-
-          if (_this3.state.onlyOneDay) {
-            _this3.setUntilDate(_this3.state.from.value);
-          }
-        }
-      })), this.state.onlyOneDay ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_DatePicker__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }), this.state.onlyOneDay ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_DatePicker__WEBPACK_IMPORTED_MODULE_4__["default"], {
         value: this.getJavascriptDateForCalendar(this.state.until.value),
         errors: this.state.until.errors,
-        label: "Last day of leave",
+        label: "Ending",
         className: "form-input",
+        tip: "if your leave is for one day, leave this blank.",
         onChange: function onChange(date) {
           _this3.setUntilDate(date);
         }
@@ -80099,16 +79907,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/index.js");
 /* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../api */ "./resources/js/api/index.js");
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _EditButtonLink__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../EditButtonLink */ "./resources/js/components/EditButtonLink.jsx");
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Heading */ "./resources/js/components/Heading.jsx");
-/* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../api */ "./resources/js/api/index.js");
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Card */ "./resources/js/components/Card.jsx");
+/* harmony import */ var _EditButtonLink__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../EditButtonLink */ "./resources/js/components/EditButtonLink.jsx");
+/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Heading */ "./resources/js/components/Heading.jsx");
+/* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _Paginator__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Paginator */ "./resources/js/components/Paginator.jsx");
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Table */ "./resources/js/components/Table.jsx");
 /* harmony import */ var _ViewButtonLink__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../ViewButtonLink */ "./resources/js/components/ViewButtonLink.jsx");
+/* harmony import */ var _Form_Dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Form/Dropdown */ "./resources/js/components/Form/Dropdown.jsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -80149,6 +79971,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
   _inherits(IndexLeavePage, _React$Component);
 
@@ -80172,7 +79996,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
       leaves: [],
       filters: {
         status: null,
-        reasons: []
+        reason: null
       },
       error: null
     }, _defineProperty(_defineProperty2, "isLoading", false), _defineProperty(_defineProperty2, "year", null), _defineProperty(_defineProperty2, "currentPage", 1), _defineProperty(_defineProperty2, "from", null), _defineProperty(_defineProperty2, "perPage", null), _defineProperty(_defineProperty2, "to", null), _defineProperty(_defineProperty2, "total", null), _defineProperty2));
@@ -80187,7 +80011,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
         }
       };
       setTimeout(function () {
-        _api__WEBPACK_IMPORTED_MODULE_4__["default"].get("/leaves/", config).then(function (success) {
+        _api__WEBPACK_IMPORTED_MODULE_3__["default"].get("/leaves/", config).then(function (success) {
           _this.toggleLoadingState(false);
 
           var _success$data = success.data,
@@ -80220,18 +80044,22 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "filterLeaves", function () {
       var _this$state$filters = _this.state.filters,
-          reasons = _this$state$filters.reasons,
+          reason = _this$state$filters.reason,
           status = _this$state$filters.status;
       var leaves = _this.state.leaves;
 
-      if (reasons) {
-        leaves === null || leaves === void 0 ? void 0 : leaves.filter(function (leave) {
-          return reasons.includes(leave.reason.id);
+      if (reason) {
+        var _leaves;
+
+        leaves = (_leaves = leaves) === null || _leaves === void 0 ? void 0 : _leaves.filter(function (leave) {
+          return reason == leave.reason.id;
         });
       }
 
       if (status) {
-        leaves === null || leaves === void 0 ? void 0 : leaves.filter(function (leave) {
+        var _leaves2;
+
+        leaves = (_leaves2 = leaves) === null || _leaves2 === void 0 ? void 0 : _leaves2.filter(function (leave) {
           if (status === 'approved') {
             return leave.approved;
           }
@@ -80265,7 +80093,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
           className: "text-gray-600 text-sm"
         }, (_leave$user3 = leave.user) === null || _leave$user3 === void 0 ? void 0 : _leave$user3.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-600 text-sm"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_7__["default"], {
           leave: leave
         }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-600 text-sm"
@@ -80279,10 +80107,26 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
           className: "flex flex-row space-x-2 items-center"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ViewButtonLink__WEBPACK_IMPORTED_MODULE_11__["default"], {
           url: "/leave/view/".concat(leave.id)
-        }), leave.canEdit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_EditButtonLink__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), leave.canEdit ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_EditButtonLink__WEBPACK_IMPORTED_MODULE_5__["default"], {
           url: "/leave/edit/".concat(leave.id)
         }) : null)));
       });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "getLeaveStatuses", function () {
+      return [{
+        value: null,
+        label: 'All'
+      }, {
+        value: 'pending',
+        label: 'Pending'
+      }, {
+        value: 'approved',
+        label: 'Approved'
+      }, {
+        value: 'denied',
+        label: 'Denied'
+      }];
     });
 
     return _this;
@@ -80303,15 +80147,42 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      var _this2 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_8__["default"], {
         className: "flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        className: "hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "hidden md:flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        label: "Status",
+        options: this.getLeaveStatuses(),
+        onChange: function onChange(e) {
+          e.persist();
+
+          _this2.setState({
+            filters: _objectSpread(_objectSpread({}, _this2.state.filters), {}, {
+              status: e.target.value
+            })
+          });
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        options: this.props.reasons,
+        label: "Reason",
+        onChange: function onChange(e) {
+          e.persist();
+          console.log(e);
+
+          _this2.setState({
+            filters: _objectSpread(_objectSpread({}, _this2.state.filters), {}, {
+              reason: e.target.value
+            })
+          });
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
         className: "hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row justify-between items-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_7__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-base md:text-lg text-gray-800"
       }, "All leaves"))), this.state.isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "Oval",
@@ -80321,14 +80192,42 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
         color: "Gray"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_10__["default"], {
         headings: ['Requested By', 'Status', 'Type', 'On', 'Until', '']
-      }, this.renderLeavesRow())));
+      }, this.renderLeavesRow()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        onNextPage: function onNextPage() {
+          return _this2.onPageSelect(_this2.state.currentPage + 1);
+        },
+        onPreviousPage: function onPreviousPage() {
+          return _this2.onPageSelect(_this2.state.currentPage - 1);
+        },
+        onPageSelect: function onPageSelect(page) {
+          return _this2.getLeaves(page);
+        },
+        onLastPage: this.state.to === this.state.currentPage,
+        onFirstPage: this.state.currentPage === 1,
+        activePage: this.state.currentPage,
+        numberOfPages: this.state.to
+      })));
     }
   }]);
 
   return IndexLeavePage;
 }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (IndexLeavePage);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    reasons: [{
+      value: null,
+      label: 'All'
+    }].concat(_toConsumableArray(state.reasons.map(function (reason) {
+      return {
+        value: reason.id,
+        label: reason.name
+      };
+    })))
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_13__["connect"])(mapStateToProps)(IndexLeavePage));
 
 /***/ }),
 
@@ -81624,14 +81523,14 @@ var Paginator = function Paginator(_ref) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
         fill: "none"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M4.01 11.98h14.99"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5",
         d: "M10.013 5.988l-6.011 6.012 6.011 6.012"
       }))));
     }
@@ -81648,14 +81547,14 @@ var Paginator = function Paginator(_ref) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
       fill: "none"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5",
       d: "M4.01 11.98h14.99"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      "stroke-width": "1.5",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: "1.5",
       d: "M10.013 5.988l-6.011 6.012 6.011 6.012"
     }))));
   };
@@ -81670,10 +81569,10 @@ var Paginator = function Paginator(_ref) {
         className: "stroke-current h-6 w-6 text-gray-800",
         viewBox: "0 0 24 24"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
+        strokeLinecap: "round",
+        strokeWidth: "1.5",
         fill: "none",
-        "stroke-linejoin": "round"
+        strokeLinejoin: "round"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M19,12h-14"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -81693,10 +81592,10 @@ var Paginator = function Paginator(_ref) {
       className: "stroke-current h-6 w-6 text-gray-800",
       viewBox: "0 0 24 24"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-      "stroke-linecap": "round",
-      "stroke-width": "1.5",
+      strokeLinecap: "round",
+      strokeWidth: "1.5",
       fill: "none",
-      "stroke-linejoin": "round"
+      strokeLinejoin: "round"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
       d: "M19,12h-14"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -81821,10 +81720,10 @@ var ViewButtonLink = function ViewButtonLink(_ref) {
     className: "stroke-current h-6 w-6 text-gray-600",
     viewBox: "0 0 24 24"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-    "stroke-linecap": "round",
-    "stroke-width": "1.5",
+    strokeLinecap: "round",
+    strokeWidth: "1.5",
     fill: "none",
-    "stroke-linejoin": "round"
+    strokeLinejoin: "round"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M14.122 9.88c1.171 1.171 1.171 3.072 0 4.245 -1.171 1.171-3.072 1.171-4.245 0 -1.171-1.171-1.171-3.072 0-4.245 1.173-1.173 3.073-1.173 4.245 1.77636e-15"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {

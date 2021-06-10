@@ -12,7 +12,6 @@ import api from '../../../api';
 import ErrorMessage from '../../ErrorMessage';
 import InfoMessage from '../../InfoMessage';
 import moment from 'moment';
-import Checkbox from '../../Form/Checkbox';
 
 const CreateLeavePage = class CreateLeavePage extends React.Component {
 
@@ -27,7 +26,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         reason: { value: null, errors: [], hasError: false },
         users: [],
         notifyUser: { value: null, errors: [], hasError: false },
-        onlyOneDay: false,
     }
 
 
@@ -42,12 +40,12 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
 
     setFromDate = (value) => {
-        
+
         this.setState(state => {
             return {
                 ...state,
                 from: {
-                    value: value
+                    value: moment(value).format('L')
                 }
             }
         });
@@ -63,7 +61,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             return {
                 ...state,
                 until: {
-                    value: value
+                    value: moment(value).format('L')
                 }
             }
         });
@@ -140,12 +138,11 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             });
     }
 
-    getJavascriptDateForCalendar = (date) => {
-        const result = moment(date);
-        if (result.isValid()) {
-            return result.toDate();
+    getJavascriptDateForCalendar = (date = null) => {
+        if (date) {
+            return moment(date).toDate();
         }
-        return moment().toDate();
+        return date;
     }
 
     onNotifyUserChange = (e) => {
@@ -171,35 +168,27 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <Heading>Apply for leave.</Heading>
                     <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onReasonChange(e)} label="Reason" options={this.mapReasons()} />
                     <div className="flex flex-col lg:flex-row w-full space-y-2 lg:space-y-0 lg:space-x-4">
-
-                        <div className="flex flex-col space-y-2 ">
-                            <DatePicker value={this.getJavascriptDateForCalendar(this.state.from.value)}
-                                errors={this.state.from.errors}
-                                label="First day of leave"
-                                className="form-input"
-                                onChange={(date) => { this.setFromDate(date) }} />
-
-                            <Checkbox name="onlyOneDay" label="Only for the day"
-                                onChange={(e) => {
-                                    this.setState({ onlyOneDay: !this.state.onlyOneDay });
-                                    if (this.state.onlyOneDay) {
-                                        this.setUntilDate(this.state.from.value);
-                                    }
-                                }} />
-                        </div>
-
-                        {this.state.onlyOneDay ? null : (<DatePicker value={this.getJavascriptDateForCalendar(this.state.until.value)}
-                            errors={this.state.until.errors}
-                            label="Last day of leave"
+                        <DatePicker
+                            value={this.getJavascriptDateForCalendar(this.state.from.value)}
+                            errors={this.state.from.errors}
+                            label="Starting Date"
                             className="form-input"
-                            onChange={(date) => { this.setUntilDate(date) }} />)}
+                            onChange={(date) => { this.setFromDate(date) }} />
+
+
+                        {this.state.onlyOneDay ? null : (
+                            <DatePicker value={this.getJavascriptDateForCalendar(this.state.until.value)}
+                                errors={this.state.until.errors}
+                                label="Ending"
+                                className="form-input"
+                                tip="if your leave is for one day, leave this blank."
+                                onChange={(date) => { this.setUntilDate(date) }} />)}
                     </div>
                     <Field type="text" label="Description" name="description" errors={this.state.description.errors} onKeyUp={(e) => this.setDescription(e)} />
                     <Dropdown errors={this.state.notifyUser.errors}
