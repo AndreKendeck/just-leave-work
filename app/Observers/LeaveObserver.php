@@ -3,7 +3,9 @@
 namespace App\Observers;
 
 use App\Leave;
-use App\Notifications\LeaveApproved;
+use App\Mail\LeaveApprovedEmail;
+use App\Mail\LeaveDeniedEmail;
+use Illuminate\Support\Facades\Mail;
 
 class LeaveObserver
 {
@@ -13,7 +15,7 @@ class LeaveObserver
      */
     public function approved(Leave $leave)
     {
-        $leave->user->notify(new LeaveApproved("", $leave));
+        Mail::queue(new LeaveApprovedEmail($leave));
     }
 
     /**
@@ -22,5 +24,6 @@ class LeaveObserver
      */
     public function denied(Leave $leave)
     {
+        Mail::queue(new LeaveDeniedEmail($leave));
     }
 }

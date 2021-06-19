@@ -34,7 +34,7 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                 const { message } = success.data;
                 this.setState({ successMessage: message });
             }).catch(failed => {
-                this.setState({ error: failed.response.message });
+                this.setState({ error: failed.response.data.message });
             });
     }
 

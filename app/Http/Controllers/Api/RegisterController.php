@@ -23,7 +23,7 @@ class RegisterController extends Controller
         ]);
 
         $team = Team::create([
-            'name' => Str::kebab($request->team_name),
+            'name' => Str::kebab($request->team_name . uniqid()),
             'display_name' => $request->team_name,
             'description' => $request->team_name,
         ]);

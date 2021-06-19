@@ -153,7 +153,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
 
                     <Dropdown options={this.props.reasons}
                         label="Reason"
-                        onChange={(e) => { e.persist(); console.log(e); this.setState({ filters: { ...this.state.filters, reason: e.target.value } }) }} />
+                        onChange={(e) => { e.persist(); console.log(e.target.value); this.setState({ filters: { ...this.state.filters, reason: e.target.value } }) }} />
                 </Card>
                 <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
                     <div className="flex flex-row justify-between items-center">

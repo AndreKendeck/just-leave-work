@@ -7,7 +7,7 @@ const Paginator = ({ onPreviousPage, onNextPage, onFirstPage, onLastPage, number
         for (let i = 0; i < numberOfPages; i++) {
             const isActivePage = ((i + 1) == activePage);
             result = [...result, (
-                <button key={i} onClick={(e) => onPageSelect((i + 1))} className="border-2 bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 transform hover:-translate-y-1" >
+                <button disabled={isActivePage} key={i} onClick={(e) => onPageSelect((i + 1))} className={`border-2 bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 ${isActivePage ? null : 'transform hover:-translate-y-1'} `} >
                     <span className={`text-sm w-full ${isActivePage ? 'text-purple-500' : 'text-gray-800'} `}>{i + 1}</span>
                 </button>
             )];
@@ -41,14 +41,15 @@ const Paginator = ({ onPreviousPage, onNextPage, onFirstPage, onLastPage, number
     }
 
     const renderNextButton = () => {
-        if (onLastPage) {
+        if (onLastPage || (numberOfPages === 1)) {
             return (
                 <button disabled={true} className="bg-gray-300 focus:outline-none rounded-lg p-2 cursor-not-allowed">
-                    <svg version="1.1" className="stroke-current h-6 w-6 text-gray-800" viewBox="0 0 24 24" >
+                    <svg version="1.1" className="stroke-current h-6 w-6 text-gray-500" viewBox="0 0 24 24" >
                         <g strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
                             <path d="M19,12h-14"></path>
                             <path d="M14,17l5,-5"></path>
-                            <path d="M14,7l5,5"></path></g>
+                            <path d="M14,7l5,5"></path>
+                        </g>
                     </svg>
                 </button>
             )
