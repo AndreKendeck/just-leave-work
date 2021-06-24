@@ -79928,6 +79928,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ViewButtonLink__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../ViewButtonLink */ "./resources/js/components/ViewButtonLink.jsx");
 /* harmony import */ var _Form_Dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Form/Dropdown */ "./resources/js/components/Form/Dropdown.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../UserBadge */ "./resources/js/components/UserBadge.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -79967,6 +79968,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -80087,21 +80089,16 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "renderLeavesRow", function () {
       return _this.filterLeaves().map(function (leave, key) {
-        var _leave$user, _leave$user2, _leave$user3, _leave$reason;
+        var _leave$reason;
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
           key: key
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-800"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-          className: "flex flex-row space-x-2 items-center w-full justify-center"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
-          className: "h-6 w-6 rounded-full",
-          src: (_leave$user = leave.user) === null || _leave$user === void 0 ? void 0 : _leave$user.avatarUrl,
-          alt: (_leave$user2 = leave.user) === null || _leave$user2 === void 0 ? void 0 : _leave$user2.name
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-          className: "text-gray-600 text-sm"
-        }, (_leave$user3 = leave.user) === null || _leave$user3 === void 0 ? void 0 : _leave$user3.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_14__["default"], {
+          user: leave.user,
+          imageSize: 6
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
           className: "text-center text-gray-600 text-sm"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_7__["default"], {
           leave: leave
@@ -80121,6 +80118,25 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
           url: "/leave/edit/".concat(leave.id)
         }) : null)));
       });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "renderLeaveCards", function () {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "w-full overflow-auto space-y-2 flex flex-col md:hidden",
+        style: {
+          height: '300px'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Link, {
+        to: "/leave/view/".concat(leave.id),
+        key: key,
+        className: "md:hidden"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-col space-y-2 items-center w-full"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, leave.reason.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        leave: leave
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(LeaveDaysLabel, {
+        leave: leave
+      })))));
     });
 
     _defineProperty(_assertThisInitialized(_this), "getLeaveStatuses", function () {
@@ -80202,7 +80218,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
         color: "Gray"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_10__["default"], {
         headings: ['Requested By', 'Status', 'Type', 'On', 'Until', '']
-      }, this.renderLeavesRow()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      }, this.renderLeavesRow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_9__["default"], {
         onNextPage: function onNextPage() {
           return _this2.onPageSelect(_this2.state.currentPage + 1);
         },
@@ -80216,7 +80232,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
         onFirstPage: this.state.currentPage === 1,
         activePage: this.state.currentPage,
         numberOfPages: this.state.to
-      })));
+      }));
     }
   }]);
 
@@ -80355,6 +80371,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../LeaveDaysLabel */ "./resources/js/components/LeaveDaysLabel.jsx");
 /* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
 /* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../UserBadge */ "./resources/js/components/UserBadge.jsx");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_12__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -80366,6 +80384,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -80451,9 +80470,11 @@ var ViewLeavePage = function ViewLeavePage() {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-row space-x-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    user: leave.user,
+    user: leave === null || leave === void 0 ? void 0 : leave.user,
     imageSize: 8
-  }))));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-gray-600 text-sm"
+  }, "Requested on ", moment__WEBPACK_IMPORTED_MODULE_12___default()(leave === null || leave === void 0 ? void 0 : leave.createdAt).format('lll')))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -81676,7 +81697,7 @@ var Paginator = function Paginator(_ref) {
         onClick: function onClick(e) {
           return onPageSelect(i + 1);
         },
-        className: "border-2 bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 ".concat(isActivePage ? null : 'transform hover:-translate-y-1', " ")
+        className: "hidden md:inline-block border-2 bg-white focus:outline-none hover:shadow-sm rounded-lg px-4 ".concat(isActivePage ? null : 'transform hover:-translate-y-1', " ")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-sm w-full ".concat(isActivePage ? 'text-purple-500' : 'text-gray-800', " ")
       }, i + 1))]);
@@ -81783,9 +81804,21 @@ var Paginator = function Paginator(_ref) {
     }))));
   };
 
+  var renderMobileCurrentPage = function renderMobileCurrentPage(currentPage, numberOfPages) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "border md:hidden bg-white rounded flex justify-center space-x-2 p-2 w-1/2 items-center"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "text-gray-600"
+    }, currentPage), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "text-gray-600"
+    }, "of"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "text-gray-600"
+    }, numberOfPages));
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full p-2 flex flex-row space-x-2 justify-center"
-  }, renderBackButton(), renderPageButtons(numberOfPages), renderNextButton());
+  }, renderBackButton(), renderPageButtons(numberOfPages), renderMobileCurrentPage(activePage, numberOfPages), renderNextButton());
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Paginator);

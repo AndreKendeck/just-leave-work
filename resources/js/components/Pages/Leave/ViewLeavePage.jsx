@@ -10,6 +10,7 @@ import Heading from '../../Heading';
 import LeaveDaysLabel from '../../LeaveDaysLabel';
 import LeaveStatusBadge from '../../LeaveStatusBadge';
 import UserBadge from '../../UserBadge';
+import moment from 'moment';
 
 
 const ViewLeavePage = () => {
@@ -61,13 +62,18 @@ const ViewLeavePage = () => {
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <div className="flex flex-row justify-between items-center">
                     <Heading>{leave?.reason.name}</Heading>
-                    <div className="flex flex-row space-x-2 items-center">
-                        <LeaveDaysLabel leave={leave} />
-                        <LeaveStatusBadge leave={leave} />
+                    <div className="flex flex-row space-x-2 items-center justify-between">
+                        <div>
+                            <LeaveDaysLabel leave={leave} />
+                        </div>
+                        <div>
+                            <LeaveStatusBadge leave={leave} />
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-row space-x-2">
-                    <UserBadge user={leave.user} imageSize={8} />
+                    <UserBadge user={leave?.user} imageSize={8} />
+                    <div className="text-gray-600 text-sm">Requested on {moment(leave?.createdAt).format('lll')}</div>
                 </div>
             </Card>
         </Page>

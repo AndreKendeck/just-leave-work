@@ -12,6 +12,7 @@ import Table from '../../Table';
 import ViewButtonLink from '../../ViewButtonLink';
 import Dropdown from '../../Form/Dropdown';
 import { connect } from 'react-redux';
+import UserBadge from '../../UserBadge';
 
 const IndexLeavePage = class IndexLeavePage extends React.Component {
 
@@ -99,10 +100,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
             return (
                 <tr key={key}>
                     <td className="text-center text-gray-800">
-                        <div className="flex flex-row space-x-2 items-center w-full justify-center">
-                            <img className="h-6 w-6 rounded-full" src={leave.user?.avatarUrl} alt={leave.user?.name} />
-                            <span className="text-gray-600 text-sm">{leave.user?.name}</span>
-                        </div>
+                        <UserBadge user={leave.user} imageSize={6} />
                     </td>
                     <td className="text-center text-gray-600 text-sm"><LeaveStatusBadge leave={leave} /> </td>
                     <td className="text-center text-gray-600 text-sm"> {leave.reason?.name} </td>
@@ -121,6 +119,24 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                 </tr>
             )
         });
+    }
+
+    renderLeaveCards = () => {
+        return (
+            <div className="w-full overflow-auto space-y-2 flex flex-col md:hidden" style={{ height: '300px' }} >
+                <Link to={`/leave/view/${leave.id}`} key={key} className="md:hidden">
+                    <Card>
+                        <div className="flex flex-col space-y-2 items-center w-full">
+                            <Heading>
+                                {leave.reason.name}
+                            </Heading>
+                            <LeaveStatusBadge leave={leave} />
+                            <LeaveDaysLabel leave={leave} />
+                        </div>
+                    </Card>
+                </Link>
+            </div>
+        );
     }
 
     getLeaveStatuses = () => {
@@ -166,13 +182,14 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                         <Table headings={['Requested By', 'Status', 'Type', 'On', 'Until', '']}>
                             {this.renderLeavesRow()}
                         </Table>}
-                    <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
-                        onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}
-                        onPageSelect={(page) => this.getLeaves(page)}
-                        onLastPage={this.state.to === this.state.currentPage}
-                        onFirstPage={this.state.currentPage === 1}
-                        activePage={this.state.currentPage} numberOfPages={this.state.to} />
                 </Card>
+
+                <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
+                    onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}
+                    onPageSelect={(page) => this.getLeaves(page)}
+                    onLastPage={this.state.to === this.state.currentPage}
+                    onFirstPage={this.state.currentPage === 1}
+                    activePage={this.state.currentPage} numberOfPages={this.state.to} />
             </Page>
         );
     }
