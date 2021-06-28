@@ -13,6 +13,7 @@ import ViewButtonLink from '../../ViewButtonLink';
 import Dropdown from '../../Form/Dropdown';
 import { connect } from 'react-redux';
 import UserBadge from '../../UserBadge';
+import LeaveCard from '../../LeaveCard';
 
 const IndexLeavePage = class IndexLeavePage extends React.Component {
 
@@ -76,9 +77,9 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     filterLeaves = () => {
         const { reason, status } = this.state.filters;
         let { leaves } = this.state;
-        if (reason) {
+        if (reason && reason != 0) {
             leaves = leaves?.filter(leave => {
-                return reason == leave.reason.id;
+                return parseInt(reason) === leave.reason.id;
             });
         }
         if (status) {
@@ -122,21 +123,11 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     }
 
     renderLeaveCards = () => {
-        return (
-            <div className="w-full overflow-auto space-y-2 flex flex-col md:hidden" style={{ height: '300px' }} >
-                <Link to={`/leave/view/${leave.id}`} key={key} className="md:hidden">
-                    <Card>
-                        <div className="flex flex-col space-y-2 items-center w-full">
-                            <Heading>
-                                {leave.reason.name}
-                            </Heading>
-                            <LeaveStatusBadge leave={leave} />
-                            <LeaveDaysLabel leave={leave} />
-                        </div>
-                    </Card>
-                </Link>
-            </div>
-        );
+        return this.filterLeaves().map((leave, key) => {
+            return (
+                <LeaveCard leave={leave} key={key} />
+            )
+        });
     }
 
     getLeaveStatuses = () => {
@@ -163,7 +154,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     render() {
         return (
             <Page className="flex flex-col space-y-2">
-                <Card className="hidden md:flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2">
+                <Card className="flex flex-col w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2">
                     <Dropdown label="Status" options={this.getLeaveStatuses()}
                         onChange={(e) => { e.persist(); this.setState({ filters: { ...this.state.filters, status: e.target.value } }) }} />
 
@@ -183,9 +174,13 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                             {this.renderLeavesRow()}
                         </Table>}
                 </Card>
+                {this.state.isLoading ? (<div className="md:hidden"> <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> </div>) :
+                    (<div className="w-full overflow-auto space-y-2 flex flex-col md:hidden" style={{ height: '350px' }} >
+                        {this.renderLeaveCards()}
+                    </div>)}
 
-                <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
-                    onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}
+                <Paginator onNextPage={() => this.getLeaves((this.state.currentPage + 1))}
+                    onPreviousPage={() => this.getLeaves((this.state.currentPage - 1))}
                     onPageSelect={(page) => this.getLeaves(page)}
                     onLastPage={this.state.to === this.state.currentPage}
                     onFirstPage={this.state.currentPage === 1}
@@ -198,7 +193,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        reasons: [{ value: null, label: 'All' }, ...state.reasons.map(reason => {
+        reasons: [{ value: 0, label: 'All' }, ...state.reasons.map(reason => {
             return {
                 value: reason.id,
                 label: reason.name
