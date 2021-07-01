@@ -77258,6 +77258,17 @@ var Card = function Card(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Comment.jsx":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Comment.jsx ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/andrekendeck/dev/just-leave-work/resources/js/components/Comment.jsx: Unexpected token (44:34)\n\n\u001b[0m \u001b[90m 42 |\u001b[39m         \u001b[33m.\u001b[39mthen( successResponse \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 43 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m         })\u001b[33m.\u001b[39mthen( failedResponse \u001b[33m=>\u001b[39m)\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 45 |\u001b[39m     }\u001b[0m\n\u001b[0m \u001b[90m 46 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 47 |\u001b[39m\u001b[0m\n    at Object._raise (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:776:17)\n    at Object.raiseWithData (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:769:17)\n    at Object.raise (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:737:17)\n    at Object.unexpected (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:9736:16)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11132:20)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:5170:20)\n    at Object.parseExprSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10709:23)\n    at Object.parseUpdate (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10689:21)\n    at Object.parseMaybeUnary (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10667:23)\n    at Object.parseExprOps (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10524:23)\n    at Object.parseMaybeConditional (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10498:23)\n    at Object.parseMaybeAssign (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10461:21)\n    at Object.parseFunctionBody (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11771:24)\n    at Object.parseArrowExpression (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11750:10)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10985:25)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:5170:20)\n    at Object.parseExprSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10709:23)\n    at Object.parseUpdate (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10689:21)\n    at Object.parseMaybeUnary (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10667:23)\n    at Object.parseExprOps (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10524:23)\n    at Object.parseMaybeConditional (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10498:23)\n    at Object.parseMaybeAssign (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10461:21)\n    at /Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10428:39\n    at Object.allowInAnd (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:12105:12)\n    at Object.parseMaybeAssignAllowIn (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10428:17)\n    at Object.parseExprListItem (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11865:18)\n    at Object.parseCallExpressionArguments (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10907:22)\n    at Object.parseCoverCallAndAsyncArrowHead (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10817:29)\n    at Object.parseSubscript (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10753:19)\n    at Object.parseSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10726:19)\n    at Object.parseExprSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10715:17)\n    at Object.parseUpdate (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10689:21)\n    at Object.parseMaybeUnary (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10667:23)\n    at Object.parseExprOps (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10524:23)\n    at Object.parseMaybeConditional (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10498:23)\n    at Object.parseMaybeAssign (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10461:21)");
+
+/***/ }),
+
 /***/ "./resources/js/components/EditButtonLink.jsx":
 /*!****************************************************!*\
   !*** ./resources/js/components/EditButtonLink.jsx ***!
@@ -80432,7 +80443,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../UserBadge */ "./resources/js/components/UserBadge.jsx");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Button */ "./resources/js/components/Button.jsx");
+/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Comment */ "./resources/js/components/Comment.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -80460,7 +80471,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var renderComments = function renderComments(comments) {};
+var renderComments = function renderComments() {
+  var comments = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  return comments.map(function (comment, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      comment: comment,
+      key: index
+    });
+  });
+};
 
 var ViewLeavePage = function ViewLeavePage() {
   var _useParams = Object(react_router__WEBPACK_IMPORTED_MODULE_2__["useParams"])(),
@@ -80539,68 +80558,7 @@ var ViewLeavePage = function ViewLeavePage() {
     imageSize: 8
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-gray-600 text-sm w-full text-right"
-  }, moment__WEBPACK_IMPORTED_MODULE_12___default()(leave === null || leave === void 0 ? void 0 : leave.createdAt).fromNow()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-col space-y-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-row w-full justify-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    user: leave === null || leave === void 0 ? void 0 : leave.user,
-    imageSize: 8
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-row space-x-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    type: "soft"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    id: "Layer_3",
-    className: "stroke-current h-6 w-6 text-gray-600",
-    "data-name": "Layer 3",
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 24 24"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4",
-    fill: "none",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    strokeWidth: "1.5"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z",
-    fill: "none",
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    "stroke-width": "1.5"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    type: "soft"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    version: "1.1",
-    className: "stroke-current h-6 w-6 text-gray-600",
-    viewBox: "0 0 24 24",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-    "stroke-linecap": "round",
-    "stroke-width": "1.5",
-    fill: "none",
-    "stroke-linejoin": "round"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M18 6.53h1"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M9 10.47v6.06"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M12 9.31v8.27"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M15 10.47v6.06"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M15.795 20.472h-7.59c-1.218 0-2.205-.987-2.205-2.205v-11.739h12v11.739c0 1.218-.987 2.205-2.205 2.205Z"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M16 6.528l-.738-2.305c-.133-.414-.518-.695-.952-.695h-4.62c-.435 0-.82.281-.952.695l-.738 2.305"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M5 6.53h1"
-  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "text-gray-600 text-sm w-full"
-  }, moment__WEBPACK_IMPORTED_MODULE_12___default()(leave === null || leave === void 0 ? void 0 : leave.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "text-gray-600 text-base"
-  }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab tempore, voluptatum molestiae laborum rem blanditiis commodi quae enim possimus mollitia, consequatur sunt voluptatibus id, repudiandae nulla dolorum ea quidem maxime.")));
+  }, moment__WEBPACK_IMPORTED_MODULE_12___default()(leave === null || leave === void 0 ? void 0 : leave.createdAt).fromNow()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment__WEBPACK_IMPORTED_MODULE_13__["default"], null));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
