@@ -77263,9 +77263,285 @@ var Card = function Card(props) {
   !*** ./resources/js/components/Comment.jsx ***!
   \*********************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/andrekendeck/dev/just-leave-work/resources/js/components/Comment.jsx: Unexpected token (44:34)\n\n\u001b[0m \u001b[90m 42 |\u001b[39m         \u001b[33m.\u001b[39mthen( successResponse \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 43 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m         })\u001b[33m.\u001b[39mthen( failedResponse \u001b[33m=>\u001b[39m)\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 45 |\u001b[39m     }\u001b[0m\n\u001b[0m \u001b[90m 46 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 47 |\u001b[39m\u001b[0m\n    at Object._raise (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:776:17)\n    at Object.raiseWithData (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:769:17)\n    at Object.raise (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:737:17)\n    at Object.unexpected (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:9736:16)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11132:20)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:5170:20)\n    at Object.parseExprSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10709:23)\n    at Object.parseUpdate (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10689:21)\n    at Object.parseMaybeUnary (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10667:23)\n    at Object.parseExprOps (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10524:23)\n    at Object.parseMaybeConditional (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10498:23)\n    at Object.parseMaybeAssign (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10461:21)\n    at Object.parseFunctionBody (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11771:24)\n    at Object.parseArrowExpression (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11750:10)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10985:25)\n    at Object.parseExprAtom (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:5170:20)\n    at Object.parseExprSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10709:23)\n    at Object.parseUpdate (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10689:21)\n    at Object.parseMaybeUnary (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10667:23)\n    at Object.parseExprOps (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10524:23)\n    at Object.parseMaybeConditional (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10498:23)\n    at Object.parseMaybeAssign (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10461:21)\n    at /Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10428:39\n    at Object.allowInAnd (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:12105:12)\n    at Object.parseMaybeAssignAllowIn (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10428:17)\n    at Object.parseExprListItem (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:11865:18)\n    at Object.parseCallExpressionArguments (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10907:22)\n    at Object.parseCoverCallAndAsyncArrowHead (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10817:29)\n    at Object.parseSubscript (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10753:19)\n    at Object.parseSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10726:19)\n    at Object.parseExprSubscripts (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10715:17)\n    at Object.parseUpdate (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10689:21)\n    at Object.parseMaybeUnary (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10667:23)\n    at Object.parseExprOps (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10524:23)\n    at Object.parseMaybeConditional (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10498:23)\n    at Object.parseMaybeAssign (/Users/andrekendeck/dev/just-leave-work/node_modules/@babel/parser/lib/index.js:10461:21)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Button */ "./resources/js/components/Button.jsx");
+/* harmony import */ var _Form_Textarea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Form/Textarea */ "./resources/js/components/Form/Textarea.jsx");
+/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserBadge */ "./resources/js/components/UserBadge.jsx");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/index.js");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../api */ "./resources/js/api/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+var Comment = /*#__PURE__*/function (_React$Component) {
+  _inherits(Comment, _React$Component);
+
+  var _super = _createSuper(Comment);
+
+  function Comment() {
+    var _this;
+
+    _classCallCheck(this, Comment);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      isSending: false,
+      isEditing: false,
+      errors: [],
+      message: null
+    });
+
+    return _this;
+  }
+
+  _createClass(Comment, [{
+    key: "onCommentTextChange",
+    value: function onCommentTextChange(e) {
+      e.persist();
+      this.setState(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          comment: _objectSpread(_objectSpread({}, comment), {}, {
+            text: e.target.value
+          })
+        });
+      });
+      console.log(this.state);
+    }
+  }, {
+    key: "toggleLoading",
+    value: function toggleLoading(isSending) {
+      this.setState({
+        isSending: isSending
+      });
+    }
+  }, {
+    key: "onSave",
+    value: function onSave() {
+      var _this2 = this;
+
+      var _this$props$comment = this.props.comment,
+          id = _this$props$comment.id,
+          text = _this$props$comment.text;
+      this.toggleLoading(true);
+      this.setState({
+        message: null
+      });
+      _api__WEBPACK_IMPORTED_MODULE_6__["default"].put("/comments/".concat(id), text).then(function (successResponse) {
+        _this2.toggleLoading(false);
+      }).then(function (failedResponse) {
+        _this2.toggleLoading(false);
+      });
+    }
+  }, {
+    key: "renderLoading",
+    value: function renderLoading() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        type: "Oval",
+        className: "self-center",
+        height: 80,
+        width: 80,
+        color: "Gray"
+      }));
+    }
+  }, {
+    key: "renderEditAndDeleteButton",
+    value: function renderEditAndDeleteButton() {
+      var _this3 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-row space-x-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "soft",
+        onClick: function onClick() {
+          _this3.setState({
+            isEditing: true
+          });
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+        id: "Layer_3",
+        className: "stroke-current h-6 w-6 text-gray-600",
+        "data-name": "Layer 3",
+        xmlns: "http://www.w3.org/2000/svg",
+        viewBox: "0 0 24 24"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4",
+        fill: "none",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: "1.5"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z",
+        fill: "none",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "stroke-width": "1.5"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "soft",
+        onClick: this.props.onDelete
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+        version: "1.1",
+        className: "stroke-current h-6 w-6 text-gray-600",
+        viewBox: "0 0 24 24",
+        xmlns: "http://www.w3.org/2000/svg"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+        "stroke-linecap": "round",
+        "stroke-width": "1.5",
+        fill: "none",
+        "stroke-linejoin": "round"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M18 6.53h1"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M9 10.47v6.06"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M12 9.31v8.27"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M15 10.47v6.06"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M15.795 20.472h-7.59c-1.218 0-2.205-.987-2.205-2.205v-11.739h12v11.739c0 1.218-.987 2.205-2.205 2.205Z"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M16 6.528l-.738-2.305c-.133-.414-.518-.695-.952-.695h-4.62c-.435 0-.82.281-.952.695l-.738 2.305"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M5 6.53h1"
+      })))));
+    }
+  }, {
+    key: "renderSaveAndCancelButton",
+    value: function renderSaveAndCancelButton() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-row space-x-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "soft"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+        viewBox: "0 0 24 24",
+        className: "stroke-current h-6 w-6 text-gray-600",
+        xmlns: "http://www.w3.org/2000/svg"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+        "stroke-linecap": "round",
+        "stroke-width": "1.5",
+        fill: "none",
+        "stroke-linejoin": "round"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M19 21H5.1l0-.001c-1.1 0-2-.89-2-1.99l-.11-14 -.01-.01c-.01-1.11.88-2.01 1.98-2.02 0-.01 0-.01.01-.01h11.17l0-.001c.53-.01 1.03.21 1.41.58l2.82 2.82 -.01-.01c.37.37.58.88.58 1.41v11.17l0 0c0 1.1-.9 1.99-2 1.99 -.01 0-.01-.01-.01-.01Z"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M15.993 3v4l0-.01c-.01.55-.45.99-1 1h-6l-.01-.001c-.56-.01-1-.45-1-1v-4"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M12 12a2.5 2.5 0 1 0 0 5 2.5 2.5 0 1 0 0-5Z"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "soft"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+        version: "1.1",
+        className: "stroke-current h-6 w-6 text-gray-600",
+        viewBox: "0 0 24 24",
+        xmlns: "http://www.w3.org/2000/svg"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+        "stroke-linecap": "round",
+        "stroke-width": "1.5",
+        fill: "none",
+        "stroke-linejoin": "round"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M18 6.53h1"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M9 10.47v6.06"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M12 9.31v8.27"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M15 10.47v6.06"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M15.795 20.472h-7.59c-1.218 0-2.205-.987-2.205-2.205v-11.739h12v11.739c0 1.218-.987 2.205-2.205 2.205Z"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M16 6.528l-.738-2.305c-.133-.414-.518-.695-.952-.695h-4.62c-.435 0-.82.281-.952.695l-.738 2.305"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+        d: "M5 6.53h1"
+      })))));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props$comment2,
+          _this$props$comment3,
+          _this$props$comment4,
+          _this4 = this,
+          _this$props$comment5;
+
+      if (this.state.isSending) {
+        return this.renderLoading();
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-col space-y-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "flex flex-row w-full justify-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        user: (_this$props$comment2 = this.props.comment) === null || _this$props$comment2 === void 0 ? void 0 : _this$props$comment2.user,
+        imageSize: 8
+      }), !this.state.isEditing ? this.renderEditAndDeleteButton() : null, this.state.isEditing ? this.renderSaveAndCancelButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "text-gray-600 text-sm w-full"
+      }, moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$comment3 = this.props.comment) === null || _this$props$comment3 === void 0 ? void 0 : _this$props$comment3.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "text-gray-600 text-base"
+      }, (_this$props$comment4 = this.props.comment) === null || _this$props$comment4 === void 0 ? void 0 : _this$props$comment4.text), this.props.isEditing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        onChange: function onChange(e) {
+          return _this4.onCommentTextChange(e);
+        },
+        name: "comment",
+        value: (_this$props$comment5 = this.props.comment) === null || _this$props$comment5 === void 0 ? void 0 : _this$props$comment5.text,
+        label: "Comment"
+      }) : null);
+    }
+  }]);
+
+  return Comment;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Comment);
 
 /***/ }),
 
@@ -77610,6 +77886,69 @@ var Field = function Field(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Field);
+
+/***/ }),
+
+/***/ "./resources/js/components/Form/Textarea.jsx":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Form/Textarea.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! collect.js */ "./node_modules/collect.js/dist/index.js");
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(collect_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+var getErrors = function getErrors() {
+  var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  return collect_js__WEBPACK_IMPORTED_MODULE_0___default()(errors).flatten().map(function (err, idx) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      className: "text-red-800 text-sm",
+      key: idx
+    }, err);
+  });
+};
+
+var TextArea = function TextArea(_ref) {
+  var _ref$errors = _ref.errors,
+      errors = _ref$errors === void 0 ? [] : _ref$errors,
+      name = _ref.name,
+      _ref$label = _ref.label,
+      label = _ref$label === void 0 ? null : _ref$label,
+      _ref$value = _ref.value,
+      value = _ref$value === void 0 ? null : _ref$value,
+      onChange = _ref.onChange,
+      tip = _ref.tip,
+      _ref$disabled = _ref.disabled,
+      disabled = _ref$disabled === void 0 ? false : _ref$disabled;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "flex flex-col space-y-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+    htmlFor: name,
+    className: "text-gray-600"
+  }, label ? label : name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+    name: name,
+    id: name,
+    onChange: onChange,
+    disabled: disabled,
+    className: "form-input form-input border-2 rounded-lg",
+    value: value,
+    cols: "30",
+    rows: "10"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "flex flex-col space-y-1"
+  }, getErrors(errors)), tip ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "w-full text-gray-500 text-sm"
+  }, tip) : null);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (TextArea);
 
 /***/ }),
 

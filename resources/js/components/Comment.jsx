@@ -9,16 +9,11 @@ import api from '../api';
 
 const Comment = class Comment extends React.Component {
 
-    constructor(props) {
-        super(props);
-        const { comment } = this.props;
-        this.state = {
-            comment,
-            isSending: false,
-            isEditing: false,
-            errors: [],
-            message: null
-        }
+    state = {
+        isSending: false,
+        isEditing: false,
+        errors: [],
+        message: null
     }
 
     onCommentTextChange(e) {
@@ -35,13 +30,21 @@ const Comment = class Comment extends React.Component {
         console.log(this.state);
     }
 
-    onSave() {
-        const { id, text } = this.state.comment;
-        this.setState({ isSending: true });
-        api.put(`/comments/${id}`, text)
-        .then( successResponse => {
+    toggleLoading(isSending) {
+        this.setState({ isSending });
+    }
 
-        }).then( failedResponse =>)
+    onSave() {
+        const { id, text } = this.props.comment;
+        this.toggleLoading(true);
+        this.setState({ message: null });
+        api.put(`/comments/${id}`, text)
+            .then(successResponse => {
+                this.toggleLoading(false);
+
+            }).then(failedResponse => {
+                this.toggleLoading(false);
+            });
     }
 
 
@@ -117,17 +120,17 @@ const Comment = class Comment extends React.Component {
             <div className="flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3">
                 <div className="flex flex-col space-y-2">
                     <div className="flex flex-row w-full justify-between">
-                        <UserBadge user={this.state.comment?.user} imageSize={8} />
+                        <UserBadge user={this.props.comment?.user} imageSize={8} />
                         {!this.state.isEditing ? this.renderEditAndDeleteButton() : null}
                         {this.state.isEditing ? this.renderSaveAndCancelButton() : null}
                     </div>
-                    <div className="text-gray-600 text-sm w-full">{moment(this.state.comment?.createdAt).fromNow()}</div>
+                    <div className="text-gray-600 text-sm w-full">{moment(this.props.comment?.createdAt).fromNow()}</div>
                 </div>
                 <div className="text-gray-600 text-base">
-                    {this.state.comment?.text}
+                    {this.props.comment?.text}
                 </div>
-                {this.state.isEditing ? <TextArea onChange={(e) => this.onCommentTextChange(e)}
-                    name="comment" value={this.state.comment?.text} label="Comment" /> : null}
+                {this.props.isEditing ? <TextArea onChange={(e) => this.onCommentTextChange(e)}
+                    name="comment" value={this.props.comment?.text} label="Comment" /> : null}
             </div>
         );
     }
