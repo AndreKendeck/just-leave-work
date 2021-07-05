@@ -15,6 +15,6 @@ class TeamObserver
      */
     public function created(Team $team)
     {
-        Setting::create(['team_id' => $team->id]);
+        Setting::create(['team_id' => $team->id, 'last_leave_balance_added_at' => now()]);
     }
 }

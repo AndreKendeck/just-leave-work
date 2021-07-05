@@ -25,6 +25,7 @@ import CreateLeavePage from './Pages/Leave/CreateLeavePage';
 import ProfilePage from './Pages/ProfilePage';
 import Loader from 'react-loader-spinner';
 import EditLeavePage from './Pages/Leave/EditLeavePage';
+import SettingsPage from './Pages/SettingsPage';
 
 
 const App = class App extends React.Component {
@@ -127,12 +128,18 @@ const App = class App extends React.Component {
                     {this.currentUserIsAuthenticated() ? <ProfilePage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/settings">
-
+                    {this.currentUserIsAuthenticated() ? <SettingsPage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/users">
+                    {this.currentUserIsAuthenticated() ? null : <Redirect to="/login" />}
+                </Route>
+                <Route path="/user/:id">
 
                 </Route>
-                <Route path="/">
+                <Route path="/users/create">
+
+                </Route>
+                <Route path="/user/edit/:id">
 
                 </Route>
             </React.Fragment>

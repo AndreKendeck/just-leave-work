@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import api from '../../api';
 import Card from '../Card';
 import Heading from '../Heading';
-import LeaveDaysLabel from '../LeaveDaysLabel';
 import LeaveStatusBadge from '../LeaveStatusBadge';
 import Page from '../Page';
 import UserLeaveStatusBadge from '../UserLeaveStatusBadge';
@@ -13,7 +12,7 @@ import Table from '../Table';
 import ViewButtonLink from '../ViewButtonLink';
 import EditButtonLink from '../EditButtonLink';
 import Paginator from '../Paginator';
-import { Link } from 'react-router-dom';
+import LeaveCard from '../LeaveCard';
 
 
 const HomePage = class HomePage extends React.Component {
@@ -100,17 +99,7 @@ const HomePage = class HomePage extends React.Component {
     renderMobileLeaveCards = () => {
         return this.state.leaves?.map((leave, key) => {
             return (
-                <Link to={`/leave/view/${leave.id}`} key={key} className="md:hidden">
-                    <Card>
-                        <div className="flex flex-col space-y-2 items-center w-full">
-                            <Heading>
-                                {leave.reason.name}
-                            </Heading>
-                            <LeaveStatusBadge leave={leave} />
-                            <LeaveDaysLabel leave={leave} />
-                        </div>
-                    </Card>
-                </Link>
+                <LeaveCard leave={leave} key={key} />
             )
         });
     }
@@ -169,7 +158,7 @@ const HomePage = class HomePage extends React.Component {
                     </Heading>
                     {this.getMyLeavesTable()}
                 </Card>
-                { this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> :
+                {this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> :
                     (<div className="w-full overflow-auto space-y-2 flex flex-col md:hidden" style={{ height: '300px' }} > {this.renderMobileLeaveCards()} </div>)}
                 <Paginator onNextPage={() => this.onPageSelect((this.state.currentPage + 1))}
                     onPreviousPage={() => this.onPageSelect((this.state.currentPage - 1))}

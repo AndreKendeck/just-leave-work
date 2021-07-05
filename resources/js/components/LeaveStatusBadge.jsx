@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LeaveStatusBadge = ({ leave }) => {
-    if (leave.approved) {
+    if (leave?.approved) {
         return (
             <span className="text-xs bg-green-300 rounded-lg text-green-600 px-2 flex space-x-1 items-center bg-opacity-25 py-1 justify-center">
                 <span>
@@ -17,7 +17,7 @@ const LeaveStatusBadge = ({ leave }) => {
             </span>
         )
     }
-    if (leave.denied) {
+    if (leave?.denied) {
         return (
             <span className="text-xs bg-red-300 rounded-lg text-red-800 px-2 flex space-x-1 items-center bg-opacity-25 py-1 justify-center">
                 <span>

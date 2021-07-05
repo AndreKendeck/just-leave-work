@@ -25,11 +25,12 @@ class CommentResource extends JsonResource
             'isEditable' => $this->is_editable,
             'user' => [
                 'id' => $this->user->id,
-                'name' => $this->user->name, 
-                'teamId' => $this->user->team_id, 
+                'name' => $this->user->name,
+                'teamId' => $this->user->team_id,
+                'avatarUrl' => $this->user->has_avatar ? $this->user->avatar_url : $this->user->avatar_url->encoded,
             ],
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

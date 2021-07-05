@@ -36,15 +36,16 @@ class AdjustLeaveBalances implements ShouldQueue
     {
 
         $this->teams->each(function (\App\Team $team) {
+
             $settings = $team->settings;
 
             /**
-             * if the last leave added at timestamp and today is greater or equal than 
+             * if the last leave added at timestamp and today is greater or equal than
              * @var int days requried by the team settings then run the cron job
              */
 
-            $overLap =  $settings->last_leave_balance_added_at->diffInDays(today()) >= $settings->days_until_balance_added;
-
+            $today = today();
+            $overLap = $settings->last_leave_balance_added_at->diffInDays($today) >= $settings->days_until_balance_added;
 
             if ($overLap) {
                 $team->users->each(function (\App\User $user) use ($settings) {
@@ -62,14 +63,14 @@ class AdjustLeaveBalances implements ShouldQueue
 
                     if ($overLimit) {
                         $user->update([
-                            'leave_balance' => $settings->maximum_leave_balance
+                            'leave_balance' => $settings->maximum_leave_balance,
                         ]);
                         Log::info("Leave balance for {$user->name} is now {$user->leave_balance}");
                     }
                 });
 
                 $team->settings->update([
-                    'last_leave_balance_added_at' => now()
+                    'last_leave_balance_added_at' => now(),
                 ]);
             }
         });
