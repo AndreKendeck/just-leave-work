@@ -174,7 +174,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                             {this.renderLeavesRow()}
                         </Table>}
                 </Card>
-                {this.state.isLoading ? (<div className="md:hidden"> <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> </div>) :
+                {this.state.isLoading ? (<div className="md:hidden self-center"> <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> </div>) :
                     (<div className="w-full overflow-auto space-y-2 flex flex-col md:hidden" style={{ height: '350px' }} >
                         {this.renderLeaveCards()}
                     </div>)}

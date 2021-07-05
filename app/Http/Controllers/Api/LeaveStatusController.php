@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LeaveResource;
 use App\Leave;
 
 class LeaveStatusController extends Controller
@@ -54,7 +55,7 @@ class LeaveStatusController extends Controller
 
         return response()
             ->json([
-                'leave' => $leave, 
+                'leave' => new LeaveResource($leave),
                 'message' => "Leave has been approved",
             ]);
     }
@@ -88,6 +89,7 @@ class LeaveStatusController extends Controller
 
         return response()
             ->json([
+                'leave' => new LeaveResource($leave),
                 'message' => 'Leave has beeen denied',
             ]);
     }

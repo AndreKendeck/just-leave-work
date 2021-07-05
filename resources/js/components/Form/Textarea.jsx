@@ -6,12 +6,13 @@ const getErrors = (errors = []) => {
         return <span className="text-red-800 text-sm" key={idx}>{err}</span>
     });
 }
-const TextArea = ({ errors = [], name, label = null, value = null, onChange, tip, disabled = false }) => {
+const TextArea = ({ errors = [], name, label = null, value = null, onKeyUp, onChange, tip, disabled = false }) => {
     return (
         <div className="flex flex-col space-y-1">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <textarea name={name} id={name} onChange={onChange} disabled={disabled}
-                className="form-input form-input border-2 rounded-lg" value={value} cols="30" rows="10"></textarea>
+            <textarea name={name} id={name} onKeyUp={onKeyUp} onChange={onChange} disabled={disabled}
+                className="form-input form-input border-2 rounded-lg" value={value} cols="30" rows="10">
+            </textarea>
             <div className="flex flex-col space-y-1">
                 {getErrors(errors)}
             </div>
