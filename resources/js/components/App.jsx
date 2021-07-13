@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import { compose, createStore } from 'redux';
+import { createStore } from 'redux';
 import api from '../api';
 import reducers from '../reducers';
 import Navbar from '../components/Navigation/Navbar';
@@ -69,7 +69,6 @@ const App = class App extends React.Component {
             </React.Fragment>
         )
     }
-
 
 
     hasVerifiedEmailAddress = () => {
@@ -160,13 +159,13 @@ const App = class App extends React.Component {
     render() {
         if (this.state.initializing) {
             return (
-                <div className="flex flex-1 self-center">
+                <div className="flex flex-1 self-center w-full">
                     <Loader type="Oval" className="self-center" height={120} width={120} color="Gray" />
                 </div>
             );
         }
         return (
-            <div className="flex flex-col space-y-4 z-10">
+            <div className="flex flex-col space-y-4 z-10 bg-gray-100 h-full">
                 <BrowserRouter>
                     <Navbar />
                     {this.getGuestRoutes()}

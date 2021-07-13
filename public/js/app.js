@@ -77137,7 +77137,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       if (this.state.initializing) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "flex flex-1 self-center"
+          className: "flex flex-1 self-center w-full"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_25___default.a, {
           type: "Oval",
           className: "self-center",
@@ -77148,7 +77148,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-col space-y-4 z-10"
+        className: "flex flex-col space-y-4 z-10 bg-gray-100 h-full"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navigation_Navbar__WEBPACK_IMPORTED_MODULE_6__["default"], null), this.getGuestRoutes(), this.getMiscRoutes(), this.getAuthRoutes()));
     }
   }]);
@@ -77198,35 +77198,35 @@ var Button = function Button(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
         disabled: props.disabled,
-        className: "items-center focus:outline-none bg-purple-500 text-white p-2 w-full rounded text-center hover:bg-purple-400"
+        className: "items-center focus:outline-none bg-purple-500 text-white p-3 w-full font-bold rounded text-center hover:bg-purple-400 tranform"
       }, props.children);
 
     case 'outlined':
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
         disabled: props.disabled,
-        className: "items-center text-gray-800 border-2 border-gray-800 py-2 w-full rounded text-center hover:bg-gray-800 hover:text-white"
+        className: "items-center text-gray-800 border-2 border-gray-800 p-3 w-full rounded font-bold  text-center hover:bg-gray-800 hover:text-white tranform"
       }, props.children);
 
     case 'soft':
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
         disabled: props.disabled,
-        className: "items-center focus:outline-none bg-gray-300 text-gray-800 p-2 w-full rounded text-center hover:bg-gray-200"
+        className: "items-center focus:outline-none bg-gray-300 text-gray-800 p-3 w-full font-bold rounded text-center hover:bg-gray-200 tranform"
       }, props.children);
 
     case 'danger':
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
         disabled: props.disabled,
-        className: "items-center focus:outline-none bg-red-500 text-white p-2 w-full rounded text-center hover:bg-red-400"
+        className: "items-center focus:outline-none bg-red-500 text-white p-3 w-full font-bold rounded text-center hover:bg-red-400 tranform"
       }, props.children);
 
     default:
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: props.onClick,
         disabled: props.disabled,
-        className: "items-center focus:outline-none bg-gray-800 text-white p-2 w-full rounded text-center hover:bg-gray-700"
+        className: "items-center focus:outline-none bg-gray-800 text-white p-3 w-full  font-bold rounded text-center hover:bg-gray-700 tranform"
       }, props.children);
   }
 };
@@ -77250,7 +77250,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Card = function Card(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "".concat(props.className, " bg-white p-4 rounded shadow-sm transition-all ease-in-out duration-200")
+    className: "".concat(props.className, " bg-white p-4 rounded-lg shadow-sm transition-all ease-in-out duration-200")
   }, props.children);
 };
 
@@ -77915,7 +77915,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Heading = function Heading(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "text-lg md:text-2xl font-bold text-gray-800 text-center items-center"
+    className: "text-lg md:text-2xl font-bold text-gray-800 text-center items-center ".concat(props.className)
   }, props.children);
 };
 
@@ -78444,7 +78444,7 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       var _this$props$team, _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _React$createElement26, _React$createElement27, _React$createElement28, _React$createElement29, _React$createElement30, _React$createElement31, _React$createElement32, _React$createElement33, _React$createElement34, _this$props$user6, _this$props$user7;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "hidden md:flex flex-col bg-white shadow rounded lg:p-4 p-2 mt-4 mx-4"
+        className: "hidden md:flex flex-col bg-white lg:p-4 p-2 mx-4 rounded-lg shadow mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row w-full justify-between items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
@@ -78487,11 +78487,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         className: "text-white text-xs"
       }, "Apply")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/home",
-        activeClassName: "border border-2",
-        className: "flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2"
+        activeClassName: "text-purple-500",
+        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
-        className: "stroke-current text-gray-700 h-8 w-8",
+        className: "stroke-current h-8 w-8",
         viewBox: "0 0 24 24",
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
@@ -78502,14 +78502,14 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement10 = {
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement10, "strokeLinejoin", "round"), _defineProperty(_React$createElement10, "strokeWidth", "1.5"), _defineProperty(_React$createElement10, "d", "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"), _React$createElement10))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-gray-800 text-sm"
+        className: "text-sm"
       }, "Home")), this.canSeeLeaveLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/leaves/",
-        activeClassName: "border border-2",
-        className: "flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2"
+        activeClassName: "text-purple-500",
+        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         id: "Layer_3",
-        className: "stroke-current text-gray-700 h-8 w-8",
+        className: "stroke-current h-8 w-8",
         "data-name": "Layer 3",
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24"
@@ -78558,15 +78558,15 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         fill: "none",
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement17, "strokeLinejoin", "round"), _defineProperty(_React$createElement17, "strokeWidth", "1.5"), _React$createElement17))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-gray-800 text-sm"
+        className: "text-sm"
       }, "Leaves")) : null, this.canSeeUsersLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/users",
-        activeClassName: "border border-2",
-        className: "flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2"
+        activeClassName: "text-purple-500",
+        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
         viewBox: "0 0 24 24",
-        className: "stroke-current text-gray-700 h-8 w-8",
+        className: "stroke-current h-8 w-8",
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", _defineProperty({
         strokeLinejoin: "round",
@@ -78585,11 +78585,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M17.339,19v-1.601c0,-1.933 -1.567,-3.5 -3.5,-3.5h-3.679c-1.933,0 -3.5,1.567 -3.5,3.5v1.601"
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-gray-800 text-sm"
+        className: "text-sm"
       }, "Users")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/my-leaves",
-        activeClassName: "border border-2",
-        className: "flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2"
+        activeClassName: "text-purple-500",
+        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         id: "Layer_3",
         "data-name": "Layer 3",
@@ -78647,11 +78647,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         fill: "none",
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement27, "strokeLinejoin", "round"), _defineProperty(_React$createElement27, "strokeWidth", "1.5"), _React$createElement27)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-gray-800 text-xs"
+        className: "text-xs"
       }, "My Leaves")), this.canSeeSettingsLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/settings",
-        activeClassName: "border border-2",
-        className: "flex flex-row space-x-1 items-center hover:bg-gray-200 rounded-lg p-2"
+        activeClassName: "text-purple-500",
+        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
         className: "stroke-current text-gray-700 h-8 w-8",
@@ -78698,7 +78698,7 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }, _defineProperty(_React$createElement33, "strokeLinejoin", "round"), _defineProperty(_React$createElement33, "strokeWidth", "1.5"), _React$createElement33)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement34 = {
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement34, "strokeLinejoin", "round"), _defineProperty(_React$createElement34, "strokeWidth", "1.5"), _defineProperty(_React$createElement34, "d", "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"), _React$createElement34))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-gray-800 text-sm"
+        className: "text-sm"
       }, "Settings")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         to: "/profile",
         className: "mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg items-center focus:outline-none"
@@ -78888,7 +78888,7 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         d: "M19 17h-4"
       }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/home",
-        activeClassName: "border-2",
+        activeClassName: "border-2 border-purple-500",
         className: "focus:outline-none rounded-md hover:bg-gray-200 p-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
@@ -78907,7 +78907,7 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         d: "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"
       }))))), this.canSeeLeaveLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/leaves",
-        activeClassName: "border-2",
+        activeClassName: "border-2 border-purple-500",
         className: "focus:outline-none rounded-md hover:bg-gray-200 p-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         id: "Layer_3",
@@ -78975,7 +78975,7 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         strokeWidth: "1.5"
       }))) : null, this.canSeeUsersLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/users",
-        activeClassName: "border-2",
+        activeClassName: "border-2 border-purple-500",
         className: "focus:outline-none rounded-md hover:bg-gray-200 p-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
@@ -79001,7 +79001,7 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         d: "M17.339,19v-1.601c0,-1.933 -1.567,-3.5 -3.5,-3.5h-3.679c-1.933,0 -3.5,1.567 -3.5,3.5v1.601"
       }))))) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/my-leaves",
-        activeClassName: "border-2",
+        activeClassName: "border-2 border-purple-500",
         className: "focus:outline-none rounded-md hover:bg-gray-200 p-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         id: "Layer_3",
@@ -79079,7 +79079,7 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         strokeWidth: "1.5"
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/profile",
-        activeClassName: "border-2",
+        activeClassName: "border-2 border-purple-500",
         className: "focus:outline-none rounded-md hover:bg-gray-200 p-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
@@ -79094,7 +79094,7 @@ var MobileMenu = /*#__PURE__*/function (_React$Component) {
         strokeLinejoin: "round"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/settings",
-        activeClassName: "border-2",
+        activeClassName: "border-2 border-purple-500",
         className: "focus:outline-none rounded-md hover:bg-gray-200 p-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
@@ -79752,7 +79752,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row space-x-2 items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-sm md:text-base"
+        className: "text-sm md:text-base text-gray-800"
       }, (_this$props$user = this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserLeaveStatusBadge__WEBPACK_IMPORTED_MODULE_9__["default"], {
         user: this.props.user
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -79764,9 +79764,9 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-purple-800"
+        className: "text-2xl text-white"
       }, (_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-purple-800 text-base"
+        className: "text-white text-base"
       }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: " pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {

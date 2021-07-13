@@ -115,7 +115,7 @@ const HomePage = class HomePage extends React.Component {
                     <div className="flex md:flex-row w-full justify-between items-center">
                         <Heading>
                             <div className="flex flex-row space-x-2 items-center">
-                                <span className="text-sm md:text-base">{this.props.user?.name}</span>
+                                <span className="text-sm md:text-base text-gray-800">{this.props.user?.name}</span>
                                 <UserLeaveStatusBadge user={this.props.user} />
                             </div>
                         </Heading>
@@ -130,8 +130,8 @@ const HomePage = class HomePage extends React.Component {
                     <Card className="pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-purple-800">{this.props.user?.leaveBalance}</span>
-                                <span className="text-purple-800 text-base">Leave Balance</span>
+                                <span className="text-2xl text-white">{this.props.user?.leaveBalance}</span>
+                                <span className="text-white text-base">Leave Balance</span>
                             </div>
                         </Heading>
                     </Card>

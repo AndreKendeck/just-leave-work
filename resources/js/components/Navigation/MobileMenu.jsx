@@ -50,7 +50,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                                     </span>
                                 </Link>
 
-                                <NavLink to="/home" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                <NavLink to="/home" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <span>
                                         <svg version="1.1" className="stroke-current text-gray-700 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                             <g fill="none">
@@ -61,8 +61,8 @@ const MobileMenu = class MobileMenu extends React.Component {
                                     </span>
                                 </NavLink>
 
-                                { this.canSeeLeaveLink() ? (
-                                    <NavLink to="/leaves" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                {this.canSeeLeaveLink() ? (
+                                    <NavLink to="/leaves" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                         <svg id="Layer_3" className="stroke-current text-gray-700 h-8 w-8" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             <line x1="16.5" y1="16" x2="11" y2="16" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
                                             <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
@@ -74,8 +74,8 @@ const MobileMenu = class MobileMenu extends React.Component {
                                         </svg>
                                     </NavLink>
                                 ) : null}
-                                { this.canSeeUsersLink() ? (
-                                    <NavLink to="/users" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                {this.canSeeUsersLink() ? (
+                                    <NavLink to="/users" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                         <span>
                                             <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
                                                 <g strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
@@ -89,7 +89,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                                         </span>
                                     </NavLink>
                                 ) : null}
-                                <NavLink to="/my-leaves" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                <NavLink to="/my-leaves" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <span>
                                         <svg id="Layer_3" data-name="Layer 3" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
@@ -104,13 +104,13 @@ const MobileMenu = class MobileMenu extends React.Component {
                                         </svg>
                                     </span>
                                 </NavLink>
-                                <NavLink to="/profile" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                <NavLink to="/profile" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <svg version="1.1" className="stroke-current text-gray-800 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                         <path d="M12 12c-2.467 0-4.483-2.015-4.483-4.483 0-2.468 2.016-4.517 4.483-4.517 2.467 0 4.483 2.015 4.483 4.483 0 2.468-2.016 4.517-4.483 4.517Zm7 9h-14c-.55 0-1-.45-1-1v-1c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v1c0 .55-.45 1-1 1Z" strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
                                         </path>
                                     </svg>
                                 </NavLink>
-                                <NavLink to="/settings" activeClassName="border-2" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
+                                <NavLink to="/settings" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
                                         <g fill="none">
                                             <line x1="13" x2="13" y1="7.5" y2="10.5" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></line>
