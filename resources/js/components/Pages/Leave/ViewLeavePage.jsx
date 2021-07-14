@@ -46,7 +46,8 @@ const ViewLeavePage = (props) => {
                 setComment({ text: null, errors: [] });
                 setLeave({ ...leave, comments: [newComment, ...leave.comments] });
             }).catch(failed => {
-                setComment({ ...comment, errors: failed.response.errors });
+                setComment({ ...comment, errors: collect(failed.response.errors).flatten() });
+                
             });
     }
 
@@ -168,14 +169,16 @@ const ViewLeavePage = (props) => {
                 </div>
                 {error ? <ErrorMessage onDismiss={(e) => setError(null)} /> : null}
             </Card>
-            <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                <TextArea value={comment.text} label="Add a comment" name="comment" errors={comment.errors}
-                    onKeyUp={(e) => { console.log(e); e.persist(); setComment({ text: e.target.value, ...comment }); console.log(comment) }} />
-                <Button onClick={(e) => onCommentAdd()}>Comment</Button>
-            </Card>
             <div className="flex flex-col space-y-2 overflow-auto" style={{ maxHeight: '300px' }}>
                 {renderComments(leave.comments)}
             </div>
+            <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
+                <TextArea label="Add a comment" name="comment" errors={comment.errors}
+                    onChange={(e) => { e.persist(); console.log(e.target.value); setComment((prevState) => ({ ...prevState, text: e.target.value })); console.log(comment) }}>
+                    {comment.text}
+                </TextArea>
+                <Button onClick={(e) => onCommentAdd()}>Add Comment</Button>
+            </Card>
         </Page>
     )
 

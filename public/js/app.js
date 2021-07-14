@@ -77469,7 +77469,7 @@ var Comment = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: (_this$props$comment2 = this.props.comment) === null || _this$props$comment2 === void 0 ? void 0 : _this$props$comment2.user,
         imageSize: 8
-      })), !this.state.isEditing && this.props.isEditable ? this.renderEditAndDeleteButton() : null, this.state.isEditing && this.props.isEditable ? this.renderSaveAndCancelButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })), !this.state.isEditing && this.props.canEdit ? this.renderEditAndDeleteButton() : null, this.state.isEditing && this.props.isEditable ? this.renderSaveAndCancelButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "text-gray-600 text-sm w-full"
       }, moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$comment3 = this.props.comment) === null || _this$props$comment3 === void 0 ? void 0 : _this$props$comment3.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "text-gray-600 text-base"
@@ -77870,7 +77870,7 @@ var TextArea = function TextArea(_ref) {
       _ref$value = _ref.value,
       value = _ref$value === void 0 ? null : _ref$value,
       onKeyUp = _ref.onKeyUp,
-      onChange = _ref.onChange,
+      _onChange = _ref.onChange,
       tip = _ref.tip,
       _ref$disabled = _ref.disabled,
       disabled = _ref$disabled === void 0 ? false : _ref$disabled;
@@ -77882,11 +77882,13 @@ var TextArea = function TextArea(_ref) {
   }, label ? label : name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
     name: name,
     id: name,
+    value: value,
     onKeyUp: onKeyUp,
-    onChange: onChange,
+    onChange: function onChange(e) {
+      return _onChange(e);
+    },
     disabled: disabled,
     className: "form-input form-input border-2 rounded-lg",
-    value: value,
     cols: "30",
     rows: "10"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -78441,17 +78443,12 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
   _createClass(DesktopMenu, [{
     key: "render",
     value: function render() {
-      var _this$props$team, _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _React$createElement26, _React$createElement27, _React$createElement28, _React$createElement29, _React$createElement30, _React$createElement31, _React$createElement32, _React$createElement33, _React$createElement34, _this$props$user6, _this$props$user7;
+      var _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _this$props$user6, _this$props$user7, _this$props$user8;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "hidden md:flex flex-col bg-white lg:p-4 p-2 mx-4 rounded-lg shadow mt-2"
+        className: "hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow w-1/2 self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-row w-full justify-between items-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
-        to: "/",
-        className: "text-gray-800 text-2xl font-bold w-full hover:text-gray-600"
-      }, (_this$props$team = this.props.team) === null || _this$props$team === void 0 ? void 0 : _this$props$team.displayName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-row space-x-2 items-center w-full justify-end"
+        className: "flex flex-row space-x-2 items-center w-full justify-center w-full"
       }, this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/leave/create",
         className: "text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between"
@@ -78484,14 +78481,16 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }, _defineProperty(_React$createElement8, "strokeLinejoin", "round"), _defineProperty(_React$createElement8, "strokeWidth", "1.5"), _defineProperty(_React$createElement8, "d", "M17 15v4"), _React$createElement8)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement9 = {
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement9, "strokeLinejoin", "round"), _defineProperty(_React$createElement9, "strokeWidth", "1.5"), _defineProperty(_React$createElement9, "d", "M19 17h-4"), _React$createElement9))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-white text-xs"
+        className: "text-white text-base"
       }, "Apply")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/home",
         activeClassName: "text-purple-500",
-        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+        className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "transition-none"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
-        className: "stroke-current h-8 w-8",
+        className: "stroke-current h-8 w-8 transition-none",
         viewBox: "0 0 24 24",
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
@@ -78502,11 +78501,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement10 = {
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement10, "strokeLinejoin", "round"), _defineProperty(_React$createElement10, "strokeWidth", "1.5"), _defineProperty(_React$createElement10, "d", "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"), _React$createElement10))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-sm"
+        className: "text-base"
       }, "Home")), this.canSeeLeaveLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/leaves/",
         activeClassName: "text-purple-500",
-        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
+        className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         id: "Layer_3",
         className: "stroke-current h-8 w-8",
@@ -78558,11 +78557,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         fill: "none",
         strokeLinejoin: "round"
       }, _defineProperty(_React$createElement17, "strokeLinejoin", "round"), _defineProperty(_React$createElement17, "strokeWidth", "1.5"), _React$createElement17))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-sm"
+        className: "text-base"
       }, "Leaves")) : null, this.canSeeUsersLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/users",
         activeClassName: "text-purple-500",
-        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
+        className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
         viewBox: "0 0 24 24",
@@ -78585,128 +78584,68 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
         d: "M17.339,19v-1.601c0,-1.933 -1.567,-3.5 -3.5,-3.5h-3.679c-1.933,0 -3.5,1.567 -3.5,3.5v1.601"
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-sm"
-      }, "Users")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
-        to: "/my-leaves",
-        activeClassName: "text-purple-500",
-        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
-        id: "Layer_3",
-        "data-name": "Layer 3",
-        className: "stroke-current text-gray-700 h-8 w-8",
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: "0 0 24 24"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement19 = {
-        x1: "7.5",
-        y1: "3",
-        x2: "7.5",
-        y2: "6",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement19, "strokeLinejoin", "round"), _defineProperty(_React$createElement19, "strokeWidth", "1.5"), _React$createElement19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement20 = {
-        x1: "16.5",
-        y1: "3",
-        x2: "16.5",
-        y2: "6",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement20, "strokeLinejoin", "round"), _defineProperty(_React$createElement20, "strokeWidth", "1.5"), _React$createElement20)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement21 = {
-        d: "M11,21H6a3,3,0,0,1-3-3V7.5a3,3,0,0,1,3-3H18a3,3,0,0,1,3,3V9",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement21, "strokeLinejoin", "round"), _defineProperty(_React$createElement21, "strokeWidth", "1.5"), _React$createElement21)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement22 = {
-        x1: "11.5",
-        y1: "16",
-        x2: "10.5",
-        y2: "16",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement22, "strokeLinejoin", "round"), _defineProperty(_React$createElement22, "strokeWidth", "1.5"), _React$createElement22)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement23 = {
-        d: "M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement23, "strokeLinejoin", "round"), _defineProperty(_React$createElement23, "strokeWidth", "1.5"), _React$createElement23)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement24 = {
-        x1: "13",
-        y1: "12",
-        x2: "10.5",
-        y2: "12",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement24, "strokeLinejoin", "round"), _defineProperty(_React$createElement24, "strokeWidth", "1.5"), _React$createElement24)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement25 = {
-        d: "M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement25, "strokeLinejoin", "round"), _defineProperty(_React$createElement25, "strokeWidth", "1.5"), _React$createElement25)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement26 = {
-        d: "M15,20.5v-.406A2.1,2.1,0,0,1,17.094,18h2.812A2.1,2.1,0,0,1,22,20.094V20.5a.5.5,0,0,1-.5.5h-6A.5.5,0,0,1,15,20.5Z",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement26, "strokeLinejoin", "round"), _defineProperty(_React$createElement26, "strokeWidth", "1.5"), _React$createElement26)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("circle", (_React$createElement27 = {
-        cx: "18.5",
-        cy: "13.75",
-        r: "2",
-        fill: "none",
-        strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement27, "strokeLinejoin", "round"), _defineProperty(_React$createElement27, "strokeWidth", "1.5"), _React$createElement27)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-xs"
-      }, "My Leaves")), this.canSeeSettingsLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+        className: "text-base"
+      }, "Users")) : null, this.canSeeSettingsLink() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/settings",
         activeClassName: "text-purple-500",
-        className: "flex flex-row space-x-1 items-center rounded-lg hover:bg-gray-200 p-2 text-gray-800"
+        className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
-        className: "stroke-current text-gray-700 h-8 w-8",
+        className: "stroke-current h-8 w-8",
         viewBox: "0 0 24 24",
         xmlns: "http://www.w3.org/2000/svg"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
         fill: "none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement28 = {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement19 = {
         x1: "7.5",
         x2: "10.5",
         y1: "11",
         y2: "11",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement28, "strokeLinejoin", "round"), _defineProperty(_React$createElement28, "strokeWidth", "1.5"), _React$createElement28)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement29 = {
+      }, _defineProperty(_React$createElement19, "strokeLinejoin", "round"), _defineProperty(_React$createElement19, "strokeWidth", "1.5"), _React$createElement19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement20 = {
         x1: "9",
         x2: "9",
         y1: "11",
         y2: "17",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement29, "strokeLinejoin", "round"), _defineProperty(_React$createElement29, "strokeWidth", "1.5"), _React$createElement29)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement30 = {
+      }, _defineProperty(_React$createElement20, "strokeLinejoin", "round"), _defineProperty(_React$createElement20, "strokeWidth", "1.5"), _React$createElement20)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement21 = {
         x1: "9",
         x2: "9",
         y1: "7",
         y2: "8.5",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement30, "strokeLinejoin", "round"), _defineProperty(_React$createElement30, "strokeWidth", "1.5"), _React$createElement30)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement31 = {
+      }, _defineProperty(_React$createElement21, "strokeLinejoin", "round"), _defineProperty(_React$createElement21, "strokeWidth", "1.5"), _React$createElement21)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement22 = {
         x1: "16.5",
         x2: "13.5",
         y1: "13.08",
         y2: "13.08",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement31, "strokeLinejoin", "round"), _defineProperty(_React$createElement31, "strokeWidth", "1.5"), _React$createElement31)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement32 = {
+      }, _defineProperty(_React$createElement22, "strokeLinejoin", "round"), _defineProperty(_React$createElement22, "strokeWidth", "1.5"), _React$createElement22)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement23 = {
         x1: "15",
         x2: "15",
         y1: "13",
         y2: "7",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement32, "strokeLinejoin", "round"), _defineProperty(_React$createElement32, "strokeWidth", "1.5"), _React$createElement32)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement33 = {
+      }, _defineProperty(_React$createElement23, "strokeLinejoin", "round"), _defineProperty(_React$createElement23, "strokeWidth", "1.5"), _React$createElement23)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement24 = {
         x1: "15",
         x2: "15",
         y1: "17",
         y2: "15.5",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement33, "strokeLinejoin", "round"), _defineProperty(_React$createElement33, "strokeWidth", "1.5"), _React$createElement33)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement34 = {
+      }, _defineProperty(_React$createElement24, "strokeLinejoin", "round"), _defineProperty(_React$createElement24, "strokeWidth", "1.5"), _React$createElement24)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement25 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement34, "strokeLinejoin", "round"), _defineProperty(_React$createElement34, "strokeWidth", "1.5"), _defineProperty(_React$createElement34, "d", "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"), _React$createElement34))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, _defineProperty(_React$createElement25, "strokeLinejoin", "round"), _defineProperty(_React$createElement25, "strokeWidth", "1.5"), _defineProperty(_React$createElement25, "d", "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"), _React$createElement25))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-sm"
       }, "Settings")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         to: "/profile",
-        className: "mx-1 px-2 py-1 hover:bg-gray-200 rounded-lg items-center focus:outline-none"
+        className: "flex flex-row space-x-2 hover:bg-gray-200 rounded-lg items-center focus:outline-none p-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
         className: "h-8 w-8 rounded-full",
         src: (_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.avatarUrl,
         alt: (_this$props$user7 = this.props.user) === null || _this$props$user7 === void 0 ? void 0 : _this$props$user7.name
-      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "text-gray-600 text-base"
+      }, (_this$props$user8 = this.props.user) === null || _this$props$user8 === void 0 ? void 0 : _this$props$user8.name))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         to: "/login",
         className: "w-1/4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_4__["default"], null, "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
@@ -78714,7 +78653,7 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         className: "w-1/4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
         type: "outlined"
-      }, "Register"))))));
+      }, "Register")))));
     }
   }]);
 
@@ -80994,7 +80933,7 @@ var ViewLeavePage = function ViewLeavePage(props) {
       }));
     })["catch"](function (failed) {
       setComment(_objectSpread(_objectSpread({}, comment), {}, {
-        errors: failed.response.errors
+        errors: Object(collect_js__WEBPACK_IMPORTED_MODULE_15__["collect"])(failed.response.errors).flatten()
       }));
     });
   };
@@ -81140,31 +81079,32 @@ var ViewLeavePage = function ViewLeavePage(props) {
     onDismiss: function onDismiss(e) {
       return setError(null);
     }
-  }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    className: "flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_17__["default"], {
-    value: comment.text,
-    label: "Add a comment",
-    name: "comment",
-    errors: comment.errors,
-    onKeyUp: function onKeyUp(e) {
-      console.log(e);
-      e.persist();
-      setComment(_objectSpread({
-        text: e.target.value
-      }, comment));
-      console.log(comment);
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_14__["default"], {
-    onClick: function onClick(e) {
-      return onCommentAdd();
-    }
-  }, "Comment")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-col space-y-2 overflow-auto",
     style: {
       maxHeight: '300px'
     }
-  }, renderComments(leave.comments)));
+  }, renderComments(leave.comments)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_17__["default"], {
+    label: "Add a comment",
+    name: "comment",
+    errors: comment.errors,
+    onChange: function onChange(e) {
+      e.persist();
+      console.log(e.target.value);
+      setComment(function (prevState) {
+        return _objectSpread(_objectSpread({}, prevState), {}, {
+          text: e.target.value
+        });
+      });
+      console.log(comment);
+    }
+  }, comment.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    onClick: function onClick(e) {
+      return onCommentAdd();
+    }
+  }, "Add Comment")));
 };
 
 var mapStateToProps = function mapStateToProps(state) {

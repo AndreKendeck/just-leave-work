@@ -90,7 +90,7 @@ const Comment = class Comment extends React.Component {
                         <div className="w-1/4">
                             <UserBadge user={this.props.comment?.user} imageSize={8} />
                         </div>
-                        {!this.state.isEditing && this.props.isEditable ? this.renderEditAndDeleteButton() : null}
+                        {!this.state.isEditing && this.props.canEdit ? this.renderEditAndDeleteButton() : null}
                         {this.state.isEditing && this.props.isEditable ? this.renderSaveAndCancelButton() : null}
                     </div>
                     <div className="text-gray-600 text-sm w-full">{moment(this.props.comment?.createdAt).fromNow()}</div>
