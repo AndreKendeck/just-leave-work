@@ -77328,8 +77328,6 @@ var Comment = /*#__PURE__*/function (_React$Component) {
     _this = _super.call.apply(_super, [this].concat(args));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      isSending: false,
-      isEditing: false,
       errors: [],
       message: null,
       text: (_this$props$comment = _this.props.comment) === null || _this$props$comment === void 0 ? void 0 : _this$props$comment.text
@@ -77339,60 +77337,19 @@ var Comment = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(Comment, [{
-    key: "toggleLoading",
-    value: function toggleLoading(isSending) {
-      this.setState({
-        isSending: isSending
-      });
-    }
-  }, {
-    key: "renderLoading",
-    value: function renderLoading() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        type: "Oval",
-        className: "self-center",
-        height: 80,
-        width: 80,
-        color: "Gray"
-      }));
-    }
-  }, {
-    key: "renderEditAndDeleteButton",
-    value: function renderEditAndDeleteButton() {
+    key: "renderDeleteButton",
+    value: function renderDeleteButton() {
       var _this2 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row space-x-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        type: "soft",
-        onClick: function onClick() {
-          _this2.setState({
-            isEditing: true
-          });
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "items-center focus:outline-none bg-gray-300 text-gray-800 p-1 w-full font-bold rounded text-center hover:bg-gray-200 tranform",
+        onClick: function onClick(e) {
+          var _this2$props$comment;
+
+          return _this2.props.onDelete((_this2$props$comment = _this2.props.comment) === null || _this2$props$comment === void 0 ? void 0 : _this2$props$comment.id);
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
-        id: "Layer_3",
-        className: "stroke-current h-6 w-6 text-gray-600",
-        "data-name": "Layer 3",
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: "0 0 24 24"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4",
-        fill: "none",
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        strokeWidth: "1.5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z",
-        fill: "none",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "stroke-width": "1.5"
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        type: "soft",
-        onClick: this.props.onDelete
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
         version: "1.1",
         className: "stroke-current h-6 w-6 text-gray-600",
@@ -77420,43 +77377,14 @@ var Comment = /*#__PURE__*/function (_React$Component) {
       })))));
     }
   }, {
-    key: "renderSaveAndCancelButton",
-    value: function renderSaveAndCancelButton() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-row space-x-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        type: "soft"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
-        viewBox: "0 0 24 24",
-        className: "stroke-current h-6 w-6 text-gray-600",
-        xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
-        fill: "none",
-        "stroke-linejoin": "round"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M19 21H5.1l0-.001c-1.1 0-2-.89-2-1.99l-.11-14 -.01-.01c-.01-1.11.88-2.01 1.98-2.02 0-.01 0-.01.01-.01h11.17l0-.001c.53-.01 1.03.21 1.41.58l2.82 2.82 -.01-.01c.37.37.58.88.58 1.41v11.17l0 0c0 1.1-.9 1.99-2 1.99 -.01 0-.01-.01-.01-.01Z"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M15.993 3v4l0-.01c-.01.55-.45.99-1 1h-6l-.01-.001c-.56-.01-1-.45-1-1v-4"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M12 12a2.5 2.5 0 1 0 0 5 2.5 2.5 0 1 0 0-5Z"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        type: "soft"
-      }, "\xD7"));
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this$props$comment2,
           _this$props$comment3,
           _this$props$comment4,
+          _this$props$comment5,
           _this3 = this,
-          _this$props$comment5;
-
-      if (this.state.isSending) {
-        return this.renderLoading();
-      }
+          _this$props$comment6;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
@@ -77469,16 +77397,16 @@ var Comment = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: (_this$props$comment2 = this.props.comment) === null || _this$props$comment2 === void 0 ? void 0 : _this$props$comment2.user,
         imageSize: 8
-      })), !this.state.isEditing && this.props.canEdit ? this.renderEditAndDeleteButton() : null, this.state.isEditing && this.props.isEditable ? this.renderSaveAndCancelButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })), (_this$props$comment3 = this.props.comment) !== null && _this$props$comment3 !== void 0 && _this$props$comment3.canDelete ? this.renderDeleteButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "text-gray-600 text-sm w-full"
-      }, moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$comment3 = this.props.comment) === null || _this$props$comment3 === void 0 ? void 0 : _this$props$comment3.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$comment4 = this.props.comment) === null || _this$props$comment4 === void 0 ? void 0 : _this$props$comment4.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "text-gray-600 text-base"
-      }, (_this$props$comment4 = this.props.comment) === null || _this$props$comment4 === void 0 ? void 0 : _this$props$comment4.text), this.props.isEditing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, (_this$props$comment5 = this.props.comment) === null || _this$props$comment5 === void 0 ? void 0 : _this$props$comment5.text), this.props.isEditing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_3__["default"], {
         onChange: function onChange(e) {
           return _this3.onCommentTextChange(e);
         },
         name: "comment",
-        value: (_this$props$comment5 = this.props.comment) === null || _this$props$comment5 === void 0 ? void 0 : _this$props$comment5.text,
+        value: (_this$props$comment6 = this.props.comment) === null || _this$props$comment6 === void 0 ? void 0 : _this$props$comment6.text,
         label: "Comment"
       }) : null);
     }
@@ -78003,11 +77931,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Heading */ "./resources/js/components/Heading.jsx");
-/* harmony import */ var _LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LeaveDaysLabel */ "./resources/js/components/LeaveDaysLabel.jsx");
-/* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
-/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UserBadge */ "./resources/js/components/UserBadge.jsx");
-
+/* harmony import */ var _LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LeaveDaysLabel */ "./resources/js/components/LeaveDaysLabel.jsx");
+/* harmony import */ var _LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LeaveStatusBadge */ "./resources/js/components/LeaveStatusBadge.jsx");
+/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UserBadge */ "./resources/js/components/UserBadge.jsx");
 
 
 
@@ -78024,15 +77950,15 @@ var LeaveCard = function LeaveCard(_ref) {
     className: "flex flex-col space-y-3 items-center w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-row justify-between w-full items-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_5__["default"], {
     user: leave === null || leave === void 0 ? void 0 : leave.user
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full text-sm text-purple-500 text-right"
-  }, leave.reason.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, leave === null || leave === void 0 ? void 0 : leave.reason.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-row justify-between items-center w-full"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_3__["default"], {
     leave: leave
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
     leave: leave
   })))));
 };
@@ -78446,7 +78372,7 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       var _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _this$props$user6, _this$props$user7, _this$props$user8;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow w-1/2 self-center"
+        className: "hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-1/2 self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row space-x-2 items-center w-full justify-center w-full"
       }, this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
@@ -79175,7 +79101,7 @@ var Navbar = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-col"
+        className: "flex flex-col bg-purple-300 md:pb-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DesktopMenu__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MobileMenu__WEBPACK_IMPORTED_MODULE_3__["default"], null));
     }
   }]);
@@ -79703,11 +79629,11 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-white"
+        className: "text-2xl text-purple-800"
       }, (_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-white text-base"
+        className: "text-purple-800 text-base"
       }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        className: " pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
+        className: "pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -80249,7 +80175,6 @@ var EditLeavePage = function EditLeavePage() {
     setTimeout(function () {
       _api__WEBPACK_IMPORTED_MODULE_5__["default"].get("/leaves/".concat(id)).then(function (successResponse) {
         setLoading(false);
-        console.log(successResponse);
         setLeave(successResponse.data);
       })["catch"](function (failedResponse) {
         setLoading(false);
@@ -80258,6 +80183,20 @@ var EditLeavePage = function EditLeavePage() {
       });
     }, 1500);
   }, []);
+
+  var onDelete = function onDelete() {
+    setLoading(true);
+    _api__WEBPACK_IMPORTED_MODULE_5__["default"]["delete"]("/leaves/".concat(id)).then(function (success) {
+      setLoading(false);
+      setMessage(success.data.message);
+      setTimeout(function () {
+        window.location = '/leaves';
+      }, 1500);
+    })["catch"](function (failed) {
+      setLoading(false);
+      setError(failed.response.data.message);
+    });
+  };
 
   if (loading) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_13__["default"], {
@@ -80294,10 +80233,10 @@ var EditLeavePage = function EditLeavePage() {
     className: "flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
     to: "/leaves/",
-    className: "bg-gray-200 focus:outline-none hover:shadow-sm rounded-lg p-1 w-full flex items-center space-x-2 justify-center"
+    className: "p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
     version: "1.1",
-    className: "stroke-current h-8 w-6 text-gray-500",
+    className: "stroke-current h-6 w-6 text-gray-500",
     viewBox: "0 0 24 24"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
     fill: "none"
@@ -80312,7 +80251,7 @@ var EditLeavePage = function EditLeavePage() {
     strokeWidth: "1.5",
     d: "M10.013 5.988l-6.011 6.012 6.011 6.012"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-sm text-gray-500"
+    className: "text-sm text-gray-600"
   }, "Back to leave page")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_9__["default"], null, leave === null || leave === void 0 ? void 0 : leave.reason.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -80321,11 +80260,7 @@ var EditLeavePage = function EditLeavePage() {
     leave: leave
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_12__["default"], {
     leave: leave
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "flex flex-row space-x-2 items-center justify-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    type: "danger"
-  }, "Delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-row space-x-2 items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "w-full md:w-1/2"
@@ -80336,7 +80271,14 @@ var EditLeavePage = function EditLeavePage() {
     className: "text-gray-600 text-sm w-full text-right"
   }, moment__WEBPACK_IMPORTED_MODULE_0___default()(leave === null || leave === void 0 ? void 0 : leave.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "text-gray-500"
-  }, leave === null || leave === void 0 ? void 0 : leave.description)));
+  }, leave === null || leave === void 0 ? void 0 : leave.description), leave !== null && leave !== void 0 && leave.pending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "flex flex-row space-x-2 items-center justify-between w-full"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    type: "danger",
+    onClick: function onClick() {
+      return onDelete();
+    }
+  }, "Delete")) : null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (EditLeavePage);
@@ -80871,20 +80813,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-/**
- * Render the leave comments
- * @return {JSX}
- */
-
-var renderComments = function renderComments() {
-  var comments = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  return comments.map(function (comment, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment__WEBPACK_IMPORTED_MODULE_13__["default"], {
-      comment: comment,
-      key: index
-    });
-  });
-};
 
 var ViewLeavePage = function ViewLeavePage(props) {
   var _useParams = Object(react_router__WEBPACK_IMPORTED_MODULE_2__["useParams"])(),
@@ -80924,17 +80852,53 @@ var ViewLeavePage = function ViewLeavePage(props) {
       leave_id: id
     }).then(function (success) {
       var newComment = success.data.comment;
-      setComment({
-        text: null,
-        errors: []
+      setComment(function (prevState) {
+        return {
+          text: ' ',
+          errors: []
+        };
       });
       setLeave(_objectSpread(_objectSpread({}, leave), {}, {
         comments: [newComment].concat(_toConsumableArray(leave.comments))
       }));
     })["catch"](function (failed) {
-      setComment(_objectSpread(_objectSpread({}, comment), {}, {
-        errors: Object(collect_js__WEBPACK_IMPORTED_MODULE_15__["collect"])(failed.response.errors).flatten()
+      setComment(function (prevState) {
+        return _objectSpread(_objectSpread({}, comment), {}, {
+          errors: Object(collect_js__WEBPACK_IMPORTED_MODULE_15__["collect"])(failed.response.errors).flatten()
+        });
+      });
+    });
+  };
+  /**
+   * Render the leave comments
+   * @return {JSX}
+   */
+
+
+  var renderComments = function renderComments() {
+    var comments = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    return comments.map(function (comment, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        comment: comment,
+        key: index,
+        onDelete: function onDelete(id) {
+          return onCommentDelete(id);
+        }
+      });
+    });
+  };
+
+  var onCommentDelete = function onCommentDelete(id) {
+    _api__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/comments/".concat(id)).then(function (success) {
+      setMessage(success.data.message);
+      var updatedCommentList = leave.comments.filter(function (comment) {
+        return comment.id != id;
+      });
+      setLeave(_objectSpread(_objectSpread({}, leave), {}, {
+        comments: updatedCommentList
       }));
+    })["catch"](function (failed) {
+      setError(failed.response.data.message);
     });
   };
 
@@ -81024,12 +80988,14 @@ var ViewLeavePage = function ViewLeavePage(props) {
     }
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
     className: "flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex flex-row space-between items-center space-x-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_18__["Link"], {
     to: "/leaves/",
-    className: "bg-gray-200 focus:outline-none hover:shadow-sm rounded-lg p-1 w-full flex items-center space-x-2 justify-center"
+    className: "p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
     version: "1.1",
-    className: "stroke-current h-8 w-6 text-gray-500",
+    className: "stroke-current h-6 w-6 text-gray-500",
     viewBox: "0 0 24 24"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
     fill: "none"
@@ -81044,8 +81010,31 @@ var ViewLeavePage = function ViewLeavePage(props) {
     strokeWidth: "1.5",
     d: "M10.013 5.988l-6.011 6.012 6.011 6.012"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-sm text-gray-500"
-  }, "Back to leave page")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-sm text-gray-600"
+  }, "Back to leave page")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_18__["Link"], {
+    className: "p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center",
+    to: "/leave/edit/".concat(id)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    id: "Layer_3",
+    className: "stroke-current h-6 w-6 text-gray-600",
+    "data-name": "Layer 3",
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4",
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "1.5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z",
+    fill: "none",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "1.5"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-sm text-gray-600"
+  }, "edit"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_8__["default"], null, leave === null || leave === void 0 ? void 0 : leave.reason.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-row space-x-2 items-center justify-between"
@@ -81092,13 +81081,11 @@ var ViewLeavePage = function ViewLeavePage(props) {
     errors: comment.errors,
     onChange: function onChange(e) {
       e.persist();
-      console.log(e.target.value);
       setComment(function (prevState) {
         return _objectSpread(_objectSpread({}, prevState), {}, {
           text: e.target.value
         });
       });
-      console.log(comment);
     }
   }, comment.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_14__["default"], {
     onClick: function onClick(e) {

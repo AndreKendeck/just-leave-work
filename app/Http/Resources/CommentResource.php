@@ -21,8 +21,7 @@ class CommentResource extends JsonResource
             'text' => $this->text,
             'wasEdited' => $this->was_edited,
             'canEdit' => $this->can_edit,
-            'isDeletable' => $this->is_deletable,
-            'isEditable' => $this->is_editable,
+            'canDelete' => $this->is_deletable,
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,

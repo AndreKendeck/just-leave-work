@@ -26,7 +26,6 @@ const EditLeavePage = () => {
             api.get(`/leaves/${id}`)
                 .then(successResponse => {
                     setLoading(false);
-                    console.log(successResponse);
                     setLeave(successResponse.data);
                 }).catch(failedResponse => {
                     setLoading(false);
@@ -36,6 +35,21 @@ const EditLeavePage = () => {
 
         }, 1500);
     }, []);
+
+    const onDelete = () => {
+        setLoading(true);
+        api.delete(`/leaves/${id}`)
+            .then(success => {
+                setLoading(false);
+                setMessage(success.data.message);
+                setTimeout(() => {
+                    window.location = '/leaves';
+                }, 1500);
+            }).catch(failed => {
+                setLoading(false);
+                setError(failed.response.data.message);
+            });
+    }
 
     if (loading) {
         return (
@@ -61,14 +75,14 @@ const EditLeavePage = () => {
         <Page className="flex flex-col justify-center justify-center space-y-2">
             {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                <Link to="/leaves/" className="bg-gray-200 focus:outline-none hover:shadow-sm rounded-lg p-1 w-full flex items-center space-x-2 justify-center">
-                    <svg version="1.1" className="stroke-current h-8 w-6 text-gray-500" viewBox="0 0 24 24" >
+                <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">
+                    <svg version="1.1" className="stroke-current h-6 w-6 text-gray-500" viewBox="0 0 24 24" >
                         <g fill="none">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
                         </g>
                     </svg>
-                    <span className="text-sm text-gray-500">Back to leave page</span>
+                    <span className="text-sm text-gray-600">Back to leave page</span>
                 </Link>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center">
                     <Heading>{leave?.reason.name}</Heading>
@@ -80,9 +94,6 @@ const EditLeavePage = () => {
                             <LeaveStatusBadge leave={leave} />
                         </div>
                     </div>
-                    <div className="flex flex-row space-x-2 items-center justify-between">
-                        <Button type="danger">Delete</Button>
-                    </div>
                 </div>
                 <div className="flex flex-row space-x-2 items-center">
                     <div className="w-full md:w-1/2">
@@ -93,6 +104,11 @@ const EditLeavePage = () => {
                 <div className="text-gray-500">
                     {leave?.description}
                 </div>
+                {leave?.pending ? (
+                    <div className="flex flex-row space-x-2 items-center justify-between w-full">
+                        <Button type="danger" onClick={() => onDelete()}>Delete</Button>
+                    </div>
+                ) : null}
             </Card>
         </Page>
     );

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from './Card';
-import Heading from './Heading';
 import LeaveDaysLabel from './LeaveDaysLabel';
 import LeaveStatusBadge from './LeaveStatusBadge';
 import UserBadge from './UserBadge';
@@ -14,7 +13,7 @@ const LeaveCard = ({ leave }) => {
                     <div className="flex flex-row justify-between w-full items-center">
                         <UserBadge user={leave?.user} />
                         <div className="w-full text-sm text-purple-500 text-right">
-                            {leave.reason.name}
+                            {leave?.reason.name}
                         </div>
                     </div>
                     <div className="flex flex-row justify-between items-center w-full">

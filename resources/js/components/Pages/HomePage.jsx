@@ -130,12 +130,12 @@ const HomePage = class HomePage extends React.Component {
                     <Card className="pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-white">{this.props.user?.leaveBalance}</span>
-                                <span className="text-white text-base">Leave Balance</span>
+                                <span className="text-2xl text-purple-800">{this.props.user?.leaveBalance}</span>
+                                <span className="text-purple-800 text-base">Leave Balance</span>
                             </div>
                         </Heading>
                     </Card>
-                    <Card className=" pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
+                    <Card className="pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
                                 <span className="text-2xl text-white text-base">{this.props.user?.leaveTaken}</span>

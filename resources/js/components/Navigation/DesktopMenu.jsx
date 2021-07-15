@@ -21,7 +21,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
 
     render() {
         return (
-            <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow w-1/2 self-center">
+            <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-1/2 self-center">
                 <div className="flex flex-row space-x-2 items-center w-full justify-center w-full">
                     {this.props.auth.authenticated ? (
                         <React.Fragment>

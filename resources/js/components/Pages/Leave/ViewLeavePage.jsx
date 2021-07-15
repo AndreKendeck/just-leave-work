@@ -19,15 +19,7 @@ import TextArea from '../../Form/Textarea';
 import { Link } from 'react-router-dom';
 
 
-/**
- * Render the leave comments
- * @return {JSX}
- */
-const renderComments = (comments = []) => {
-    return comments.map((comment, index) => {
-        return <Comment comment={comment} key={index} />
-    })
-}
+
 
 
 const ViewLeavePage = (props) => {
@@ -43,11 +35,36 @@ const ViewLeavePage = (props) => {
         api.post('/comments', { text: comment.text, leave_id: id })
             .then(success => {
                 const { comment: newComment } = success.data;
-                setComment({ text: null, errors: [] });
+                setComment((prevState) => ({ text: ' ', errors: [] }));
                 setLeave({ ...leave, comments: [newComment, ...leave.comments] });
             }).catch(failed => {
-                setComment({ ...comment, errors: collect(failed.response.errors).flatten() });
-                
+                setComment((prevState) => ({ ...comment, errors: collect(failed.response.errors).flatten() }));
+
+            });
+    }
+
+    /**
+     * Render the leave comments
+     * @return {JSX}
+     */
+    const renderComments = (comments = []) => {
+        return comments.map((comment, index) => {
+            return <Comment comment={comment} key={index} onDelete={(id) => onCommentDelete(id)} />
+        });
+    }
+
+
+    const onCommentDelete = (id) => {
+        api.delete(`/comments/${id}`)
+            .then(success => {
+                setMessage(success.data.message);
+                let updatedCommentList = leave.comments.filter((comment) => {
+                    return comment.id != id;
+                });
+                setLeave({ ...leave, comments: updatedCommentList });
+            })
+            .catch(failed => {
+                setError(failed.response.data.message);
             });
     }
 
@@ -133,15 +150,24 @@ const ViewLeavePage = (props) => {
         <Page className="flex flex-col justify-center justify-center space-y-2">
             {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                <Link to="/leaves/" className="bg-gray-200 focus:outline-none hover:shadow-sm rounded-lg p-1 w-full flex items-center space-x-2 justify-center">
-                    <svg version="1.1" className="stroke-current h-8 w-6 text-gray-500" viewBox="0 0 24 24" >
-                        <g fill="none">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
-                        </g>
-                    </svg>
-                    <span className="text-sm text-gray-500">Back to leave page</span>
-                </Link>
+                <div className="flex flex-row space-between items-center space-x-3">
+                    <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">
+                        <svg version="1.1" className="stroke-current h-6 w-6 text-gray-500" viewBox="0 0 24 24" >
+                            <g fill="none">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
+                            </g>
+                        </svg>
+                        <span className="text-sm text-gray-600">Back to leave page</span>
+                    </Link>
+                    <Link className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center" to={`/leave/edit/${id}`}>
+                        <svg id="Layer_3" className="stroke-current h-6 w-6 text-gray-600" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+                            <path d="M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                        </svg>
+                        <span className="text-sm text-gray-600">edit</span>
+                    </Link>
+                </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center">
                     <Heading>{leave?.reason.name}</Heading>
                     <div className="flex flex-row space-x-2 items-center justify-between">
@@ -151,6 +177,7 @@ const ViewLeavePage = (props) => {
                         <div>
                             <LeaveStatusBadge leave={leave} />
                         </div>
+
                     </div>
                 </div>
                 <div className="flex flex-row space-x-2 items-center">
@@ -174,7 +201,7 @@ const ViewLeavePage = (props) => {
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <TextArea label="Add a comment" name="comment" errors={comment.errors}
-                    onChange={(e) => { e.persist(); console.log(e.target.value); setComment((prevState) => ({ ...prevState, text: e.target.value })); console.log(comment) }}>
+                    onChange={(e) => { e.persist(); setComment((prevState) => ({ ...prevState, text: e.target.value })); }}>
                     {comment.text}
                 </TextArea>
                 <Button onClick={(e) => onCommentAdd()}>Add Comment</Button>
