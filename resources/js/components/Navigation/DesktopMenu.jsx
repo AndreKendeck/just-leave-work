@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import Button from '../Button';
+import Icon from '../../assets/Icon';
 
 
 const DesktopMenu = class DesktopMenu extends React.Component {
@@ -21,10 +22,13 @@ const DesktopMenu = class DesktopMenu extends React.Component {
 
     render() {
         return (
-            <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-1/2 self-center">
-                <div className="flex flex-row space-x-2 items-center w-full justify-center w-full">
+            <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center">
+                <div className="flex flex-row space-x-2 items-center w-full justify-between">
+                    <Link to="/" className="w-1/4">
+                        <Icon width={12} height={12} />
+                    </Link>
                     {this.props.auth.authenticated ? (
-                        <React.Fragment>
+                        <div className="w-full flex flex-row space-x-2 items-center">
                             <NavLink to="/leave/create" className="text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between">
                                 <span>
                                     <svg version="1.1" className="stroke-current text-white h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
@@ -106,14 +110,14 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
                                 <span className="text-gray-600 text-base">{this.props.user?.name}</span>
                             </Link>
-                        </React.Fragment>
+                        </div>
                     ) : (
                         <React.Fragment>
                             <Link to="/login" className="w-1/4">
                                 <Button>Login</Button>
                             </Link>
                             <Link to="/register" className="w-1/4">
-                                <Button type="outlined">Register</Button>
+                                <Button type="secondary">Register</Button>
                             </Link>
                         </React.Fragment>
                     )}

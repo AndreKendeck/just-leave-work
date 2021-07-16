@@ -2,6 +2,7 @@ import { collect } from 'collect.js';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+import Icon from '../../assets/Icon';
 import Button from '../Button';
 
 const MobileMenu = class MobileMenu extends React.Component {
@@ -22,11 +23,10 @@ const MobileMenu = class MobileMenu extends React.Component {
             <div className="md:hidden flex flex-col bg-white shadow rounded lg:p-4 p-2 m-4">
                 <div className={`md:hidden flex flex-row ${this.props.auth.authenticated ? 'justify-center' : 'justify-between'} w-full items-center`}>
                     {this.props.auth.authenticated ? null : (
-                        <Link to="/" className="text-gray-800 text-xl font-bold">
-                            Work
+                        <Link to="/">
+                            <Icon width={12} height={12} />
                         </Link>
                     )}
-
                     <div className="flex flex-row space-x-2 items-center">
                         {this.props.auth.authenticated ? (
                             <React.Fragment>
@@ -127,10 +127,10 @@ const MobileMenu = class MobileMenu extends React.Component {
                         ) : (
                             <React.Fragment>
                                 <Link to="/login">
-                                    <Button type="outlined">Login</Button>
+                                    <Button type="primary">Login</Button>
                                 </Link>
                                 <Link to="/register">
-                                    <Button>Register</Button>
+                                    <Button type="secondary">Register</Button>
                                 </Link>
                             </React.Fragment>
                         )}
