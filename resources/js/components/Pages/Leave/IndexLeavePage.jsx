@@ -133,7 +133,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     getLeaveStatuses = () => {
         return [
             {
-                value: null,
+                value: '',
                 label: 'All'
             },
             {

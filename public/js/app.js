@@ -80516,7 +80516,7 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "getLeaveStatuses", function () {
       return [{
-        value: null,
+        value: '',
         label: 'All'
       }, {
         value: 'pending',
