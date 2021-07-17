@@ -80398,13 +80398,13 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
       error: null
     }, _defineProperty(_defineProperty2, "isLoading", false), _defineProperty(_defineProperty2, "year", null), _defineProperty(_defineProperty2, "currentPage", 1), _defineProperty(_defineProperty2, "from", null), _defineProperty(_defineProperty2, "perPage", null), _defineProperty(_defineProperty2, "to", null), _defineProperty(_defineProperty2, "total", null), _defineProperty2));
 
-    _defineProperty(_assertThisInitialized(_this), "getLeaves", function (pageNumber) {
+    _defineProperty(_assertThisInitialized(_this), "getLeaves", function (pageNumber, year) {
       _this.toggleLoadingState(true);
 
       var config = {
         params: {
           page: pageNumber,
-          year: _this.state.year
+          year: year
         }
       };
       setTimeout(function () {
@@ -80536,13 +80536,24 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
   _createClass(IndexLeavePage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.getLeaves(this.state.currentPage);
+      this.setState({
+        year: moment__WEBPACK_IMPORTED_MODULE_0___default()().format('Y')
+      });
+      console.log(this.state);
+      this.getLeaves(this.state.currentPage, this.state.year);
     }
   }, {
     key: "toggleLoadingState",
     value: function toggleLoadingState(isLoading) {
       this.setState({
         isLoading: isLoading
+      });
+    }
+  }, {
+    key: "onYearSelect",
+    value: function onYearSelect(year) {
+      this.setState({
+        year: year
       });
     }
   }, {
@@ -80571,13 +80582,22 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
         label: "Reason",
         onChange: function onChange(e) {
           e.persist();
-          console.log(e.target.value);
 
           _this2.setState({
             filters: _objectSpread(_objectSpread({}, _this2.state.filters), {}, {
               reason: e.target.value
             })
           });
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        label: "Year",
+        options: this.props.years,
+        onChange: function onChange(e) {
+          e.persist();
+
+          _this2.onYearSelect(e.target.value);
+
+          _this2.getLeaves(_this2.state.currentPage, e.target.value);
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
         className: "hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2"
@@ -80608,13 +80628,13 @@ var IndexLeavePage = /*#__PURE__*/function (_React$Component) {
         }
       }, this.renderLeaveCards()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Paginator__WEBPACK_IMPORTED_MODULE_9__["default"], {
         onNextPage: function onNextPage() {
-          return _this2.getLeaves(_this2.state.currentPage + 1);
+          return _this2.getLeaves(_this2.state.currentPage + 1, _this2.state.year);
         },
         onPreviousPage: function onPreviousPage() {
-          return _this2.getLeaves(_this2.state.currentPage - 1);
+          return _this2.getLeaves(_this2.state.currentPage - 1, _this2.state.year);
         },
         onPageSelect: function onPageSelect(page) {
-          return _this2.getLeaves(page);
+          return _this2.getLeaves(page, _this2.state.year);
         },
         onLastPage: this.state.to === this.state.currentPage,
         onFirstPage: this.state.currentPage === 1,
@@ -80637,7 +80657,14 @@ var mapStateToProps = function mapStateToProps(state) {
         value: reason.id,
         label: reason.name
       };
-    })))
+    }))),
+    years: [0, 1, 2, 3, 4].map(function (year) {
+      var result = moment__WEBPACK_IMPORTED_MODULE_0___default()().subtract(year, 'year').format('Y');
+      return {
+        value: result,
+        label: result
+      };
+    })
   };
 };
 

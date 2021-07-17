@@ -30,13 +30,6 @@ class LeaveController extends Controller
             ->latest()
             ->paginate(10);
 
-        if ($request->year) {
-            $leaves = Leave::where('team_id', auth()->user()->team_id)
-                ->whereYear('from', '=', $request->year)
-                ->latest()
-                ->paginate(10);
-        }
-
         return response()
             ->json([
                 'leaves' => LeaveResource::collection($leaves),
@@ -64,7 +57,6 @@ class LeaveController extends Controller
 
             $until = new Carbon($request->until);
         }
-
 
         $invalidDate = ($from > $until);
 

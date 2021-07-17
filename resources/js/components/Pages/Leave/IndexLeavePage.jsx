@@ -35,15 +35,17 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     }
 
     componentDidMount() {
-        this.getLeaves(this.state.currentPage);
+        this.setState({ year: moment().format('Y') });
+        console.log(this.state);
+        this.getLeaves(this.state.currentPage, this.state.year);
     }
 
-    getLeaves = (pageNumber) => {
+    getLeaves = (pageNumber, year) => {
         this.toggleLoadingState(true);
         const config = {
             params: {
                 page: pageNumber,
-                year: this.state.year,
+                year,
             }
         }
         setTimeout(() => {
@@ -151,6 +153,10 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
         ];
     }
 
+    onYearSelect(year) {
+        this.setState({ year });
+    }
+
     render() {
         return (
             <Page className="flex flex-col space-y-2">
@@ -160,7 +166,13 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
 
                     <Dropdown options={this.props.reasons}
                         label="Reason"
-                        onChange={(e) => { e.persist(); console.log(e.target.value); this.setState({ filters: { ...this.state.filters, reason: e.target.value } }) }} />
+                        onChange={(e) => {
+                            e.persist();
+                            this.setState({ filters: { ...this.state.filters, reason: e.target.value } })
+                        }} />
+                    <Dropdown label="Year" options={this.props.years} onChange={(e) => {
+                        e.persist(); this.onYearSelect(e.target.value); this.getLeaves(this.state.currentPage, e.target.value);
+                    }} />
                 </Card>
                 <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
                     <div className="flex flex-row justify-between items-center">
@@ -179,9 +191,9 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                         {this.renderLeaveCards()}
                     </div>)}
 
-                <Paginator onNextPage={() => this.getLeaves((this.state.currentPage + 1))}
-                    onPreviousPage={() => this.getLeaves((this.state.currentPage - 1))}
-                    onPageSelect={(page) => this.getLeaves(page)}
+                <Paginator onNextPage={() => this.getLeaves((this.state.currentPage + 1), this.state.year)}
+                    onPreviousPage={() => this.getLeaves((this.state.currentPage - 1), this.state.year)}
+                    onPageSelect={(page) => this.getLeaves(page, this.state.year)}
                     onLastPage={this.state.to === this.state.currentPage}
                     onFirstPage={this.state.currentPage === 1}
                     activePage={this.state.currentPage} numberOfPages={this.state.to} />
@@ -192,13 +204,21 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
 };
 
 const mapStateToProps = (state) => {
+
     return {
         reasons: [{ value: 0, label: 'All' }, ...state.reasons.map(reason => {
             return {
                 value: reason.id,
                 label: reason.name
             }
-        })]
+        })],
+        years: [0, 1, 2, 3, 4].map(year => {
+            const result = moment().subtract(year, 'year').format('Y');
+            return {
+                value: result,
+                label: result,
+            }
+        })
     }
 }
 

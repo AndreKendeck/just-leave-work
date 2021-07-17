@@ -84,6 +84,7 @@ class Leave extends Model
         $this->update([
             'approved_at' => now(),
         ]);
+        
     }
 
     public function deny()
