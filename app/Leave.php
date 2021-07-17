@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +23,7 @@ class Leave extends Model
         'is_active',
         'can_delete',
         'can_edit',
-        'is_for_one_day'
+        'is_for_one_day',
     ];
 
     /**
@@ -84,7 +83,7 @@ class Leave extends Model
         $this->update([
             'approved_at' => now(),
         ]);
-        
+
     }
 
     public function deny()
@@ -97,7 +96,29 @@ class Leave extends Model
 
     public function getNumberOfDaysOffAttribute()
     {
-        return $this->until->diffInDays($this->from);
+        $difference = $this->until->diffInDays($this->from);
+
+        if ($difference > 0) {
+
+            $excludedDays = $this->team->settings->excludedDays;
+
+            $daysOff = 1;
+
+            for ($d = 1; $d <= $difference; $d++) {
+
+                $nextDay = $this->from->addDays($d)->format('l');
+
+                if ($excludedDays->contains('day', $nextDay)) {
+                    continue;
+                }
+                $daysOff++;
+            }
+            return $daysOff;
+        }
+
+        if ($this->until->isSameDay($this->from)) {
+            return 1;
+        }
     }
 
     public function user()
@@ -135,7 +156,7 @@ class Leave extends Model
 
     public function getIsForOneDayAttribute()
     {
-        return $this->from->isSameDay($this->until); 
+        return $this->from->isSameDay($this->until);
     }
 
     public function getPendingAttribute()

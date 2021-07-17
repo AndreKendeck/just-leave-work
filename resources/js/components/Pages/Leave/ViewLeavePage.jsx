@@ -148,7 +148,7 @@ const ViewLeavePage = (props) => {
     }
     return (
         <Page className="flex flex-col justify-center justify-center space-y-2">
-            <div className="md:w-1/2 w-full">
+            <div className="md:w-1/2 w-full self-center">
                 {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
@@ -220,4 +220,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, null)(ViewLeavePage);
+export default connect(mapStateToProps)(ViewLeavePage);

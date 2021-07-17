@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
             'until' => ['date', 'nullable'],
             'notifyUser' => [
                 'nullable',
-                Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id)
+                Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id),
             ],
         ];
     }
@@ -39,10 +39,11 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
+            'reason.required' => ['Please select a reason for your leave'],
             'from.date' => ['Please enter a valid date'],
             'until.date' => ['Please enter a valid date'],
             'from.required' => ['Please enter your leave starting date'],
-            'notifyUser.exists' => ['Please select a valid user to notify']
+            'notifyUser.exists' => ['Please select a valid user to notify'],
         ];
     }
 }

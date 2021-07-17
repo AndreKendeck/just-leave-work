@@ -113,6 +113,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                     <td className="text-center text-gray-600 text-sm">
                         {moment(leave.until).format('Do MMM YYYY')}
                     </td>
+                    <td className="text-center text-gray-600 text-sm"> {leave.numberOfDaysOff} </td>
                     <td className="text-center relative">
                         <div className="flex flex-row space-x-2 items-center">
                             <ViewButtonLink url={`/leave/view/${leave.id}`} />
@@ -175,14 +176,9 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                     }} />
                 </Card>
                 <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
-                    <div className="flex flex-row justify-between items-center">
-                        <Heading>
-                            <span className="text-base md:text-lg text-gray-800">All leaves</span>
-                        </Heading>
-                    </div>
                     {this.state.isLoading ?
                         <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> :
-                        <Table headings={['Requested By', 'Status', 'Type', 'On', 'Until', '']}>
+                        <Table headings={['Requested By', 'Status', 'Type', 'On', 'Until', 'Days off', '']}>
                             {this.renderLeavesRow()}
                         </Table>}
                 </Card>

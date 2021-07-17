@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddExcludeWeekendsColumnToSettingsTable extends Migration
+class CreateExcludedDaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddExcludeWeekendsColumnToSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('settings', function (Blueprint $table) {
-            $table->addColumn('boolean', 'exclude_weekends')->default(true);
+        Schema::create('excluded_days', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('setting_id');
+            $table->string('day'); // Eg. Sundays or Saturdays
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddExcludeWeekendsColumnToSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn('exclude_weekends');
-        });
+        Schema::dropIfExists('excluded_days');
     }
 }

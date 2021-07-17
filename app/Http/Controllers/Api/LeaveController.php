@@ -58,12 +58,24 @@ class LeaveController extends Controller
             $until = new Carbon($request->until);
         }
 
+        // future dates are always bigger
         $invalidDate = ($from > $until);
 
         if ($invalidDate) {
             return response()->json([
                 'errors' => [
                     'from' => ['Your leave dates are incorrect'],
+                ],
+            ], 422);
+        }
+
+        $restrcitedDaysToStartLeave = auth()->user()->team->settings->excludedDays;
+
+        if ($restrcitedDaysToStartLeave->contains('day', $from->format('l'))) {
+            $excludedDays = $restrcitedDaysToStartLeave->implode('day', ', ');
+            return response()->json([
+                'errors' => [
+                    'from' => ["You cannot start leave on {$excludedDays}"],
                 ],
             ], 422);
         }
@@ -107,25 +119,6 @@ class LeaveController extends Controller
             if ($userToNotify->hasPermission('can-approve-leave') || $userToNotify->hasPermission('can-deny-leave')) {
                 Mail::to($userToNotify->email)
                     ->queue(new LeaveRequestEmail($leave));
-            }
-        }
-
-        /**
-         * Automatic leave approval
-         */
-
-        $teamAllowsForAutomaticApprovals = $teamSettings->automatic_leave_approval;
-
-        if ($teamAllowsForAutomaticApprovals) {
-            // we want to check if the user has a positive balance first
-            $willResultInANegativeBalance = $from->diffInDays($until) > auth()->user()->leave_balance;
-
-            if (!$willResultInANegativeBalance) {
-                $leave->approve();
-                return response()->json([
-                    'message' => "You leave request has been created & approved",
-                    'leave' => new LeaveResource($leave),
-                ], 201);
             }
         }
 
@@ -207,7 +200,7 @@ class LeaveController extends Controller
         if ($leave->denied) {
             return response()
                 ->json([
-                    'message' => "Leave has been denied no chanages are allowed",
+                    'message' => "Leave has been denied no changes are allowed",
                 ], 403);
         }
 

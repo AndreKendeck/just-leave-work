@@ -15,19 +15,22 @@ class Setting extends Model
      * @var array
      */
     protected $casts = [
-        'automatic_leave_approval' => 'boolean',
         'leave_added_per_cycle' => 'integer',
         'maximum_leave_days' => 'integer',
         'maximum_leave_balance' => 'integer',
         'days_until_balance_added' => 'integer',
-        'can_approve_own_leave' => 'boolean',
         'last_leave_balance_added_at' => 'datetime',
         'created_at' => 'datetime:Y-m-d',
-        'updated_at' => 'datetime:Y-m-d'
+        'updated_at' => 'datetime:Y-m-d',
     ];
 
     public function team()
     {
         return $this->belongsTo(\App\Team::class);
+    }
+
+    public function excludedDays()
+    {
+        return $this->hasMany(\App\ExcludedDay::class)->latest();
     }
 }

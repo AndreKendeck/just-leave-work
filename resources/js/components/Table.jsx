@@ -4,12 +4,12 @@ const Table = ({ headings = [], children }) => {
     const renderHeadings = () => {
         return headings?.map((heading, key) => {
             if (key === (headings.length - 1)) {
-                return <th key={key} className="bg-gray-300 font-bold text-center text-gray-600 text-sm rounded-r">{heading}</th>
+                return <th key={key} className="text-gray-700 text-sm font-bold text-center text-gray-600 rounded-r">{heading}</th>
             }
             if (key === 0) {
-                return <th key={key} className="bg-gray-300 font-bold text-center text-gray-600 text-sm rounded-l">{heading}</th>
+                return <th key={key} className="text-gray-700 text-sm font-bold text-center text-gray-600 rounded-l">{heading}</th>
             }
-            return <th key={key} className="bg-gray-300 font-bold text-center text-gray-600 text-sm ">{heading}</th>
+            return <th key={key} className="text-gray-700 text-sm font-bold text-center text-gray-600 ">{heading}</th>
         });
     }
     return (

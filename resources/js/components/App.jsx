@@ -84,14 +84,6 @@ const App = class App extends React.Component {
         return this.props.user?.verified;
     }
 
-    currentUserHasRole = (roleName) => {
-        return collect(this.props.user?.roles).contains('name', roleName);
-    }
-
-    currentUserHasPermission = (permissonName) => {
-        return collect(this.props.user?.permission).contains('name', permissonName);
-    }
-
     getAuthRoutes = () => {
         if (this.currentUserIsAuthenticated() && !this.currentUserHasAVerifiedEmailAddress()) {
             return (
@@ -130,10 +122,10 @@ const App = class App extends React.Component {
                     {this.currentUserIsAuthenticated() ? <SettingsPage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/users">
-                    {this.currentUserIsAuthenticated() ? null : <Redirect to="/login" />}
+                    {this.currentUserIsAuthenticated() ? <IndexUserPage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/user/:id">
-
+                    
                 </Route>
                 <Route path="/users/create">
 

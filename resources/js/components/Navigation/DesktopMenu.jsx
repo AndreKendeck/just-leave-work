@@ -113,12 +113,14 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                         </div>
                     ) : (
                         <React.Fragment>
-                            <Link to="/login" className="w-1/4">
-                                <Button>Login</Button>
-                            </Link>
-                            <Link to="/register" className="w-1/4">
-                                <Button type="secondary">Register</Button>
-                            </Link>
+                            <div className="flex flex-row space-x-2 self-end items-center w-1/2">
+                                <Link to="/login" className="w-full">
+                                    <Button>Login</Button>
+                                </Link>
+                                <Link to="/register" className="w-full">
+                                    <Button type="secondary">Register</Button>
+                                </Link>
+                            </div>
                         </React.Fragment>
                     )}
                 </div>

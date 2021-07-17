@@ -26,8 +26,6 @@ class UpdateRequest extends FormRequest
         return [
             'reason' => ['required', 'exists:reasons,id'],
             'description' => ['required',  'string', 'min:3'],
-            'from' => ['date', 'required'],
-            'until' => ['date', 'required']
         ];
     }
 }
