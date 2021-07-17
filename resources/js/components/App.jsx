@@ -159,11 +159,12 @@ const App = class App extends React.Component {
     render() {
         if (this.state.initializing) {
             return (
-                <div className="flex flex-1 self-center w-full">
+                <div className="flex flex-col self-center w-full justify-center h-screen">
                     <Loader type="Oval" className="self-center" height={120} width={120} color="Gray" />
                 </div>
             );
         }
+
         return (
             <div className="flex flex-col space-y-4 z-10 bg-gray-100 h-full">
                 <BrowserRouter>

@@ -13,6 +13,7 @@ import LeaveDaysLabel from '../../LeaveDaysLabel';
 import LeaveStatusBadge from '../../LeaveStatusBadge';
 import Page from '../../Page';
 import UserBadge from '../../UserBadge';
+import Field from '../../Form/Field';
 
 const EditLeavePage = () => {
     const { id } = useParams();
@@ -20,6 +21,7 @@ const EditLeavePage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -101,9 +103,12 @@ const EditLeavePage = () => {
                     </div>
                     <div className="text-gray-600 text-sm w-full text-right">{moment(leave?.createdAt).fromNow()}</div>
                 </div>
-                <div className="text-gray-500">
+                <div className="text-gray-500 w-full" onClick={(e) => setIsEditing(true)}>
                     {leave?.description}
                 </div>
+                {isEditing ? (
+                    <Field value={leave?.description} label="Description" />
+                ) : null}
                 {leave?.pending ? (
                     <div className="flex flex-row space-x-2 items-center justify-between w-full">
                         <Button type="danger" onClick={() => onDelete()}>Delete</Button>

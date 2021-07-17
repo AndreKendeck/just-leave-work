@@ -148,7 +148,9 @@ const ViewLeavePage = (props) => {
     }
     return (
         <Page className="flex flex-col justify-center justify-center space-y-2">
-            {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
+            <div className="md:w-1/2 w-full">
+                {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
+            </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <div className="flex flex-row space-between items-center space-x-3">
                     <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">
