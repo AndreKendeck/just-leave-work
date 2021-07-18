@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Permission;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -25,8 +22,9 @@ class UserTest extends TestCase
     {
         $user = factory('App\User')->create();
         $jeff = factory('App\User')->create([
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
+        $user->attachRole('team-admin', $user->team);
         $this->actingAs($user)
             ->get(route('users.show', $jeff->id))
             ->assertOk();
@@ -38,16 +36,11 @@ class UserTest extends TestCase
         $user = factory('App\User')->create();
         $user->attachRole('team-admin', $user->team);
 
-        $newUser =  [
+        $newUser = [
             'name' => $this->faker->name,
             'email' => $this->faker->safeEmail,
             'leave_balance' => rand(1, 10),
             'is_admin' => $this->faker->randomElement([null, true]),
-            'permissions' => [
-                'can-approve-leave',
-                'can-deny-leave',
-                'can-add-users'
-            ]
         ];
         $response = $this->actingAs($user)
             ->post(route('users.store'), $newUser)
@@ -67,14 +60,11 @@ class UserTest extends TestCase
             $this->assertDatabaseHas('role_user', [
                 'user_id' => $createdUser['id'],
                 'user_type' => get_class($user),
-                'team_id' => $user->team->id
+                'team_id' => $user->team->id,
             ]);
         }
         $createdUser = User::find($createdUser['id']);
 
-        foreach ($newUser['permissions'] as $permission) {
-            $this->assertTrue($createdUser->hasPermission($permission, $createdUser->team->id));
-        }
     }
 
     /** @test **/
@@ -94,14 +84,10 @@ class UserTest extends TestCase
         $user = factory('App\User')->create();
         $user->attachRole('team-admin', $user->team);
         $userToUpdate = factory('App\User')->create([
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
-        $userToUpdate->attachPermission('can-approve-leave', $user->team->id);
         $updates = [
             'is_admin' => true,
-            'permissions' => [
-                Permission::all()->random()->name
-            ]
         ];
         $this->actingAs($user)
             ->put(route('users.update', $userToUpdate->id), $updates)
@@ -115,14 +101,14 @@ class UserTest extends TestCase
     public function a_user_can_delete_another_user_with_the_right_permissions()
     {
         $user = factory('App\User')->create();
-        $user->attachPermission('can-delete-users', $user->team);
+        $user->attachRole('team-admin', $user->team);
         $userToDelete = factory('App\User')->create(['team_id' => $user->team_id]);
         $this->actingAs($user)
             ->delete(route('users.destroy', $userToDelete->id))
             ->assertOk()
             ->assertJsonStructure(['message']);
         $this->assertSoftDeleted('users', [
-            'id' => $userToDelete->id
+            'id' => $userToDelete->id,
         ]);
     }
 }

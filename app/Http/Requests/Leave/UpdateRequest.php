@@ -24,7 +24,6 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'reason' => ['required', 'exists:reasons,id'],
             'description' => ['required',  'string', 'min:3'],
         ];
     }

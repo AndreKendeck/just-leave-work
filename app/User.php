@@ -56,7 +56,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     protected $with = [
         'roles',
-        'permissions',
     ];
 
     /**

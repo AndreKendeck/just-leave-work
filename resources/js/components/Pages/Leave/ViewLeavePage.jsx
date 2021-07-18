@@ -68,14 +68,8 @@ const ViewLeavePage = (props) => {
             });
     }
 
-
-    const canApproveLeave = () => {
-        return collect(props.permissions).contains('name', 'can-approve-leave') && leave.pending;
-    }
-
-
-    const canDenyLeave = () => {
-        return collect(props.permissions).contains('name', 'can-deny-leave') && leave.pending;
+    const userIsAdmin = () => {
+        return collect(props.user?.roles).contains('name', 'team-admin');
     }
 
     const onLeaveApprove = () => {
@@ -193,8 +187,10 @@ const ViewLeavePage = (props) => {
                 </div>
                 {/* There was no better way to write this unless I store  */}
                 <div className="flex flex-row space-x-2">
-                    {canApproveLeave() ? <Button onClick={(e) => onLeaveApprove()}>Approve</Button> : null}
-                    {canDenyLeave() ? <Button onClick={(e) => onLeaveDeny()} type="danger">Deny</Button> : null}
+                    {userIsAdmin() ? <React.Fragment>
+                        <Button onClick={(e) => onLeaveApprove()}>Approve</Button>
+                        <Button onClick={(e) => onLeaveDeny()} type="danger">Deny</Button>
+                    </React.Fragment> : null}
                 </div>
                 {error ? <ErrorMessage onDismiss={(e) => setError(null)} /> : null}
             </Card>

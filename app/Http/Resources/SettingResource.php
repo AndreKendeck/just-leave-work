@@ -18,8 +18,6 @@ class SettingResource extends JsonResource
             'id' => $this->id,
             'teamId' => $this->team_id,
             'leaveAddedPerCycle' => $this->leave_added_per_cycle,
-            'maximumLeaveDays' => $this->maximum_leave_days,
-            'maximumLeaveBalance' => $this->maximum_leave_balance,
             'daysUntilBalanceAdded' => $this->days_until_balance_added,
             'lastLeaveBalanceAddedAt' => $this->last_leave_balance_added_at,
             'createdAt' => $this->created_at,

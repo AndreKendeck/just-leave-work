@@ -2,12 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Permission;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -34,38 +29,30 @@ class RegisterTest extends TestCase
         $this->assertDatabaseHas('users', [
             'name' => $user->name,
             'email' => $user->email,
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
-        $this->assertDatabaseHas('teams', [
-            'name' => Str::kebab($details['team_name'])
-        ]);
-
-        $permissions = Permission::all();
-
-        $permissions->each(function (\App\Permission $permission) use ($user) {
-            $this->assertDatabaseHas('permission_user', [
-                'permission_id' => $permission->id,
-                'user_id' => $user->id,
-                'user_type' => get_class($user),
-                'team_id' => $user->team->id
-            ]);
-        });
 
         $this->assertDatabaseHas('role_user', [
             'role_id' => 1,
             'user_id' => $user->id,
             'user_type' => get_class($user),
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
-
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_type' => 'App\User',
-            'tokenable_id' => $user->id
+            'tokenable_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('settings', [
-            'team_id' => $user->team->id
+            'team_id' => $user->team->id,
         ]);
+
+        collect(['Saturday', 'Sunday'])->each(function (string $day) use ($user) {
+            $this->assertDatabaseHas('excluded_days', [
+                'day' => $day,
+                'setting_id' => $user->team->settings->id,
+            ]);
+        });
     }
 }

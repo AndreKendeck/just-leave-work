@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeaveResource;
-use App\Http\Resources\UserResource;
 use App\Leave;
 
 class LeaveStatusController extends Controller
@@ -14,7 +13,7 @@ class LeaveStatusController extends Controller
     {
         $leave = Leave::findOrFail($id);
 
-        if (!auth()->user()->hasPermission('can-approve-leave', auth()->user()->team)) {
+        if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
             return response()
                 ->json([
                     'message' => "You are not allowed to approve leave",
@@ -57,7 +56,7 @@ class LeaveStatusController extends Controller
     {
         $leave = Leave::findOrFail($id);
 
-        if (!auth()->user()->hasPermission('can-deny-leave', auth()->user()->team)) {
+        if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
             return response()
                 ->json([
                     'message' => "You are not allowed to approve leave",

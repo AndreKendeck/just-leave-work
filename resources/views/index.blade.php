@@ -26,9 +26,8 @@
     <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="JustLeave Work - Leave Management" />
-    <meta property="og:description" content="Get a better" />
-    <meta property="og:image"
-        content="https://ahrefs.com/blog/wp-content/uploads/2019/12/fb-how-to-become-an-seo-expert.png" />
+    <meta property="og:description" content="Have" />
+    <meta property="og:image" content="{{ asset('images/seo.png') }}" />
 </head>
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">

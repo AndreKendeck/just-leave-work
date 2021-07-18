@@ -4,7 +4,6 @@ import Loader from 'react-loader-spinner';
 import api from '../../../api';
 import Card from '../../Card';
 import EditButtonLink from '../../EditButtonLink';
-import Heading from '../../Heading';
 import LeaveStatusBadge from '../../LeaveStatusBadge';
 import Page from '../../Page';
 import Paginator from '../../Paginator';

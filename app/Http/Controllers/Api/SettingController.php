@@ -20,8 +20,6 @@ class SettingController extends Controller
     {
         auth()->user()->team->settings->update([
             'leave_added_per_cycle' => $request->leave_added_per_cycle,
-            'maximum_leave_days' => $request->maximum_leave_days,
-            'maximum_leave_balance' => $request->maximum_leave_balance,
             'days_until_balance_added' => $request->days_until_balance_added,
         ]);
 

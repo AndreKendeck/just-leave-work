@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\Leave;
 
-
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AdjustmentRequest extends FormRequest
 {
@@ -15,7 +14,7 @@ class AdjustmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasPermission('can-adjust-leave', auth()->user()->team);
+        return auth()->user()->hasRole('team-admin', auth()->user()->team);
     }
 
     /**
@@ -27,8 +26,8 @@ class AdjustmentRequest extends FormRequest
     {
         return [
             'user' => ['required', 'numeric', Rule::exists('users', 'id')
-                ->where('team_id', auth()->user()->team_id)],
-            'amount' => ['required', 'numeric', 'min:0']
+                    ->where('team_id', auth()->user()->team_id)],
+            'amount' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

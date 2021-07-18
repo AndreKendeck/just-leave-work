@@ -61,17 +61,6 @@ class UserController extends Controller
             $user->attachRole('team-admin', $user->team);
         }
 
-        if ($request->has('permissions')) {
-            foreach ($request->permissions as $permission) {
-                try {
-                    $user->attachPermission($permission, $user->team);
-                } catch (\Exception $e) {
-                    Log::info($e->getMessage());
-                    continue;
-                }
-            }
-        }
-
         try {
             Mail::to($user->email)->queue(new WelcomeEmail($user, $password));
         } catch (\Exception $e) {
@@ -96,6 +85,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if (auth()->user()->team_id !== $user->team_id) {
+            return response()
+                ->json([
+                    'message' => 'You cannot view this user',
+                ], 403);
+        }
+
+        if (!auth()->user()->hasRole('team-admin', $user->team)) {
             return response()
                 ->json([
                     'message' => 'You cannot view this user',
@@ -130,17 +126,9 @@ class UserController extends Controller
             $user->detachRole('team-admin', $user->team);
         }
 
-        if ($request->filled('permissions')) {
-            try {
-                $user->syncPermissions($request->permissions);
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-            }
-        }
-
         return response()
             ->json([
-                'message' => "User roles & permissions updated",
+                'message' => "User role updated",
             ]);
     }
 
@@ -161,7 +149,7 @@ class UserController extends Controller
                 ], 403);
         }
 
-        if (!auth()->user()->hasPermission('can-delete-users', $user->team)) {
+        if (!auth()->user()->hasRole('team-admin', $user->team)) {
             return response()
                 ->json([
                     'message' => "You are not allowed to delete users",

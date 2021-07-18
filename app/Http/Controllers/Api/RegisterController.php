@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\PermissionResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
 use App\Permission;
@@ -34,22 +35,11 @@ class RegisterController extends Controller
 
         $user->attachRole('team-admin', $team);
 
-        $permissions = Permission::all();
-
-        $permissions->each(function (\App\Permission $permission) use ($user, $team) {
-            $user->attachPermission($permission, $team);
-        });
-
         $user->update([
             'last_logged_in_at' => now(),
         ]);
 
-        try {
-            $user->sendEmailVerificationNotification();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-
+    
         $token = $user->createToken(Str::random())->plainTextToken;
 
         return response()
@@ -57,7 +47,7 @@ class RegisterController extends Controller
                 'message' => "You successfully registered",
                 'user' => new UserResource($user),
                 'token' => $token,
-                'team' => new TeamResource($team)
+                'team' => new TeamResource($team),
             ], 201);
     }
 }

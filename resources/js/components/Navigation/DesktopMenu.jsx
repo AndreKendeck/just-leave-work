@@ -9,15 +9,8 @@ import Icon from '../../assets/Icon';
 const DesktopMenu = class DesktopMenu extends React.Component {
 
 
-    canSeeLeaveLink = () => {
-        return collect(this.props.user?.permissions).contains('name', 'can-approve-leave') && collect(this.props.user?.permissions).contains('name', 'can-deny-leave');
-    }
-
-    canSeeUsersLink = () => {
-        return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
-    }
-    canSeeSettingsLink = () => {
-        return collect(this.props.user?.roles).contains('name', 'team-admin');
+    userIsAdmin() {
+        return this.props.user?.isAdmin;
     }
 
     render() {
@@ -59,7 +52,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 </span>
                                 <span className="text-base">Home</span>
                             </NavLink>
-                            {this.canSeeLeaveLink() ? (<NavLink to="/leaves/" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
+                            {this.userIsAdmin() ? (<NavLink to="/leaves/" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
                                 <svg id="Layer_3" className="stroke-current h-8 w-8" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <line x1="16.5" y1="16" x2="11" y2="16" fill="none" strokeLinejoin="round" strokeLinejoin="round" strokeWidth="1.5" />
                                     <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" strokeLinejoin="round" strokeLinejoin="round" strokeWidth="1.5" />
@@ -73,7 +66,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                             </NavLink>) : null}
 
 
-                            {this.canSeeUsersLink() ? (
+                            {this.userIsAdmin() ? (
                                 <NavLink to="/users" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
                                     <span>
                                         <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-8 w-8" xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +82,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                     <span className="text-base">Users</span>
                                 </NavLink>
                             ) : null}
-                            {this.canSeeSettingsLink() ? (
+                            {this.userIsAdmin() ? (
                                 <NavLink to="/settings" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
                                     <span>
                                         <svg version="1.1" className="stroke-current h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >

@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Mail\LeaveRequestEmail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -45,11 +42,37 @@ class LeaveTest extends TestCase
     }
 
     /** @test **/
-    public function users_in_the_same_team_can_view_leaves()
+    public function users_in_the_same_team_can_view_leaves_as_admin()
     {
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
+        ]);
+        $user->attachRole('team-admin', $user->team);
+        $this->actingAs($user)
+            ->get(route('leaves.show', $leave->id))
+            ->assertOk();
+    }
+
+    /** @test **/
+    public function users_cannot_view_other_users_leaves_if_they_are_not_admin()
+    {
+        $user = factory('App\User')->create();
+        $leave = factory('App\Leave')->create([
+            'team_id' => $user->team->id,
+        ]);
+        $this->actingAs($user)
+            ->get(route('leaves.show', $leave->id))
+            ->assertForbidden();
+    }
+
+    /** @test **/
+    public function user_can_view_their_leave_if_they_own_it()
+    {
+        $user = factory('App\User')->create();
+        $leave = factory('App\Leave')->create([
+            'team_id' => $user->team->id,
+            'user_id' => $user->id,
         ]);
         $this->actingAs($user)
             ->get(route('leaves.show', $leave->id))
@@ -77,10 +100,7 @@ class LeaveTest extends TestCase
         ]);
 
         $updates = [
-            'from' => today()->format('Y-m-d'),
-            'until' => today()->addDays(3)->format('Y-m-d'),
             'description' => $this->faker->words(10, true),
-            'reason' => \App\Reason::all()->random()->id,
         ];
         $this->actingAs($leave->user)
             ->put(route('leaves.update', $leave->id), $updates)
@@ -90,7 +110,6 @@ class LeaveTest extends TestCase
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
             'description' => $updates['description'],
-            'reason_id' => $updates['reason'],
         ]);
     }
 
@@ -100,10 +119,7 @@ class LeaveTest extends TestCase
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create();
         $updates = [
-            'from' => today()->format('Y-m-d'),
-            'until' => today()->addDays(3)->format('Y-m-d'),
             'description' => $this->faker->words(10, true),
-            'reason' => \App\Reason::all()->random()->id,
         ];
         $this->actingAs($user)
             ->put(route('leaves.update', $leave->id), $updates)
@@ -121,10 +137,7 @@ class LeaveTest extends TestCase
         ]);
         $leave->approve();
         $updates = [
-            'from' => today()->format('Y-m-d'),
-            'until' => today()->addDays(3)->format('Y-m-d'),
             'description' => $this->faker->words(10, true),
-            'reason' => \App\Reason::all()->random()->id,
         ];
         $this->actingAs($user)
             ->put(route('leaves.update', $leave->id), $updates)
@@ -209,10 +222,10 @@ class LeaveTest extends TestCase
     public function a_user_can_approve_leave_with_ther_right_permission()
     {
         $user = factory('App\User')->create();
-        $user->attachPermission('can-approve-leave', $user->team);
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
         ]);
+        $user->attachRole('team-admin', $user->team);
         $this->actingAs($user)
             ->post(route('leaves.approve', $leave->id))
             ->assertOk()
@@ -225,33 +238,13 @@ class LeaveTest extends TestCase
     }
 
     /** @test **/
-    public function a_user_cannot_approve_their_own_leave_if_the_team_does_not_allow_it()
-    {
-        $user = factory('App\User')->create();
-
-        $leave = factory('App\Leave')->create([
-            'team_id' => $user->team->id,
-            'user_id' => $user->id,
-        ]);
-
-        $leave->team->settings->update(['can_approve_own_leave' => false]);
-
-        $user->attachPermission('can-approve-leave');
-
-        $this->actingAs($user)
-            ->post(route('leaves.approve', $leave->id))
-            ->assertForbidden()
-            ->assertJsonStructure(['message']);
-    }
-
-    /** @test **/
     public function a_user_can_deny_leave_with_the_right_permissions()
     {
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
         ]);
-        $user->attachPermission('can-deny-leave', $user->team);
+        $user->attachRole('team-admin', $user->team);
         $this->actingAs($user)
             ->post(route('leaves.deny', $leave->id))
             ->assertOk();
@@ -279,61 +272,4 @@ class LeaveTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test **/
-    public function a_user_cannot_request_leave_for_more_than_the_days_set_by_the_team_admin()
-    {
-        $user = factory('App\User')->create();
-
-        $user->team->settings->update([
-            'maximum_leave_days' => 5,
-        ]);
-
-        $leave = factory('App\Leave')->make([
-            'team_id' => $user->team->id,
-            'user_id' => $user->id,
-            'from' => today(),
-            'until' => today()->addDays(10),
-        ]);
-
-        $this->actingAs($user)
-            ->post(route('leaves.store'), [
-                'reason' => $leave->reason->id,
-                'description' => $leave->description,
-                'from' => $leave->from->format('Y-m-d'),
-                'until' => $leave->until->format('Y-m-d'),
-            ])->assertForbidden()
-            ->assertJsonStructure(['message']);
-    }
-
-    /** @test **/
-    public function a_user_can_send_a_leave_notification_to_another_user_with_the_right_permisisons()
-    {
-        Mail::fake();
-        Queue::fake();
-        $user = factory('App\User')->create();
-        $userToNotify = factory('App\User')->create([
-            'team_id' => $user->team->id,
-        ]);
-
-        $leave = factory('App\Leave')->make([
-            'team_id' => $user->team->id,
-            'user_id' => $user->id,
-            'from' => today(),
-            'until' => today()->addDays(10),
-        ]);
-
-        $userToNotify->attachPermission('can-approve-leave', $user->team);
-
-        $this->actingAs($user)
-            ->post(route('leaves.store'), [
-                'reason' => $leave->reason->id,
-                'description' => $leave->description,
-                'from' => $leave->from->format('Y-m-d'),
-                'until' => $leave->until->format('Y-m-d'),
-                'notifyUser' => $userToNotify->id,
-            ])
-            ->assertJsonStructure(['message', 'leave'])
-            ->assertCreated();
-        Mail::assertQueued(LeaveRequestEmail::class);
-    }
 }

@@ -48,25 +48,10 @@ class AdjustLeaveBalances implements ShouldQueue
             $overLap = $settings->last_leave_balance_added_at->diffInDays($today) >= $settings->days_until_balance_added;
 
             if ($overLap) {
-                $team->users->each(function (\App\User $user) use ($settings) {
+                $team->users->each(function (\App\User $user) {
                     $toAdd = $user->team->settings->leave_added_per_cycle;
                     Log::info("A leave of {$toAdd} unit will be added to {$user->name} current leave balance {$user->leave_balance}");
-                    Log::info("The maximum leave balance allowed is {$user->team->settings->maximum_leave_balance} days");
-                    /**
-                     * if the users leave balance will go over the team limit
-                     */
-                    $overLimit = ($toAdd + $user->leave_balance) > $settings->maximum_leave_balance;
-                    if (!$overLimit && ($settings->maximum_leave_balance > 0)) {
-                        $user->increment('leave_balance', $toAdd);
-                        Log::info("Leave balance for {$user->name} is now {$user->leave_balance}");
-                    }
-
-                    if ($overLimit) {
-                        $user->update([
-                            'leave_balance' => $settings->maximum_leave_balance,
-                        ]);
-                        Log::info("Leave balance for {$user->name} is now {$user->leave_balance}");
-                    }
+                    $user->increment('leave_balance', $toAdd);
                 });
 
                 $team->settings->update([

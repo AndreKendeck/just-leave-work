@@ -7,15 +7,9 @@ import Button from '../Button';
 
 const MobileMenu = class MobileMenu extends React.Component {
 
-    canSeeLeaveLink = () => {
-        return collect(this.props.user?.permissions).contains('name', 'can-approve-leave') && collect(this.props.user?.permissions).contains('name', 'can-deny-leave');
-    }
 
-    canSeeUsersLink = () => {
-        return collect(this.props.user?.permissions).contains('name', 'can-delete-users') && collect(this.props.user?.permissions).contains('name', 'can-add-users');
-    }
-    canSeeSettingsLink = () => {
-        return collect(this.props.user?.roles).contains('name', 'team-admin');
+    userIsAdmin() {
+        return this.props.user?.isAdmin;
     }
 
     render() {
@@ -61,7 +55,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                                     </span>
                                 </NavLink>
 
-                                {this.canSeeLeaveLink() ? (
+                                {this.userIsAdmin() ? (
                                     <NavLink to="/leaves" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                         <svg id="Layer_3" className="stroke-current text-gray-700 h-8 w-8" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             <line x1="16.5" y1="16" x2="11" y2="16" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
@@ -74,7 +68,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                                         </svg>
                                     </NavLink>
                                 ) : null}
-                                {this.canSeeUsersLink() ? (
+                                {this.userIsAdmin() ? (
                                     <NavLink to="/users" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                         <span>
                                             <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg">
@@ -89,21 +83,6 @@ const MobileMenu = class MobileMenu extends React.Component {
                                         </span>
                                     </NavLink>
                                 ) : null}
-                                <NavLink to="/my-leaves" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
-                                    <span>
-                                        <svg id="Layer_3" data-name="Layer 3" className="stroke-current text-gray-700 h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <line x1="16.5" y1="3" x2="16.5" y2="6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <path d="M11,21H6a3,3,0,0,1-3-3V7.5a3,3,0,0,1,3-3H18a3,3,0,0,1,3,3V9" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <line x1="11.5" y1="16" x2="10.5" y2="16" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <line x1="13" y1="12" x2="10.5" y2="12" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <path d="M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <path d="M15,20.5v-.406A2.1,2.1,0,0,1,17.094,18h2.812A2.1,2.1,0,0,1,22,20.094V20.5a.5.5,0,0,1-.5.5h-6A.5.5,0,0,1,15,20.5Z" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                            <circle cx="18.5" cy="13.75" r="2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                                        </svg>
-                                    </span>
-                                </NavLink>
                                 <NavLink to="/profile" activeClassName="border-2 border-purple-500" className="focus:outline-none rounded-md hover:bg-gray-200 p-1">
                                     <svg version="1.1" className="stroke-current text-gray-800 h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                         <path d="M12 12c-2.467 0-4.483-2.015-4.483-4.483 0-2.468 2.016-4.517 4.483-4.517 2.467 0 4.483 2.015 4.483 4.483 0 2.468-2.016 4.517-4.483 4.517Zm7 9h-14c-.55 0-1-.45-1-1v-1c0-2.2 1.8-4 4-4h8c2.2 0 4 1.8 4 4v1c0 .55-.45 1-1 1Z" strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">

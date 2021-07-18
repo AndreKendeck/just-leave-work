@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\PermissionResource;
 use App\Http\Resources\SettingResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -27,8 +27,8 @@ class LoginController extends Controller
             return response()
                 ->json([
                     'errors' => [
-                        'email' => 'Your account has been blocked you cannot log in.'
-                    ]
+                        'email' => 'Your account has been blocked you cannot log in.',
+                    ],
                 ], 403);
         }
 
@@ -41,7 +41,7 @@ class LoginController extends Controller
         $token = $user->createToken(Str::random())->plainTextToken;
 
         $user->update([
-            'last_logged_in_at' => now()
+            'last_logged_in_at' => now(),
         ]);
 
         return response()
@@ -50,7 +50,7 @@ class LoginController extends Controller
                 'token' => $token,
                 'user' => new UserResource($user),
                 'team' => new TeamResource($user->team),
-                'settings' => new SettingResource($user->team->settings)
+                'settings' => new SettingResource($user->team->settings),
             ]);
     }
 
@@ -58,8 +58,8 @@ class LoginController extends Controller
     {
         return response()->json([
             'errors' => [
-                'email' => $message
-            ]
+                'email' => $message,
+            ],
         ], 422);
     }
 }

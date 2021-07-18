@@ -16,7 +16,6 @@ import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import HomePage from './Pages/HomePage';
-import { collect } from 'collect.js';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
 import MyLeavePage from './Pages/Leave/MyLeavePage';
 import IndexLeavePage from './Pages/Leave/IndexLeavePage';
@@ -26,6 +25,7 @@ import ProfilePage from './Pages/ProfilePage';
 import Loader from 'react-loader-spinner';
 import EditLeavePage from './Pages/Leave/EditLeavePage';
 import SettingsPage from './Pages/SettingsPage';
+import IndexUserPage from './Pages/Users/IndexUserPage';
 
 
 const App = class App extends React.Component {
@@ -125,7 +125,7 @@ const App = class App extends React.Component {
                     {this.currentUserIsAuthenticated() ? <IndexUserPage /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/user/:id">
-                    
+
                 </Route>
                 <Route path="/users/create">
 
@@ -192,7 +192,7 @@ const Application = connect(mapStateToProps,
         setUser,
         setTeam,
         setSettings,
-        setReasons
+        setReasons,
     })(App);
 
 ReactDOM.render(

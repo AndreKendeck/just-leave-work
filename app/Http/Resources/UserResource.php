@@ -23,14 +23,13 @@ class UserResource extends JsonResource
             'leaveBalance' => $this->leave_balance,
             'lastLoginAt' => $this->last_logged_in_at,
             'avatar' => $this->avatar,
-            'roles' => RoleResource::collection($this->roles),
-            'permissions' => PermissionResource::collection($this->permissions),
+            'isAdmin' => $this->roles->contains('name', 'team-admin'),
             'avatarUrl' => $this->has_avatar ? $this->avatar_url : $this->avatar_url->encoded,
             'totalDaysOnLeave' => $this->total_days_on_leave,
             'hasAvatar' => $this->has_avatar,
             'isOnLeave' => $this->is_on_leave,
             'leaveTaken' => $this->leave_taken,
-            'lastLeaveAt' => $this->last_leave_at
+            'lastLeaveAt' => $this->last_leave_at,
         ];
     }
 }

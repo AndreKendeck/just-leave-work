@@ -9,13 +9,13 @@ class LeaveBalanceAdjustmentTest extends TestCase
     /** @test **/
     public function a_user_can_adjust_another_users_leave_balance()
     {
-        $admin = factory('App\User')->create();
-
-        $admin->attachPermission('can-adjust-leave', $admin->team);
+        $admin = factory('App\User')->create(); 
 
         $user = factory('App\User')->create([
             'team_id' => $admin->team_id,
         ]);
+
+        $admin->attachRole('team-admin', $admin->team);
 
         $amountAdded = rand(1, 10);
         $resultBeing = $user->leave_balance + $amountAdded;
@@ -33,41 +33,18 @@ class LeaveBalanceAdjustmentTest extends TestCase
         ]);
     }
 
-    /** @test **/
-    public function a_user_cannot_add_more_leave_than_the_set_setting()
-    {
-        $admin = factory('App\User')->create();
 
-        $admin->attachPermission('can-adjust-leave', $admin);
-
-        $user = factory('App\User')->create([
-            'team_id' => $admin->team_id,
-        ]);
-
-        $admin->team->settings->update([
-            'maximum_leave_balance' => 2,
-        ]);
-
-        $amountAdded = rand(5, 10);
-        $resultBeing = $user->leave_balance + $amountAdded;
-
-        $this->actingAs($admin)
-            ->post(route('leaves.add'), [
-                'user' => $user->id,
-                'amount' => $amountAdded,
-            ])->assertForbidden();
-    }
 
     /** @test **/
     public function a_user_can_deduct_from_the_leave_balance()
     {
         $admin = factory('App\User')->create();
 
-        $admin->attachPermission('can-adjust-leave', $admin->team);
-
         $user = factory('App\User')->create([
             'team_id' => $admin->team_id,
         ]);
+
+        $admin->attachRole('team-admin', $admin->team);
 
         $amountDeducted = rand(1, 10);
         $resultBeing = $user->leave_balance - $amountDeducted;
