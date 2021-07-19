@@ -8,8 +8,8 @@ use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\WelcomeEmail;
 use App\User;
-use Illuminate\Http\Request;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -24,7 +24,14 @@ class UserController extends Controller
     {
         $users = User::where('team_id', auth()->user()->team->id)->latest()->paginate(10);
         return response()
-            ->json(UserResource::collection($users));
+            ->json([
+                'users' => UserResource::collection($users),
+                'from' => $users->firstItem(),
+                'perPage' => $users->perPage(),
+                'to' => $users->lastPage(),
+                'total' => $users->total(),
+                'currentPage' => $users->currentPage(),
+            ]);
     }
 
     /**
@@ -47,22 +54,11 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($password),
             'team_id' => auth()->user()->team_id,
-            'leave_balance' => $request->leave_balance
+            'leave_balance' => $request->leave_balance,
         ]);
 
         if ($request->filled('is_admin')) {
             $user->attachRole('team-admin', $user->team);
-        }
-
-        if ($request->has('permissions')) {
-            foreach ($request->permissions as $permission) {
-                try {
-                    $user->attachPermission($permission, $user->team);
-                } catch (\Exception $e) {
-                    Log::info($e->getMessage());
-                    continue;
-                }
-            }
         }
 
         try {
@@ -71,11 +67,10 @@ class UserController extends Controller
             Log::info($e->getMessage());
         }
 
-
         return response()
             ->json([
                 'message' => 'User created successfully',
-                'user' => new UserResource($user)
+                'user' => new UserResource($user),
             ], 201);
     }
 
@@ -92,7 +87,14 @@ class UserController extends Controller
         if (auth()->user()->team_id !== $user->team_id) {
             return response()
                 ->json([
-                    'message' => 'You cannot view this user'
+                    'message' => 'You cannot view this user',
+                ], 403);
+        }
+
+        if (!auth()->user()->hasRole('team-admin', $user->team)) {
+            return response()
+                ->json([
+                    'message' => 'You cannot view this user',
                 ], 403);
         }
 
@@ -114,7 +116,7 @@ class UserController extends Controller
         if ($user->team_id !== auth()->user()->team_id) {
             return response()
                 ->json([
-                    'message' => "You cannot update this user"
+                    'message' => "You cannot update this user",
                 ], 403);
         }
 
@@ -124,17 +126,9 @@ class UserController extends Controller
             $user->detachRole('team-admin', $user->team);
         }
 
-        if ($request->filled('permissions')) {
-            try {
-                $user->syncPermissions($request->permissions);
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-            }
-        }
-
         return response()
             ->json([
-                'message' => "User roles & permissions updated"
+                'message' => "User role updated",
             ]);
     }
 
@@ -151,14 +145,14 @@ class UserController extends Controller
         if ($user->team_id !== auth()->user()->team_id) {
             return response()
                 ->json([
-                    'message' => "You delete this user"
+                    'message' => "You delete this user",
                 ], 403);
         }
 
-        if (!auth()->user()->hasPermission('can-delete-users', $user->team)) {
+        if (!auth()->user()->hasRole('team-admin', $user->team)) {
             return response()
                 ->json([
-                    'message' => "You are not allowed to delete users"
+                    'message' => "You are not allowed to delete users",
                 ], 403);
         }
 
@@ -166,7 +160,7 @@ class UserController extends Controller
 
         return response()
             ->json([
-                'message' => "{$user->name} has been deleted and removed from your team"
+                'message' => "{$user->name} has been deleted and removed from your team",
             ]);
     }
 }

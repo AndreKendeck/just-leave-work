@@ -25,11 +25,14 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="JustLeave Work - Leave Management" />
+    <meta property="og:description" content="Have" />
+    <meta property="og:image" content="{{ asset('images/seo.png') }}" />
 </head>
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">
     <div id="modal" class="z-20"></div>
-    <div id="app" style="height: 100vh;display: flex; flex-direction: column; width: 100vw">
+    <div id="app">
     </div>
 </body>
 <script src="{{ asset('js/app.js') }}"></script>

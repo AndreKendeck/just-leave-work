@@ -13,7 +13,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('team-admin', auth()->user()->team) || auth()->user()->hasPermission('can-add-users', auth()->user()->team);
+        return auth()->user()->hasRole('team-admin', auth()->user()->team);
     }
 
     /**
@@ -27,7 +27,6 @@ class StoreRequest extends FormRequest
             'name' => ['required', 'min:2', 'max:255'],
             'email' => ['required', 'unique:users'],
             'is_admin' => ['nullable'],
-            'permissions' => ['nullable', 'array', 'min:1'],
             'leave_balance' => ['required', 'min:0']
         ];
     }

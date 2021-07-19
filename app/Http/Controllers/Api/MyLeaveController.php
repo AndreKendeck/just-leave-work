@@ -16,7 +16,9 @@ class MyLeaveController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $leaves = auth()->user()->leaves()->paginate(10);
+        $year = $request->year ? $request->year : now()->format('Y');
+
+        $leaves = auth()->user()->leaves()->whereYear('from', $year)->paginate(10);
 
         return response()
             ->json([
@@ -25,7 +27,7 @@ class MyLeaveController extends Controller
                 'perPage' => $leaves->perPage(),
                 'to' => $leaves->lastPage(),
                 'total' => $leaves->total(),
-                'currentPage' => $leaves->currentPage()
+                'currentPage' => $leaves->currentPage(),
             ]);
     }
 }

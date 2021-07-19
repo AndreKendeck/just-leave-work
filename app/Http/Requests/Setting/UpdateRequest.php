@@ -24,12 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'automatic_leave_approval' => ['required', 'boolean'],
             'leave_added_per_cycle' => ['required', 'integer', 'min:0'],
-            'maximum_leave_days' => ['required', 'integer', 'min:1'],
-            'maximum_leave_balance' => ['required', 'integer', 'min:0'],
             'days_until_balance_added' => ['required', 'integer', 'min:0'],
-            'can_approve_own_leave' => ['required', 'boolean'],
         ];
     }
 
@@ -41,8 +37,8 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'automatic_leave_approval.required' => 'Please specify if you want automatic leave approvals',
-            'leave_added_per_cycle' => 'Please specify the amount of leave you want added per cycle',
+            'days_until_balance_added.required' => 'Please specify if you want automatic leave approvals',
+            'leave_added_per_cycle.required' => 'Please specify the amount of leave you want added per cycle',
         ];
     }
 }

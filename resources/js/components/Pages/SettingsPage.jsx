@@ -8,7 +8,7 @@ const SettingPage = class SettingPage extends React.Component {
     render() {
         return (
             <Page>
-                
+
             </Page>
         )
     }

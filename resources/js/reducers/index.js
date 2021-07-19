@@ -4,7 +4,7 @@ import { reasonsReducer } from "./reasons";
 import { settingsReducer } from "./settings";
 import { teamReducer } from "./team";
 import { userReducer } from "./user";
-
+import { userFormReducer } from "./forms/user";
 
 export default combineReducers({
     user: userReducer,
@@ -12,4 +12,5 @@ export default combineReducers({
     auth: authReducer,
     settings: settingsReducer,
     reasons: reasonsReducer,
+    userForm: userFormReducer,
 })

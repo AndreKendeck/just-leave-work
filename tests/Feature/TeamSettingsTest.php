@@ -16,12 +16,8 @@ class TeamSettingsTest extends TestCase
             ->assertJsonStructure([
                 'id',
                 'teamId',
-                'automaticLeaveApproval',
                 'leaveAddedPerCycle',
-                'maximumLeaveDays',
-                'maximumLeaveBalance',
                 'daysUntilBalanceAdded',
-                'canApproveOwnLeave',
                 'lastLeaveBalanceAddedAt',
                 'createdAt',
                 'updatedAt',
@@ -32,12 +28,8 @@ class TeamSettingsTest extends TestCase
     public function a_user_team_admin_can_update_the_team_settings()
     {
         $newSettings = [
-            'automatic_leave_approval' => $this->faker->randomElement([true, false]),
             'leave_added_per_cycle' => rand(1, 5),
-            'maximum_leave_days' => 10,
-            'maximum_leave_balance' => rand(10, 15),
             'days_until_balance_added' => rand(15, 30),
-            'can_approve_own_leave' => $this->faker->randomElement([true, false]),
         ];
 
         $user = factory('App\User')->create();
@@ -57,12 +49,8 @@ class TeamSettingsTest extends TestCase
     {
         $user = factory('App\User')->create();
         $newSettings = [
-            'automatic_leave_approval' => $this->faker->randomElement([true, false]),
             'leave_added_per_cycle' => rand(1, 5),
-            'maximum_leave_days' => 10,
-            'maximum_leave_balance' => rand(10, 15),
             'days_until_balance_added' => rand(15, 30),
-            'can_approve_own_leave' => $this->faker->randomElement([true, false]),
         ];
 
         $this->actingAs($user)

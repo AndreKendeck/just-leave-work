@@ -43,12 +43,4 @@ class TeamTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test **/
-    public function a_user_can_get_a_list_of_all_users_that_can_approve_and_deny_leave()
-    {
-        $user = factory('App\User')->create();
-        $this->actingAs($user)
-            ->get(route('team.approvers-and-deniers'))
-            ->assertOk();
-    }
 }

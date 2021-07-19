@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import { compose, createStore } from 'redux';
+import { createStore } from 'redux';
 import api from '../api';
 import reducers from '../reducers';
 import Navbar from '../components/Navigation/Navbar';
@@ -9,14 +9,13 @@ import { setAuthenticated, unsetAuthenticated } from '../actions/auth';
 import { setUser } from '../actions/user';
 import { setTeam } from '../actions/team';
 import { setSettings } from '../actions/settings';
-import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import { setReasons } from '../actions/reasons';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import HomePage from './Pages/HomePage';
-import { collect } from 'collect.js';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
 import MyLeavePage from './Pages/Leave/MyLeavePage';
 import IndexLeavePage from './Pages/Leave/IndexLeavePage';
@@ -26,6 +25,7 @@ import ProfilePage from './Pages/ProfilePage';
 import Loader from 'react-loader-spinner';
 import EditLeavePage from './Pages/Leave/EditLeavePage';
 import SettingsPage from './Pages/SettingsPage';
+import IndexUserPage from './Pages/Users/IndexUserPage';
 
 
 const App = class App extends React.Component {
@@ -70,13 +70,6 @@ const App = class App extends React.Component {
         )
     }
 
-
-
-    hasVerifiedEmailAddress = () => {
-        return this.props.user?.verified;
-    }
-
-
     currentUserIsAuthenticated = () => {
         return this.props.auth?.authenticated;
     }
@@ -85,63 +78,61 @@ const App = class App extends React.Component {
         return this.props.user?.verified;
     }
 
-    currentUserHasRole = (roleName) => {
-        return collect(this.props.user?.roles).contains('name', roleName);
-    }
-
-    currentUserHasPermission = (permissonName) => {
-        return collect(this.props.user?.permission).contains('name', permissonName);
-    }
-
     getAuthRoutes = () => {
         if (this.currentUserIsAuthenticated() && !this.currentUserHasAVerifiedEmailAddress()) {
             return (
                 <React.Fragment>
-                    <Route path="/*">
-                        <VerifyEmailPage />
-                    </Route>
+                    <Switch>
+                        <Route path="/profile">
+                            <ProfilePage />
+                        </Route>
+                        <Route>
+                            <VerifyEmailPage />
+                        </Route>
+                    </Switch>
                 </React.Fragment>
             )
         }
         return (
             <React.Fragment>
-
-                <Route path={['/home', '/']} exact={true}>
-                    {this.currentUserIsAuthenticated() ? <HomePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/leaves">
-                    {this.currentUserIsAuthenticated() ? <IndexLeavePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/my-leaves">
-                    {this.currentUserIsAuthenticated() ? <MyLeavePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/leave/view/:id" exact={true}>
-                    {this.currentUserIsAuthenticated() ? <ViewLeavePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/leave/edit/:id" exact={true}>
-                    {this.currentUserIsAuthenticated() ? <EditLeavePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/leave/create">
-                    {this.currentUserIsAuthenticated() ? <CreateLeavePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/profile">
-                    {this.currentUserIsAuthenticated() ? <ProfilePage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/settings">
-                    {this.currentUserIsAuthenticated() ? <SettingsPage /> : <Redirect to="/login" />}
-                </Route>
-                <Route path="/users">
-                    {this.currentUserIsAuthenticated() ? null : <Redirect to="/login" />}
-                </Route>
-                <Route path="/user/:id">
-
-                </Route>
-                <Route path="/users/create">
-
-                </Route>
-                <Route path="/user/edit/:id">
-
-                </Route>
+                <Switch>
+                    <Route path={['/home', '/']} exact={true}>
+                        {this.currentUserIsAuthenticated() ? <HomePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/leaves">
+                        {this.currentUserIsAuthenticated() ? <IndexLeavePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/my-leaves">
+                        {this.currentUserIsAuthenticated() ? <MyLeavePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/leave/view/:id" exact={true}>
+                        {this.currentUserIsAuthenticated() ? <ViewLeavePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/leave/edit/:id" exact={true}>
+                        {this.currentUserIsAuthenticated() ? <EditLeavePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/leave/create" exact={true}>
+                        {this.currentUserIsAuthenticated() ? <CreateLeavePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/profile" exact={true}>
+                        {this.currentUserIsAuthenticated() ? <ProfilePage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/settings" exact={true}>
+                        {this.currentUserIsAuthenticated() ? <SettingsPage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/users" exact={true}>
+                        {this.currentUserIsAuthenticated() ? <IndexUserPage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/user/:id" exact={true}>
+                        {/* view user */}
+                    </Route>
+                    <Route path="/users/create" exact={true}>
+                        {/* create users in bulk */}
+                    </Route>
+                    <Route path="/user/edit/:id" exact={true}>
+                        {/* edit user */}
+                    </Route>
+                </Switch>
             </React.Fragment>
         )
     }
@@ -160,13 +151,14 @@ const App = class App extends React.Component {
     render() {
         if (this.state.initializing) {
             return (
-                <div className="flex flex-1 self-center">
+                <div className="flex flex-col self-center w-full justify-center h-screen">
                     <Loader type="Oval" className="self-center" height={120} width={120} color="Gray" />
                 </div>
             );
         }
+
         return (
-            <div className="flex flex-col space-y-4 z-10">
+            <div className="flex flex-col space-y-4 z-10 bg-gray-100 h-full">
                 <BrowserRouter>
                     <Navbar />
                     {this.getGuestRoutes()}
@@ -200,7 +192,7 @@ const Application = connect(mapStateToProps,
         setUser,
         setTeam,
         setSettings,
-        setReasons
+        setReasons,
     })(App);
 
 ReactDOM.render(

@@ -13,7 +13,7 @@ class LeaveStatusController extends Controller
     {
         $leave = Leave::findOrFail($id);
 
-        if (!auth()->user()->hasPermission('can-approve-leave', auth()->user()->team)) {
+        if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
             return response()
                 ->json([
                     'message' => "You are not allowed to approve leave",
@@ -41,17 +41,9 @@ class LeaveStatusController extends Controller
                 ], 403);
         }
 
-        // if users can approve their own leave
-        if ($leave->user->id === auth()->id()) {
-            if (!$leave->team->settings->can_approve_own_leave) {
-                return response()
-                    ->json([
-                        'message' => "You cannot approve your own leave",
-                    ], 403);
-            }
-        }
-
         $leave->approve();
+
+        $leave->user->decrement('leave_balance', $leave->number_of_days_off);
 
         return response()
             ->json([
@@ -64,7 +56,7 @@ class LeaveStatusController extends Controller
     {
         $leave = Leave::findOrFail($id);
 
-        if (!auth()->user()->hasPermission('can-deny-leave', auth()->user()->team)) {
+        if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
             return response()
                 ->json([
                     'message' => "You are not allowed to approve leave",

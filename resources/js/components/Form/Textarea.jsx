@@ -10,8 +10,8 @@ const TextArea = ({ errors = [], name, label = null, value = null, onKeyUp, onCh
     return (
         <div className="flex flex-col space-y-1">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <textarea name={name} id={name} onKeyUp={onKeyUp} onChange={onChange} disabled={disabled}
-                className="form-input form-input border-2 rounded-lg" value={value} cols="30" rows="10">
+            <textarea name={name} id={name} value={value} onKeyUp={onKeyUp} onChange={(e) => onChange(e)} disabled={disabled}
+                className="form-input form-input border-2 rounded-lg" cols="30" rows="10">
             </textarea>
             <div className="flex flex-col space-y-1">
                 {getErrors(errors)}

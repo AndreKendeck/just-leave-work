@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 class UserObserver
 {
@@ -14,7 +15,11 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->sendEmailVerificationNotification();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
     /**

@@ -171,7 +171,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         return (
             <Page className="flex flex-col justify-center justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                    <Heading>Apply for leave.</Heading>
+                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Leave application</span>
                     <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onReasonChange(e)} label="Reason" options={this.mapReasons()} />
                     <div className="flex flex-col lg:flex-row w-full space-y-2 lg:space-y-0 lg:space-x-4">
                         <DatePicker
@@ -198,7 +198,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                         options={this.mapNotifiableUsers()}
                         onChange={(e) => { this.onNotifyUserChange(e) }} />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
-                        <Button onClick={e => this.storeLeavePost()} >Send</Button>
+                        <Button type="secondary" onClick={e => this.storeLeavePost()} >Send</Button>
                     )}
                     {this.state.error ? <ErrorMessage text={this.state.error} onDismiss={e => this.setState({ error: null })} /> : null}
                     {this.state.message ? <InfoMessage text={this.state.message} onDismiss={e => this.setState({ message: false })} /> : null}

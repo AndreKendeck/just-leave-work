@@ -17,23 +17,6 @@ class LeaveBalanceController extends Controller
     {
         $user = User::findOrFail($request->user);
 
-        $teamSettings = auth()->user()->team->settings;
-
-        if (($teamSettings->maximum_leave_balance != 0)) {
-
-            $totalLeavesAfterIncrement = $request->amount + $user->leave_balance;
-
-            if ($this->isBiggerThanTeamSettings($totalLeavesAfterIncrement, $teamSettings->maximum_leave_balance)) {
-
-                return response()
-                    ->json([
-                        'message' => "Leave limit reached please adjust team settings",
-                    ], 403);
-
-            }
-
-        }
-
         $user->increment('leave_balance', $request->amount);
 
         return response()
@@ -58,13 +41,4 @@ class LeaveBalanceController extends Controller
             ]);
     }
 
-    /**
-     * @param integer $current
-     * @param integer $limit
-     * @return boolean
-     */
-    protected function isBiggerThanTeamSettings(int $current, int $limit)
-    {
-        return $current > $limit;
-    }
 }

@@ -13,6 +13,7 @@ import ViewButtonLink from '../ViewButtonLink';
 import EditButtonLink from '../EditButtonLink';
 import Paginator from '../Paginator';
 import LeaveCard from '../LeaveCard';
+import Dropdown from '../Form/Dropdown';
 
 
 const HomePage = class HomePage extends React.Component {
@@ -27,7 +28,8 @@ const HomePage = class HomePage extends React.Component {
         from: null,
         perPage: null,
         to: null,
-        total: null
+        total: null,
+        year: null,
     }
 
     componentDidMount() {
@@ -36,12 +38,15 @@ const HomePage = class HomePage extends React.Component {
         }, 1000);
     }
 
-    getLeaves = (page) => [
+    getLeaves(page, year = null) {
+        this.setState({ isLoading: true });
         api.get('/my-leaves', {
             params: {
-                page
+                page,
+                year
             }
         }).then(success => {
+            this.setState({ isLoading: false });
             const { leaves, currentPage, from, perPage, to, total } = success.data;
             this.setState({ leaves: leaves });
             this.setState(state => {
@@ -56,11 +61,14 @@ const HomePage = class HomePage extends React.Component {
             });
             this.setState({ isLoading: false });
         }).catch(failed => {
-            const message = failed.response.data;
+            this.setState({ isLoading: false });
+            const { message } = failed.response.data;
             this.setState({ isLoading: false });
             this.setState({ error: message });
         })
-    ]
+    }
+
+
 
 
 
@@ -72,6 +80,7 @@ const HomePage = class HomePage extends React.Component {
                     <td className="text-center text-gray-600 text-sm"> {leave.reason?.name} </td>
                     <td className="text-center text-gray-600 text-sm">{moment(leave.from).format('Do MMM YYYY')}</td>
                     <td className="text-center text-gray-600 text-sm">{moment(leave.until).format('Do MMM YYYY')}</td>
+                    <td className="text-center text-gray-600 text-sm">{leave.numberOfDaysOff}</td>
                     <td className="text-center relative">
                         <div className="flex flex-row space-x-2 items-center">
                             <ViewButtonLink url={`/leave/view/${leave.id}`} />
@@ -90,7 +99,7 @@ const HomePage = class HomePage extends React.Component {
             );
         }
         return (
-            <Table headings={['Status', 'Type', 'On', 'Until', '']}>
+            <Table headings={['Status', 'Type', 'On', 'Until', 'Days off', '']}>
                 {this.getLeavesTableRow()}
             </Table>
         )
@@ -110,12 +119,12 @@ const HomePage = class HomePage extends React.Component {
 
     render() {
         return (
-            <Page className="flex flex-col justify-center justify-center space-y-2">
+            <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full lg:w-3/4 self-center pointer-cursor">
                     <div className="flex md:flex-row w-full justify-between items-center">
                         <Heading>
                             <div className="flex flex-row space-x-2 items-center">
-                                <span className="text-sm md:text-base">{this.props.user?.name}</span>
+                                <span className="text-sm md:text-base text-gray-800">{this.props.user?.name}</span>
                                 <UserLeaveStatusBadge user={this.props.user} />
                             </div>
                         </Heading>
@@ -135,10 +144,10 @@ const HomePage = class HomePage extends React.Component {
                             </div>
                         </Heading>
                     </Card>
-                    <Card className=" pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
+                    <Card className="pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-white text-base">{this.props.user?.leaveTaken}</span>
+                                <span className="text-2xl text-white">{this.props.user?.leaveTaken}</span>
                                 <span className="text-white text-base">Leave Taken</span>
                             </div>
                         </Heading>
@@ -146,16 +155,24 @@ const HomePage = class HomePage extends React.Component {
                     <Card className="pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-gray-800 text-base">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('ddd Do MMM') : 'Not Applicable'}</span>
+                                <span className="text-2xl text-gray-800">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('ddd Do MMM') : '-'}</span>
                                 <span className="text-gray-800 text-base">Last Leave Taken</span>
                             </div>
                         </Heading>
                     </Card>
                 </div>
+                <div className="flex flex-row w-full lg:w-3/4 self-center justify-between items-center space-x-2 ">
+                    <span className="w-full md:w-1/4 text-white text-sm bg-gray-700 p-2 rounded-full text-center mt-6 lg:self-center">Your leave history</span>
+                    <div className="w-full md:w-1/4">
+                        <Dropdown label="Year" options={this.props.years} onChange={(e) => {
+                            e.persist();
+                            this.setState({ year: e.target.value });
+                            this.getLeaves(this.state.currentPage, e.target.value);
+                        }} />
+                    </div>
+                </div>
                 <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
-                    <Heading>
-                        <span className="text-base md:text-lg text-gray-800">Leave History</span>
-                    </Heading>
+                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Your leave history</span>
                     {this.getMyLeavesTable()}
                 </Card>
                 {this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> :
@@ -175,7 +192,14 @@ const HomePage = class HomePage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        settings: state.settings
+        settings: state.settings,
+        years: [0, 1, 2, 3, 4].map(year => {
+            const result = moment().subtract(year, 'year').format('Y');
+            return {
+                value: result,
+                label: result,
+            }
+        })
     }
 }
 

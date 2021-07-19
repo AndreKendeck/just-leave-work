@@ -21,7 +21,6 @@ class LeaveCronJobTest extends TestCase
                 'days_until_balance_added' => rand(10, 30),
                 'last_leave_balance_added_at' => now()->subDays(rand(10, 30)),
                 'leave_added_per_cycle' => 2,
-                'maximum_leave_balance' => rand(5, 10)
             ]);
         });
 

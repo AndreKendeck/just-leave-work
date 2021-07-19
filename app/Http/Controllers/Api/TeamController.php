@@ -38,14 +38,4 @@ class TeamController extends Controller
                 'message' => "Team name updated",
             ]);
     }
-
-    public function getUserWhoCanApproveOrDenyLeave()
-    {
-        $users = auth()->user()->team->users->filter(function (\App\User $user) {
-            return ($user->id != auth()->id()) &&
-                ($user->hasPermission('can-approve-leave') || $user->hasPermission('can-deny-leave'));
-        });
-        return response()
-            ->json($users);
-    }
 }

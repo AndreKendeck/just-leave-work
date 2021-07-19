@@ -19,12 +19,8 @@ class SettingController extends Controller
     public function update(UpdateRequest $request)
     {
         auth()->user()->team->settings->update([
-            'automatic_leave_approval' => $request->automatic_leave_approval,
             'leave_added_per_cycle' => $request->leave_added_per_cycle,
-            'maximum_leave_days' => $request->maximum_leave_days,
-            'maximum_leave_balance' => $request->maximum_leave_balance,
             'days_until_balance_added' => $request->days_until_balance_added,
-            'can_approve_own_leave' => $request->can_approve_own_leave
         ]);
 
         return response()

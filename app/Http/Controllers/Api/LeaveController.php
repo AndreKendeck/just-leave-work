@@ -30,13 +30,6 @@ class LeaveController extends Controller
             ->latest()
             ->paginate(10);
 
-        if ($request->year) {
-            $leaves = Leave::where('team_id', auth()->user()->team_id)
-                ->whereYear('from', '=', $request->year)
-                ->latest()
-                ->paginate(10);
-        }
-
         return response()
             ->json([
                 'leaves' => LeaveResource::collection($leaves),
@@ -65,7 +58,7 @@ class LeaveController extends Controller
             $until = new Carbon($request->until);
         }
 
-
+        // future dates are always bigger
         $invalidDate = ($from > $until);
 
         if ($invalidDate) {
@@ -76,26 +69,23 @@ class LeaveController extends Controller
             ], 422);
         }
 
+        $restrcitedDaysToStartLeave = auth()->user()->team->settings->excludedDays;
+
+        if ($restrcitedDaysToStartLeave->contains('day', $from->format('l'))) {
+            $excludedDays = $restrcitedDaysToStartLeave->implode('day', ', ');
+            return response()->json([
+                'errors' => [
+                    'from' => ["You cannot start leave on {$excludedDays}"],
+                ],
+            ], 422);
+        }
+
         if (auth()->user()->is_on_leave) {
             return response()->json([
                 'errors' => [
                     'from' => ['You are already on leave you cannot request leave when on leave'],
                 ],
             ], 422);
-        }
-
-        $teamSettings = auth()->user()->team->settings;
-
-        if ($teamSettings->maximum_leave_days !== 0) {
-
-            $maximumLeaveDaysReached = ($from->diffInDays($until) > $teamSettings->maximum_leave_days);
-
-            if ($maximumLeaveDaysReached) {
-                return response()
-                    ->json([
-                        'message' => "Your team does not allow leave for more than {$teamSettings->maximum_leave_days} days",
-                    ], 403);
-            }
         }
 
         $leave = Leave::create([
@@ -111,29 +101,12 @@ class LeaveController extends Controller
          * Send an email notification to the relevant party about ones leave request
          */
         if ($request->filled('notifyUser')) {
+
             $userToNotify = User::findOrFail($request->notifyUser);
-            if ($userToNotify->hasPermission('can-approve-leave') || $userToNotify->hasPermission('can-deny-leave')) {
+
+            if ($userToNotify->hasRole('team-admin', $leave->team)) {
                 Mail::to($userToNotify->email)
                     ->queue(new LeaveRequestEmail($leave));
-            }
-        }
-
-        /**
-         * Automatic leave approval
-         */
-
-        $teamAllowsForAutomaticApprovals = $teamSettings->automatic_leave_approval;
-
-        if ($teamAllowsForAutomaticApprovals) {
-            // we want to check if the user has a positive balance first
-            $willResultInANegativeBalance = $from->diffInDays($until) > auth()->user()->leave_balance;
-
-            if (!$willResultInANegativeBalance) {
-                $leave->approve();
-                return response()->json([
-                    'message' => "You leave request has been created & approved",
-                    'leave' => new LeaveResource($leave),
-                ], 201);
             }
         }
 
@@ -162,6 +135,18 @@ class LeaveController extends Controller
                 ], 403);
         }
 
+        if (auth()->user()->owns($leave)) {
+            return response()
+                ->json(new LeaveResource($leave));
+        }
+
+        if (!auth()->user()->hasRole('team-admin', $leave->team)) {
+            return response()
+                ->json([
+                    'message' => 'You cannot view this user',
+                ], 403);
+        }
+
         return response()
             ->json(new LeaveResource($leave));
     }
@@ -176,19 +161,6 @@ class LeaveController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         $leave = Leave::findOrFail($id);
-
-        $from = Carbon::create($request->from);
-        $to = Carbon::create($request->until);
-
-        $invalidDate = ($from > $to) || ($from === $to);
-
-        if ($invalidDate) {
-            return response()->json([
-                'errors' => [
-                    'from' => ['Your leave dates is incorrect'],
-                ],
-            ], 422);
-        }
 
         if (auth()->user()->team_id !== $leave->team_id) {
 
@@ -215,15 +187,12 @@ class LeaveController extends Controller
         if ($leave->denied) {
             return response()
                 ->json([
-                    'message' => "Leave has been denied no chanages are allowed",
+                    'message' => "Leave has been denied no changes are allowed",
                 ], 403);
         }
 
         $leave->update([
-            'reason_id' => $request->reason,
             'description' => $request->description,
-            'from' => $from,
-            'until' => $to,
         ]);
 
         return response()
