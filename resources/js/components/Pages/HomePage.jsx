@@ -119,7 +119,7 @@ const HomePage = class HomePage extends React.Component {
 
     render() {
         return (
-            <Page className="flex flex-col justify-center justify-center space-y-2">
+            <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full lg:w-3/4 self-center pointer-cursor">
                     <div className="flex md:flex-row w-full justify-between items-center">
                         <Heading>
@@ -147,7 +147,7 @@ const HomePage = class HomePage extends React.Component {
                     <Card className="pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-white text-base">{this.props.user?.leaveTaken}</span>
+                                <span className="text-2xl text-white">{this.props.user?.leaveTaken}</span>
                                 <span className="text-white text-base">Leave Taken</span>
                             </div>
                         </Heading>
@@ -155,7 +155,7 @@ const HomePage = class HomePage extends React.Component {
                     <Card className="pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl ">
                         <Heading>
                             <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-gray-800 text-base">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('ddd Do MMM') : '-'}</span>
+                                <span className="text-2xl text-gray-800">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('ddd Do MMM') : '-'}</span>
                                 <span className="text-gray-800 text-base">Last Leave Taken</span>
                             </div>
                         </Heading>

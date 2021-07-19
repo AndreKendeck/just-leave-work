@@ -1,4 +1,4 @@
-import { collect } from 'collect.js';
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
@@ -17,7 +17,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
         return (
             <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center">
                 <div className="flex flex-row space-x-2 items-center w-full justify-between">
-                    <Link to="/" className="w-1/4">
+                    <Link to="/" className="w-1/6">
                         <Icon width={12} height={12} />
                     </Link>
                     {this.props.auth.authenticated ? (

@@ -5,7 +5,6 @@ import { settingsReducer } from "./settings";
 import { teamReducer } from "./team";
 import { userReducer } from "./user";
 import { userFormReducer } from "./forms/user";
-import { permissionsReducer } from "./permissions";
 
 export default combineReducers({
     user: userReducer,

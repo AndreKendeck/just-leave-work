@@ -77059,12 +77059,6 @@ var App = /*#__PURE__*/function (_React$Component) {
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_ForgotPasswordPage__WEBPACK_IMPORTED_MODULE_14__["default"], null)));
     });
 
-    _defineProperty(_assertThisInitialized(_this), "hasVerifiedEmailAddress", function () {
-      var _this$props$user;
-
-      return (_this$props$user = _this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.verified;
-    });
-
     _defineProperty(_assertThisInitialized(_this), "currentUserIsAuthenticated", function () {
       var _this$props$auth;
 
@@ -77072,19 +77066,19 @@ var App = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "currentUserHasAVerifiedEmailAddress", function () {
-      var _this$props$user2;
+      var _this$props$user;
 
-      return (_this$props$user2 = _this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.verified;
+      return (_this$props$user = _this.props.user) === null || _this$props$user === void 0 ? void 0 : _this$props$user.verified;
     });
 
     _defineProperty(_assertThisInitialized(_this), "getAuthRoutes", function () {
       if (_this.currentUserIsAuthenticated() && !_this.currentUserHasAVerifiedEmailAddress()) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-          path: "/*"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_VerifyEmailPage__WEBPACK_IMPORTED_MODULE_18__["default"], null)));
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+          path: "/profile"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_ProfilePage__WEBPACK_IMPORTED_MODULE_23__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_VerifyEmailPage__WEBPACK_IMPORTED_MODULE_18__["default"], null))));
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: ['/home', '/'],
         exact: true
       }, _this.currentUserIsAuthenticated() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_HomePage__WEBPACK_IMPORTED_MODULE_17__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
@@ -77108,28 +77102,35 @@ var App = /*#__PURE__*/function (_React$Component) {
       }, _this.currentUserIsAuthenticated() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_Leave_EditLeavePage__WEBPACK_IMPORTED_MODULE_25__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/login"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/leave/create"
+        path: "/leave/create",
+        exact: true
       }, _this.currentUserIsAuthenticated() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_Leave_CreateLeavePage__WEBPACK_IMPORTED_MODULE_22__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/login"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/profile"
+        path: "/profile",
+        exact: true
       }, _this.currentUserIsAuthenticated() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_ProfilePage__WEBPACK_IMPORTED_MODULE_23__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/login"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/settings"
+        path: "/settings",
+        exact: true
       }, _this.currentUserIsAuthenticated() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_SettingsPage__WEBPACK_IMPORTED_MODULE_26__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/login"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/users"
+        path: "/users",
+        exact: true
       }, _this.currentUserIsAuthenticated() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pages_Users_IndexUserPage__WEBPACK_IMPORTED_MODULE_27__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/login"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/user/:id"
+        path: "/user/:id",
+        exact: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/users/create"
+        path: "/users/create",
+        exact: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
-        path: "/user/edit/:id"
-      }));
+        path: "/user/edit/:id",
+        exact: true
+      })));
     });
 
     _defineProperty(_assertThisInitialized(_this), "getMiscRoutes", function () {
@@ -78456,14 +78457,12 @@ var Modal = function Modal(_ref) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! collect.js */ "./node_modules/collect.js/dist/index.js");
-/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(collect_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
-/* harmony import */ var _assets_Icon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../assets/Icon */ "./resources/js/assets/Icon.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
+/* harmony import */ var _assets_Icon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../assets/Icon */ "./resources/js/assets/Icon.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -78494,7 +78493,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var DesktopMenu = /*#__PURE__*/function (_React$Component) {
   _inherits(DesktopMenu, _React$Component);
 
@@ -78518,114 +78516,114 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _this$props$user2, _this$props$user3, _this$props$user4;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row space-x-2 items-center w-full justify-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/",
-        className: "w-1/4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_assets_Icon__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "w-1/6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_assets_Icon__WEBPACK_IMPORTED_MODULE_4__["default"], {
         width: 12,
         height: 12
-      })), this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })), this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "w-full flex flex-row space-x-2 items-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
         to: "/leave/create",
         className: "text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
         version: "1.1",
         className: "stroke-current text-white h-8 w-8",
         viewBox: "0 0 24 24",
         xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
         fill: "none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement = {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement, "strokeLinejoin", "round"), _defineProperty(_React$createElement, "strokeWidth", "1.5"), _defineProperty(_React$createElement, "d", "M15 3v2"), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement2 = {
+      }, _defineProperty(_React$createElement, "strokeLinejoin", "round"), _defineProperty(_React$createElement, "strokeWidth", "1.5"), _defineProperty(_React$createElement, "d", "M15 3v2"), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement2 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement2, "strokeLinejoin", "round"), _defineProperty(_React$createElement2, "strokeWidth", "1.5"), _defineProperty(_React$createElement2, "d", "M7 3v2"), _React$createElement2)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement3 = {
+      }, _defineProperty(_React$createElement2, "strokeLinejoin", "round"), _defineProperty(_React$createElement2, "strokeWidth", "1.5"), _defineProperty(_React$createElement2, "d", "M7 3v2"), _React$createElement2)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement3 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement3, "strokeLinejoin", "round"), _defineProperty(_React$createElement3, "strokeWidth", "1.5"), _defineProperty(_React$createElement3, "d", "M3 8h16"), _React$createElement3)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement4 = {
+      }, _defineProperty(_React$createElement3, "strokeLinejoin", "round"), _defineProperty(_React$createElement3, "strokeWidth", "1.5"), _defineProperty(_React$createElement3, "d", "M3 8h16"), _React$createElement3)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement4 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement4, "strokeLinejoin", "round"), _defineProperty(_React$createElement4, "strokeWidth", "1.5"), _defineProperty(_React$createElement4, "d", "M19 12.417v-6.417c0-1.105-.895-2-2-2h-12c-1.105 0-2 .895-2 2v11c0 1.105.895 2 2 2h7.417"), _React$createElement4)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement5 = {
+      }, _defineProperty(_React$createElement4, "strokeLinejoin", "round"), _defineProperty(_React$createElement4, "strokeWidth", "1.5"), _defineProperty(_React$createElement4, "d", "M19 12.417v-6.417c0-1.105-.895-2-2-2h-12c-1.105 0-2 .895-2 2v11c0 1.105.895 2 2 2h7.417"), _React$createElement4)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement5 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement5, "strokeLinejoin", "round"), _defineProperty(_React$createElement5, "strokeWidth", "1.5"), _defineProperty(_React$createElement5, "d", "M6.999 10.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"), _React$createElement5)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement6 = {
+      }, _defineProperty(_React$createElement5, "strokeLinejoin", "round"), _defineProperty(_React$createElement5, "strokeWidth", "1.5"), _defineProperty(_React$createElement5, "d", "M6.999 10.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"), _React$createElement5)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement6 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement6, "strokeLinejoin", "round"), _defineProperty(_React$createElement6, "strokeWidth", "1.5"), _defineProperty(_React$createElement6, "d", "M6.999 14.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"), _React$createElement6)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement7 = {
+      }, _defineProperty(_React$createElement6, "strokeLinejoin", "round"), _defineProperty(_React$createElement6, "strokeWidth", "1.5"), _defineProperty(_React$createElement6, "d", "M6.999 14.75c-.138 0-.25.112-.249.25 0 .138.112.25.25.25 .138 0 .25-.112.25-.25 0-.138-.112-.25-.251-.25"), _React$createElement6)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement7 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement7, "strokeLinejoin", "round"), _defineProperty(_React$createElement7, "strokeWidth", "1.5"), _defineProperty(_React$createElement7, "d", "M10.75 11.001c0 .138.112.25.25.249 .138 0 .25-.112.25-.25 0-.138-.112-.25-.25-.25 -.138 0-.25.112-.25.251"), _React$createElement7)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }, _defineProperty(_React$createElement7, "strokeLinejoin", "round"), _defineProperty(_React$createElement7, "strokeWidth", "1.5"), _defineProperty(_React$createElement7, "d", "M10.75 11.001c0 .138.112.25.25.249 .138 0 .25-.112.25-.25 0-.138-.112-.25-.25-.25 -.138 0-.25.112-.25.251"), _React$createElement7)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         strokeWidth: "1.5",
         d: "M17 22c-2.761 0-5-2.238-5-5 0-2.704 2.3-5.003 5.004-5 2.76.002 4.996 2.24 4.996 5 0 2.761-2.238 5-5 5"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement8 = {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement8 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement8, "strokeLinejoin", "round"), _defineProperty(_React$createElement8, "strokeWidth", "1.5"), _defineProperty(_React$createElement8, "d", "M17 15v4"), _React$createElement8)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement9 = {
+      }, _defineProperty(_React$createElement8, "strokeLinejoin", "round"), _defineProperty(_React$createElement8, "strokeWidth", "1.5"), _defineProperty(_React$createElement8, "d", "M17 15v4"), _React$createElement8)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement9 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement9, "strokeLinejoin", "round"), _defineProperty(_React$createElement9, "strokeWidth", "1.5"), _defineProperty(_React$createElement9, "d", "M19 17h-4"), _React$createElement9))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, _defineProperty(_React$createElement9, "strokeLinejoin", "round"), _defineProperty(_React$createElement9, "strokeWidth", "1.5"), _defineProperty(_React$createElement9, "d", "M19 17h-4"), _React$createElement9))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-white text-base"
-      }, "Apply")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+      }, "Apply")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
         to: "/home",
         activeClassName: "text-purple-500",
         className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "transition-none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
         version: "1.1",
         className: "stroke-current h-8 w-8 transition-none",
         viewBox: "0 0 24 24",
         xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
         fill: "none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         strokeWidth: "1.5",
         d: "M19.842 8.299l-6-4.667c-1.083-.843-2.6-.843-3.684 0l-6 4.667c-.731.568-1.158 1.442-1.158 2.368v7.333c0 1.657 1.343 3 3 3h12c1.657 0 3-1.343 3-3v-7.333c0-.926-.427-1.8-1.158-2.368Z"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement10 = {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement10 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement10, "strokeLinejoin", "round"), _defineProperty(_React$createElement10, "strokeWidth", "1.5"), _defineProperty(_React$createElement10, "d", "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"), _React$createElement10))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, _defineProperty(_React$createElement10, "strokeLinejoin", "round"), _defineProperty(_React$createElement10, "strokeWidth", "1.5"), _defineProperty(_React$createElement10, "d", "M14.121 11.379c1.172 1.172 1.172 3.071 0 4.243 -1.172 1.172-3.071 1.172-4.243 0 -1.172-1.172-1.172-3.071 0-4.243 1.172-1.172 3.072-1.172 4.243 0"), _React$createElement10))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-base"
-      }, "Home")), this.userIsAdmin() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+      }, "Home")), this.userIsAdmin() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
         to: "/leaves/",
         activeClassName: "text-purple-500",
         className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
         id: "Layer_3",
         className: "stroke-current h-8 w-8",
         "data-name": "Layer 3",
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement11 = {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement11 = {
         x1: "16.5",
         y1: "16",
         x2: "11",
         y2: "16",
         fill: "none",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement11, "strokeLinejoin", "round"), _defineProperty(_React$createElement11, "strokeWidth", "1.5"), _React$createElement11)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement12 = {
+      }, _defineProperty(_React$createElement11, "strokeLinejoin", "round"), _defineProperty(_React$createElement11, "strokeWidth", "1.5"), _React$createElement11)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement12 = {
         d: "M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125",
         fill: "none",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement12, "strokeLinejoin", "round"), _defineProperty(_React$createElement12, "strokeWidth", "1.5"), _React$createElement12)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement13 = {
+      }, _defineProperty(_React$createElement12, "strokeLinejoin", "round"), _defineProperty(_React$createElement12, "strokeWidth", "1.5"), _React$createElement12)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement13 = {
         x1: "16.5",
         y1: "12",
         x2: "11",
         y2: "12",
         fill: "none",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement13, "strokeLinejoin", "round"), _defineProperty(_React$createElement13, "strokeWidth", "1.5"), _React$createElement13)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement14 = {
+      }, _defineProperty(_React$createElement13, "strokeLinejoin", "round"), _defineProperty(_React$createElement13, "strokeWidth", "1.5"), _React$createElement13)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement14 = {
         x1: "7.5",
         y1: "3",
         x2: "7.5",
         y2: "6",
         fill: "none",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement14, "strokeLinejoin", "round"), _defineProperty(_React$createElement14, "strokeWidth", "1.5"), _React$createElement14)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement15 = {
+      }, _defineProperty(_React$createElement14, "strokeLinejoin", "round"), _defineProperty(_React$createElement14, "strokeWidth", "1.5"), _React$createElement14)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement15 = {
         x1: "16.5",
         y1: "3",
         x2: "16.5",
         y2: "6",
         fill: "none",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement15, "strokeLinejoin", "round"), _defineProperty(_React$createElement15, "strokeWidth", "1.5"), _React$createElement15)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("rect", (_React$createElement16 = {
+      }, _defineProperty(_React$createElement15, "strokeLinejoin", "round"), _defineProperty(_React$createElement15, "strokeWidth", "1.5"), _React$createElement15)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", (_React$createElement16 = {
         x: "3",
         y: "4.5",
         width: "18",
@@ -78633,115 +78631,115 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         rx: "3",
         strokeWidth: "1.5",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement16, "strokeLinejoin", "round"), _defineProperty(_React$createElement16, "fill", "none"), _React$createElement16)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement17 = {
+      }, _defineProperty(_React$createElement16, "strokeLinejoin", "round"), _defineProperty(_React$createElement16, "fill", "none"), _React$createElement16)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement17 = {
         d: "M7.5,11.875A.125.125,0,1,0,7.625,12a.125.125,0,0,0-.125-.125",
         fill: "none",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement17, "strokeLinejoin", "round"), _defineProperty(_React$createElement17, "strokeWidth", "1.5"), _React$createElement17))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, _defineProperty(_React$createElement17, "strokeLinejoin", "round"), _defineProperty(_React$createElement17, "strokeWidth", "1.5"), _React$createElement17))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-base"
-      }, "Leaves")) : null, this.userIsAdmin() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+      }, "Leaves")) : null, this.userIsAdmin() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
         to: "/users",
         activeClassName: "text-purple-500",
         className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
         version: "1.1",
         viewBox: "0 0 24 24",
         className: "stroke-current h-8 w-8",
         xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", _defineProperty({
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", _defineProperty({
         strokeLinejoin: "round",
         strokeWidth: "1.5",
         fill: "none"
-      }, "strokeLinejoin", "round"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }, "strokeLinejoin", "round"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M20.7925,9.52352c0.790031,0.790031 0.790031,2.07092 0,2.86095c-0.790031,0.790031 -2.07092,0.790031 -2.86095,1.77636e-15c-0.790031,-0.790031 -0.790031,-2.07092 0,-2.86095c0.790031,-0.790031 2.07092,-0.790031 2.86095,-1.77636e-15"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M14.2026,5.91236c1.21648,1.21648 1.21648,3.18879 0,4.40528c-1.21648,1.21648 -3.18879,1.21648 -4.40528,0c-1.21648,-1.21648 -1.21648,-3.18879 0,-4.40528c1.21648,-1.21648 3.18879,-1.21648 4.40528,0"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M6.06848,9.52352c0.790031,0.790031 0.790031,2.07092 0,2.86095c-0.790031,0.790031 -2.07092,0.790031 -2.86095,1.77636e-15c-0.790031,-0.790031 -0.790031,-2.07092 0,-2.86095c0.790031,-0.790031 2.07092,-0.790031 2.86095,-1.77636e-15"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M23,19v-1.096c0,-1.381 -1.119,-2.5 -2.5,-2.5h-0.801"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M1,19v-1.096c0,-1.381 1.119,-2.5 2.5,-2.5h0.801"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
         d: "M17.339,19v-1.601c0,-1.933 -1.567,-3.5 -3.5,-3.5h-3.679c-1.933,0 -3.5,1.567 -3.5,3.5v1.601"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-base"
-      }, "Users")) : null, this.userIsAdmin() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+      }, "Users")) : null, this.userIsAdmin() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
         to: "/settings",
         activeClassName: "text-purple-500",
         className: "flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
         version: "1.1",
         className: "stroke-current h-8 w-8",
         viewBox: "0 0 24 24",
         xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
         fill: "none"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement19 = {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement19 = {
         x1: "7.5",
         x2: "10.5",
         y1: "11",
         y2: "11",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement19, "strokeLinejoin", "round"), _defineProperty(_React$createElement19, "strokeWidth", "1.5"), _React$createElement19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement20 = {
+      }, _defineProperty(_React$createElement19, "strokeLinejoin", "round"), _defineProperty(_React$createElement19, "strokeWidth", "1.5"), _React$createElement19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement20 = {
         x1: "9",
         x2: "9",
         y1: "11",
         y2: "17",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement20, "strokeLinejoin", "round"), _defineProperty(_React$createElement20, "strokeWidth", "1.5"), _React$createElement20)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement21 = {
+      }, _defineProperty(_React$createElement20, "strokeLinejoin", "round"), _defineProperty(_React$createElement20, "strokeWidth", "1.5"), _React$createElement20)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement21 = {
         x1: "9",
         x2: "9",
         y1: "7",
         y2: "8.5",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement21, "strokeLinejoin", "round"), _defineProperty(_React$createElement21, "strokeWidth", "1.5"), _React$createElement21)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement22 = {
+      }, _defineProperty(_React$createElement21, "strokeLinejoin", "round"), _defineProperty(_React$createElement21, "strokeWidth", "1.5"), _React$createElement21)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement22 = {
         x1: "16.5",
         x2: "13.5",
         y1: "13.08",
         y2: "13.08",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement22, "strokeLinejoin", "round"), _defineProperty(_React$createElement22, "strokeWidth", "1.5"), _React$createElement22)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement23 = {
+      }, _defineProperty(_React$createElement22, "strokeLinejoin", "round"), _defineProperty(_React$createElement22, "strokeWidth", "1.5"), _React$createElement22)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement23 = {
         x1: "15",
         x2: "15",
         y1: "13",
         y2: "7",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement23, "strokeLinejoin", "round"), _defineProperty(_React$createElement23, "strokeWidth", "1.5"), _React$createElement23)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("line", (_React$createElement24 = {
+      }, _defineProperty(_React$createElement23, "strokeLinejoin", "round"), _defineProperty(_React$createElement23, "strokeWidth", "1.5"), _React$createElement23)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", (_React$createElement24 = {
         x1: "15",
         x2: "15",
         y1: "17",
         y2: "15.5",
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement24, "strokeLinejoin", "round"), _defineProperty(_React$createElement24, "strokeWidth", "1.5"), _React$createElement24)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", (_React$createElement25 = {
+      }, _defineProperty(_React$createElement24, "strokeLinejoin", "round"), _defineProperty(_React$createElement24, "strokeWidth", "1.5"), _React$createElement24)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", (_React$createElement25 = {
         strokeLinejoin: "round"
-      }, _defineProperty(_React$createElement25, "strokeLinejoin", "round"), _defineProperty(_React$createElement25, "strokeWidth", "1.5"), _defineProperty(_React$createElement25, "d", "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"), _React$createElement25))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }, _defineProperty(_React$createElement25, "strokeLinejoin", "round"), _defineProperty(_React$createElement25, "strokeWidth", "1.5"), _defineProperty(_React$createElement25, "d", "M21 8v8 0c0 2.76142-2.23858 5-5 5h-8l-2.18557e-07-7.10543e-15c-2.76142-1.20706e-07-5-2.23858-5-5 0 0 0-1.77636e-15 0-1.77636e-15v-8l5.68434e-14 7.54979e-07c-4.16963e-07-2.76142 2.23858-5 5-5h8l-5.96244e-08 9.76996e-15c2.76142-4.49893e-07 5 2.23858 5 5 4.26326e-14 2.54893e-07 6.39488e-14 5.00086e-07 6.75016e-14 7.54979e-07Z"), _React$createElement25))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-sm"
-      }, "Settings")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+      }, "Settings")) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/profile",
         className: "flex flex-row space-x-2 hover:bg-gray-200 rounded-lg items-center focus:outline-none p-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "h-8 w-8 rounded-full",
         src: (_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.avatarUrl,
         alt: (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.name
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-gray-600 text-base"
-      }, (_this$props$user4 = this.props.user) === null || _this$props$user4 === void 0 ? void 0 : _this$props$user4.name))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, (_this$props$user4 = this.props.user) === null || _this$props$user4 === void 0 ? void 0 : _this$props$user4.name))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row space-x-2 self-end items-center w-1/2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/login",
         className: "w-full"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_4__["default"], null, "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], null, "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/register",
         className: "w-full"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
         type: "secondary"
       }, "Register"))))));
     }
   }]);
 
   return DesktopMenu;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -78751,7 +78749,7 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, null)(DesktopMenu));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, null)(DesktopMenu));
 
 /***/ }),
 
@@ -79694,7 +79692,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
           _this4 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        className: "flex flex-col justify-center justify-center space-y-2"
+        className: "flex flex-col justify-center space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "w-full lg:w-3/4 self-center pointer-cursor"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -79722,7 +79720,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-white text-base"
+        className: "text-2xl text-white"
       }, (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-white text-base"
       }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -79730,7 +79728,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-gray-800 text-base"
+        className: "text-2xl text-gray-800"
       }, (_this$props$user4 = this.props.user) !== null && _this$props$user4 !== void 0 && _this$props$user4.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.lastLeaveAt).format('ddd Do MMM') : '-'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "text-gray-800 text-base"
       }, "Last Leave Taken"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -81617,6 +81615,12 @@ var mapStateToProps = function mapStateToProps(state) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth/index.js");
+/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../UserBadge */ "./resources/js/components/UserBadge.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -81641,6 +81645,12 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
+
+
+
+
 var ProfilePage = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfilePage, _React$Component);
 
@@ -81655,14 +81665,70 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
   _createClass(ProfilePage, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+      var _this$props, _this$props2;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "flex flex-col justify-center space-y-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "w-full lg:w-1/2 self-center pointer-cursor"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex flex-row justify-between items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex flex-row space-x-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        user: (_this$props = this.props) === null || _this$props === void 0 ? void 0 : _this$props.user
+      })), (_this$props2 = this.props) !== null && _this$props2 !== void 0 && _this$props2.user.isAdmin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bg-purple-500 bg-opacity-25 text-purple-500 text-xs px-2 rounded-full py-1"
+      }, "Admin") : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        type: "soft"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex space-x-1 items-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+        version: "1.1",
+        viewBox: "0 0 24 24",
+        className: "stroke-current text-gray-600 h-6 w-6",
+        xmlns: "http://www.w3.org/2000/svg",
+        xmlnsXlink: "http://www.w3.org/1999/xlink"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
+        fill: "none"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("use", {
+        xlinkHref: "#a"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        strokeLinecap: "round",
+        "stroke-linejoin": "round",
+        "stroke-width": "1.5",
+        d: "M9.86 12h10.14"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "stroke-width": "1.5",
+        d: "M10.864 19.981l-4.168.019c-1.195.006-2.167-.952-2.167-2.135v-11.73c0-1.179.965-2.135 2.157-2.135h4.314"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "stroke-width": "1.5",
+        d: "M16 16l4-4 -4-4"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("use", {
+        xlinkHref: "#a"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-gray-600"
+      }, "Logout")))))));
     }
   }]);
 
   return ProfilePage;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (ProfilePage);
+var mapStateToProps = function mapStateToProps(state) {
+  var user = state.user;
+  return {
+    user: user
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
+  unsetAuthenticated: _actions_auth__WEBPACK_IMPORTED_MODULE_2__["unsetAuthenticated"]
+})(ProfilePage));
 
 /***/ }),
 
@@ -83378,8 +83444,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _team__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./team */ "./resources/js/reducers/team/index.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./user */ "./resources/js/reducers/user/index.js");
 /* harmony import */ var _forms_user__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./forms/user */ "./resources/js/reducers/forms/user/index.js");
-/* harmony import */ var _permissions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./permissions */ "./resources/js/reducers/permissions/index.js");
-
 
 
 
@@ -83395,34 +83459,6 @@ __webpack_require__.r(__webpack_exports__);
   reasons: _reasons__WEBPACK_IMPORTED_MODULE_2__["reasonsReducer"],
   userForm: _forms_user__WEBPACK_IMPORTED_MODULE_6__["userFormReducer"]
 }));
-
-/***/ }),
-
-/***/ "./resources/js/reducers/permissions/index.js":
-/*!****************************************************!*\
-  !*** ./resources/js/reducers/permissions/index.js ***!
-  \****************************************************/
-/*! exports provided: permissionsReducer */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "permissionsReducer", function() { return permissionsReducer; });
-var permissionsReducer = function permissionsReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_PERMISSIONS':
-      return action.payload;
-
-    case 'UNAUTHENTICATED':
-      return [];
-
-    default:
-      return state;
-  }
-};
 
 /***/ }),
 
