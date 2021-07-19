@@ -18,7 +18,7 @@ const MobileMenu = class MobileMenu extends React.Component {
                 <div className={`md:hidden flex flex-row ${this.props.auth.authenticated ? 'justify-center' : 'justify-between'} w-full items-center`}>
                     {this.props.auth.authenticated ? null : (
                         <Link to="/">
-                            <Icon width={12} height={12} />
+                            <Icon />
                         </Link>
                     )}
                     <div className="flex flex-row space-x-2 items-center">

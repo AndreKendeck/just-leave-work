@@ -18,7 +18,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
             <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center">
                 <div className="flex flex-row space-x-2 items-center w-full justify-between">
                     <Link to="/" className="w-1/6">
-                        <Icon width={12} height={12} />
+                        <Icon />
                     </Link>
                     {this.props.auth.authenticated ? (
                         <div className="w-full flex flex-row space-x-2 items-center">
@@ -106,7 +106,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                         </div>
                     ) : (
                         <React.Fragment>
-                            <div className="flex flex-row space-x-2 self-end items-center w-1/2">
+                            <div className="flex flex-row space-x-2 items-center w-1/2">
                                 <Link to="/login" className="w-full">
                                     <Button>Login</Button>
                                 </Link>
