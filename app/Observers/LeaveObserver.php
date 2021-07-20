@@ -15,7 +15,7 @@ class LeaveObserver
      */
     public function approved(Leave $leave)
     {
-        Mail::queue(new LeaveApprovedEmail($leave));
+        Mail::to($leave->user->email)->queue(new LeaveApprovedEmail($leave));
     }
 
     /**
@@ -24,6 +24,6 @@ class LeaveObserver
      */
     public function denied(Leave $leave)
     {
-        Mail::queue(new LeaveDeniedEmail($leave));
+        Mail::to($leave->user->email)->queue(new LeaveDeniedEmail($leave));
     }
 }
