@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -19,10 +20,13 @@ class LeaveTest extends TestCase
     /** @test **/
     public function a_user_can_store_new_leave()
     {
+        
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->make([
             'team_id' => $user->team->id,
             'user_id' => $user->id,
+            'from' => Carbon::create('28-07-2021'),
+            'until' => Carbon::create('30-07-2021')
         ]);
         $this->actingAs($user)
             ->post(route('leaves.store'), [

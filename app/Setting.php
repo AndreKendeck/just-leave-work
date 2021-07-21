@@ -16,8 +16,6 @@ class Setting extends Model
      */
     protected $casts = [
         'leave_added_per_cycle' => 'integer',
-        'maximum_leave_days' => 'integer',
-        'maximum_leave_balance' => 'integer',
         'days_until_balance_added' => 'integer',
         'last_leave_balance_added_at' => 'datetime',
         'created_at' => 'datetime:Y-m-d',

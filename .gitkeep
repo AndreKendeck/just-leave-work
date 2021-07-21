@@ -1,1 +1,2 @@
-/vendor/laravel/sanctum/src/PersonaAccessToken.php
+!/vendor/laravel/sanctum/src/PersonaAccessToken.php
+
