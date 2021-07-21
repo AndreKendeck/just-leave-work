@@ -26,7 +26,7 @@
     <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="JustLeave Work - Leave Management" />
-    <meta property="og:description" content="Have" />
+    <meta property="og:description" content="Leave Management " />
     <meta property="og:image" content="{{ asset('images/seo.png') }}" />
 </head>
 

@@ -6,6 +6,7 @@
 
 /storage/*.key
 vendor/
+!/resource/views/vendor/mail/*
 .env
 .env.backup
 .phpunit.result.cache
