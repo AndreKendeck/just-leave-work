@@ -20,7 +20,8 @@ class Comment extends Model
     ];
 
     protected $casts = [
-        'user_id' => 'integer'
+        'user_id' => 'integer',
+        'leave_id' => 'integer', 
     ];
 
     public function user()

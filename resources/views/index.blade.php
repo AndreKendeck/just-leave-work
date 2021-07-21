@@ -26,8 +26,11 @@
     <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="JustLeave Work - Leave Management" />
-    <meta property="og:description" content="Have" />
+    <meta property="og:description" content="Easier planning for your team" />
     <meta property="og:image" content="{{ asset('images/seo.png') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">

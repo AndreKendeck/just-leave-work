@@ -1,23 +1,23 @@
 import { collect } from 'collect.js';
 import React from 'react';
 
-const Field = (props) => {
+const Field = ({ name, label, errors = [], tip, onKeyUp, onChange, hasError = false, readOnly = false, type = 'text', placeHolder, value }) => {
 
     const getErrors = () => {
-        return collect(props.errors).flatten().map((error, index) => {
+        return collect(errors).flatten().map((error, index) => {
             return <span className="text-red-800 text-sm" key={index}>{error}</span>
         })
     }
     return (
-        <div className="flex flex-col space-y-1">
-            <label htmlFor={props.name} className="text-gray-600">{props.label ? props.label : props.name}</label>
-            <input type={props.type ? props.type : 'text '} readOnly={props.readOnly} value={props.value} onChange={props.onChange} onKeyUp={props.onKeyUp} id={props.name} name={props.name}
-                className={`form-input border-2  rounded-lg ${props.hasError ? 'border-red-500' : 'border-gray-300'}`} />
+        <div className="flex flex-col space-y-1 w-full">
+            <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
+            <input type={type} readOnly={readOnly} value={value} placeholder={placeHolder} onChange={onChange} onKeyUp={onKeyUp} id={name} name={name}
+                className={`form-input border-2 placeholder-gray-400 rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`} />
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>
-            { props.tip ? (
-                <div className="w-full text-gray-500 text-sm">{props.tip}</div>
+            {tip ? (
+                <div className="w-full text-gray-500 text-sm">{tip}</div>
             ) : null}
         </div>
     )

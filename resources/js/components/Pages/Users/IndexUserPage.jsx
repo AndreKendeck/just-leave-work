@@ -157,8 +157,8 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                         {this.state.errors.length > 0 ? this.renderErrors(this.state.errors) : null}
                     </div>
                     <Card className="flex flex-col w-full lg:w-3/4 self-center items-center space-y-2">
-                        <div className="flex flex-row space-x-2 w-full md:w-1/3 items-center self-start">
-                            <div className="md:mt-6 mt-6 w-full">
+                        <div className="flex flex-col md:flex-row space-x-2 w-full items-center justify-between">
+                            <div className="md:mt-6 w-full">
                                 <Button type="secondary" onClick={(e) => this.toggleModalOpenState(true)}>
                                     <div className="flex flex-row space-x-1 items-center justify-center">
                                         <svg version="1.1" className="stroke-current w-6 h-6 text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
@@ -173,8 +173,10 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                     </div>
                                 </Button>
                             </div>
-                            <div className="w-full">
+                            <div className="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 items-center self-end">
                                 <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Role" />
+                                <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Status" />
+                                <Field type="search" name="name" label="Search" placeHolder="Search user" />
                             </div>
                         </div>
                     </Card>

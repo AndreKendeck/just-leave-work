@@ -75,7 +75,7 @@ export default class ForgotPasswordPage extends React.Component {
         }
         return (
             <div className="w-full lg:w-2/3 self-center">
-                <Button onClick={this.onSend} type="outlined">Send</Button>
+                <Button onClick={this.onSend} type="secondary">Send</Button>
             </div>
         )
     }

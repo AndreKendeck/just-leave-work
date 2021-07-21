@@ -37,6 +37,8 @@ class Leave extends Model
         'team_id' => 'integer',
         'from' => 'datetime:Y-m-d',
         'until' => 'datetime:Y-m-d',
+        'reason_id' => 'integer', 
+        'number' => 'integer', 
     ];
 
     protected $with = [

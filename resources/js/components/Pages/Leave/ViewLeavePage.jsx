@@ -20,8 +20,6 @@ import { Link } from 'react-router-dom';
 
 
 
-
-
 const ViewLeavePage = (props) => {
 
     const { id } = useParams();
@@ -124,7 +122,7 @@ const ViewLeavePage = (props) => {
     }, []);
 
     if (loading) {
-        return (<Page className="flex flex-col justify-center justify-center space-y-2">
+        return (<Page className="flex flex-col justify-center  space-y-2">
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" />
             </Card>
@@ -133,7 +131,7 @@ const ViewLeavePage = (props) => {
 
     if (error || !leave) {
         return (
-            <Page className="flex flex-col justify-center justify-center space-y-2">
+            <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <ErrorMessage text={error ? error : 'Could not fetch leave'} />
                 </Card>
@@ -141,7 +139,7 @@ const ViewLeavePage = (props) => {
         );
     }
     return (
-        <Page className="flex flex-col justify-center justify-center space-y-2">
+        <Page className="flex flex-col justify-center space-y-2">
             <div className="md:w-1/2 w-full self-center">
                 {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
             </div>
@@ -210,9 +208,9 @@ const ViewLeavePage = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    const { permissions } = state.user;
+    const { user } = state;
     return {
-        permissions
+        user
     };
 }
 
