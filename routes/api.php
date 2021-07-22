@@ -72,7 +72,6 @@ Route::namespace ('Api')->group(function () {
 
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
-        Route::get('/team/approvers-and-deniers', 'TeamController@getUserWhoCanApproveOrDenyLeave')
-            ->name('team.approvers-and-deniers');
+        Route::get('/get-admins', 'AdminUserController')->name('admins.index');
     });
 });

@@ -15,7 +15,7 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
         return options?.map((option, index) => {
             if (selectedOption?.value === option?.value) {
                 return (
-                    <option key={index} className="text-gray-800 text-base" selected={true} value={option?.value}>{option?.label}</option>
+                    <option key={index} className="text-gray-800 text-base" defaultChecked={true} value={option?.value}>{option?.label}</option>
                 );
             }
             return (
@@ -32,7 +32,7 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
             <div className="flex flex-col space-y-1">
                 {getErrors(errors)}
             </div>
-            { tip ? (
+            {tip ? (
                 <div className="w-full text-gray-500 text-sm">{tip}</div>
             ) : null}
         </div>

@@ -94,6 +94,23 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         ];
     }
 
+    getStatusDropDownOptions() {
+        return [
+            {
+                value: 0,
+                label: 'All'
+            },
+            {
+                value: 1,
+                label: 'On leave'
+            },
+            {
+                value: 2,
+                label: 'At work'
+            }
+        ];
+    }
+
     filterUsers() {
         let { users, roleFilter } = this.state;
         if (roleFilter) {
@@ -175,7 +192,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                             </div>
                             <div className="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 items-center self-end">
                                 <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Role" />
-                                <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Status" />
+                                <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getStatusDropDownOptions()} label="Status" />
                                 <Field type="search" name="name" label="Search" placeHolder="Search user" />
                             </div>
                         </div>
