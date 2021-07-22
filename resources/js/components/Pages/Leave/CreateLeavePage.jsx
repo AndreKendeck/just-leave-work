@@ -20,17 +20,18 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         message: null,
         isSending: false,
         reasons: [],
-        from: { value: null, errors: [], hasError: false },
-        until: { value: null, errors: [], hasError: false },
+        dates: { startDate: null, endDate: null, key: 'selection' },
         description: { value: null, errors: [], hasError: false },
         reason: { value: null, errors: [], hasError: false },
         users: [],
         notifyUser: { value: null, errors: [], hasError: false },
+        from: { errors: [] },
+        until: { errors: [] }
     }
 
 
     componentDidMount() {
-        api.get('/team/approvers-and-deniers').
+        api.get('/team/admins').
             then(success => {
                 this.setState({ users: success.data });
             }).catch(failed => {
@@ -40,7 +41,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
 
     setFromDate = (value) => {
-
+        console.log(value);
         this.setState(state => {
             return {
                 ...state,
@@ -50,21 +51,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             }
         });
 
-        if (this.state.onlyOneDay) {
-            this.setUntilDate(value);
-        }
-
-    }
-
-    setUntilDate = (value) => {
-        this.setState(state => {
-            return {
-                ...state,
-                until: {
-                    value: moment(value).format('L')
-                }
-            }
-        });
     }
 
 
@@ -92,7 +78,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
     onReasonChange = (e) => {
         e.persist();
-        console.log(e);
         this.setState(state => {
             return {
                 ...state,
@@ -105,11 +90,11 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
     storeLeavePost = () => {
         this.setState({ isSending: true });
-        const {
-            from: { value: from },
-            reason: { value: reason },
-            until: { value: until },
+        const { reason: { value: reason },
             description: { value: description } } = this.state;
+
+        const from = moment(this.state.dates.startDate).format('l');
+        const until = moment(this.state.dates.endDate).format('l');
 
         api.post('/leaves', { from, until, description, reason })
             .then(success => {
@@ -138,13 +123,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             });
     }
 
-    getJavascriptDateForCalendar = (date = null) => {
-        if (date) {
-            return moment(date).toDate();
-        }
-        return date;
-    }
-
     onNotifyUserChange = (e) => {
         e.persist();
         this.setState(state => {
@@ -169,27 +147,17 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
     render() {
         return (
-            <Page className="flex flex-col justify-center justify-center space-y-2">
+            <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Leave application</span>
                     <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onReasonChange(e)} label="Reason" options={this.mapReasons()} />
-                    <div className="flex flex-col lg:flex-row w-full space-y-2 lg:space-y-0 lg:space-x-4">
-                        <DatePicker
-                            value={this.getJavascriptDateForCalendar(this.state.from.value)}
-                            errors={this.state.from.errors}
-                            label="Starting Date"
-                            className="form-input"
-                            onChange={(date) => { this.setFromDate(date) }} />
+                    <DatePicker
+                        errors={[this.state.from.errors, this.state.until.errors]}
+                        label="Starting Date"
+                        className="form-input"
+                        months={2}
+                        onChange={(ranges) => { this.setState({ dates: ranges }) }} />
 
-
-                        {this.state.onlyOneDay ? null : (
-                            <DatePicker value={this.getJavascriptDateForCalendar(this.state.until.value)}
-                                errors={this.state.until.errors}
-                                label="Ending"
-                                className="form-input"
-                                tip="if your leave is for one day, leave this blank."
-                                onChange={(date) => { this.setUntilDate(date) }} />)}
-                    </div>
                     <Field type="text" label="Description" name="description" errors={this.state.description.errors} onKeyUp={(e) => this.setDescription(e)} />
                     <Dropdown errors={this.state.notifyUser.errors}
                         label="Notify - Optional"

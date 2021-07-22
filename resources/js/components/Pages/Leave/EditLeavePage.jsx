@@ -73,14 +73,14 @@ const EditLeavePage = () => {
                     setLeave({ ...leave, errors: [collect(errors).flatten().toArray()] });
                 } else {
                     const { message } = failed.response.data;
-                    setError(message);
+                    setError({ ...leave, errors: [...message] });
                 }
             });
     }
 
     if (loading) {
         return (
-            <Page className="flex flex-col justify-center justify-center space-y-2">
+            <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" />
                 </Card>
@@ -90,7 +90,7 @@ const EditLeavePage = () => {
 
     if (error || !leave) {
         return (
-            <Page className="flex flex-col justify-center justify-center space-y-2">
+            <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <ErrorMessage text={error ? error : 'Could not fetch leave'} />
                 </Card>
@@ -99,10 +99,10 @@ const EditLeavePage = () => {
     }
 
     return (
-        <Page className="flex flex-col justify-center justify-center space-y-2">
+        <Page className="flex flex-col justify-center space-y-2">
             <div className="w-2/3 self-center">
                 {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
-                {error ? Array.isArray(error) ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : <ErrorMessage text={error} onDismiss={(e) => setError(null)} /> : null}
+                {leave?.errors.length > 0 ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : null}
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">

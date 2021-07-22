@@ -72,6 +72,6 @@ Route::namespace ('Api')->group(function () {
 
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
-        Route::get('/get-admins', 'AdminUserController')->name('admins.index');
+        Route::get('/team/admins', 'AdminUserController')->name('admins.index');
     });
 });

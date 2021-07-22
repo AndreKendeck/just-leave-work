@@ -1,4 +1,3 @@
-import { collect } from 'collect.js';
 import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +7,6 @@ import Page from '../../Page';
 import Table from '../../Table';
 import UserBadge from '../../UserBadge';
 import UserLeaveStatusBadge from '../../UserLeaveStatusBadge';
-import EditLeavePage from '../Leave/EditLeavePage';
 import Loader from 'react-loader-spinner';
 import ErrorMessage from '../../ErrorMessage';
 import Button from '../../Button';
@@ -17,6 +15,9 @@ import Modal from '../../Modal';
 import Field from '../../Form/Field';
 import { updateUserForm } from '../../../actions/forms/user';
 import Checkbox from '../../Form/Checkbox';
+import EditButtonLink from '../../EditButtonLink';
+import ViewButtonLink from '../../ViewButtonLink';
+import UserCard from '../../UserCard';
 
 const IndexUserPage = class IndexUserPage extends React.Component {
 
@@ -32,6 +33,8 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         errors: [],
         roleFilter: null,
         showModal: false,
+        search: null,
+        userLeaveStatus: 0,
     }
 
     toggleModalOpenState(show = false) {
@@ -44,10 +47,11 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         }, 1000);
     }
 
-    getUsersPage(page = 1) {
+    getUsersPage(page = 1, search = null) {
         const config = {
             params: {
-                page
+                page,
+                search
             }
         }
         this.setState({ isLoading: true });
@@ -74,7 +78,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             return (
                 <div className="flex flex-row space-x-2 items-center">
                     <ViewButtonLink url={`/user/${user?.id}`} />
-                    <EditLeavePage url={`/user/edit/${user?.id}`} />
+                    <EditButtonLink url={`/user/edit/${user?.id}`} />
                 </div>
             );
         }
@@ -112,11 +116,14 @@ const IndexUserPage = class IndexUserPage extends React.Component {
     }
 
     filterUsers() {
-        let { users, roleFilter } = this.state;
+        let { users, roleFilter, userLeaveStatus } = this.state;
         if (roleFilter) {
             users = users.filter(user => {
                 return user.isAdmin;
             })
+        }
+        if (userLeaveStatus) {
+
         }
         return users;
     }
@@ -166,6 +173,13 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         this.props.updateUserForm({ ...userForm, isAdmin: !isAdmin });
     }
 
+    renderUserCards() {
+        return this.filterUsers()?.map((user, index) => {
+            const showLinks = this.props.user?.isAdmin && (user.id != this.props.user?.id);
+            return <UserCard user={user} key={index} showLinks={showLinks} />
+        });
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -175,7 +189,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                     </div>
                     <Card className="flex flex-col w-full lg:w-3/4 self-center items-center space-y-2">
                         <div className="flex flex-col md:flex-row space-x-2 w-full items-center justify-between">
-                            <div className="md:mt-6 w-full">
+                            <div className="mb-6 md:mb-0 md:mt-6 w-full">
                                 <Button type="secondary" onClick={(e) => this.toggleModalOpenState(true)}>
                                     <div className="flex flex-row space-x-1 items-center justify-center">
                                         <svg version="1.1" className="stroke-current w-6 h-6 text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
@@ -193,7 +207,20 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                             <div className="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 items-center self-end">
                                 <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Role" />
                                 <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getStatusDropDownOptions()} label="Status" />
-                                <Field type="search" name="name" label="Search" placeHolder="Search user" />
+                                <div className="flex flex-row space-x-4 items-center">
+                                    <Field type="search" name="name" label="Search" placeHolder="Search user" onChange={(e) => { e.persist(); { this.setState({ search: e.target.value }); } }} />
+                                    <div className="mt-6">
+                                        <Button type="soft" onClick={(e) => this.getUsersPage(this.state.currentPage, this.state.search)}>
+                                            <svg viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg">
+                                                <g fill="none"><g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                                                    <path d="M11.05 4a7.05 7.05 0 1 0 0 14.11 7.05 7.05 0 1 0 0-14.12Z" />
+                                                    <path d="M8.23 8.46l0-.01c1.56-1.57 4.09-1.57 5.65-.01 0 0 0 0 0 0" />
+                                                    <path d="M20 20l-3.95-3.95" /></g>
+                                                </g>
+                                            </svg>
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Card>
@@ -205,6 +232,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                 {this.renderRows()}
                             </Table>}
                     </Card>
+                    {this.renderUserCards()}
                 </Page>
                 <Modal heading="" show={this.state.showModal} onClose={(e) => { this.setState({ showModal: false }) }}>
                     <div className="flex flex-col space-y-4 w-full p-4">

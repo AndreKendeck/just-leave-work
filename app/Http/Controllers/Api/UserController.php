@@ -9,7 +9,6 @@ use App\Http\Resources\UserResource;
 use App\Mail\WelcomeEmail;
 use App\User;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,7 +21,15 @@ class UserController extends Controller
      */
     public function index()
     {
+
         $users = User::where('team_id', auth()->user()->team->id)->latest()->paginate(10);
+
+        if (request()->get('search')) {
+            $search = request()->get('search');
+            $users = User::where('team_id', auth()->user()->team->id)->where('name', 'like', "{$search}%")
+                ->latest()->paginate(10);
+        }
+
         return response()
             ->json([
                 'users' => UserResource::collection($users),

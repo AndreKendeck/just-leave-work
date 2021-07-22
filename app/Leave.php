@@ -106,7 +106,7 @@ class Leave extends Model
 
             $daysOff = 1;
 
-            for ($d = 1; $d <= $difference; $d++) {
+            for ($d = 1; $d < $difference; $d++) {
 
                 $nextDay = $this->from->addDays($d)->format('l');
 

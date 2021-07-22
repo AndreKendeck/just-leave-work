@@ -67,7 +67,7 @@ const ViewLeavePage = (props) => {
     }
 
     const userIsAdmin = () => {
-        return collect(props.user?.roles).contains('name', 'team-admin');
+        return props.user?.isAdmin;
     }
 
     const onLeaveApprove = () => {
@@ -144,48 +144,52 @@ const ViewLeavePage = (props) => {
                 {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                <div className="flex flex-row space-between items-center space-x-3">
-                    <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">
-                        <svg version="1.1" className="stroke-current h-6 w-6 text-gray-500" viewBox="0 0 24 24" >
-                            <g fill="none">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
-                            </g>
-                        </svg>
-                        <span className="text-sm text-gray-600">Back to leave page</span>
-                    </Link>
-                    <Link className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center" to={`/leave/edit/${id}`}>
-                        <svg id="Layer_3" className="stroke-current h-6 w-6 text-gray-600" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-                            <path d="M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
-                        </svg>
-                        <span className="text-sm text-gray-600">edit</span>
-                    </Link>
+                <div className="flex flex-row justify-between items-center space-x-2 w-full">
+                    <Heading>{leave?.reason.name}</Heading>
+                    <div className="flex flex-row space-x-2 items-center">
+                        <div>
+                            <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">
+                                <svg version="1.1" className="stroke-current h-6 w-6 text-gray-600" viewBox="0 0 24 24" >
+                                    <g fill="none">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.01 11.98h14.99"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
+                                    </g>
+                                </svg>
+                                <span className="text-sm text-gray-600">Back</span>
+                            </Link>
+                        </div>
+                        <div>
+                            <Link className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center" to={`/leave/edit/${id}`}>
+                                <svg id="Layer_3" className="stroke-current h-6 w-6 text-gray-600" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+                                    <path d="M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                </svg>
+                                <span className="text-sm text-gray-600">edit</span>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center">
-                    <Heading>{leave?.reason.name}</Heading>
-                    <div className="flex flex-row space-x-2 items-center justify-between">
+                    <div className="flex flex-row space-x-2 justify-between">
                         <div>
                             <LeaveDaysLabel leave={leave} />
                         </div>
                         <div>
                             <LeaveStatusBadge leave={leave} />
                         </div>
-
                     </div>
                 </div>
                 <div className="flex flex-row space-x-2 items-center">
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2 self-start">
                         <UserBadge user={leave?.user} imageSize={8} />
                     </div>
-                    <div className="text-gray-600 text-sm w-full text-right">{moment(leave?.createdAt).fromNow()}</div>
                 </div>
                 <div className="text-gray-500">
                     {leave?.description}
                 </div>
                 {/* There was no better way to write this unless I store  */}
                 <div className="flex flex-row space-x-2">
-                    {userIsAdmin() ? <React.Fragment>
+                    {userIsAdmin() && leave?.pending ? <React.Fragment>
                         <Button onClick={(e) => onLeaveApprove()}>Approve</Button>
                         <Button onClick={(e) => onLeaveDeny()} type="danger">Deny</Button>
                     </React.Fragment> : null}
