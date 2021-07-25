@@ -14,7 +14,7 @@ class AddJobPositionColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->addColumn('string', 'job_position')->nullable()->after('leave_balance');
+            $table->string('job_position', 255)->nullable();
         });
     }
 

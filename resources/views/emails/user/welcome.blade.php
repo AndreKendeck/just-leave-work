@@ -1,25 +1,20 @@
 @component('mail::message')
-    # Welcome to justleave.work
+# Welcome {{ $user->name }}
 
-    We are so glad you chose our platform to manage leave without your, team.
-    We know that leave request forms, emails , texts, phone calls etc... can be tiresome & stressful
-    when dealing with leave days <br />
+We are so glad you chose our platform to manage leave without your, team.
+We know that leave request forms, emails , texts, phone calls etc... can be tiresome & stressful
+when dealing with leave days
 
-    @if (isset($password))
+You have been added to  <a>justleave.work</a> platform
 
-        ## You have been added to {{ $user->team->display_name }} justleave.work Platform <br>
+Here is your password
 
-        Here are your login details
+@component('mail::panel')
+{{ $password }}
+@endcomponent
 
-        ```Email: This email address
-        Password: {{ $password }} ```
+If you need to get started quickly check out our quick tutorial video below:
 
-    @endif
-
-    If you need to get started quickly check out our quick tutorial video below:
-
-
-
-    Thanks,<br>
-    {{ config('app.name') }}
+Thanks,<br> 
+{{ config('app.name') }}
 @endcomponent

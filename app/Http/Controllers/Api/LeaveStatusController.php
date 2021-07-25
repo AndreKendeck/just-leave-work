@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeaveResource;
 use App\Leave;
+use App\User;
 
 class LeaveStatusController extends Controller
 {
@@ -43,7 +44,8 @@ class LeaveStatusController extends Controller
 
         $leave->approve();
 
-        $leave->user->decrement('leave_balance', $leave->number_of_days_off);
+        $user = User::find($leave->user->id);
+        $user->decrement('leave_balance', $leave->number_of_days_off);
 
         return response()
             ->json([

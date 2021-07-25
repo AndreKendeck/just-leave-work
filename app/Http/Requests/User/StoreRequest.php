@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
             'name' => ['required', 'min:2', 'max:255'],
             'email' => ['required', 'unique:users'],
             'is_admin' => ['nullable'],
-            'leave_balance' => ['required', 'min:0']
+            'balance' => ['required', 'min:0']
         ];
     }
 }

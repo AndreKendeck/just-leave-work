@@ -31,6 +31,9 @@ class ReasonTableSeeder extends Seeder
             [
                 'name' => 'Religious Leave',
             ],
+            [
+                'name' => 'Other',
+            ],
         ]);
         $reasons->each(function ($reason) {
             Reason::firstOrCreate($reason);

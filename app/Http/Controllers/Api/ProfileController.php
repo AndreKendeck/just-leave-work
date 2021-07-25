@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PermissionResource;
 use App\Http\Resources\SettingResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -26,5 +26,17 @@ class ProfileController extends Controller
 
         return response()
             ->json($result);
+    }
+
+
+    public function update(Request $request)
+    {
+        $user = \App\User::findOrFail(auth()->id());
+        $request->validate([
+            'name' => 'required',
+            '' 
+        ] , [
+            ''
+        ]);
     }
 }

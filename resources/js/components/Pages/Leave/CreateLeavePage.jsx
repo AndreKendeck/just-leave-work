@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from '../../Card';
-import Heading from '../../Heading';
 import Page from '../../Page';
 import DatePicker from '../../Form/DatePicker';
 import Dropdown from '../../Form/Dropdown';
@@ -35,13 +34,13 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             then(success => {
                 this.setState({ users: success.data });
             }).catch(failed => {
-                this.setState({ error: failed.response.data.error });
+                const { message } = failed.response.data.message;
+                this.setState({ error: message });
             });
     }
 
 
     setFromDate = (value) => {
-        console.log(value);
         this.setState(state => {
             return {
                 ...state,
@@ -67,7 +66,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
     }
 
     mapReasons = () => {
-        const reasons = [{ id: 0, name: '' }, ...this.props.reasons];
+        const reasons = [{ id: 0, name: 'Select a reason' }, ...this.props.reasons];
         return reasons?.map(reason => {
             return {
                 value: reason.id,
@@ -91,12 +90,12 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
     storeLeavePost = () => {
         this.setState({ isSending: true });
         const { reason: { value: reason },
-            description: { value: description } } = this.state;
+            description: { value: description }, notifyUser: { value: notifyUser } } = this.state;
 
         const from = moment(this.state.dates.startDate).format('l');
         const until = moment(this.state.dates.endDate).format('l');
 
-        api.post('/leaves', { from, until, description, reason })
+        api.post('/leaves', { from, until, description, reason, notifyUser })
             .then(success => {
                 this.setState({ isSending: false });
                 const { message } = success.data;
@@ -136,7 +135,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
     }
 
     mapNotifiableUsers() {
-        let users = [...this.state.users, { value: null, label: '' }];
+        let users = [{ id: 0, name: 'Select a user' }, ...this.state.users,];
         return users?.map(user => {
             return {
                 value: user.id,

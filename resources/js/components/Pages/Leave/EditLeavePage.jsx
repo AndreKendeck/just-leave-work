@@ -102,7 +102,7 @@ const EditLeavePage = () => {
         <Page className="flex flex-col justify-center space-y-2">
             <div className="w-2/3 self-center">
                 {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
-                {leave?.errors.length > 0 ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : null}
+                {leave?.errors?.length > 0 ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : null}
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">

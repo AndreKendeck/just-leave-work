@@ -52,7 +52,7 @@ class UserController extends Controller
             ->setLowercase()
             ->setNumbers()
             ->setSymbols()
-            ->setLength(10);
+            ->setLength(8);
 
         $password = $passwordGenerator->generatePassword();
 
@@ -61,10 +61,10 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($password),
             'team_id' => auth()->user()->team_id,
-            'leave_balance' => $request->leave_balance,
+            'leave_balance' => $request->balance,
         ]);
 
-        if ($request->filled('is_admin')) {
+        if ($request->is_admin) {
             $user->attachRole('team-admin', $user->team);
         }
 

@@ -76,9 +76,10 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     }
 
     filterLeaves = () => {
-        const { reason, status } = this.state.filters;
+        let { reason, status } = this.state.filters;
+        reason = parseInt(reason);
         let { leaves } = this.state;
-        if (reason && reason != 0) {
+        if (reason) {
             leaves = leaves?.filter(leave => {
                 return parseInt(reason) === leave.reason.id;
             });
@@ -160,7 +161,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
     render() {
         return (
             <Page className="flex flex-col space-y-2">
-                <Card className="flex flex-col w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2">
+                <Card className="flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2">
                     <Dropdown label="Status" options={this.getLeaveStatuses()}
                         onChange={(e) => { e.persist(); this.setState({ filters: { ...this.state.filters, status: e.target.value } }) }} />
 
@@ -175,6 +176,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                     }} />
                 </Card>
                 <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
+                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Leave Requests</span>
                     {this.state.isLoading ?
                         <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> :
                         <Table headings={['Requested By', 'Status', 'Type', 'On', 'Until', 'Days off', '']}>

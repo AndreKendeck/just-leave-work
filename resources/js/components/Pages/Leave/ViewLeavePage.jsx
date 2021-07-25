@@ -10,13 +10,13 @@ import Heading from '../../Heading';
 import LeaveDaysLabel from '../../LeaveDaysLabel';
 import LeaveStatusBadge from '../../LeaveStatusBadge';
 import UserBadge from '../../UserBadge';
-import moment from 'moment';
 import Comment from '../../Comment';
 import Button from '../../Button';
 import { collect } from 'collect.js';
 import InfoMessage from '../../InfoMessage';
 import TextArea from '../../Form/Textarea';
 import { Link } from 'react-router-dom';
+import { clearCommentForm, updateCommentForm } from '../../../actions/forms/comment';
 
 
 
@@ -27,17 +27,19 @@ const ViewLeavePage = (props) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
-    const [comment, setComment] = useState({ text: '', errors: [] });
 
     const onCommentAdd = () => {
-        api.post('/comments', { text: comment.text, leave_id: id })
+        const { commentForm } = props;
+        props.updateCommentForm({ ...commentForm, loading: true });
+        const { value } = props.commentForm;
+        api.post('/comments', { text: value, leave_id: id })
             .then(success => {
                 const { comment: newComment } = success.data;
-                setComment((prevState) => ({ text: ' ', errors: [] }));
+                props.clearCommentForm();
                 setLeave({ ...leave, comments: [newComment, ...leave.comments] });
             }).catch(failed => {
-                setComment((prevState) => ({ ...comment, errors: collect(failed.response.errors).flatten() }));
-
+                const { errors } = failed.response.data;
+                props.updateCommentForm({ ...commentForm, loading: false, errors: collect(errors).flatten() });
             });
     }
 
@@ -169,14 +171,28 @@ const ViewLeavePage = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center">
-                    <div className="flex flex-row space-x-2 justify-between">
-                        <div>
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between md:items-center">
+                    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 justify-between md:items-center w-full">
+                        <div className="text-center">
                             <LeaveDaysLabel leave={leave} />
                         </div>
                         <div>
                             <LeaveStatusBadge leave={leave} />
                         </div>
+                    </div>
+                </div>
+                <div className="w-1/2 md:w-1/6">
+                    <div className="flex flex-row space-x-1 items-center bg-gray-700 shadow p-2 rounded-lg">
+                        <span>
+                            <svg viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" >
+                                <defs><path d="M16.5 3l0 3" id="b" /><path d="M7.5 3l0 3" id="a" /></defs>
+                                <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                                    <use xlinkHref="#a" /><use /><use xlinkHref="#a" /><use />
+                                    <path d="M10 21H6l-.01-.001c-1.66-.01-3-1.35-3-3 0 0 0-.001 0-.001V7.49l0 0c-.01-1.66 1.34-3.01 2.99-3.01h12l-.01 0c1.65-.01 3 1.34 3 3v2.5" />
+                                    <path d="M16.5 12a4.5 4.5 0 1 0 0 9 4.5 4.5 0 1 0 0-9Z" /><path d="M16.199 14.51l0 2.28 1.89 0" /></g>
+                            </svg>
+                        </span>
+                        <span className="text-white">{leave.numberOfDaysOff}{leave.numberOfDaysOff > 1 ? ' Days' : ' Day'}</span>
                     </div>
                 </div>
                 <div className="flex flex-row space-x-2 items-center">
@@ -200,22 +216,26 @@ const ViewLeavePage = (props) => {
                 {renderComments(leave.comments)}
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                <TextArea label="Add a comment" name="comment" errors={comment.errors}
-                    onChange={(e) => { e.persist(); setComment((prevState) => ({ ...prevState, text: e.target.value })); }}>
-                    {comment.text}
+                <TextArea label="Add a comment" name="comment" errors={props.commentForm.errors}
+                    onChange={(e) => { e.persist(); props.updateCommentForm({ ...props.commentForm, value: e.target.value }) }}>
+                    {props.commentForm.value}
                 </TextArea>
-                <Button onClick={(e) => onCommentAdd()}>Add Comment</Button>
+
+                {props.commentForm.loading ? (<Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />) :
+                    <Button onClick={(e) => onCommentAdd()}>Add Comment</Button>}
             </Card>
-        </Page>
+        </Page >
     )
 
 }
 
 const mapStateToProps = (state) => {
-    const { user } = state;
+    const { user, commentForm } = state;
     return {
-        user
+        user,
+        commentForm
     };
 }
 
-export default connect(mapStateToProps)(ViewLeavePage);
+
+export default connect(mapStateToProps, { updateCommentForm, clearCommentForm })(ViewLeavePage);

@@ -3,7 +3,7 @@ import React from 'react';
 const LeaveStatusBadge = ({ leave }) => {
     if (leave?.approved) {
         return (
-            <span className="text-xs bg-green-300 rounded-lg text-green-600 px-2 flex space-x-1 items-center bg-opacity-25 py-1 justify-center">
+            <span className="bg-green-300 rounded-lg text-green-600 px-2 flex space-x-1 items-center bg-opacity-25 py-1 justify-center">
                 <span>
                     <svg id="Layer_3" data-name="Layer 3" className="stroke-current text-green-600 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <rect x="3" y="4.5" width="18" height="16.5" rx="3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -19,7 +19,7 @@ const LeaveStatusBadge = ({ leave }) => {
     }
     if (leave?.denied) {
         return (
-            <span className="text-xs bg-red-300 rounded-lg text-red-800 px-2 flex space-x-1 items-center bg-opacity-25 py-1 justify-center">
+            <span className="bg-red-300 rounded-lg text-red-800 px-2 flex space-x-1 items-center bg-opacity-25 py-1 justify-center">
                 <span>
                     <svg id="Layer_3" data-name="Layer 3" className="stroke-current text-red-800 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <line x1="7.5" y1="3" x2="7.5" y2="6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
