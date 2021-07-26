@@ -26,6 +26,7 @@ import Loader from 'react-loader-spinner';
 import EditLeavePage from './Pages/Leave/EditLeavePage';
 import SettingsPage from './Pages/SettingsPage';
 import IndexUserPage from './Pages/Users/IndexUserPage';
+import UploadUsersPage from './Pages/Users/UploadUsersPage';
 
 
 const App = class App extends React.Component {
@@ -50,7 +51,7 @@ const App = class App extends React.Component {
                 this.setState({ initializing: false });
             })
     }
-    
+
     getGuestRoutes = () => {
         if (this.state.initializing) {
             return null;
@@ -133,7 +134,7 @@ const App = class App extends React.Component {
                         {/* view user */}
                     </Route>
                     <Route path="/users/create" exact={true}>
-                        {/* create users in bulk */}
+                        {this.currentUserIsAuthenticated() ? <UploadUsersPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/user/edit/:id" exact={true}>
                         {/* edit user */}

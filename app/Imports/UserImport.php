@@ -2,17 +2,24 @@
 
 namespace App\Imports;
 
-use App\User;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use App\Mail\WelcomeEmail;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\CannotImportUser;
+use App\User;
+use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class UserImport implements ToModel, ShouldQueue
+class UserImport implements ToModel, ShouldQueue, WithChunkReading
 {
+
+    public function chunkSize(): int
+    {
+        return 10;
+    }
+    
     /**
      * @param array $row
      *
@@ -45,7 +52,7 @@ class UserImport implements ToModel, ShouldQueue
             'email' => $row[1],
             'password' => bcrypt($password),
             'leave_balance' => $row[2] ?? 0,
-            'team_id' => auth()->user()->team->id
+            'team_id' => auth()->user()->team->id,
         ]);
 
         Mail::to($user->email)->queue(new WelcomeEmail($user, $password));

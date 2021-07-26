@@ -17,8 +17,7 @@ import InfoMessage from '../../InfoMessage';
 import TextArea from '../../Form/Textarea';
 import { Link } from 'react-router-dom';
 import { clearCommentForm, updateCommentForm } from '../../../actions/forms/comment';
-import { Calendar, DateRange, DateRangePicker } from 'react-date-range';
-import moment from 'moment';
+import { DateRange } from 'react-date-range';
 
 
 
@@ -183,9 +182,8 @@ const ViewLeavePage = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full">
+                <div>
                     <DateRange showDateDisplay={false}
-                        className="w-full shadow rounded"
                         direction="vertical"
                         editableDateInputs={false}
                         ranges={[{ startDate: new Date(leave.from), endDate: new Date(leave.until), key: 'selection' }]}
