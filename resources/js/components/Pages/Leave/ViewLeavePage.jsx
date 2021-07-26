@@ -17,6 +17,8 @@ import InfoMessage from '../../InfoMessage';
 import TextArea from '../../Form/Textarea';
 import { Link } from 'react-router-dom';
 import { clearCommentForm, updateCommentForm } from '../../../actions/forms/comment';
+import { Calendar, DateRange, DateRangePicker } from 'react-date-range';
+import moment from 'moment';
 
 
 
@@ -172,7 +174,7 @@ const ViewLeavePage = (props) => {
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between md:items-center">
-                    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 justify-between md:items-center w-full">
+                    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2  md:items-center w-full">
                         <div className="text-center">
                             <LeaveDaysLabel leave={leave} />
                         </div>
@@ -181,10 +183,22 @@ const ViewLeavePage = (props) => {
                         </div>
                     </div>
                 </div>
+                <div className="w-full">
+                    <DateRange showDateDisplay={false}
+                        className="w-full shadow rounded"
+                        direction="vertical"
+                        editableDateInputs={false}
+                        ranges={[{ startDate: new Date(leave.from), endDate: new Date(leave.until), key: 'selection' }]}
+                        onChange={(e) => { }}
+                        rangeColors={['#9f7aea']}
+                        scroll={true}
+                        showMonthArrow={false}
+                        showSelectionPreview={true} />
+                </div>
                 <div className="w-1/2 md:w-1/6">
-                    <div className="flex flex-row space-x-1 items-center bg-gray-700 shadow p-2 rounded-lg">
+                    <div className="flex flex-row space-x-1 items-center p-2 ">
                         <span>
-                            <svg viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" >
+                            <svg viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" >
                                 <defs><path d="M16.5 3l0 3" id="b" /><path d="M7.5 3l0 3" id="a" /></defs>
                                 <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
                                     <use xlinkHref="#a" /><use /><use xlinkHref="#a" /><use />
@@ -192,7 +206,7 @@ const ViewLeavePage = (props) => {
                                     <path d="M16.5 12a4.5 4.5 0 1 0 0 9 4.5 4.5 0 1 0 0-9Z" /><path d="M16.199 14.51l0 2.28 1.89 0" /></g>
                             </svg>
                         </span>
-                        <span className="text-white">{leave.numberOfDaysOff}{leave.numberOfDaysOff > 1 ? ' Days' : ' Day'}</span>
+                        <span className="text-gray-700">{leave.numberOfDaysOff}{leave.numberOfDaysOff > 1 ? ' Days' : ' Day'}</span>
                     </div>
                 </div>
                 <div className="flex flex-row space-x-2 items-center">
@@ -200,7 +214,7 @@ const ViewLeavePage = (props) => {
                         <UserBadge user={leave?.user} imageSize={8} />
                     </div>
                 </div>
-                <div className="text-gray-500">
+                <div className="text-gray-700">
                     {leave?.description}
                 </div>
                 {/* There was no better way to write this unless I store  */}

@@ -4,8 +4,8 @@ import React from 'react';
 
 const LeaveDaysLabel = ({ leave }) => {
     if (leave?.isForOneDay) {
-        return (<div className="flex flex-row space-x-4">
-            <span className="flex text-purple-500"><span className="text-gray-500 text-sm">On &nbsp;</span> {moment(leave?.from).format('Do MMM Y')}</span>
+        return (<div className="flex flex-row space-x-4 bg-purple-100 px-2 py-1 rounded-lg items-center">
+            <span className="flex text-purple-500"><span className="text-sm">On &nbsp;</span> {moment(leave?.from).format('Do MMM Y')}</span>
         </div>)
     }
     return (

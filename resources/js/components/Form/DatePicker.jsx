@@ -31,7 +31,7 @@ const DatePicker = ({ errors, name, label, onChange, tip }) => {
             </div>
             <div className="md:hidden">
                 <DateRange ranges={[range]} showDateDisplay={false}
-                    rangeColors={['#9f7aea']} className="w-full"
+                    rangeColors={['#9f7aea']}  className="w-full"
                     direction="horizontal"
                     showSelectionPreview={true} onChange={(ranges) => {
                         const { selection } = ranges;

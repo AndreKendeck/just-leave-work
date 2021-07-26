@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { unsetAuthenticated } from '../../actions/auth';
 import Button from '../Button';
 import Card from '../Card';
+import Field from '../Form/Field';
 import Page from '../Page';
 import UserBadge from '../UserBadge';
-
+import { clearUserForm, updateUserForm } from '../../actions/forms/user';
 const ProfilePage = class ProfilePage extends React.Component {
 
     logout() {
@@ -13,6 +14,17 @@ const ProfilePage = class ProfilePage extends React.Component {
         localStorage.removeItem('authToken');
         window.location = '/';
     }
+
+    componentDidMount() {
+        const { name, leaveBalance } = this.props.user;
+        this.props.updateUserForm({ name, balance: leaveBalance });
+    }
+
+    isAdmin() {
+        const { user } = this.props;
+        return user?.isAdmin;
+    }
+
     render() {
         return (
             <Page className="flex flex-col justify-center space-y-2">
@@ -48,11 +60,12 @@ const ProfilePage = class ProfilePage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { user } = state;
+    const { user, userForm } = state;
     return {
-        user
+        user,
+        userForm
     }
 }
 
 
-export default connect(mapStateToProps, { unsetAuthenticated })(ProfilePage);
+export default connect(mapStateToProps, { unsetAuthenticated, updateUserForm, clearUserForm })(ProfilePage);

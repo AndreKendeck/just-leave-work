@@ -6104,7 +6104,7 @@ module.exports = function zip(array) {
 
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/react-date-range/dist/styles.css":
 /*!***************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/postcss-loader/src??ref--7-2!./node_modules/react-date-range/dist/styles.css ***!
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/react-date-range/dist/styles.css ***!
   \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -6123,7 +6123,7 @@ exports.push([module.i, ".rdrCalendarWrapper {\n  box-sizing: border-box;\n  bac
 
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/react-date-range/dist/theme/default.css":
 /*!**********************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/postcss-loader/src??ref--7-2!./node_modules/react-date-range/dist/theme/default.css ***!
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/react-date-range/dist/theme/default.css ***!
   \**********************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -39074,7 +39074,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../css-loader??ref--7-1!../../postcss-loader/src??ref--7-2!./styles.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/react-date-range/dist/styles.css");
+var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./styles.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/react-date-range/dist/styles.css");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -39175,7 +39175,7 @@ exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../css-loader??ref--7-1!../../../postcss-loader/src??ref--7-2!./default.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/react-date-range/dist/theme/default.css");
+var content = __webpack_require__(/*! !../../../css-loader??ref--6-1!../../../postcss-loader/src??ref--6-2!./default.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/react-date-range/dist/theme/default.css");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -39312,17 +39312,6 @@ function generateStyles(sources) {
   }, {});
   return generatedStyles;
 }
-
-/***/ }),
-
-/***/ "./node_modules/react-datepicker/src/stylesheets/datepicker.scss":
-/*!***********************************************************************!*\
-  !*** ./node_modules/react-datepicker/src/stylesheets/datepicker.scss ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
@@ -76663,12 +76652,16 @@ var LeaveCard = function LeaveCard(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-full text-sm text-purple-500 text-right"
   }, leave === null || leave === void 0 ? void 0 : leave.reason.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-row justify-between items-center w-full"
+    className: "flex flex-col justify-between w-full space-y-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_3__["default"], {
     leave: leave
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-full"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
     leave: leave
-  })))));
+  }))))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (LeaveCard);
@@ -76696,11 +76689,11 @@ var LeaveDaysLabel = function LeaveDaysLabel(_ref) {
 
   if (leave !== null && leave !== void 0 && leave.isForOneDay) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "flex flex-row space-x-4"
+      className: "flex flex-row space-x-4 bg-purple-100 px-2 py-1 rounded-lg items-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
       className: "flex text-purple-500"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-      className: "text-gray-500 text-sm"
+      className: "text-sm"
     }, "On \xA0"), " ", moment__WEBPACK_IMPORTED_MODULE_0___default()(leave === null || leave === void 0 ? void 0 : leave.from).format('Do MMM Y')));
   }
 
@@ -79620,6 +79613,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Form_Textarea__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Form/Textarea */ "./resources/js/components/Form/Textarea.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_forms_comment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../actions/forms/comment */ "./resources/js/actions/forms/comment/index.js");
+/* harmony import */ var react_date_range__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-date-range */ "./node_modules/react-date-range/dist/index.js");
+/* harmony import */ var react_date_range__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(react_date_range__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_20__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -79645,6 +79642,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -79883,7 +79882,7 @@ var ViewLeavePage = function ViewLeavePage(props) {
   }, "edit"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between md:items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 justify-between md:items-center w-full"
+    className: "flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2  md:items-center w-full"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveDaysLabel__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -79891,12 +79890,29 @@ var ViewLeavePage = function ViewLeavePage(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LeaveStatusBadge__WEBPACK_IMPORTED_MODULE_10__["default"], {
     leave: leave
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-full"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_date_range__WEBPACK_IMPORTED_MODULE_19__["DateRange"], {
+    showDateDisplay: false,
+    className: "w-full shadow rounded",
+    direction: "vertical",
+    editableDateInputs: false,
+    ranges: [{
+      startDate: new Date(leave.from),
+      endDate: new Date(leave.until),
+      key: 'selection'
+    }],
+    onChange: function onChange(e) {},
+    rangeColors: ['#9f7aea'],
+    scroll: true,
+    showMonthArrow: false,
+    showSelectionPreview: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 md:w-1/6"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex flex-row space-x-1 items-center bg-gray-700 shadow p-2 rounded-lg"
+    className: "flex flex-row space-x-1 items-center p-2 "
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
     viewBox: "0 0 24 24",
-    className: "stroke-current h-6 w-6 text-white",
+    className: "stroke-current h-6 w-6 text-gray-700",
     xmlns: "http://www.w3.org/2000/svg"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("defs", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M16.5 3l0 3",
@@ -79920,7 +79936,7 @@ var ViewLeavePage = function ViewLeavePage(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M16.199 14.51l0 2.28 1.89 0"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-white"
+    className: "text-gray-700"
   }, leave.numberOfDaysOff, leave.numberOfDaysOff > 1 ? ' Days' : ' Day'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-row space-x-2 items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -79929,7 +79945,7 @@ var ViewLeavePage = function ViewLeavePage(props) {
     user: leave === null || leave === void 0 ? void 0 : leave.user,
     imageSize: 8
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "text-gray-500"
+    className: "text-gray-700"
   }, leave === null || leave === void 0 ? void 0 : leave.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex flex-row space-x-2"
   }, userIsAdmin() && leave !== null && leave !== void 0 && leave.pending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_13__["default"], {
@@ -80270,8 +80286,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth/index.js");
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Button */ "./resources/js/components/Button.jsx");
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
-/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../UserBadge */ "./resources/js/components/UserBadge.jsx");
+/* harmony import */ var _Form_Field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Form/Field */ "./resources/js/components/Form/Field.jsx");
+/* harmony import */ var _Page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Page */ "./resources/js/components/Page.jsx");
+/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../UserBadge */ "./resources/js/components/UserBadge.jsx");
+/* harmony import */ var _actions_forms_user__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/forms/user */ "./resources/js/actions/forms/user/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -80302,6 +80320,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var ProfilePage = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfilePage, _React$Component);
 
@@ -80321,13 +80341,30 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
       window.location = '/';
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this$props$user = this.props.user,
+          name = _this$props$user.name,
+          leaveBalance = _this$props$user.leaveBalance;
+      this.props.updateUserForm({
+        name: name,
+        balance: leaveBalance
+      });
+    }
+  }, {
+    key: "isAdmin",
+    value: function isAdmin() {
+      var user = this.props.user;
+      return user === null || user === void 0 ? void 0 : user.isAdmin;
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props,
           _this$props2,
           _this = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_6__["default"], {
         className: "flex flex-col justify-center space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
         className: "w-full lg:w-1/2 self-center pointer-cursor"
@@ -80335,7 +80372,7 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
         className: "flex flex-row justify-between items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row space-x-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_7__["default"], {
         user: (_this$props = this.props) === null || _this$props === void 0 ? void 0 : _this$props.user
       })), (_this$props2 = this.props) !== null && _this$props2 !== void 0 && _this$props2.user.isAdmin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "bg-purple-500 bg-opacity-25 text-purple-500 text-xs px-2 rounded-full py-1"
@@ -80383,14 +80420,18 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  var user = state.user;
+  var user = state.user,
+      userForm = state.userForm;
   return {
-    user: user
+    user: user,
+    userForm: userForm
   };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
-  unsetAuthenticated: _actions_auth__WEBPACK_IMPORTED_MODULE_2__["unsetAuthenticated"]
+  unsetAuthenticated: _actions_auth__WEBPACK_IMPORTED_MODULE_2__["unsetAuthenticated"],
+  updateUserForm: _actions_forms_user__WEBPACK_IMPORTED_MODULE_8__["updateUserForm"],
+  clearUserForm: _actions_forms_user__WEBPACK_IMPORTED_MODULE_8__["clearUserForm"]
 })(ProfilePage));
 
 /***/ }),
@@ -82607,15 +82648,14 @@ var userReducer = function userReducer() {
 /***/ }),
 
 /***/ 0:
-/*!*****************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./node_modules/react-datepicker/src/stylesheets/datepicker.scss ***!
-  \*****************************************************************************************************************************/
+/*!*************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/node_modules/react-datepicker/src/stylesheets/datepicker.scss */"./node_modules/react-datepicker/src/stylesheets/datepicker.scss");
+module.exports = __webpack_require__(/*! /Users/andrekendeck/dev/just-leave-work/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
