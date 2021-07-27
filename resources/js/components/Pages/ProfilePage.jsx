@@ -3,10 +3,27 @@ import { connect } from 'react-redux';
 import { unsetAuthenticated } from '../../actions/auth';
 import Button from '../Button';
 import Card from '../Card';
+import Field from '../Form/Field';
 import Page from '../Page';
 import UserBadge from '../UserBadge';
-
+import { clearUserForm, updateUserForm } from '../../actions/forms/user';
 const ProfilePage = class ProfilePage extends React.Component {
+
+    logout() {
+        this.props.unsetAuthenticated();
+        localStorage.removeItem('authToken');
+        window.location = '/';
+    }
+
+    componentDidMount() {
+        const { name, leaveBalance } = this.props.user;
+        this.props.updateUserForm({ name, balance: leaveBalance });
+    }
+
+    isAdmin() {
+        const { user } = this.props;
+        return user?.isAdmin;
+    }
 
     render() {
         return (
@@ -20,7 +37,7 @@ const ProfilePage = class ProfilePage extends React.Component {
                             {this.props?.user.isAdmin ? (<div className="bg-purple-500 bg-opacity-25 text-purple-500 text-xs px-2 rounded-full py-1">Admin</div>) : null}
                         </div>
                         <div>
-                            <Button type="soft">
+                            <Button type="soft" onClick={(e) => this.logout()}>
                                 <div className="flex space-x-1 items-center">
                                     <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-600 h-6 w-6"
                                         xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -37,17 +54,18 @@ const ProfilePage = class ProfilePage extends React.Component {
                         </div>
                     </div>
                 </Card>
-            </Page>
+            </Page >
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    const { user } = state;
+    const { user, userForm } = state;
     return {
-        user
+        user,
+        userForm
     }
 }
 
 
-export default connect(mapStateToProps, { unsetAuthenticated })(ProfilePage);
+export default connect(mapStateToProps, { unsetAuthenticated, updateUserForm, clearUserForm })(ProfilePage);

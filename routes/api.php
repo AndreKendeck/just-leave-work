@@ -32,6 +32,10 @@ Route::namespace ('Api')->group(function () {
     Route::post('/check-password-reset-token', 'CheckPasswordResetController')->name('password.token.check');
     Route::post('/reset-password', 'PasswordResetController@store')->name('password.reset');
 
+    Route::post('/logout', 'LogoutController')
+        ->name('logout')
+        ->middleware('auth:sanctum');
+
     Route::middleware(['auth:sanctum', 'forbid-banned-user', 'verified'])->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');
@@ -72,7 +76,7 @@ Route::namespace ('Api')->group(function () {
 
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
-        Route::get('/team/approvers-and-deniers', 'TeamController@getUserWhoCanApproveOrDenyLeave')
-            ->name('team.approvers-and-deniers');
+        Route::get('/team/admins', 'AdminUserController')->name('admins.index');
+
     });
 });

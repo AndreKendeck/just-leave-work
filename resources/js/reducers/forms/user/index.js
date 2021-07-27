@@ -1,11 +1,11 @@
 
 const defaultState = {
-    name: null,
-    nameErrors: [],
-    email: null,
-    emailErrors: [],
+    name: '',
+    email: '',
     isAdmin: false,
     balance: 0,
+    errors: [],
+    messages: [],
 }
 
 /**
@@ -19,7 +19,14 @@ export const userFormReducer = (state = defaultState, action) => {
         case 'UPDATE_USER_FORM':
             return action.payload;
         case 'CLEAR_USER_FORM':
-            return state;
+            return {
+                name: '',
+                email: '',
+                isAdmin: false,
+                balance: 0,
+                errors: [],
+                messages: [],
+            }
         default:
             return state;
     }

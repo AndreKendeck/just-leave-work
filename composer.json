@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "cybercog/laravel-ban": "^4.2",
+        "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "hackzilla/password-generator": "^1.4",
@@ -23,7 +24,8 @@
         "maatwebsite/excel": "^3.1",
         "mpociot/laravel-apidoc-generator": "^4.8",
         "santigarcor/laratrust": "^6.3",
-        "spatie/laravel-backup": "^6.8"
+        "spatie/laravel-backup": "^6.8",
+        "spatie/laravel-mailable-test": "^2.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

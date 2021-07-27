@@ -3,7 +3,7 @@ import React from 'react';
 
 
 
-const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onChange, tip }) => {
+const Dropdown = ({ options, errors, hasError, name, label, onChange, tip }) => {
 
     const getErrors = (errors) => {
         return collect(errors).flatten().map((error, index) => {
@@ -13,9 +13,10 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
 
     const mapOptions = (options) => {
         return options?.map((option, index) => {
-            if (selectedOption?.value === option?.value) {
+            // first option is always selected
+            if (index === 0) {
                 return (
-                    <option key={index} className="text-gray-800 text-base" selected={true} value={option?.value}>{option?.label}</option>
+                    <option key={index} className="text-gray-800 text-base"  selected={true} value={option?.value}>{option?.label}</option>
                 );
             }
             return (
@@ -32,7 +33,7 @@ const Dropdown = ({ options, errors, hasError, selectedOption, name, label, onCh
             <div className="flex flex-col space-y-1">
                 {getErrors(errors)}
             </div>
-            { tip ? (
+            {tip ? (
                 <div className="w-full text-gray-500 text-sm">{tip}</div>
             ) : null}
         </div>

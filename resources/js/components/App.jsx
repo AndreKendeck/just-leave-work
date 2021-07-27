@@ -26,6 +26,7 @@ import Loader from 'react-loader-spinner';
 import EditLeavePage from './Pages/Leave/EditLeavePage';
 import SettingsPage from './Pages/SettingsPage';
 import IndexUserPage from './Pages/Users/IndexUserPage';
+import UploadUsersPage from './Pages/Users/UploadUsersPage';
 
 
 const App = class App extends React.Component {
@@ -35,26 +36,29 @@ const App = class App extends React.Component {
     }
 
     componentDidMount() {
-        // we need to get the data we have from the serve
         api.get('/profile/')
             .then(successResponse => {
-                this.setState({ initializing: false });
                 this.props.setAuthenticated(localStorage.getItem('authToken'));
                 const { user, team, settings, reasons } = successResponse.data;
                 this.props.setUser(user);
                 this.props.setTeam(team);
                 this.props.setSettings(settings);
                 this.props.setReasons(reasons);
+                this.setState({ initializing: false });
             })
             .catch(failedResponse => {
-                this.setState({ initializing: false });
                 this.props.unsetAuthenticated();
+                this.setState({ initializing: false });
             })
     }
+
     getGuestRoutes = () => {
+        if (this.state.initializing) {
+            return null;
+        }
         return (
             <React.Fragment>
-                <Route path="/password-reset/:token">
+                <Route path="/password-reset/:token" >
                     {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ResetPasswordPage />}
                 </Route>
                 <Route path="/login">
@@ -79,6 +83,9 @@ const App = class App extends React.Component {
     }
 
     getAuthRoutes = () => {
+        if (this.state.initializing) {
+            return null;
+        }
         if (this.currentUserIsAuthenticated() && !this.currentUserHasAVerifiedEmailAddress()) {
             return (
                 <React.Fragment>
@@ -127,7 +134,7 @@ const App = class App extends React.Component {
                         {/* view user */}
                     </Route>
                     <Route path="/users/create" exact={true}>
-                        {/* create users in bulk */}
+                        {this.currentUserIsAuthenticated() ? <UploadUsersPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/user/edit/:id" exact={true}>
                         {/* edit user */}

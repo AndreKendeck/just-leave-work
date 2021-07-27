@@ -13,6 +13,12 @@ const DesktopMenu = class DesktopMenu extends React.Component {
         return this.props.user?.isAdmin;
     }
 
+    getNumberOfUnreadNotifications() {
+        if (this.props.user?.unreadNotifications) {
+            return <span className="bg-red-500 rounded px-2 py-1 text-white">{this.props.user?.unreadNotifications}</span>
+        }
+    }
+
     render() {
         return (
             <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center">
@@ -103,6 +109,18 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
                                 <span className="text-gray-600 text-base">{this.props.user?.name}</span>
                             </Link>
+                            <NavLink to="/notifications" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-red-600 hover:text-purple-500 rounded">
+                                <span>
+                                    <svg version="1.1" className="stroke-current h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                                            <path d="M17.5 17.359l1.04252e-07 5.18696e-13c1.047 5.16307e-06 1.89669-.847003 1.9-1.894v0 0l-7.63071e-09-6.13723e-06c-.000663186-.532732-.213311-1.0433-.591004-1.419l-1.259-1.26v-3.743l8.96037e-08.000996758c0-3.06187-2.48213-5.544-5.544-5.544 -.00166633 0-.00333265 7.51257e-07-.00499898 2.25377e-06v0l-2.66296e-07 9.62252e-11c-3.06069.00110603-5.54145 2.48231-5.542 5.543v3.74l-1.259 1.26 -1.25741e-07 1.24954e-07c-.377966.3756-.590963.886147-.592 1.419v0 0l-7.36124e-08-2.33559e-05c.00329345 1.047.852974 1.89402 1.89998 1.89402Z"></path>
+                                            <path d="M17.5 17.359v0"></path>
+                                            <path d="M10.521 20.5h2.957"></path>
+                                        </g>
+                                    </svg>
+                                </span>
+                                {this.getNumberOfUnreadNotifications()}
+                            </NavLink>
                         </div>
                     ) : (
                         <React.Fragment>

@@ -7,7 +7,7 @@ const InfoMessage = ({ text, onDismiss }) => {
             <div className="w-full">
                 {text}
             </div>
-            <button onClick={(event) => { setVisible(false); onDismiss; }} className="hover:bg-blue-200 p-1 focus:outline-none rounded">
+            <button onClick={(event) => { setVisible(false); onDismiss(event); }} className="hover:bg-blue-200 p-1 focus:outline-none rounded">
                 <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-blue-800 h-6 w-6" xmlns="http://www.w3.org/2000/svg" ><g fill="none">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 8l8 8">
                     </path>

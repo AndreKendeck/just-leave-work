@@ -9,7 +9,6 @@ use App\Http\Resources\UserResource;
 use App\Mail\WelcomeEmail;
 use App\User;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,7 +21,15 @@ class UserController extends Controller
      */
     public function index()
     {
+
         $users = User::where('team_id', auth()->user()->team->id)->latest()->paginate(10);
+
+        if (request()->get('search')) {
+            $search = request()->get('search');
+            $users = User::where('team_id', auth()->user()->team->id)->where('name', 'like', "{$search}%")
+                ->latest()->paginate(10);
+        }
+
         return response()
             ->json([
                 'users' => UserResource::collection($users),
@@ -45,7 +52,7 @@ class UserController extends Controller
             ->setLowercase()
             ->setNumbers()
             ->setSymbols()
-            ->setLength(10);
+            ->setLength(8);
 
         $password = $passwordGenerator->generatePassword();
 
@@ -54,10 +61,10 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($password),
             'team_id' => auth()->user()->team_id,
-            'leave_balance' => $request->leave_balance,
+            'leave_balance' => $request->balance,
         ]);
 
-        if ($request->filled('is_admin')) {
+        if ($request->is_admin) {
             $user->attachRole('team-admin', $user->team);
         }
 

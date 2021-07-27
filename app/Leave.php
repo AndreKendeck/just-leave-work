@@ -35,8 +35,8 @@ class Leave extends Model
 
     protected $casts = [
         'team_id' => 'integer',
-        'from' => 'datetime:Y-m-d',
-        'until' => 'datetime:Y-m-d',
+        'reason_id' => 'integer',
+        'number' => 'integer',
     ];
 
     protected $with = [
@@ -79,7 +79,7 @@ class Leave extends Model
 
     public function approve()
     {
-        $this->fireCustomModelEvent('approved', 'approved');
+        $this->fireModelEvent('approved', false);
         $this->update([
             'approved_at' => now(),
         ]);
@@ -88,7 +88,7 @@ class Leave extends Model
 
     public function deny()
     {
-        $this->fireCustomModelEvent('denied', 'denied');
+        $this->fireModelEvent('denied', false);
         $this->update([
             'denied_at' => now(),
         ]);
