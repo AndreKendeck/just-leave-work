@@ -8,6 +8,7 @@ use App\Http\Requests\Leave\UpdateRequest;
 use App\Http\Resources\LeaveResource;
 use App\Leave;
 use App\Mail\LeaveRequestEmail;
+use App\Notifications\GeneralNotification;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -107,6 +108,7 @@ class LeaveController extends Controller
             if ($userToNotify->hasRole('team-admin', $leave->team)) {
                 Mail::to($userToNotify->email)
                     ->queue(new LeaveRequestEmail($leave));
+                $userToNotify->notify(new GeneralNotification("{$leave->user->name} has request for leave on {$leave->from->toFormattedDateString()}"));
             }
         }
 

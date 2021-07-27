@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeaveResource;
 use App\Leave;
+use App\Notifications\GeneralNotification;
 use App\User;
 
 class LeaveStatusController extends Controller
@@ -44,8 +45,11 @@ class LeaveStatusController extends Controller
 
         $leave->approve();
 
+
+
         $user = User::find($leave->user->id);
         $user->decrement('leave_balance', $leave->number_of_days_off);
+        $user->notify(new GeneralNotification("You leave for {$leave->from->toFormattedDatString()}, has been approved"));
 
         return response()
             ->json([
@@ -87,5 +91,4 @@ class LeaveStatusController extends Controller
                 'message' => 'Leave has beeen denied',
             ]);
     }
-
 }

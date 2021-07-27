@@ -12,7 +12,8 @@ const UploadUsersPage = class UploadUsersPage extends React.Component {
 
     state = {
         file: null,
-        errors: []
+        errors: [],
+        message: null,
     }
 
     isCorrectFile() {
@@ -37,7 +38,12 @@ const UploadUsersPage = class UploadUsersPage extends React.Component {
                 'Content-Type': 'multipart/form-data'
             }
         };
-        api.post('/users/import', formData, config);
+        api.post('/users/import', formData, config)
+            .then(success => {
+                
+            }).catch(failed => {
+
+            });
     }
 
     renderButton() {
