@@ -19,6 +19,14 @@ const DesktopMenu = class DesktopMenu extends React.Component {
         }
     }
 
+    getNotificationClass() {
+        const { unreadNotifications } = this.props.user;
+        if (unreadNotifications.length > 0) {
+            return 'text-red-500';
+        }
+        return 'text-gray-800';
+    }
+
     render() {
         return (
             <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center">
@@ -109,7 +117,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
                                 <span className="text-gray-600 text-base">{this.props.user?.name}</span>
                             </Link>
-                            <NavLink to="/notifications" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-red-600 hover:text-purple-500 rounded">
+                            <NavLink to="/notifications" activeClassName="text-purple-500" className={`flex flex-row space-x-1 items-center p-2 ${this.getNotificationClass()} hover:text-purple-500 rounded`}>
                                 <span>
                                     <svg version="1.1" className="stroke-current h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">

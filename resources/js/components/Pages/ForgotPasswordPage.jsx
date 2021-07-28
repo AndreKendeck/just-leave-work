@@ -15,7 +15,7 @@ export default class ForgotPasswordPage extends React.Component {
         error: null,
         message: null,
         isSending: false,
-        email: { value: null, errors: [], hasError: false },
+        email: { value: '', errors: [], hasError: false },
     }
 
     onSend = () => {
@@ -30,7 +30,7 @@ export default class ForgotPasswordPage extends React.Component {
                     return {
                         email: {
                             ...state.email,
-                            value: null
+                            value: ''
                         }
                     }
                 });
@@ -75,7 +75,7 @@ export default class ForgotPasswordPage extends React.Component {
         }
         return (
             <div className="w-full lg:w-2/3 self-center">
-                <Button onClick={this.onSend} type="secondary">Send</Button>
+                <Button onClick={(e) => this.onSend()} type="secondary">Send</Button>
             </div>
         )
     }
@@ -85,7 +85,10 @@ export default class ForgotPasswordPage extends React.Component {
             <Page className="flex justify-center">
                 <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
                     <div className="text-2xl font-bold text-gray-800 text-center items-center">Request a Password Reset Link</div>
-                    <Field name="email" errors={this.state.email.errors} hasError={this.state.email.hasError} onKeyUp={this.onEmailKeyUp} label="Email Address" type="email" />
+                    <Field name="email" value={this.state.email.value}
+                        errors={this.state.email.errors}
+                        hasError={this.state.email.hasError}
+                        onChange={(e) => this.onEmailKeyUp(e)} label="Email Address" type="email" />
                     {this.getSendButton()}
                     <Link to="/login" className="w-full lg:w-2/3 self-center">
                         <Button>

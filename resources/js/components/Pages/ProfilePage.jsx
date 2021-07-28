@@ -3,16 +3,34 @@ import { connect } from 'react-redux';
 import { unsetAuthenticated } from '../../actions/auth';
 import Button from '../Button';
 import Card from '../Card';
-import Field from '../Form/Field';
 import Page from '../Page';
 import UserBadge from '../UserBadge';
 import { clearUserForm, updateUserForm } from '../../actions/forms/user';
+import Loader from 'react-loader-spinner';
+import api from '../../api';
+import ErrorMessage from '../ErrorMessage';
+import moment from 'moment';
+import Heading from '../Heading';
+import UserLeaveSummary from '../UserLeaveSummary';
 const ProfilePage = class ProfilePage extends React.Component {
 
+    state = {
+        loading: false,
+        errors: [],
+    }
+
     logout() {
-        this.props.unsetAuthenticated();
-        localStorage.removeItem('authToken');
-        window.location = '/';
+        this.setState({ loading: true });
+        api.post('/logout')
+            .then(success => {
+                this.props.unsetAuthenticated();
+                localStorage.removeItem('authToken');
+                window.location = '/';
+            }).catch(failed => {
+                const { message } = failed.response.data;
+                this.setState({ errors: [...message, ...this.state.errors] });
+            });
+
     }
 
     componentDidMount() {
@@ -25,10 +43,26 @@ const ProfilePage = class ProfilePage extends React.Component {
         return user?.isAdmin;
     }
 
+    renderErrors() {
+        return this.state.errors?.map((error, key) => {
+            return <ErrorMessage text={error} key={key} />
+        });
+    }
+
     render() {
+        if (this.state.loading) {
+            return (
+                <Page className="flex flex-col justify-center space-y-2">
+                    <Card className="w-full lg:w-1/2 self-center pointer-cursor">
+                        <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" />
+                    </Card>
+                </Page>
+            )
+        }
         return (
             <Page className="flex flex-col justify-center space-y-2">
-                <Card className="w-full lg:w-1/2 self-center pointer-cursor">
+                <Card className="flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor">
+                    {this.renderErrors()}
                     <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row space-x-1">
                             <div>
@@ -54,7 +88,11 @@ const ProfilePage = class ProfilePage extends React.Component {
                         </div>
                     </div>
                 </Card>
-            </Page >
+
+                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-1/2 w-full self-center">
+                    <UserLeaveSummary user={this.props?.user} />
+                </div>
+            </Page>
         );
     }
 }

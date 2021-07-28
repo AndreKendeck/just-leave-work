@@ -35,7 +35,6 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
 
     componentDidMount() {
         this.setState({ year: moment().format('Y') });
-        console.log(this.state);
         this.getLeaves(this.state.currentPage, this.state.year);
     }
 
