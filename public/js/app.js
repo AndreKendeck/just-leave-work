@@ -75264,6 +75264,41 @@ var unsetAuthenticated = function unsetAuthenticated() {
 
 /***/ }),
 
+/***/ "./resources/js/actions/forms/auth/login/index.js":
+/*!********************************************************!*\
+  !*** ./resources/js/actions/forms/auth/login/index.js ***!
+  \********************************************************/
+/*! exports provided: updateLoginForm, clearLoginForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateLoginForm", function() { return updateLoginForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearLoginForm", function() { return clearLoginForm; });
+/**
+ * Update the login form state in redux
+ * @param {object} payload 
+ * @returns 
+ */
+function updateLoginForm(payload) {
+  return {
+    type: 'UPDATE_LOGIN_FORM',
+    payload: payload
+  };
+}
+/**
+ * Clear the login form in state
+ * @returns 
+ */
+
+function clearLoginForm() {
+  return {
+    type: 'CLEAR_LOGIN_FORM'
+  };
+}
+
+/***/ }),
+
 /***/ "./resources/js/actions/forms/comment/index.js":
 /*!*****************************************************!*\
   !*** ./resources/js/actions/forms/comment/index.js ***!
@@ -80080,6 +80115,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth/index.js");
 /* harmony import */ var _actions_team__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../actions/team */ "./resources/js/actions/team/index.js");
 /* harmony import */ var _actions_settings__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../actions/settings */ "./resources/js/actions/settings/index.js");
+/* harmony import */ var _actions_forms_auth_login__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../actions/forms/auth/login */ "./resources/js/actions/forms/auth/login/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -80123,6 +80159,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var LoginPage = /*#__PURE__*/function (_React$Component) {
   _inherits(LoginPage, _React$Component);
 
@@ -80139,37 +80176,26 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call.apply(_super, [this].concat(args));
 
-    _defineProperty(_assertThisInitialized(_this), "state", {
-      error: null,
-      email: {
-        value: null,
-        errors: [],
-        hasError: false
-      },
-      password: {
-        value: null,
-        errors: [],
-        hasError: false
-      },
-      isSending: false
-    });
-
     _defineProperty(_assertThisInitialized(_this), "postLogin", function () {
-      var email = _this.state.email.value;
-      var password = _this.state.password.value;
+      var loginForm = _this.props.loginForm;
+      var _this$props$loginForm = _this.props.loginForm,
+          _this$props$loginForm2 = _this$props$loginForm.email,
+          email = _this$props$loginForm2 === void 0 ? null : _this$props$loginForm2,
+          _this$props$loginForm3 = _this$props$loginForm.password,
+          password = _this$props$loginForm3 === void 0 ? null : _this$props$loginForm3;
 
-      _this.setState({
-        isSending: true
-      }); // allow the page to set a timeout
+      _this.props.updateLoginForm(_objectSpread(_objectSpread({}, loginForm), {}, {
+        loading: true
+      })); // allow the page to set a timeout
 
 
       _api__WEBPACK_IMPORTED_MODULE_4__["default"].post('/login/', {
         email: email,
         password: password
       }).then(function (successResponse) {
-        _this.setState({
-          isSending: false
-        });
+        _this.props.updateLoginForm(_objectSpread(_objectSpread({}, loginForm), {}, {
+          loading: false
+        }));
 
         var _successResponse$data = successResponse.data,
             user = _successResponse$data.user,
@@ -80187,58 +80213,30 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
 
         _this.props.setSettings(settings);
 
+        _this.props.clearLoginForm();
+
         window.location = '/home/';
       })["catch"](function (failedResponse) {
-        _this.setState({
-          isSending: false
-        });
+        _this.props.updateLoginForm(_objectSpread(_objectSpread({}, loginForm), {}, {
+          loading: false
+        }));
 
-        var errors = failedResponse.response.data.errors;
+        var status = failedResponse.response.status;
+        var _failedResponse$respo = failedResponse.response.data,
+            errors = _failedResponse$respo.errors,
+            message = _failedResponse$respo.message;
 
-        if (failedResponse.response.status === 429) {
-          var tooManyAttemps = ['You tried login in too many time, please try again later'];
-
-          _this.setState({
-            errors: tooManyAttemps
-          });
+        if (status == 422) {
+          _this.props.updateLoginForm(_objectSpread(_objectSpread({}, loginForm), {}, {
+            errors: errors
+          }));
+        } else {
+          _this.props.updateLoginForm(_objectSpread(_objectSpread({}, loginForm), {}, {
+            errors: {
+              email: [message]
+            }
+          }));
         }
-
-        var _loop = function _loop(key) {
-          _this.setState(function (state) {
-            return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, state[key]), {}, {
-              errors: errors[key],
-              hasError: true
-            })));
-          });
-        };
-
-        for (var key in errors) {
-          _loop(key);
-        }
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onEmailKeyUp", function (event) {
-      event.persist();
-
-      _this.setState(function (state) {
-        return _objectSpread(_objectSpread({}, state), {}, {
-          email: {
-            value: event.target.value
-          }
-        });
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "onPasswordKeyUp", function (event) {
-      event.persist();
-
-      _this.setState(function (state) {
-        return _objectSpread(_objectSpread({}, state), {}, {
-          password: {
-            value: event.target.value
-          }
-        });
       });
     });
 
@@ -80248,13 +80246,36 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
   _createClass(LoginPage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (this.props.state.auth.authenticated) {
+      var auth = this.props.auth;
+
+      if (auth !== null && auth !== void 0 && auth.authenticated) {
         window.location = '/dashboard';
       }
     }
   }, {
+    key: "onFormChange",
+    value: function onFormChange(e, key) {
+      var _objectSpread2;
+
+      e.persist();
+      var loginForm = this.props.loginForm;
+      this.props.updateLoginForm(_objectSpread(_objectSpread({}, loginForm), {}, (_objectSpread2 = {}, _defineProperty(_objectSpread2, key, e.target.value), _defineProperty(_objectSpread2, "errors", {}), _objectSpread2)));
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this$props,
+          _errors$email,
+          _this2 = this,
+          _errors$password;
+
+      /** lets initialize the form variables first  */
+      var _this$props$loginForm4 = (_this$props = this.props) === null || _this$props === void 0 ? void 0 : _this$props.loginForm,
+          email = _this$props$loginForm4.email,
+          password = _this$props$loginForm4.password,
+          loading = _this$props$loginForm4.loading,
+          errors = _this$props$loginForm4.errors;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_9__["default"], {
         className: "flex justify-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -80263,26 +80284,34 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
         className: "text-2xl font-bold text-gray-800 text-center items-center"
       }, "Sign in to your Account."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_8__["default"], {
         name: "email",
-        errors: this.state.email.errors,
-        hasError: this.state.email.hasError,
-        onKeyUp: this.onEmailKeyUp,
+        value: email,
+        errors: errors === null || errors === void 0 ? void 0 : errors.email,
+        hasError: (errors === null || errors === void 0 ? void 0 : (_errors$email = errors.email) === null || _errors$email === void 0 ? void 0 : _errors$email.length) > 0,
+        onChange: function onChange(e) {
+          return _this2.onFormChange(e, 'email');
+        },
         label: "Email Address",
         type: "email"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_8__["default"], {
         name: "password",
-        errors: this.state.password.errors,
-        hasError: this.state.password.hasError,
-        onKeyUp: this.onPasswordKeyUp,
+        value: password,
+        errors: errors === null || errors === void 0 ? void 0 : errors.password,
+        hasError: (errors === null || errors === void 0 ? void 0 : (_errors$password = errors.password) === null || _errors$password === void 0 ? void 0 : _errors$password.length) > 0,
+        onChange: function onChange(e) {
+          return _this2.onFormChange(e, 'password');
+        },
         label: "Password",
         type: "password"
-      }), this.state.isSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1___default.a, {
         type: "Oval",
         className: "self-center",
         height: 20,
         width: 20,
         color: "Gray"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        onClick: this.postLogin
+        onClick: function onClick(e) {
+          return _this2.postLogin();
+        }
       }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row items-center w-full jutsify-between space-x-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
@@ -80295,9 +80324,7 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
         className: "w-full"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
         type: "secondary"
-      }, " Register "))), this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        text: this.state.error
-      }) : null));
+      }, " Register ")))));
     }
   }]);
 
@@ -80305,8 +80332,11 @@ var LoginPage = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
+  var auth = state.auth,
+      loginForm = state.loginForm;
   return {
-    state: state
+    auth: auth,
+    loginForm: loginForm
   };
 };
 
@@ -80314,7 +80344,9 @@ var mapStateToProps = function mapStateToProps(state) {
   setUser: _actions_user__WEBPACK_IMPORTED_MODULE_10__["setUser"],
   setTeam: _actions_team__WEBPACK_IMPORTED_MODULE_12__["setTeam"],
   setAuthenticated: _actions_auth__WEBPACK_IMPORTED_MODULE_11__["setAuthenticated"],
-  setSettings: _actions_settings__WEBPACK_IMPORTED_MODULE_13__["setSettings"]
+  setSettings: _actions_settings__WEBPACK_IMPORTED_MODULE_13__["setSettings"],
+  updateLoginForm: _actions_forms_auth_login__WEBPACK_IMPORTED_MODULE_14__["updateLoginForm"],
+  clearLoginForm: _actions_forms_auth_login__WEBPACK_IMPORTED_MODULE_14__["clearLoginForm"]
 })(LoginPage));
 
 /***/ }),
@@ -82686,8 +82718,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Card */ "./resources/js/components/Card.jsx");
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Heading */ "./resources/js/components/Heading.jsx");
-
 
 
 
@@ -82697,29 +82727,29 @@ var UserLeaveSummary = function UserLeaveSummary(_ref) {
       user = _ref$user === void 0 ? null : _ref$user;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "pointer-cursor w-full border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-2xl text-purple-800"
   }, user === null || user === void 0 ? void 0 : user.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-purple-800 text-base"
-  }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Leave Balance"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "pointer-cursor w-full bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-2xl text-white"
   }, user === null || user === void 0 ? void 0 : user.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-white text-base"
-  }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Leave Taken"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "pointer-cursor w-full  border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-2xl text-gray-800"
   }, user !== null && user !== void 0 && user.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_0___default()(user === null || user === void 0 ? void 0 : user.lastLeaveAt).format('ddd Do MMM') : '-'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "text-gray-800 text-base"
-  }, "Last Leave Taken")))));
+  }, "Last Leave Taken"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (UserLeaveSummary);
@@ -82803,6 +82833,42 @@ var authReducer = function authReducer() {
       return state;
   }
 };
+
+/***/ }),
+
+/***/ "./resources/js/reducers/forms/auth/login/index.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/reducers/forms/auth/login/index.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return loginFormReducer; });
+var defaultState = {
+  loading: false,
+  email: '',
+  password: '',
+  errors: {}
+};
+function loginFormReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      payload = _ref.payload;
+
+  if (type == 'UPDATE_LOGIN_FORM') {
+    return payload;
+  }
+
+  if (type == 'CLEAR_LOGIN_FORM') {
+    return defaultState;
+  }
+
+  return defaultState;
+}
 
 /***/ }),
 
@@ -82908,6 +82974,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./user */ "./resources/js/reducers/user/index.js");
 /* harmony import */ var _forms_user__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./forms/user */ "./resources/js/reducers/forms/user/index.js");
 /* harmony import */ var _forms_comment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./forms/comment */ "./resources/js/reducers/forms/comment/index.js");
+/* harmony import */ var _forms_auth_login__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./forms/auth/login */ "./resources/js/reducers/forms/auth/login/index.js");
+
 
 
 
@@ -82923,7 +82991,8 @@ __webpack_require__.r(__webpack_exports__);
   settings: _settings__WEBPACK_IMPORTED_MODULE_3__["settingsReducer"],
   reasons: _reasons__WEBPACK_IMPORTED_MODULE_2__["reasonsReducer"],
   userForm: _forms_user__WEBPACK_IMPORTED_MODULE_6__["userFormReducer"],
-  commentForm: _forms_comment__WEBPACK_IMPORTED_MODULE_7__["commentFormReducer"]
+  commentForm: _forms_comment__WEBPACK_IMPORTED_MODULE_7__["commentFormReducer"],
+  loginForm: _forms_auth_login__WEBPACK_IMPORTED_MODULE_8__["default"]
 }));
 
 /***/ }),

@@ -13,32 +13,27 @@ import { setUser } from '../../actions/user';
 import { setAuthenticated } from '../../actions/auth';
 import { setTeam } from '../../actions/team';
 import { setSettings } from '../../actions/settings';
+import { clearLoginForm, updateLoginForm } from '../../actions/forms/auth/login';
 
 
 const LoginPage = class LoginPage extends React.Component {
 
-    state = {
-        error: null,
-        email: { value: null, errors: [], hasError: false },
-        password: { value: null, errors: [], hasError: false },
-        isSending: false
-    }
-
     componentDidMount() {
-        if (this.props.state.auth.authenticated) {
+        const { auth } = this.props;
+        if (auth?.authenticated) {
             window.location = '/dashboard';
         }
     }
 
     postLogin = () => {
-        const email = this.state.email.value;
-        const password = this.state.password.value;
-        this.setState({ isSending: true });
+        const { loginForm } = this.props;
+        const { email = null, password = null } = this.props.loginForm;
+        this.props.updateLoginForm({ ...loginForm, loading: true });
         // allow the page to set a timeout
         api.post('/login/', { email, password })
             .then(successResponse => {
 
-                this.setState({ isSending: false });
+                this.props.updateLoginForm({ ...loginForm, loading: false });
                 const { user, token, team, settings } = successResponse.data;
 
                 window.localStorage.setItem('authToken', token);
@@ -49,71 +44,43 @@ const LoginPage = class LoginPage extends React.Component {
                 this.props.setAuthenticated(token);
                 this.props.setTeam(team);
                 this.props.setSettings(settings);
+                this.props.clearLoginForm();
 
                 window.location = '/home/';
 
             }).catch(failedResponse => {
 
-                this.setState({ isSending: false });
+                this.props.updateLoginForm({ ...loginForm, loading: false });
 
-                const { errors } = failedResponse.response.data;
+                const { status } = failedResponse.response;
+                const { errors, message } = failedResponse.response.data;
 
-                if (failedResponse.response.status === 429) {
-                    const tooManyAttemps = ['You tried login in too many time, please try again later'];
-                    this.setState({ errors: tooManyAttemps });
-                }
-
-                for (const key in errors) {
-                    this.setState(state => {
-                        return {
-                            ...state,
-                            [key]: {
-                                ...state[key],
-                                errors: errors[key],
-                                hasError: true
-                            }
-                        }
-                    });
+                if (status == 422) {
+                    this.props.updateLoginForm({ ...loginForm, errors });
+                } else {
+                    this.props.updateLoginForm({ ...loginForm, errors: { email: [message] } });
                 }
 
             });
     }
 
-    onEmailKeyUp = (event) => {
-        event.persist();
-        this.setState(state => {
-            return {
-                ...state,
-                email: {
-                    value: event.target.value
-                }
-            }
-        });
+    onFormChange(e, key) {
+        e.persist();
+        const { loginForm } = this.props;
+        this.props.updateLoginForm({ ...loginForm, [key]: e.target.value, errors: {} });
     }
-
-    onPasswordKeyUp = (event) => {
-        event.persist();
-        this.setState(state => {
-            return {
-                ...state,
-                password: {
-                    value: event.target.value
-                }
-            }
-        });
-    }
-
-
 
 
     render() {
+        /** lets initialize the form variables first  */
+        const { email, password, loading, errors } = this.props?.loginForm;
         return (
             <Page className="flex justify-center">
                 <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
                     <div className="text-2xl font-bold text-gray-800 text-center items-center">Sign in to your Account.</div>
-                    <Field name="email" errors={this.state.email.errors} hasError={this.state.email.hasError} onKeyUp={this.onEmailKeyUp} label="Email Address" type="email" />
-                    <Field name="password" errors={this.state.password.errors} hasError={this.state.password.hasError} onKeyUp={this.onPasswordKeyUp} label="Password" type="password" />
-                    {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={this.postLogin}>Login</Button>}
+                    <Field name="email" value={email} errors={errors?.email} hasError={errors?.email?.length > 0} onChange={(e) => this.onFormChange(e, 'email')} label="Email Address" type="email" />
+                    <Field name="password" value={password} errors={errors?.password} hasError={errors?.password?.length > 0} onChange={(e) => this.onFormChange(e, 'password')} label="Password" type="password" />
+                    {loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={(e) => this.postLogin()}>Login</Button>}
                     <div className="flex flex-row items-center w-full jutsify-between space-x-2">
                         <Link to="/password-email" className="w-full">
                             <Button type="soft"> Reset password </Button>
@@ -122,7 +89,6 @@ const LoginPage = class LoginPage extends React.Component {
                             <Button type="secondary"> Register </Button>
                         </Link>
                     </div>
-                    {this.state.error ? <ErrorMessage text={this.state.error} /> : null}
                 </Card>
             </Page>
         )
@@ -130,9 +96,13 @@ const LoginPage = class LoginPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const { auth, loginForm } = state;
     return {
-        state
+        auth,
+        loginForm
     }
 }
 
-export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated, setSettings })(LoginPage);
+
+
+export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated, setSettings, updateLoginForm, clearLoginForm })(LoginPage);
