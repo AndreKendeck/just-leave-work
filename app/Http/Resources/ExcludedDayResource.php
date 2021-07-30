@@ -14,8 +14,6 @@ class ExcludedDayResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'day' => $this->day,
-        ];
+        return $this->day;
     }
 }

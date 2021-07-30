@@ -7,6 +7,7 @@ import { userReducer } from "./user";
 import { userFormReducer } from "./forms/user";
 import { commentFormReducer } from "./forms/comment";
 import loginFormReducer from "./forms/auth/login";
+import settingsFormReducer from "./forms/settings";
 
 export default combineReducers({
     user: userReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
     reasons: reasonsReducer,
     userForm: userFormReducer,
     commentForm: commentFormReducer,
-    loginForm: loginFormReducer
+    loginForm: loginFormReducer,
+    settingsForm: settingsFormReducer,
 })
