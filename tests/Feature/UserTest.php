@@ -39,7 +39,7 @@ class UserTest extends TestCase
         $newUser = [
             'name' => $this->faker->name,
             'email' => $this->faker->safeEmail,
-            'leave_balance' => rand(1, 10),
+            'balance' => rand(1, 10),
             'is_admin' => $this->faker->randomElement([null, true]),
         ];
         $response = $this->actingAs($user)
@@ -54,7 +54,7 @@ class UserTest extends TestCase
             'team_id' => $user->team->id,
             'name' => $newUser['name'],
             'email' => $newUser['email'],
-            'leave_balance' => $newUser['leave_balance'],
+            'leave_balance' => $newUser['balance'],
         ]);
         if ($newUser['is_admin']) {
             $this->assertDatabaseHas('role_user', [
@@ -64,7 +64,6 @@ class UserTest extends TestCase
             ]);
         }
         $createdUser = User::find($createdUser['id']);
-
     }
 
     /** @test **/
@@ -98,17 +97,47 @@ class UserTest extends TestCase
     }
 
     /** @test **/
-    public function a_user_can_delete_another_user_with_the_right_permissions()
+    public function an_admin_can_ban_a_user()
+    {
+        $admin = factory('App\User')->create();
+        $admin->attachRole('team-admin', $admin->team);
+        $userToBeBanned = factory('App\User')->create([
+            'team_id' => $admin->team->id
+        ]);
+        $this->actingAs($admin)
+            ->post(route('users.ban', ['id' => $userToBeBanned->id]))
+            ->assertOk();
+        $this->assertDatabaseHas('users', [
+            'banned_at' => now()
+        ]);
+    }
+
+    /** @test **/
+    public function a_non_admin_user_cannot_ban_a_user()
     {
         $user = factory('App\User')->create();
-        $user->attachRole('team-admin', $user->team);
-        $userToDelete = factory('App\User')->create(['team_id' => $user->team_id]);
+        $anotherUser = factory('App\User')->create([
+            'team_id' => $user->team->id
+        ]);
         $this->actingAs($user)
-            ->delete(route('users.destroy', $userToDelete->id))
-            ->assertOk()
-            ->assertJsonStructure(['message']);
-        $this->assertSoftDeleted('users', [
-            'id' => $userToDelete->id,
+            ->post(route('users.ban', ['id' => $anotherUser->id]))
+            ->assertForbidden();
+    }
+
+    /** @test **/
+    public function a_admin_can_unban_another_user()
+    {
+        $admin = factory('App\User')->create();
+        $admin->attachRole('team-admin', $admin->team);
+        $userToBeBanned = factory('App\User')->create([
+            'team_id' => $admin->team->id
+        ]);
+        $userToBeBanned->ban();
+        $this->actingAs($admin)
+            ->post(route('users.unban', ['id' => $userToBeBanned->id]))
+            ->assertOk();
+        $this->assertDatabaseHas('users', [
+            'banned_at' => null
         ]);
     }
 }

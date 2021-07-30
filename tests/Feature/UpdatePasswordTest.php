@@ -10,12 +10,12 @@ class UpdatePasswordTest extends TestCase
     public function a_user_can_update_their_password()
     {
         $user = factory('App\User')->create();
-        $password = $this->faker->word(10);
-       $this->actingAs($user)->post(route('update.password'), [
+        $password = $this->faker->password(8, 10);
+        $this->actingAs($user)->post(route('update.password'), [
             'old_password' => 'password',
             'new_password' => $password,
             'new_password_confirmation' => $password,
-        ])->assertOk()
+        ])->assertSessionHasNoErrors()->assertOk()
             ->assertJsonStructure(['message']);
     }
 
@@ -24,13 +24,13 @@ class UpdatePasswordTest extends TestCase
     {
         $user = factory('App\User')->create();
 
-        $password = $this->faker->word(10);
+        $password = $this->faker->password(8, 10);
 
         $this->actingAs($user)
             ->post(route('update.password'), [
                 'old_password' => 'wrongone',
                 'new_password' => $password,
                 'new_password_confirmation' => $password,
-            ])->assertStatus(422);
+            ])->assertStatus(302);
     }
 }

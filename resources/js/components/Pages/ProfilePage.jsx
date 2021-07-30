@@ -50,7 +50,13 @@ const ProfilePage = class ProfilePage extends React.Component {
 
     renderErrors() {
         return this.state.errors?.map((error, key) => {
-            return <ErrorMessage text={error} key={key} />
+            return <ErrorMessage text={error} key={key} onDismiss={(e) => {
+                let errors = this.state;
+                errors = errors.filter((err, idx) => {
+                    return idx !== key;
+                });
+                this.setState({ errors });
+            }} />
         });
     }
 
@@ -131,6 +137,26 @@ const ProfilePage = class ProfilePage extends React.Component {
         }
     }
 
+    onProfileUpdate() {
+        this.setState({ message: null });
+        const { name, jobPosition } = this.props.userForm;
+        this.props.updateUserForm({ ...this.props.userForm, loading: true });
+        api.put('/profile', { name, job_position: jobPosition })
+            .then(success => {
+                const { message } = success.data;
+                this.setState({ message });
+            }).catch(failed => {
+                const { status } = failed.response;
+                const { errors, message } = failed.response.data;
+                if (status === 422) {
+                    this.props.updateUserForm({ ...this.props.userForm, errors });
+                } else {
+                    this.setState({ errors: [message] });
+                }
+            });
+        this.props.updateUserForm({ ...this.props.userForm, loading: false });
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -145,7 +171,7 @@ const ProfilePage = class ProfilePage extends React.Component {
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col space-y-4 w-full md:w-2/3 self-center pointer-cursor">
                     {this.renderErrors()}
-                    {this.state.message ? <InfoMessage text={this.state.message} /> : null}
+                    {this.state.message ? <InfoMessage text={this.state.message} onDismiss={(e) => this.setState({ message: null })} /> : null}
                     <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row space-x-1">
                             <div>
@@ -156,7 +182,7 @@ const ProfilePage = class ProfilePage extends React.Component {
                         <div>
                             <Button type="soft" onClick={(e) => this.logout()}>
                                 <div className="flex space-x-1 items-center">
-                                    <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-600 h-6 w-6"
+                                    <svg version="1.1" viewBox="0 0 24 24" className="stroke-current text-gray-700 h-6 w-6"
                                         xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                                         <g fill="none"><use xlinkHref="#a"></use>
                                             <path strokeLinecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.86 12h10.14"></path>
@@ -165,7 +191,7 @@ const ProfilePage = class ProfilePage extends React.Component {
                                             <use xlinkHref="#a"></use>
                                         </g>
                                     </svg>
-                                    <span className="text-gray-600">Logout</span>
+                                    <span className="text-gray-700">Logout</span>
                                 </div>
                             </Button>
                         </div>
@@ -176,10 +202,12 @@ const ProfilePage = class ProfilePage extends React.Component {
                     <UserLeaveSummary user={this.props?.user} />
                 </div>
 
-                <Card className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-2/3 w-full self-center">
+                <Card className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-2/3 w-full self-center items-center">
                     <Field name="name" value={this.props.userForm?.name} onChange={(e) => this.onDetailsChange(e, 'name')} label="Your name" errors={this.props.userForm.errors?.name} />
-                    <Field name="job_position" value={this.props.userForm?.jobPosition} onChange={(e) => this.onDetailsChange(e, 'jobPosition')} label="Job Position" errors={this.props.userForm.errors?.job_position} />
-
+                    <Field name="job_position" value={this.props.userForm?.jobPosition} onChange={(e) => this.onDetailsChange(e, 'jobPosition')} label="Job position" errors={this.props.userForm.errors?.job_position} />
+                    <div className="w-1/2">
+                        {this.props.userForm?.loading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : <Button type="soft" onClick={(e) => this.onProfileUpdate()} >Update</Button>}
+                    </div>
                 </Card>
 
             </Page>

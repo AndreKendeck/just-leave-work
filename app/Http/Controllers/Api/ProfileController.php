@@ -37,6 +37,7 @@ class ProfileController extends Controller
         ]);
         $user->update([
             'name' => $request->name,
+            'job_position' => $request->job_position
         ]);
         return response()
             ->json([

@@ -72,11 +72,30 @@ class LeaveController extends Controller
 
         $restrcitedDaysToStartLeave = auth()->user()->team->settings->excludedDays;
 
+        if ($restrcitedDaysToStartLeave->contains('day', $from->toDateString())) {
+        }
+
+        if ($restrcitedDaysToStartLeave->contains('day', $until->toDateString())) {
+            return response()->json([
+                'errors' => [
+                    'from' => "You cannot take leave on {$until->toFormattedDateString()}"
+                ]
+            ]);
+        }
         if ($restrcitedDaysToStartLeave->contains('day', $from->format('l'))) {
             $excludedDays = $restrcitedDaysToStartLeave->implode('day', ', ');
             return response()->json([
                 'errors' => [
                     'from' => ["You cannot start leave on {$excludedDays}"],
+                ],
+            ], 422);
+        }
+
+        if ($restrcitedDaysToStartLeave->contains('day', $until->format('l'))) {
+            $excludedDays = $restrcitedDaysToStartLeave->implode('day', ', ');
+            return response()->json([
+                'errors' => [
+                    'from' => ["You cannot end leave on {$excludedDays}"],
                 ],
             ], 422);
         }

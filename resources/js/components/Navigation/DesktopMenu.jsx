@@ -31,7 +31,9 @@ const DesktopMenu = class DesktopMenu extends React.Component {
     render() {
         return (
             <div className={`hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg ${this.userIsAdmin() ? 'w-2/3' : 'w-2/5'}  self-center`}>
+
                 <div className="flex flex-row space-x-2 items-center w-full justify-between">
+                    
                     {this.props.auth.authenticated ? (
                         <div className={`w-full flex flex-row space-x-2 items-center ${this.userIsAdmin() ? 'justify-between' : 'justify-center'} `}>
                             <NavLink to="/leave/create" className="text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between">

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace ('Api')->group(function () {
+Route::namespace('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -55,7 +55,7 @@ Route::namespace ('Api')->group(function () {
 
         Route::apiResource('users', 'UserController')->parameters([
             'users' => 'id',
-        ]);
+        ])->except('destroy');
         Route::post('/users/ban/{id}', 'BanUserController@store')->name('users.ban');
         Route::post('/users/unban/{id}', 'BanUserController@update')->name('users.unban');
 
@@ -82,6 +82,5 @@ Route::namespace ('Api')->group(function () {
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');
         Route::get('/team/admins', 'AdminUserController')->name('admins.index');
-
     });
 });

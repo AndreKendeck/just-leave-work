@@ -48,10 +48,10 @@ class UserController extends Controller
     public function store(StoreRequest $request)
     {
         $passwordGenerator = new ComputerPasswordGenerator();
-        $passwordGenerator->setUppercase()
+        $passwordGenerator
+            ->setUppercase()
             ->setLowercase()
             ->setNumbers()
-            ->setSymbols()
             ->setLength(8);
 
         $password = $passwordGenerator->generatePassword();
@@ -136,38 +136,6 @@ class UserController extends Controller
         return response()
             ->json([
                 'message' => "User role updated",
-            ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $user = User::find($id);
-
-        if ($user->team_id !== auth()->user()->team_id) {
-            return response()
-                ->json([
-                    'message' => "You delete this user",
-                ], 403);
-        }
-
-        if (!auth()->user()->hasRole('team-admin', $user->team)) {
-            return response()
-                ->json([
-                    'message' => "You are not allowed to delete users",
-                ], 403);
-        }
-
-        $user->delete();
-
-        return response()
-            ->json([
-                'message' => "{$user->name} has been deleted and removed from your team",
             ]);
     }
 }
