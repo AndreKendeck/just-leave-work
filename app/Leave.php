@@ -12,6 +12,11 @@ class Leave extends Model
      */
     protected $guarded = [];
 
+    protected $observables = [
+        'approved',
+        'denied',
+    ];
+
     /**
      * @var array
      */
@@ -79,6 +84,7 @@ class Leave extends Model
 
     public function approve()
     {
+
         $this->fireModelEvent('approved', false);
         $this->update([
             'approved_at' => now(),

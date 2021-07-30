@@ -75891,35 +75891,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Button */ "./resources/js/components/Button.jsx");
-/* harmony import */ var _Form_Textarea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Form/Textarea */ "./resources/js/components/Form/Textarea.jsx");
-/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserBadge */ "./resources/js/components/UserBadge.jsx");
-/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/index.js");
-/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../api */ "./resources/js/api/index.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_forms_comment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/forms/comment */ "./resources/js/actions/forms/comment/index.js");
+/* harmony import */ var _Form_Textarea__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Form/Textarea */ "./resources/js/components/Form/Textarea.jsx");
+/* harmony import */ var _UserBadge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UserBadge */ "./resources/js/components/UserBadge.jsx");
+var _this = undefined;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -75928,114 +75916,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+var Comment = function Comment(_ref) {
+  var comment = _ref.comment;
 
-var Comment = /*#__PURE__*/function (_React$Component) {
-  _inherits(Comment, _React$Component);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      editing = _useState2[0],
+      setEditing = _useState2[1];
 
-  var _super = _createSuper(Comment);
+  var renderDeleteButton = function renderDeleteButton() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "flex flex-row space-x-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      className: "items-center focus:outline-none bg-gray-300 text-gray-800 p-1 w-full font-bold rounded text-center hover:bg-gray-200 tranform",
+      onClick: function onClick(e) {
+        var _this$props$comment;
 
-  function Comment() {
-    var _this$props$comment;
+        return _this.props.onDelete((_this$props$comment = _this.props.comment) === null || _this$props$comment === void 0 ? void 0 : _this$props$comment.id);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
+      version: "1.1",
+      className: "stroke-current h-6 w-6 text-gray-600",
+      viewBox: "0 0 24 24",
+      xmlns: "http://www.w3.org/2000/svg"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
+      "stroke-linecap": "round",
+      "stroke-width": "1.5",
+      fill: "none",
+      "stroke-linejoin": "round"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M18 6.53h1"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M9 10.47v6.06"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M12 9.31v8.27"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M15 10.47v6.06"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M15.795 20.472h-7.59c-1.218 0-2.205-.987-2.205-2.205v-11.739h12v11.739c0 1.218-.987 2.205-2.205 2.205Z"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M16 6.528l-.738-2.305c-.133-.414-.518-.695-.952-.695h-4.62c-.435 0-.82.281-.952.695l-.738 2.305"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
+      d: "M5 6.53h1"
+    })))));
+  };
 
-    var _this;
-
-    _classCallCheck(this, Comment);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "flex flex-col space-y-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "flex flex-row w-full justify-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "w-1/4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    user: comment === null || comment === void 0 ? void 0 : comment.user,
+    imageSize: 8
+  })), comment !== null && comment !== void 0 && comment.canDelete ? renderDeleteButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "text-gray-600 text-sm w-full"
+  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(comment === null || comment === void 0 ? void 0 : comment.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "text-gray-600 text-base",
+    onClick: function onClick(e) {
+      if (comment.canEdit) {
+        setEditing(!editing);
+      }
     }
+  }, comment === null || comment === void 0 ? void 0 : comment.text), editing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    onChange: function onChange(e) {
+      return onCommentTextChange(e);
+    },
+    name: "comment",
+    value: comment === null || comment === void 0 ? void 0 : comment.text,
+    label: "Comment"
+  }) : null);
+};
 
-    _this = _super.call.apply(_super, [this].concat(args));
+var mapStateToProps = function mapStateToProps(state) {
+  var commentForm = state.commentForm;
+  return {
+    commentForm: commentForm
+  };
+};
 
-    _defineProperty(_assertThisInitialized(_this), "state", {
-      errors: [],
-      message: null,
-      text: (_this$props$comment = _this.props.comment) === null || _this$props$comment === void 0 ? void 0 : _this$props$comment.text
-    });
-
-    return _this;
-  }
-
-  _createClass(Comment, [{
-    key: "renderDeleteButton",
-    value: function renderDeleteButton() {
-      var _this2 = this;
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-row space-x-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-        className: "items-center focus:outline-none bg-gray-300 text-gray-800 p-1 w-full font-bold rounded text-center hover:bg-gray-200 tranform",
-        onClick: function onClick(e) {
-          var _this2$props$comment;
-
-          return _this2.props.onDelete((_this2$props$comment = _this2.props.comment) === null || _this2$props$comment === void 0 ? void 0 : _this2$props$comment.id);
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", {
-        version: "1.1",
-        className: "stroke-current h-6 w-6 text-gray-600",
-        viewBox: "0 0 24 24",
-        xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
-        fill: "none",
-        "stroke-linejoin": "round"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M18 6.53h1"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M9 10.47v6.06"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M12 9.31v8.27"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M15 10.47v6.06"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M15.795 20.472h-7.59c-1.218 0-2.205-.987-2.205-2.205v-11.739h12v11.739c0 1.218-.987 2.205-2.205 2.205Z"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M16 6.528l-.738-2.305c-.133-.414-.518-.695-.952-.695h-4.62c-.435 0-.82.281-.952.695l-.738 2.305"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("path", {
-        d: "M5 6.53h1"
-      })))));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props$comment2,
-          _this$props$comment3,
-          _this$props$comment4,
-          _this$props$comment5,
-          _this3 = this,
-          _this$props$comment6;
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-col space-y-2 w-full md:w-3/2 lg:w-1/2 self-center space-y-4 bg-white border-2 border-gray-500 rounded p-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-row w-full justify-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "w-1/4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserBadge__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        user: (_this$props$comment2 = this.props.comment) === null || _this$props$comment2 === void 0 ? void 0 : _this$props$comment2.user,
-        imageSize: 8
-      })), (_this$props$comment3 = this.props.comment) !== null && _this$props$comment3 !== void 0 && _this$props$comment3.canDelete ? this.renderDeleteButton() : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "text-gray-600 text-sm w-full"
-      }, moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$comment4 = this.props.comment) === null || _this$props$comment4 === void 0 ? void 0 : _this$props$comment4.createdAt).fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "text-gray-600 text-base"
-      }, (_this$props$comment5 = this.props.comment) === null || _this$props$comment5 === void 0 ? void 0 : _this$props$comment5.text), this.props.isEditing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Form_Textarea__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        onChange: function onChange(e) {
-          return _this3.onCommentTextChange(e);
-        },
-        name: "comment",
-        value: (_this$props$comment6 = this.props.comment) === null || _this$props$comment6 === void 0 ? void 0 : _this$props$comment6.text,
-        label: "Comment"
-      }) : null);
-    }
-  }]);
-
-  return Comment;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (Comment);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(null, {})(Comment));
 
 /***/ }),
 
@@ -77183,14 +77146,11 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
       var _React$createElement, _React$createElement2, _React$createElement3, _React$createElement4, _React$createElement5, _React$createElement6, _React$createElement7, _React$createElement8, _React$createElement9, _React$createElement10, _React$createElement11, _React$createElement12, _React$createElement13, _React$createElement14, _React$createElement15, _React$createElement16, _React$createElement17, _React$createElement19, _React$createElement20, _React$createElement21, _React$createElement22, _React$createElement23, _React$createElement24, _React$createElement25, _this$props$user4, _this$props$user5, _this$props$user6;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center"
+        className: "hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg ".concat(this.userIsAdmin() ? 'w-2/3' : 'w-2/5', "  self-center")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row space-x-2 items-center w-full justify-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-        to: "/",
-        className: "w-1/6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_assets_Icon__WEBPACK_IMPORTED_MODULE_4__["default"], null)), this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "w-full flex flex-row space-x-2 items-center"
+      }, this.props.auth.authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "w-full flex flex-row space-x-2 items-center ".concat(this.userIsAdmin() ? 'justify-between' : 'justify-center', " ")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
         to: "/leave/create",
         className: "text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between"
@@ -77387,28 +77347,8 @@ var DesktopMenu = /*#__PURE__*/function (_React$Component) {
         alt: (_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.name
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-gray-600 text-base"
-      }, (_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
-        to: "/notifications",
-        activeClassName: "text-purple-500",
-        className: "flex flex-row space-x-1 items-center p-2 ".concat(this.getNotificationClass(), " hover:text-purple-500 rounded")
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-        version: "1.1",
-        className: "stroke-current h-8 w-8",
-        viewBox: "0 0 24 24",
-        xmlns: "http://www.w3.org/2000/svg"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
-        "stroke-linecap": "round",
-        "stroke-width": "1.5",
-        fill: "none",
-        "stroke-linejoin": "round"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-        d: "M17.5 17.359l1.04252e-07 5.18696e-13c1.047 5.16307e-06 1.89669-.847003 1.9-1.894v0 0l-7.63071e-09-6.13723e-06c-.000663186-.532732-.213311-1.0433-.591004-1.419l-1.259-1.26v-3.743l8.96037e-08.000996758c0-3.06187-2.48213-5.544-5.544-5.544 -.00166633 0-.00333265 7.51257e-07-.00499898 2.25377e-06v0l-2.66296e-07 9.62252e-11c-3.06069.00110603-5.54145 2.48231-5.542 5.543v3.74l-1.259 1.26 -1.25741e-07 1.24954e-07c-.377966.3756-.590963.886147-.592 1.419v0 0l-7.36124e-08-2.33559e-05c.00329345 1.047.852974 1.89402 1.89998 1.89402Z"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-        d: "M17.5 17.359v0"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-        d: "M10.521 20.5h2.957"
-      })))), this.getNumberOfUnreadNotifications())) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-row space-x-2 items-center w-1/2"
+      }, (_this$props$user6 = this.props.user) === null || _this$props$user6 === void 0 ? void 0 : _this$props$user6.name))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex flex-row space-x-2 items-center w-1/2 self-center justify-around"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/login",
         className: "w-full"
@@ -78157,6 +78097,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Paginator__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Paginator */ "./resources/js/components/Paginator.jsx");
 /* harmony import */ var _LeaveCard__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../LeaveCard */ "./resources/js/components/LeaveCard.jsx");
 /* harmony import */ var _Form_Dropdown__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Form/Dropdown */ "./resources/js/components/Form/Dropdown.jsx");
+/* harmony import */ var _UserLeaveSummary__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../UserLeaveSummary */ "./resources/js/components/UserLeaveSummary.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -78184,6 +78125,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -78372,10 +78314,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$props$user,
-          _this$props$user2,
-          _this$props$user3,
-          _this$props$user4,
-          _this$props$user5,
+          _this$props,
           _this4 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -78394,31 +78333,9 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "text-sm md:text-base"
       }, moment__WEBPACK_IMPORTED_MODULE_0___default()().format('ddd Do MMM'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-3/4 w-full self-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        className: "pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-purple-800"
-      }, (_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-purple-800 text-base"
-      }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        className: "pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-white"
-      }, (_this$props$user3 = this.props.user) === null || _this$props$user3 === void 0 ? void 0 : _this$props$user3.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-white text-base"
-      }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        className: "pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl "
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "flex flex-col space-y-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-2xl text-gray-800"
-      }, (_this$props$user4 = this.props.user) !== null && _this$props$user4 !== void 0 && _this$props$user4.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_0___default()((_this$props$user5 = this.props.user) === null || _this$props$user5 === void 0 ? void 0 : _this$props$user5.lastLeaveAt).format('ddd Do MMM') : '-'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "text-gray-800 text-base"
-      }, "Last Leave Taken"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_UserLeaveSummary__WEBPACK_IMPORTED_MODULE_16__["default"], {
+        user: (_this$props = this.props) === null || _this$props === void 0 ? void 0 : _this$props.user
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "flex flex-row w-full lg:w-3/4 self-center justify-between items-center space-x-2 "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "w-full md:w-1/4 text-white text-sm bg-gray-700 p-2 rounded-full text-center mt-6 lg:self-center"
@@ -79669,6 +79586,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_forms_comment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../actions/forms/comment */ "./resources/js/actions/forms/comment/index.js");
 /* harmony import */ var react_date_range__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-date-range */ "./node_modules/react-date-range/dist/index.js");
 /* harmony import */ var react_date_range__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(react_date_range__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _actions_user__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../../../actions/user */ "./resources/js/actions/user/index.js");
+var _this = undefined;
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -79694,6 +79614,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -79811,6 +79732,20 @@ var ViewLeavePage = function ViewLeavePage(props) {
           leave = _successResponse$data.leave;
       setMessage(message);
       setLeave(leave);
+      var user = _this.props.user;
+      /**
+       * Update application state if its the same user
+       */
+
+      if (user.id == leave.user.id) {
+        var balance = user.leaveBalance - leave.numberOfDaysOff;
+        var leaveTaken = user.leaveTaken + leave.numberOfDaysOff;
+
+        _this.props.setUser(_objectSpread(_objectSpread({}, user), {}, {
+          leaveBalance: balance,
+          leaveTaken: leaveTaken
+        }));
+      }
     })["catch"](function (failedResponse) {
       setLoading(false);
       var message = failedResponse.response.data.message;
@@ -80050,7 +79985,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
   updateCommentForm: _actions_forms_comment__WEBPACK_IMPORTED_MODULE_18__["updateCommentForm"],
-  clearCommentForm: _actions_forms_comment__WEBPACK_IMPORTED_MODULE_18__["clearCommentForm"]
+  clearCommentForm: _actions_forms_comment__WEBPACK_IMPORTED_MODULE_18__["clearCommentForm"],
+  setUser: _actions_user__WEBPACK_IMPORTED_MODULE_20__["setUser"]
 })(ViewLeavePage));
 
 /***/ }),
@@ -80341,11 +80277,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_loader_spinner__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../api */ "./resources/js/api/index.js");
 /* harmony import */ var _ErrorMessage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../ErrorMessage */ "./resources/js/components/ErrorMessage.jsx");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Heading */ "./resources/js/components/Heading.jsx");
-/* harmony import */ var _UserLeaveSummary__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../UserLeaveSummary */ "./resources/js/components/UserLeaveSummary.jsx");
+/* harmony import */ var _UserLeaveSummary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../UserLeaveSummary */ "./resources/js/components/UserLeaveSummary.jsx");
+/* harmony import */ var _Form_Field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Form/Field */ "./resources/js/components/Form/Field.jsx");
+/* harmony import */ var _InfoMessage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../InfoMessage */ "./resources/js/components/InfoMessage.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -80414,7 +80353,8 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       loading: false,
-      errors: []
+      errors: [],
+      message: null
     });
 
     return _this;
@@ -80428,28 +80368,36 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
       this.setState({
         loading: true
       });
-      _api__WEBPACK_IMPORTED_MODULE_9__["default"].post('/logout').then(function (success) {
-        _this2.props.unsetAuthenticated();
+      setTimeout(function () {
+        _api__WEBPACK_IMPORTED_MODULE_9__["default"].post('/logout').then(function (success) {
+          _this2.props.unsetAuthenticated();
 
-        localStorage.removeItem('authToken');
-        window.location = '/';
-      })["catch"](function (failed) {
-        var message = failed.response.data.message;
+          localStorage.removeItem('authToken');
+          window.location = '/';
+        })["catch"](function (failed) {
+          var message = failed.response.data.message;
 
-        _this2.setState({
-          errors: [].concat(_toConsumableArray(message), _toConsumableArray(_this2.state.errors))
+          _this2.setState({
+            errors: [].concat(_toConsumableArray(message), _toConsumableArray(_this2.state.errors))
+          });
+
+          _this2.setState({
+            loading: false
+          });
         });
-      });
+      }, 1500);
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
+      var user = this.props.user;
       var _this$props$user = this.props.user,
           name = _this$props$user.name,
           leaveBalance = _this$props$user.leaveBalance;
       this.props.updateUserForm({
         name: name,
-        balance: leaveBalance
+        balance: leaveBalance,
+        jobPosition: user.jobPosition
       });
     }
   }, {
@@ -80471,12 +80419,162 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "onLeaveBalanceChange",
+    value: function onLeaveBalanceChange(e) {
+      e.persist();
+      var userForm = this.props.userForm;
+      var balance = parseInt(e.target.value);
+      this.props.updateUserForm(_objectSpread(_objectSpread({}, userForm), {}, {
+        balance: balance
+      }));
+    }
+  }, {
+    key: "leaveBalanceDiffersFromOriginal",
+    value: function leaveBalanceDiffersFromOriginal() {
+      var _this$props$user2, _this$props$userForm;
+
+      return ((_this$props$user2 = this.props.user) === null || _this$props$user2 === void 0 ? void 0 : _this$props$user2.leaveBalance) != ((_this$props$userForm = this.props.userForm) === null || _this$props$userForm === void 0 ? void 0 : _this$props$userForm.balance);
+    }
+  }, {
+    key: "renderLeaveAdjustmentSubmitButton",
+    value: function renderLeaveAdjustmentSubmitButton() {
+      var _this$props$userForm2,
+          _this3 = this;
+
+      if ((_this$props$userForm2 = this.props.userForm) !== null && _this$props$userForm2 !== void 0 && _this$props$userForm2.loading) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_8___default.a, {
+          type: "Oval",
+          className: "self-center",
+          height: 20,
+          width: 20,
+          color: "Gray"
+        });
+      }
+
+      if (this.leaveBalanceDiffersFromOriginal()) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          type: "primary",
+          onClick: function onClick(e) {
+            return _this3.onBalanceSubmit();
+          }
+        }, "Save");
+      }
+
+      return null;
+    }
+  }, {
+    key: "onBalanceSubmit",
+    value: function onBalanceSubmit() {
+      var _this4 = this;
+
+      if (!this.isAdmin()) {
+        return;
+      }
+
+      this.props.updateUserForm(_objectSpread(_objectSpread({}, this.props.userForm), {}, {
+        loading: true
+      }));
+      var user = this.props.user;
+      var currentLeaveBalance = user.leaveBalance;
+      var adjustedBalance = this.props.userForm.balance;
+
+      if (currentLeaveBalance > adjustedBalance) {
+        // deduct request
+        _api__WEBPACK_IMPORTED_MODULE_9__["default"].post('/leaves/deduct', {
+          user: user.id,
+          amount: adjustedBalance
+        }).then(function (success) {
+          var _success$data = success.data,
+              message = _success$data.message,
+              balance = _success$data.balance;
+
+          _this4.props.updateUserForm(_objectSpread(_objectSpread({}, _this4.props.userForm), {}, {
+            loading: false,
+            balance: balance
+          }));
+
+          _this4.setState({
+            message: message
+          });
+        })["catch"](function (failed) {
+          _this4.props.updateUserForm(_objectSpread(_objectSpread({}, _this4.props.userForm), {}, {
+            loading: false
+          }));
+
+          _this4.setState({
+            errors: [].concat(_toConsumableArray(_this4.state.errors), [failed.response.data.message])
+          });
+        });
+      } else if (currentLeaveBalance < adjustedBalance) {
+        _api__WEBPACK_IMPORTED_MODULE_9__["default"].post('/leaves/add', {
+          user: user.id,
+          amount: adjustedBalance
+        }).then(function (success) {
+          var _success$data2 = success.data,
+              message = _success$data2.message,
+              balance = _success$data2.balance;
+
+          _this4.props.updateUserForm(_objectSpread(_objectSpread({}, _this4.props.userForm), {}, {
+            loading: false,
+            balance: balance
+          }));
+
+          _this4.setState({
+            message: message
+          });
+        })["catch"](function (failed) {
+          _this4.props.updateUserForm(_objectSpread(_objectSpread({}, _this4.props.userForm), {}, {
+            loading: false
+          }));
+
+          _this4.setState({
+            errors: [].concat(_toConsumableArray(_this4.state.errors), [failed.response.data.message])
+          });
+        });
+      }
+
+      this.props.updateUserForm(_objectSpread(_objectSpread({}, this.props.userForm), {}, {
+        loading: false
+      }));
+    }
+  }, {
+    key: "onDetailsChange",
+    value: function onDetailsChange(e, key) {
+      var userForm = this.props.userForm;
+      this.props.updateUserForm(_objectSpread(_objectSpread({}, userForm), {}, _defineProperty({}, key, e.target.value)));
+    }
+  }, {
+    key: "renderBalanceForm",
+    value: function renderBalanceForm() {
+      var _this5 = this;
+
+      if (this.isAdmin()) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "flex flex-row space-x-2 items-center"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_12__["default"], {
+          name: "balance",
+          type: "number",
+          label: "Balance",
+          onChange: function onChange(e) {
+            return _this5.onLeaveBalanceChange(e);
+          },
+          value: this.props.userForm.balance
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "mt-6"
+        }, this.renderLeaveAdjustmentSubmitButton()));
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props,
           _this$props2,
-          _this3 = this,
-          _this$props3;
+          _this6 = this,
+          _this$props3,
+          _this$props$userForm3,
+          _this$props$userForm$,
+          _this$props$userForm4,
+          _this$props$userForm$2;
 
       if (this.state.loading) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -80495,8 +80593,10 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "flex flex-col justify-center space-y-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        className: "flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor"
-      }, this.renderErrors(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex flex-col space-y-4 w-full md:w-2/3 self-center pointer-cursor"
+      }, this.renderErrors(), this.state.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InfoMessage__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        text: this.state.message
+      }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row justify-between items-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex flex-row space-x-1"
@@ -80507,7 +80607,7 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
       }, "Admin") : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
         type: "soft",
         onClick: function onClick(e) {
-          return _this3.logout();
+          return _this6.logout();
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "flex space-x-1 items-center"
@@ -80541,9 +80641,27 @@ var ProfilePage = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-gray-600"
       }, "Logout")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-1/2 w-full self-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserLeaveSummary__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        className: "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-2/3 w-full self-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserLeaveSummary__WEBPACK_IMPORTED_MODULE_11__["default"], {
         user: (_this$props3 = this.props) === null || _this$props3 === void 0 ? void 0 : _this$props3.user
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-2/3 w-full self-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        name: "name",
+        value: (_this$props$userForm3 = this.props.userForm) === null || _this$props$userForm3 === void 0 ? void 0 : _this$props$userForm3.name,
+        onChange: function onChange(e) {
+          return _this6.onDetailsChange(e, 'name');
+        },
+        label: "Your name",
+        errors: (_this$props$userForm$ = this.props.userForm.errors) === null || _this$props$userForm$ === void 0 ? void 0 : _this$props$userForm$.name
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form_Field__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        name: "job_position",
+        value: (_this$props$userForm4 = this.props.userForm) === null || _this$props$userForm4 === void 0 ? void 0 : _this$props$userForm4.jobPosition,
+        onChange: function onChange(e) {
+          return _this6.onDetailsChange(e, 'jobPosition');
+        },
+        label: "Job Position",
+        errors: (_this$props$userForm$2 = this.props.userForm.errors) === null || _this$props$userForm$2 === void 0 ? void 0 : _this$props$userForm$2.job_position
       })));
     }
   }]);
@@ -81324,6 +81442,14 @@ var IndexUserPage = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this3 = this;
 
+      this.props.updateUserForm({
+        name: '',
+        email: '',
+        isAdmin: false,
+        balance: 0,
+        errors: [],
+        messages: []
+      });
       setTimeout(function () {
         _this3.getUsers();
       }, 1000);
@@ -82700,25 +82826,25 @@ var UserLeaveSummary = function UserLeaveSummary(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-2xl text-purple-800"
+    className: "text-purple-800"
   }, user === null || user === void 0 ? void 0 : user.leaveBalance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-purple-800 text-base"
+    className: "text-purple-800 text-sm"
   }, "Leave Balance")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "pointer-cursor w-full bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl "
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-2xl text-white"
+    className: "text-white"
   }, user === null || user === void 0 ? void 0 : user.leaveTaken), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-white text-base"
-  }, "Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "text-white text-sm"
+  }, "Approved Leave Taken")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "pointer-cursor w-full  border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl "
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Heading__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "flex flex-col space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-2xl text-gray-800"
+    className: "text-gray-800"
   }, user !== null && user !== void 0 && user.lastLeaveAt ? moment__WEBPACK_IMPORTED_MODULE_0___default()(user === null || user === void 0 ? void 0 : user.lastLeaveAt).format('ddd Do MMM') : '-'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-    className: "text-gray-800 text-base"
+    className: "text-gray-800 text-sm"
   }, "Last Leave Taken")))));
 };
 
@@ -82826,6 +82952,7 @@ var commentFormReducer = function commentFormReducer() {
   switch (type) {
     case 'UPDATE_COMMENT_FORM':
       return payload;
+      break;
 
     case 'CLEAR_COMMENT_FORM':
       return {
@@ -82833,9 +82960,11 @@ var commentFormReducer = function commentFormReducer() {
         errors: [],
         loading: false
       };
+      break;
 
     default:
       return state;
+      break;
   }
 };
 
@@ -82856,7 +82985,7 @@ var defaultState = {
   email: '',
   isAdmin: false,
   balance: 0,
-  errors: [],
+  errors: {},
   messages: []
 };
 /**

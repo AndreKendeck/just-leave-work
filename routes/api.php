@@ -27,6 +27,8 @@ Route::namespace ('Api')->group(function () {
 
     Route::get('/profile', 'ProfileController@index')
         ->name('profile.index')->middleware('auth:sanctum');
+    Route::put('/profile', 'ProfileController@update')
+        ->name('profile.update')->middleware('auth:sanctum');
 
     Route::post('/password-email', 'PasswordEmailController')->name('password.request');
     Route::post('/check-password-reset-token', 'CheckPasswordResetController')->name('password.token.check');
@@ -34,6 +36,9 @@ Route::namespace ('Api')->group(function () {
 
     Route::post('/logout', 'LogoutController')
         ->name('logout')
+        ->middleware('auth:sanctum');
+    Route::post('/update-password', 'UpdatePasswordController')
+        ->name('update.password')
         ->middleware('auth:sanctum');
 
     Route::middleware(['auth:sanctum', 'forbid-banned-user', 'verified'])->group(function () {
@@ -62,7 +67,7 @@ Route::namespace ('Api')->group(function () {
         Route::post('/leaves/add/', 'LeaveBalanceController@add')
             ->name('leaves.add');
 
-        Route::post('/leaves/deduct', 'LeaveBalanceController@remove')
+        Route::post('/leaves/deduct', 'LeaveBalanceController@deduct')
             ->name('leaves.deduct');
 
         Route::post('/leaves/approve/{id}', 'LeaveStatusController@approve')

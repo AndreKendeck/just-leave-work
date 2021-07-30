@@ -4,7 +4,7 @@ const defaultState = {
     email: '',
     isAdmin: false,
     balance: 0,
-    errors: [],
+    errors: {},
     messages: [],
 }
 

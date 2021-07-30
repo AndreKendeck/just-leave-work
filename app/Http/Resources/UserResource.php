@@ -30,7 +30,8 @@ class UserResource extends JsonResource
             'isOnLeave' => $this->is_on_leave,
             'leaveTaken' => $this->leave_taken,
             'lastLeaveAt' => $this->last_leave_at,
-            'unreadNotifications' => $this->unreadNotifications->count()
+            'unreadNotifications' => $this->unreadNotifications->count(),
+            'jobPosition' => $this->job_position,
         ];
     }
 }

@@ -1,10 +1,11 @@
 @component('mail::message')
-# Introduction
+# Your leave for {{ $leave->from->toFormattedDateString() }} has been denied
 
-The body of your message.
+Sorry {{ $leave->user->name }},
+your leave has been denied.
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => url("/leave/view/{$leave->id}")])
+View Leave
 @endcomponent
 
 Thanks,<br>

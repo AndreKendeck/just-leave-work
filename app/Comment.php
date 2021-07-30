@@ -16,12 +16,12 @@ class Comment extends Model
     ];
 
     protected $with = [
-        'user'
+        'user',
     ];
 
     protected $casts = [
         'user_id' => 'integer',
-        'leave_id' => 'integer', 
+        'leave_id' => 'integer',
     ];
 
     public function user()
@@ -49,11 +49,11 @@ class Comment extends Model
 
     public function getIsDeletableAttribute()
     {
-        return now()->diffInMinutes($this->created_at) <= 5;
+        return (now()->diffInMinutes($this->created_at) <= 5) && ($this->user->id == auth()->user()->id);
     }
 
     public function getIsEditableAttribute()
     {
-        return now()->diffInMinutes($this->created_at) <= 5;
+        return (now()->diffInMinutes($this->created_at) <= 5) && ($this->user->id == auth()->user()->id);
     }
 }

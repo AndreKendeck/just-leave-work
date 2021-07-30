@@ -14,6 +14,7 @@ import EditButtonLink from '../EditButtonLink';
 import Paginator from '../Paginator';
 import LeaveCard from '../LeaveCard';
 import Dropdown from '../Form/Dropdown';
+import UserLeaveSummary from '../UserLeaveSummary';
 
 
 const HomePage = class HomePage extends React.Component {
@@ -136,30 +137,7 @@ const HomePage = class HomePage extends React.Component {
                     </div>
                 </Card>
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-3/4 w-full self-center">
-                    <Card className="pointer-cursor w-full lg:w-3/4 border-2 border-purple-800 bg-purple-500 bg-opacity-50 transform hover:-translate-y-1 hover:shadow-2xl">
-                        <Heading>
-                            <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-purple-800">{this.props.user?.leaveBalance}</span>
-                                <span className="text-purple-800 text-base">Leave Balance</span>
-                            </div>
-                        </Heading>
-                    </Card>
-                    <Card className="pointer-cursor w-full lg:w-3/4 bg-gray-600 border-2 border-gray-800 transform hover:-translate-y-1 hover:shadow-2xl ">
-                        <Heading>
-                            <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-white">{this.props.user?.leaveTaken}</span>
-                                <span className="text-white text-base">Leave Taken</span>
-                            </div>
-                        </Heading>
-                    </Card>
-                    <Card className="pointer-cursor w-full lg:w-3/4 border-gray-800 border-2 transform hover:-translate-y-1 hover:shadow-2xl ">
-                        <Heading>
-                            <div className="flex flex-col space-y-2">
-                                <span className="text-2xl text-gray-800">{this.props.user?.lastLeaveAt ? moment(this.props.user?.lastLeaveAt).format('ddd Do MMM') : '-'}</span>
-                                <span className="text-gray-800 text-base">Last Leave Taken</span>
-                            </div>
-                        </Heading>
-                    </Card>
+                    <UserLeaveSummary user={this.props?.user} />
                 </div>
                 <div className="flex flex-row w-full lg:w-3/4 self-center justify-between items-center space-x-2 ">
                     <span className="w-full md:w-1/4 text-white text-sm bg-gray-700 p-2 rounded-full text-center mt-6 lg:self-center">Your leave history</span>

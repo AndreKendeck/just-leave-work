@@ -55,6 +55,14 @@ const IndexUserPage = class IndexUserPage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.updateUserForm({
+            name: '',
+            email: '',
+            isAdmin: false,
+            balance: 0,
+            errors: [],
+            messages: [],
+        });
         setTimeout(() => {
             this.getUsers();
         }, 1000);
