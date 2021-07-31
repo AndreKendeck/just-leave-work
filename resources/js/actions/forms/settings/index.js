@@ -4,9 +4,3 @@ export function updateSettingsForm(payload) {
         payload
     }
 }
-
-export function clearSettingForm() {
-    return {
-        type: 'CLEAR_SETTINGS_FORM'
-    }
-}

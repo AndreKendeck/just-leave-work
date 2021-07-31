@@ -12,12 +12,16 @@ import ErrorMessage from '../ErrorMessage';
 import UserLeaveSummary from '../UserLeaveSummary';
 import Field from '../Form/Field';
 import InfoMessage from '../InfoMessage';
+import Table from '../Table';
+import moment from 'moment';
+
 const ProfilePage = class ProfilePage extends React.Component {
 
     state = {
         loading: false,
         errors: [],
         message: null,
+        transactions: {}
     }
 
     logout() {
@@ -37,10 +41,55 @@ const ProfilePage = class ProfilePage extends React.Component {
 
     }
 
+    getNumberClass(number) {
+        if (number == 0) {
+            return 'text-gray-600';
+        }
+        if (number < 0) {
+            return 'text-red-600';
+        }
+
+        return 'text-green-500';
+    }
+
+    renderTransactions() {
+        return this.state.transactions?.data?.map((transaction, index) => {
+            return (
+                <tr className="rounded" key={index}>
+                    <td className="text-center text-gray-600 text-sm"> {transaction.description} </td>
+                    <td className="text-center text-gray-600 text-sm">
+                        <span className={`${this.getNumberClass(transaction.amount)}`}>
+                            {transaction.amount}
+                        </span>
+                    </td>
+                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createAt).format('l')} </td>
+                </tr>
+            )
+        });
+    }
+
     componentDidMount() {
         const { user } = this.props;
         const { name, leaveBalance } = this.props.user;
         this.props.updateUserForm({ name, balance: leaveBalance, jobPosition: user.jobPosition });
+        this.getTransactions(1);
+    }
+
+    getTransactions(page = 1) {
+        const { user } = this.props;
+        const config = {
+            params: {
+                page
+            }
+        }
+        api.get(`/transactions/${user.id}`, config)
+            .then(success => {
+                const data = success.data;
+                this.setState({ transactions: data });
+            }).catch(failed => {
+                const { message } = failed.response.data;
+                this.setState({ errors: [...message] })
+            })
     }
 
     isAdmin() {
@@ -71,50 +120,46 @@ const ProfilePage = class ProfilePage extends React.Component {
         return this.props.user?.leaveBalance != this.props.userForm?.balance;
     }
 
-    renderLeaveAdjustmentSubmitButton() {
-        if (this.props.userForm?.loading) {
-            return <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
-        }
-        if (this.leaveBalanceDiffersFromOriginal()) {
-            return <Button type="primary" onClick={(e) => this.onBalanceSubmit()} >Save</Button>
-        }
-        return null;
-    }
-
     onBalanceSubmit() {
         if (!this.isAdmin()) {
+            return;
+        }
+        if (!this.leaveBalanceDiffersFromOriginal) {
             return;
         }
         this.props.updateUserForm({ ...this.props.userForm, loading: true });
         const { user } = this.props;
         const { leaveBalance: currentLeaveBalance } = user;
         const { balance: adjustedBalance } = this.props.userForm;
+        let url = null;
         if (currentLeaveBalance > adjustedBalance) {
             // deduct request
-            api.post('/leaves/deduct', {
-                user: user.id,
-                amount: adjustedBalance
-            }).then(success => {
-                const { message, balance } = success.data;
-                this.props.updateUserForm({ ...this.props.userForm, loading: false, balance });
-                this.setState({ message });
-            }).catch(failed => {
-                this.props.updateUserForm({ ...this.props.userForm, loading: false });
-                this.setState({ errors: [...this.state.errors, failed.response.data.message] });
-            });
+            url = '/leaves/deduct';
         } else if (currentLeaveBalance < adjustedBalance) {
-            api.post('/leaves/add', {
-                user: user.id,
-                amount: adjustedBalance
-            }).then(success => {
-                const { message, balance } = success.data;
-                this.props.updateUserForm({ ...this.props.userForm, loading: false, balance });
-                this.setState({ message });
-            }).catch(failed => {
-                this.props.updateUserForm({ ...this.props.userForm, loading: false });
-                this.setState({ errors: [...this.state.errors, failed.response.data.message] });
-            });
+            // add request
+            url = '/leaves/add';
         }
+
+        api.post(url, {
+            user: user.id,
+            amount: adjustedBalance
+        }).then(success => {
+            const { message, balance, transaction } = success.data;
+            this.props.updateUserForm({ ...this.props.userForm, loading: false, balance });
+            this.setState({ message });
+            this.setState(state => {
+                return {
+                    transactions: {
+                        ...state.transactions,
+                        data: [transaction, ...state.transactions.data]
+                    }
+                }
+            })
+        }).catch(failed => {
+            this.props.updateUserForm({ ...this.props.userForm, loading: false });
+            this.setState({ errors: [...this.state.errors, failed.response.data.message] });
+        });
+
         this.props.updateUserForm({ ...this.props.userForm, loading: false });
     }
 
@@ -129,9 +174,6 @@ const ProfilePage = class ProfilePage extends React.Component {
             return (
                 <div className="flex flex-row space-x-2 items-center">
                     <Field name="balance" type="number" label="Balance" onChange={(e) => this.onLeaveBalanceChange(e)} value={this.props.userForm.balance} />
-                    <div className="mt-6">
-                        {this.renderLeaveAdjustmentSubmitButton()}
-                    </div>
                 </div>
             )
         }
@@ -154,6 +196,9 @@ const ProfilePage = class ProfilePage extends React.Component {
                     this.setState({ errors: [message] });
                 }
             });
+        if (this.leaveBalanceDiffersFromOriginal()) {
+            this.onBalanceSubmit();
+        }
         this.props.updateUserForm({ ...this.props.userForm, loading: false });
     }
 
@@ -197,7 +242,6 @@ const ProfilePage = class ProfilePage extends React.Component {
                         </div>
                     </div>
                 </Card>
-
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-2/3 w-full self-center">
                     <UserLeaveSummary user={this.props?.user} />
                 </div>
@@ -205,10 +249,19 @@ const ProfilePage = class ProfilePage extends React.Component {
                 <Card className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:w-2/3 w-full self-center items-center">
                     <Field name="name" value={this.props.userForm?.name} onChange={(e) => this.onDetailsChange(e, 'name')} label="Your name" errors={this.props.userForm.errors?.name} />
                     <Field name="job_position" value={this.props.userForm?.jobPosition} onChange={(e) => this.onDetailsChange(e, 'jobPosition')} label="Job position" errors={this.props.userForm.errors?.job_position} />
-                    <div className="w-1/2">
-                        {this.props.userForm?.loading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : <Button type="soft" onClick={(e) => this.onProfileUpdate()} >Update</Button>}
-                    </div>
+                    {this.renderBalanceForm()}
+                    {this.props.userForm?.loading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : <Button type="soft" onClick={(e) => this.onProfileUpdate()} >Update</Button>}
                 </Card>
+
+                <Card className="hidden md:flex w-full md:w-2/3 self-center items-center flex-col space-y-2">
+                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs self-start">Transactions </span>
+                    <Table headings={['Description', 'Amount', 'Date']} >
+                        {this.renderTransactions()}
+                    </Table>
+                </Card>
+
+
+
 
             </Page>
         );

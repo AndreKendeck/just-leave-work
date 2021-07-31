@@ -2,6 +2,8 @@ import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateSettingsForm } from '../../actions/forms/settings';
+import { setSettings } from '../../actions/settings';
+import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
 import Field from '../Form/Field';
@@ -16,7 +18,9 @@ const SettingPage = class SettingPage extends React.Component {
 
     componentDidMount() {
         const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays } = this.props.settings;
+        const { settingsForm } = this.props;
         this.props.updateSettingsForm({
+            ...settingsForm,
             leaveAddedPerCycle,
             daysUntilBalanceAdded,
             excludedDays
@@ -26,6 +30,23 @@ const SettingPage = class SettingPage extends React.Component {
         e.persist();
         const { settingsForm } = this.props;
         this.props.updateSettingsForm({ ...settingsForm, [key]: parseInt(e.target.value) });
+    }
+
+    onSave() {
+        const { settingsForm } = this.props;
+        const { leaveAddedPerCycle, daysUntilBalanceAdded } = settingsForm;
+        this.props.updateSettingForm({ ...settingsForm, loading: true });
+        api.put('/settings', {
+            leave_added_per_cycle: leaveAddedPerCycle,
+            days_until_balance_added: daysUntilBalanceAdded
+        }).then(success => {
+            const { message, settings } = success.data;
+            this.props.setSettings(settings);
+            this.setState({ message });
+        }).catch(failed => {
+            const { status } = this.props;
+        });
+        this.props.updateSettingForm({ ...settingsForm, loading: false });
     }
 
     render() {
@@ -60,4 +81,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { updateSettingsForm })(SettingPage);
+export default connect(mapStateToProps, { updateSettingsForm, setSettings })(SettingPage);

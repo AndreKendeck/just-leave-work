@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Leave\AdjustmentRequest;
+use App\Http\Resources\TransactionResource;
 use App\Transaction;
 use App\User;
 
@@ -30,7 +31,7 @@ class LeaveBalanceController extends Controller
             $description .= " (adjusted by {$adjustingUser->name}";
         }
 
-        Transaction::create([
+        $transaction = Transaction::create([
             'user_id' => $user->id,
             'description' => $description,
             'amount' => $amount,
@@ -40,6 +41,7 @@ class LeaveBalanceController extends Controller
             ->json([
                 'message' => "Leave balance adjusted",
                 'balance' => $user->leave_balance,
+                'transaction' => new TransactionResource($transaction),
             ]);
     }
 
@@ -63,16 +65,17 @@ class LeaveBalanceController extends Controller
             $description .= " (adjusted by {$adjustingUser->name}";
         }
 
-        Transaction::create([
+        $transaction = Transaction::create([
             'user_id' => $user->id,
             'description' => $description,
-            'amount' => $amount,
+            'amount' => -$amount,
         ]);
 
         return response()
             ->json([
                 'message' => "Leave balance adjusted",
                 'balance' => $user->leave_balance,
+                'transaction' => new TransactionResource($transaction),
             ]);
     }
 
