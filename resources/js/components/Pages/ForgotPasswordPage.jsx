@@ -91,9 +91,9 @@ export default class ForgotPasswordPage extends React.Component {
                         onChange={(e) => this.onEmailKeyUp(e)} label="Email Address" type="email" />
                     {this.getSendButton()}
                     <Link to="/login" className="w-full lg:w-2/3 self-center">
-                        <Button>
+                        <Button type="outlined-secondary">
                             <div className="flex flex-row space-x-1 justify-center">
-                                <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg">
+                                <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-6 w-6 transform " xmlns="http://www.w3.org/2000/svg">
                                     <g strokeLinecap="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
                                         <path d="M5,12h14"></path><path d="M10,7l-5,5"></path><path d="M10,17l-5,-5"></path>
                                     </g>
