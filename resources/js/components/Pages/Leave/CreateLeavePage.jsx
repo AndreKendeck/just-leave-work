@@ -165,7 +165,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                         options={this.mapNotifiableUsers()}
                         onChange={(e) => { this.onNotifyUserChange(e) }} />
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
-                        <Button type="secondary" onClick={e => this.storeLeavePost()} >Send</Button>
+                        <Button onClick={e => this.storeLeavePost()} >Send</Button>
                     )}
                     {this.state.error ? <ErrorMessage text={this.state.error} onDismiss={e => this.setState({ error: null })} /> : null}
                     {this.state.message ? <InfoMessage text={this.state.message} onDismiss={e => this.setState({ message: false })} /> : null}

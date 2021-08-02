@@ -70,20 +70,19 @@ class LeaveController extends Controller
             ], 422);
         }
 
-        $restrcitedDaysToStartLeave = auth()->user()->team->settings->excludedDays;
+        $restrcitedDays = auth()->user()->team->settings->excludedDays;
 
-        if ($restrcitedDaysToStartLeave->contains('day', $from->toDateString())) {
-        }
-
-        if ($restrcitedDaysToStartLeave->contains('day', $until->toDateString())) {
+        if ($restrcitedDays->contains('day', $from->toDateString())) {
             return response()->json([
                 'errors' => [
-                    'from' => "You cannot take leave on {$until->toFormattedDateString()}"
-                ]
+                    'from' => [
+                        "You cannot take leave on {$from->toFormattedDateString()}",
+                    ],
+                ],
             ]);
         }
-        if ($restrcitedDaysToStartLeave->contains('day', $from->format('l'))) {
-            $excludedDays = $restrcitedDaysToStartLeave->implode('day', ', ');
+        if ($restrcitedDays->contains('day', $from->format('l'))) {
+            $excludedDays = $restrcitedDays->implode('day', ', ');
             return response()->json([
                 'errors' => [
                     'from' => ["You cannot start leave on {$excludedDays}"],
@@ -91,8 +90,8 @@ class LeaveController extends Controller
             ], 422);
         }
 
-        if ($restrcitedDaysToStartLeave->contains('day', $until->format('l'))) {
-            $excludedDays = $restrcitedDaysToStartLeave->implode('day', ', ');
+        if ($restrcitedDays->contains('day', $until->format('l'))) {
+            $excludedDays = $restrcitedDays->implode('day', ', ');
             return response()->json([
                 'errors' => [
                     'from' => ["You cannot end leave on {$excludedDays}"],
@@ -164,7 +163,7 @@ class LeaveController extends Controller
         if (!auth()->user()->hasRole('team-admin', $leave->team)) {
             return response()
                 ->json([
-                    'message' => 'You cannot view this user',
+                    'message' => 'You cannot view this Leave Request',
                 ], 403);
         }
 

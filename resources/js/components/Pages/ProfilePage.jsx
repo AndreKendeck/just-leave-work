@@ -14,6 +14,8 @@ import Field from '../Form/Field';
 import InfoMessage from '../InfoMessage';
 import Table from '../Table';
 import moment from 'moment';
+import Paginator from '../Paginator';
+import UserRoleBadge from '../UserRoleBadge';
 
 const ProfilePage = class ProfilePage extends React.Component {
 
@@ -222,7 +224,9 @@ const ProfilePage = class ProfilePage extends React.Component {
                             <div>
                                 <UserBadge user={this.props?.user} />
                             </div>
-                            {this.props?.user.isAdmin ? (<div className="bg-purple-500 bg-opacity-25 text-purple-500 text-xs px-2 rounded-full py-1">Admin</div>) : null}
+                            <div>
+                                <UserRoleBadge user={this.props?.user} />
+                            </div>
                         </div>
                         <div>
                             <Button type="soft" onClick={(e) => this.logout()}>
@@ -258,11 +262,14 @@ const ProfilePage = class ProfilePage extends React.Component {
                     <Table headings={['Description', 'Amount', 'Date']} >
                         {this.renderTransactions()}
                     </Table>
+                    <Paginator onNextPage={() => this.getTransactions((this.state.transactions.currentPage + 1))}
+                        onPreviousPage={() => this.getTransactions((this.state.transactions.currentPage - 1))}
+                        onPageSelect={(page) => this.getTransactions(page)}
+                        onLastPage={this.state.transactions.to === this.state.transactions.currentPage}
+                        onFirstPage={this.state.transactions.currentPage === 1}
+                        activePage={this.state.transactions.currentPage}
+                        numberOfPages={this.state.transactions.to} />
                 </Card>
-
-
-
-
             </Page>
         );
     }

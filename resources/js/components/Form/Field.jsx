@@ -1,7 +1,7 @@
 import { collect } from 'collect.js';
 import React from 'react';
 
-const Field = ({ name, label, errors = [], tip, onKeyUp, onChange, hasError = false, readOnly = false, type = 'text', placeHolder, value }) => {
+const Field = ({ name, label, errors = [], tip, onKeyUp, onChange, hasError = false, readOnly = false, type = 'text', placeHolder, value, disabled = false }) => {
 
     const getErrors = () => {
         return collect(errors).flatten().map((error, index) => {
@@ -11,8 +11,8 @@ const Field = ({ name, label, errors = [], tip, onKeyUp, onChange, hasError = fa
     return (
         <div className="flex flex-col space-y-1 w-full">
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
-            <input type={type} readOnly={readOnly} value={value} placeholder={placeHolder} onChange={onChange} onKeyUp={onKeyUp} id={name} name={name}
-                className={`form-input border-2 placeholder-gray-400 rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`} />
+            <input type={type} readOnly={readOnly} disabled={disabled} value={value} placeholder={placeHolder} onChange={onChange} onKeyUp={onKeyUp} id={name} name={name}
+                className={`form-input ${disabled ? 'bg-gray-200 text-gray-500' : null} border-2 placeholder-gray-400 rounded-lg ${hasError ? 'border-red-500' : 'border-gray-300'}`} />
             <div className="flex flex-col space-y-1">
                 {getErrors()}
             </div>
