@@ -28,7 +28,7 @@ class LeaveBalanceController extends Controller
         if ($user->id == auth()->user()->id) {
             $description .= " (self-adjusted)";
         } else {
-            $description .= " (adjusted by {$adjustingUser->name}";
+            $description .= " (adjusted by {$adjustingUser->name})";
         }
 
         $transaction = Transaction::create([
@@ -62,7 +62,7 @@ class LeaveBalanceController extends Controller
         if ($user->id == auth()->user()->id) {
             $description .= " (self-adjusted)";
         } else {
-            $description .= " (adjusted by {$adjustingUser->name}";
+            $description .= " (adjusted by {$adjustingUser->name})";
         }
 
         $transaction = Transaction::create([

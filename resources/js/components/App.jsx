@@ -28,6 +28,8 @@ import SettingsPage from './Pages/SettingsPage';
 import IndexUserPage from './Pages/Users/IndexUserPage';
 import UploadUsersPage from './Pages/Users/UploadUsersPage';
 import ViewUserPage from './Pages/Users/ViewUserPage';
+import EditUserPage from './Pages/Users/EditUserPage';
+import NotFoundPage from './Pages/Errors/NotFoundPage';
 
 
 const App = class App extends React.Component {
@@ -140,7 +142,10 @@ const App = class App extends React.Component {
                         {this.currentUserIsAuthenticated() ? <UploadUsersPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/user/edit/:id" exact={true}>
-                        {/* edit user */}
+                        {this.currentUserIsAuthenticated() ? <EditUserPage /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route>
+                        <NotFoundPage />
                     </Route>
                 </Switch>
             </React.Fragment>

@@ -56,8 +56,8 @@ Route::namespace ('Api')->group(function () {
         Route::apiResource('users', 'UserController')->parameters([
             'users' => 'id',
         ])->except('destroy');
-        Route::post('/users/ban/{id}', 'BanUserController@store')->name('users.ban');
-        Route::post('/users/unban/{id}', 'BanUserController@update')->name('users.unban');
+        Route::post('/user/ban/{id}', 'BanUserController@store')->name('users.ban');
+        Route::post('/user/unban/{id}', 'BanUserController@update')->name('users.unban');
 
         Route::post('/users/import', 'ImportUserController@import')
             ->name('users.import');

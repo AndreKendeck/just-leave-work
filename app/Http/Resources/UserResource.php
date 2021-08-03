@@ -32,6 +32,7 @@ class UserResource extends JsonResource
             'lastLeaveAt' => $this->last_leave_at,
             'unreadNotifications' => $this->unreadNotifications->count(),
             'jobPosition' => $this->job_position,
+            'isBanned' => !is_null($this->banned_at),
         ];
     }
 }

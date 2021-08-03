@@ -15,6 +15,7 @@ import Page from '../../Page';
 import UserBadge from '../../UserBadge';
 import Field from '../../Form/Field';
 import { collect } from 'collect.js';
+import { connect } from 'react-redux';
 
 const EditLeavePage = () => {
     const { id } = useParams();
@@ -73,7 +74,7 @@ const EditLeavePage = () => {
                     setLeave({ ...leave, errors: [collect(errors).flatten().toArray()] });
                 } else {
                     const { message } = failed.response.data;
-                    setError({ ...leave, errors: [...message] });
+                    setError(message);
                 }
             });
     }
@@ -92,19 +93,15 @@ const EditLeavePage = () => {
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                    <ErrorMessage text={error ? error : 'Could not fetch leave'} />
+                    <ErrorMessage onDismiss={() => setError(null)} text={error ? error : 'Could not fetch leave'} />
                 </Card>
             </Page>
         );
     }
 
-    return (
-        <Page className="flex flex-col justify-center space-y-2">
-            <div className="w-2/3 self-center">
-                {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
-                {leave?.errors?.length > 0 ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : null}
-            </div>
-            <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
+    function renderBackButton() {
+        if (props.user.isAdmin) {
+            return (
                 <Link to="/leaves/" className="p-2 text-gray-600 bg-gray-300 hover:bg-gray-200 rounded flex items-center space-x-1 w-full justify-center">
                     <svg version="1.1" className="stroke-current h-6 w-6 text-gray-500" viewBox="0 0 24 24" >
                         <g fill="none">
@@ -114,6 +111,18 @@ const EditLeavePage = () => {
                     </svg>
                     <span className="text-sm text-gray-600">Back to leave page</span>
                 </Link>
+            )
+        }
+    }
+
+    return (
+        <Page className="flex flex-col justify-center space-y-2">
+            <div className="w-2/3 self-center">
+                {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
+                {leave?.errors?.length > 0 ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : null}
+            </div>
+            <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
+                {renderBackButton()}
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center">
                     <Heading>{leave?.reason.name}</Heading>
                     <div className="flex flex-row space-x-2 items-center justify-between">
@@ -164,4 +173,11 @@ const EditLeavePage = () => {
     );
 }
 
-export default EditLeavePage;
+const mapStateToProps = (state) => {
+    const { user } = state;
+    return {
+        user
+    };
+}
+
+export default connect(mapStateToProps, null)(EditLeavePage);

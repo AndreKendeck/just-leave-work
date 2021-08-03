@@ -18,6 +18,13 @@ class TransactionController extends Controller
             ], 403);
         }
 
+        if (!auth()->user()->hasRole('team-admin', $user->team)) {
+            return response()
+                ->json([
+                    'message' => 'You are not allowed to view transactions',
+                ], 403);
+        }
+
         $transactions = $user->transactions()->paginate(10);
 
         return response()
