@@ -21,7 +21,8 @@ class SettingResource extends JsonResource
             'daysUntilBalanceAdded' => $this->days_until_balance_added,
             'lastLeaveBalanceAddedAt' => $this->last_leave_balance_added_at,
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
+            'excludedDays' => ExcludedDayResource::collection($this->excludedDays),
         ];
     }
 }

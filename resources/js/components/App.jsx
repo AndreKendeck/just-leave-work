@@ -27,6 +27,7 @@ import EditLeavePage from './Pages/Leave/EditLeavePage';
 import SettingsPage from './Pages/SettingsPage';
 import IndexUserPage from './Pages/Users/IndexUserPage';
 import UploadUsersPage from './Pages/Users/UploadUsersPage';
+import ViewUserPage from './Pages/Users/ViewUserPage';
 
 
 const App = class App extends React.Component {
@@ -82,6 +83,11 @@ const App = class App extends React.Component {
         return this.props.user?.verified;
     }
 
+    userIsAdmin() {
+        const { user } = this.props;
+        return user?.isAdmin;
+    }
+
     getAuthRoutes = () => {
         if (this.state.initializing) {
             return null;
@@ -109,9 +115,6 @@ const App = class App extends React.Component {
                     <Route path="/leaves">
                         {this.currentUserIsAuthenticated() ? <IndexLeavePage /> : <Redirect to="/login" />}
                     </Route>
-                    <Route path="/my-leaves">
-                        {this.currentUserIsAuthenticated() ? <MyLeavePage /> : <Redirect to="/login" />}
-                    </Route>
                     <Route path="/leave/view/:id" exact={true}>
                         {this.currentUserIsAuthenticated() ? <ViewLeavePage /> : <Redirect to="/login" />}
                     </Route>
@@ -131,7 +134,7 @@ const App = class App extends React.Component {
                         {this.currentUserIsAuthenticated() ? <IndexUserPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/user/:id" exact={true}>
-                        {/* view user */}
+                        {this.currentUserIsAuthenticated() ? <ViewUserPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route path="/users/create" exact={true}>
                         {this.currentUserIsAuthenticated() ? <UploadUsersPage /> : <Redirect to="/login" />}

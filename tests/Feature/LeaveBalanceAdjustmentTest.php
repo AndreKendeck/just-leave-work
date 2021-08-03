@@ -57,7 +57,7 @@ class LeaveBalanceAdjustmentTest extends TestCase
             ->assertJsonStructure(['message']);
 
         $this->assertDatabaseHas('users', [
-            'leave_balance' => $resultBeing,
+            'leave_balance' => -$resultBeing,
             'id' => $user->id,
         ]);
     }

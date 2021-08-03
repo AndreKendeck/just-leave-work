@@ -18,6 +18,7 @@ import TextArea from '../../Form/Textarea';
 import { Link } from 'react-router-dom';
 import { clearCommentForm, updateCommentForm } from '../../../actions/forms/comment';
 import { DateRange } from 'react-date-range';
+import { setUser } from '../../../actions/user';
 
 
 
@@ -81,6 +82,17 @@ const ViewLeavePage = (props) => {
                 const { message, leave } = successResponse.data;
                 setMessage(message);
                 setLeave(leave);
+                const { user } = this.props;
+                
+                /**
+                 * Update application state if its the same user
+                 */
+                if (user.id == leave.user.id) {
+                    let balance = user.leaveBalance - leave.numberOfDaysOff;
+                    let leaveTaken = user.leaveTaken + leave.numberOfDaysOff;
+                    this.props.setUser({ ...user, leaveBalance: balance, leaveTaken });
+                }
+
             }).catch(failedResponse => {
                 setLoading(false);
                 const { message } = failedResponse.response.data;
@@ -250,4 +262,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, { updateCommentForm, clearCommentForm })(ViewLeavePage);
+export default connect(mapStateToProps, { updateCommentForm, clearCommentForm, setUser })(ViewLeavePage);

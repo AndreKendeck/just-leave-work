@@ -19,15 +19,33 @@ const DesktopMenu = class DesktopMenu extends React.Component {
         }
     }
 
+    getNotificationClass() {
+        const { unreadNotifications } = this.props.user;
+        if (unreadNotifications.length > 0) {
+            return 'text-red-500';
+        }
+        return 'text-gray-800';
+    }
+
+    isGuest() {
+        return this.props.auth.authenticated === false;
+    }
+
+    getLogo() {
+        if (this.isGuest()) {
+            return <div className="w-1/2"><Icon /></div>;
+        }
+    }
+
+
     render() {
         return (
-            <div className="hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg w-2/3 self-center">
+            <div className={`hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg ${this.userIsAdmin() ? 'w-2/3' : 'w-2/5'}  self-center`}>
+
                 <div className="flex flex-row space-x-2 items-center w-full justify-between">
-                    <Link to="/" className="w-1/6">
-                        <Icon />
-                    </Link>
+                    {this.getLogo()}
                     {this.props.auth.authenticated ? (
-                        <div className="w-full flex flex-row space-x-2 items-center">
+                        <div className={`w-full flex flex-row space-x-2 items-center ${this.userIsAdmin() ? 'justify-between' : 'justify-center'} `}>
                             <NavLink to="/leave/create" className="text-white flex flex-row space-x-1 items-center bg-purple-500 transform hover:scale-105 rounded-lg py-2 px-3 justify-between">
                                 <span>
                                     <svg version="1.1" className="stroke-current text-white h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
@@ -109,7 +127,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
                                 <span className="text-gray-600 text-base">{this.props.user?.name}</span>
                             </Link>
-                            <NavLink to="/notifications" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-red-600 hover:text-purple-500 rounded">
+                            {/* <NavLink to="/notifications" activeClassName="text-purple-500" className={`flex flex-row space-x-1 items-center p-2 ${this.getNotificationClass()} hover:text-purple-500 rounded`}>
                                 <span>
                                     <svg version="1.1" className="stroke-current h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
@@ -120,11 +138,11 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                     </svg>
                                 </span>
                                 {this.getNumberOfUnreadNotifications()}
-                            </NavLink>
+                            </NavLink> */}
                         </div>
                     ) : (
                         <React.Fragment>
-                            <div className="flex flex-row space-x-2 items-center w-1/2">
+                            <div className="flex flex-row space-x-2 items-center w-1/2 self-center justify-around">
                                 <Link to="/login" className="w-full">
                                     <Button>Login</Button>
                                 </Link>

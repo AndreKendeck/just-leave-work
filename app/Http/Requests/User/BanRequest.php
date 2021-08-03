@@ -13,7 +13,7 @@ class BanRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole('admin');
+        return auth()->user()->hasRole('team-admin', auth()->user()->team);
     }
 
     /**
@@ -23,7 +23,6 @@ class BanRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-        ];
+        return [];
     }
 }

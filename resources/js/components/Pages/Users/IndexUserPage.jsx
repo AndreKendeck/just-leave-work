@@ -55,6 +55,14 @@ const IndexUserPage = class IndexUserPage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.updateUserForm({
+            name: '',
+            email: '',
+            isAdmin: false,
+            balance: 0,
+            errors: [],
+            messages: [],
+        });
         setTimeout(() => {
             this.getUsers();
         }, 1000);
@@ -101,11 +109,11 @@ const IndexUserPage = class IndexUserPage extends React.Component {
     getUserRoleDropDownOptions() {
         return [
             {
-                value: 0,
+                value: '0',
                 label: 'All'
             },
             {
-                value: 1,
+                value: '1',
                 label: 'Admin'
             }
         ];
@@ -139,10 +147,11 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             switch (userLeaveStatus) {
                 case 1:
                     users = users.filter(user => user.isOnLeave);
+                    break;
                 case 2:
-                    users = users.filter(user => user.isOnLeave === false);
+                    users = users.filter(user => (user.isOnLeave == false));
+                    break;
                 default:
-                // do nothing
             }
         }
         return users;

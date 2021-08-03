@@ -5,6 +5,7 @@ import Button from '../../Button';
 import Card from '../../Card';
 import Field from '../../Form/Field';
 import Heading from '../../Heading';
+import InfoMessage from '../../InfoMessage';
 import Page from '../../Page';
 
 const UploadUsersPage = class UploadUsersPage extends React.Component {
@@ -40,9 +41,12 @@ const UploadUsersPage = class UploadUsersPage extends React.Component {
         };
         api.post('/users/import', formData, config)
             .then(success => {
-                
+                const { message } = success.data;
+                this.setState({ message });
+                this.setState({ file: null });
             }).catch(failed => {
-
+                const { message } = failed.response.data;
+                this.setState({ errors: [...this.state.errors, message] });
             });
     }
 
@@ -55,11 +59,20 @@ const UploadUsersPage = class UploadUsersPage extends React.Component {
         return null;
     }
 
+    renderMessage() {
+        const { message } = this.state;
+        if (message) {
+            return <InfoMessage text={message} onDismiss={(e) => this.setState({ message: null })} />
+        }
+        return null;
+    }
+
     render() {
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="hidden md:flex w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Upload Users</span>
+                    {this.renderMessage()}
                     <div className="text-lg text-gray-700">How to Upload users:</div>
                     <div className="flex flex-col space-y-2">
                         <div className="text-gray-700 bg-gray-200 p-2 rounded-lg ">

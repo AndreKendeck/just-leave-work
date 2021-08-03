@@ -28,15 +28,20 @@ class ProfileController extends Controller
             ->json($result);
     }
 
-
     public function update(Request $request)
     {
         $user = \App\User::findOrFail(auth()->id());
         $request->validate([
-            'name' => 'required',
-            '' 
-        ] , [
-            ''
+            'name' => ['required', 'string', 'min:2'],
+            'job_position' => ['nullable', 'string'],
         ]);
+        $user->update([
+            'name' => $request->name,
+            'job_position' => $request->job_position
+        ]);
+        return response()
+            ->json([
+                'message' => 'Profile Updated',
+            ]);
     }
 }

@@ -14,9 +14,9 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 class UserImport implements ToModel, ShouldQueue, WithChunkReading
 {
-    protected int $teamId;
+    protected $teamId = null;
 
-    protected int $notifyUser;
+    protected $notifyUser = null;
 
     /**
      * @param integer $teamId

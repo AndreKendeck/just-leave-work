@@ -49,7 +49,7 @@ class LeaveStatusController extends Controller
 
         $user = User::find($leave->user->id);
         $user->decrement('leave_balance', $leave->number_of_days_off);
-        $user->notify(new GeneralNotification("You leave for {$leave->from->toFormattedDatString()}, has been approved"));
+        $user->notify(new GeneralNotification("You leave for {$leave->from->toFormattedDateString()}, has been approved"));
 
         return response()
             ->json([

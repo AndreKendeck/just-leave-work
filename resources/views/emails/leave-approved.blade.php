@@ -1,12 +1,14 @@
 @component('mail::message')
-# Introduction
+# Your leave for {{ $leave->from->toFormattedDateString() }} has been approved
 
-The body of your message.
+Hurray, {{ $leave->user->name }} 🎉
 
-@component('mail::button', ['url' => ''])
-Button Text
+Your leave has been approved.
+
+@component('mail::button', ['url' => url("/leave/view/{$leave->id}")])
+View Leave
 @endcomponent
 
-Thanks,<br>
+Enjoy your time off,<br>
 {{ config('app.name') }}
 @endcomponent

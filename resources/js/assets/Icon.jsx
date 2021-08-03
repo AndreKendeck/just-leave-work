@@ -3,7 +3,7 @@ import React from 'react';
 
 const Icon = () => {
     return (
-        <svg version="1.1" id="Layer_1" className={`w-1/4 stroke-current`} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1080 1080" enable-background="new 0 0 1080 1080">
+        <svg version="1.1" id="Layer_1" className={`w-1/6 stroke-current`} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1080 1080" enable-background="new 0 0 1080 1080">
             <image id="image0" x="0" y="0"
                 xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABDgAAAQ4CAYAAADsEGyPAAABdGlDQ1BpY2MAACiRdZHfK4NRGMc/
 ZkxMUyQXLpZGqdFMLW6USShpzZThZnvth9qPt/fd0nKr3CpK3Ph1wV/ArXKtFJGSO+WauEGv593U

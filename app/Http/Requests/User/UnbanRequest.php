@@ -13,7 +13,7 @@ class UnbanRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->hasRole('team-admin', auth()->user()->team);
     }
 
     /**

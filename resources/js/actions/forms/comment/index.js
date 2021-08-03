@@ -6,4 +6,5 @@ export const clearCommentForm = () => {
     return {
         type: 'CLEAR_COMMENT_FORM',
     }
+    
 }

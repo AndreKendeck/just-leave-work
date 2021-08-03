@@ -16,7 +16,7 @@ class CreateExcludedDaysTable extends Migration
         Schema::create('excluded_days', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('setting_id');
-            $table->string('day'); // Eg. Sundays or Saturdays
+            $table->string('day'); // Eg. Sundays or Saturdays or 30-07-2021
             $table->timestamps();
         });
     }

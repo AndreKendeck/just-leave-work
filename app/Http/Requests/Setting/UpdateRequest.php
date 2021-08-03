@@ -26,6 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'leave_added_per_cycle' => ['required', 'integer', 'min:0'],
             'days_until_balance_added' => ['required', 'integer', 'min:0'],
+            'excluded_days' => ['nullable', 'array']
         ];
     }
 

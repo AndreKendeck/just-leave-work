@@ -14,8 +14,9 @@ abstract class TestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-        parent::setUp(); 
-        $this->artisan('db:seed'); 
+        parent::setUp();
+        $this->artisan('db:seed');
+
         $db = app()->make('db');
         $db->connection()->getPdo()->exec("pragma foreign_keys=1");
     }

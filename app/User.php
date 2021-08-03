@@ -170,6 +170,11 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public function getLeaveTakenAttribute()
     {
-        return $this->leaves()->whereNotNull('approved_at')->count();
+        return $this->leaves()->whereNotNull('approved_at')->get()->sum('number_of_days_off');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(\App\Transaction::class)->latest();
     }
 }

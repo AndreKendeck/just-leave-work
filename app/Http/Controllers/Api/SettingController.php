@@ -29,4 +29,5 @@ class SettingController extends Controller
                 'settings' => new SettingResource(auth()->user()->team->settings)
             ]);
     }
+
 }
