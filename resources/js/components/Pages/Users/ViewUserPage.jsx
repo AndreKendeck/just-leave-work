@@ -19,7 +19,7 @@ const ViewUserPage = (props) => {
     const [user, setUser] = useState({});
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [transactions, setTransactions] = useState({});
+    const [transactions, setTransactions] = useState({ loading: true });
 
     useEffect(() => {
         api.get(`/users/${id}`)
@@ -46,6 +46,9 @@ const ViewUserPage = (props) => {
     }
 
     const renderTransactions = () => {
+        if (transactions?.loading) {
+            return <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" />;
+        }
         return transactions?.data?.map((transaction, index) => {
             return (
                 <tr className="rounded" key={index}>
@@ -69,10 +72,12 @@ const ViewUserPage = (props) => {
         }
         api.get(`/transactions/${id}`, config)
             .then(success => {
-                setTransactions(success.data);
+                const { data } = success;
+                setTransactions({ ...data, loading: false });
             }).catch(failed => {
                 let { message } = failed.response.data;
                 setErrors([message, ...errors]);
+                setTransactions({ loading: false });
             });
     }
 
