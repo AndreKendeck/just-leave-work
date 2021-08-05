@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->decimal('leave_balance', 8, 2)->default(0);
             $table->timestamp('last_logged_in_at')->nullable();
             $table->string('avatar')->nullable();
+            $table->integer('department_id')->nullable();
             $table->timestamp('banned_at')->nullable();
             $table->softDeletes();
             $table->rememberToken();

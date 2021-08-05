@@ -25,7 +25,7 @@ class UserImport implements ToModel, ShouldQueue, WithChunkReading
     public function __construct(int $teamId, int $notifyUser)
     {
         $this->teamId = $teamId;
-        $this->$notifyUser = $notifyUser;
+        $this->notifyUser = $notifyUser;
     }
 
     public function chunkSize(): int

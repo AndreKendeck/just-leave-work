@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 // bannable contracts
 use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Sanctum\HasApiTokens;
-use Laravolt\Avatar\Avatar;
+use Avatar;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
@@ -95,7 +95,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     public function getAvatarUrlAttribute()
     {
         if (is_null($this->avatar)) {
-            return (new Avatar([]))->create($this->name)->toBase64();
+            return Avatar::create($this->name)->toBase64();
         }
 
         // only works for production enviorment
