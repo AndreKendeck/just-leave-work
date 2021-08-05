@@ -100,6 +100,7 @@ const SettingPage = class SettingPage extends React.Component {
                         onChange={(e) => this.onSettingsChange(e, 'daysUntilBalanceAdded')}
                         value={daysUntilBalanceAdded} label="Days until balance added"
                         tip="Add leave after these days" />
+                    {this.getSaveButtonState()}
                 </Card>
             </Page>
         )

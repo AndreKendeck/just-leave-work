@@ -16,6 +16,7 @@ import Table from '../Table';
 import moment from 'moment';
 import Paginator from '../Paginator';
 import UserRoleBadge from '../UserRoleBadge';
+import { setUser } from '../../actions/user';
 
 const ProfilePage = class ProfilePage extends React.Component {
 
@@ -284,4 +285,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, { unsetAuthenticated, updateUserForm, clearUserForm })(ProfilePage);
+export default connect(mapStateToProps, { unsetAuthenticated, updateUserForm, clearUserForm, setUser })(ProfilePage);
