@@ -42,6 +42,7 @@ class Leave extends Model
         'team_id' => 'integer',
         'reason_id' => 'integer',
         'number' => 'integer',
+        'half_day' => 'boolean'
     ];
 
     protected $with = [
@@ -89,7 +90,6 @@ class Leave extends Model
         $this->update([
             'approved_at' => now(),
         ]);
-
     }
 
     public function deny()
@@ -118,6 +118,9 @@ class Leave extends Model
                     continue;
                 }
                 $daysOff++;
+            }
+            if ($this->half_day) {
+                // return 
             }
             return $daysOff;
         }

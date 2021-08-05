@@ -55,7 +55,6 @@ class LeaveController extends Controller
         $until = new Carbon($request->from);
 
         if ($request->filled('until')) {
-
             $until = new Carbon($request->until);
         }
 
@@ -76,7 +75,7 @@ class LeaveController extends Controller
             return response()->json([
                 'errors' => [
                     'from' => [
-                        "You cannot take leave on {$from->toFormattedDateString()}",
+                        "You cannot start leave on {$from->toFormattedDateString()}",
                     ],
                 ],
             ]);

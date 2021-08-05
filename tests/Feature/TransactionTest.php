@@ -10,9 +10,10 @@ class TransactionTest extends TestCase
     public function a_user_can_view_their_transactions()
     {
         $user = factory('App\User')->create();
+        $user->attachRole('team-admin', $user->team);
         $this->actingAs($user)
             ->get(route('transactions.index', ['userId' => $user->id]))
             ->assertOk()
-            ->assertJsonStructure(['transactions', 'from', 'perPage', 'to', 'total', 'currentPage']);
+            ->assertJsonStructure(['data', 'from', 'perPage', 'to', 'total', 'currentPage']);
     }
 }

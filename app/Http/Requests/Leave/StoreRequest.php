@@ -29,6 +29,7 @@ class StoreRequest extends FormRequest
             'description' => ['required', 'min:3', 'string'],
             'from' => ['date', 'required'],
             'until' => ['date', 'nullable'],
+            'half_day' => ['nullable', 'boolean'],
             'notifyUser' => [
                 'nullable',
                 Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id),

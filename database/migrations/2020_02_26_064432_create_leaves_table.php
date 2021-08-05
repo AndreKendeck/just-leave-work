@@ -17,16 +17,18 @@ class CreateLeavesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('team_id')->unsigned();
 
-            $table->integer('number')->unsigned(); 
-            $table->integer('user_id')->unsigned(); 
-            $table->integer('reason_id')->unsigned(); 
-            $table->longText('description'); 
-            
-            $table->date('from');
-            $table->date('until');
+            $table->integer('number')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->integer('reason_id')->unsigned();
+            $table->longText('description');
 
-            $table->timestamp('approved_at')->nullable(); 
-            $table->timestamp('denied_at')->nullable(); 
+            $table->date('from');
+            $table->date('until')->nullable();
+            $table->boolean('half_day')->nullable();
+
+            $table->timestamp('approved_at')->nullable();
+            $table->timestamp('denied_at')->nullable();
+            $table->timestamp('canceled_at')->nullable();
 
             $table->timestamps();
         });
