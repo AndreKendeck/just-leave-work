@@ -26,7 +26,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'reason' => ['required', 'exists:reasons,id'],
-            'description' => ['required', 'min:3', 'string'],
             'from' => ['date', 'required'],
             'until' => ['date', 'nullable'],
             'half_day' => ['nullable', 'boolean'],

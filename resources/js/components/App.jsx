@@ -61,18 +61,23 @@ const App = class App extends React.Component {
         }
         return (
             <React.Fragment>
-                <Route path="/password-reset/:token" >
-                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ResetPasswordPage />}
-                </Route>
-                <Route path="/login">
-                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <LoginPage />}
-                </Route>
-                <Route path="/register">
-                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <RegisterPage />}
-                </Route>
-                <Route path="/password-email">
-                    {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ForgotPasswordPage />}
-                </Route>
+                <Switch>
+                    <Route path="/password-reset/:token" >
+                        {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ResetPasswordPage />}
+                    </Route>
+                    <Route path="/login">
+                        {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <LoginPage />}
+                    </Route>
+                    <Route path="/register">
+                        {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <RegisterPage />}
+                    </Route>
+                    <Route path="/password-email">
+                        {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ForgotPasswordPage />}
+                    </Route>
+                    <Route>
+                        {!this.currentUserIsAuthenticated() ? <NotFoundPage /> : null}
+                    </Route>
+                </Switch>
             </React.Fragment>
         )
     }

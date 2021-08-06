@@ -64,7 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
         'team_id' => 'integer',
-        'leave_balance' => 'integer',
+        'leave_balance' => 'float',
     ];
 
     public function getHasAvatarAttribute()

@@ -65,7 +65,7 @@ const ProfilePage = class ProfilePage extends React.Component {
                             {transaction.amount}
                         </span>
                     </td>
-                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createAt).format('l')} </td>
+                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createdAt).format('l')} </td>
                 </tr>
             )
         });
@@ -112,10 +112,14 @@ const ProfilePage = class ProfilePage extends React.Component {
         });
     }
 
+
     onLeaveBalanceChange(e) {
         e.persist();
         const { userForm } = this.props;
-        let balance = parseInt(e.target.value);
+        let balance = Number(e.target.value);
+        if (isNaN(balance)) {
+            balance = 0;
+        }
         this.props.updateUserForm({ ...userForm, balance });
     }
 
@@ -175,8 +179,8 @@ const ProfilePage = class ProfilePage extends React.Component {
     renderBalanceForm() {
         if (this.isAdmin()) {
             return (
-                <div className="flex flex-row space-x-2 items-center">
-                    <Field name="balance" type="number" label="Balance" onChange={(e) => this.onLeaveBalanceChange(e)} value={this.props.userForm.balance} />
+                <div className="flex flex-row space-x-2 items-center w-full">
+                    <Field name="balance" type="number" step=".25" label="Balance" onChange={(e) => this.onLeaveBalanceChange(e)} value={this.props.userForm.balance} />
                 </div>
             )
         }
@@ -221,7 +225,7 @@ const ProfilePage = class ProfilePage extends React.Component {
                     {this.renderErrors()}
                     {this.state.message ? <InfoMessage text={this.state.message} onDismiss={(e) => this.setState({ message: null })} /> : null}
                     <div className="flex flex-row justify-between items-center">
-                        <div className="flex flex-row space-x-1">
+                        <div className="flex flex-row space-x-2">
                             <div>
                                 <UserBadge user={this.props?.user} />
                             </div>
