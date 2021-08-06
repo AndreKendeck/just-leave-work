@@ -145,20 +145,9 @@ const App = class App extends React.Component {
                         {this.currentUserIsAuthenticated() ? <EditUserPage /> : <Redirect to="/login" />}
                     </Route>
                     <Route>
-                        <NotFoundPage />
+                        {this.currentUserIsAuthenticated() ? <NotFoundPage /> : null}
                     </Route>
                 </Switch>
-            </React.Fragment>
-        )
-    }
-
-    getMiscRoutes = () => {
-        return (
-            <React.Fragment>
-                <Route path="/about" />
-                <Route path="/terms-and-conditions" />
-                <Route path="/privacy-policy" />
-                <Route path="/contact-us" />
             </React.Fragment>
         )
     }
@@ -177,7 +166,6 @@ const App = class App extends React.Component {
                 <BrowserRouter>
                     <Navbar />
                     {this.getGuestRoutes()}
-                    {this.getMiscRoutes()}
                     {this.getAuthRoutes()}
                 </BrowserRouter>
             </div>
@@ -192,9 +180,10 @@ const store = createStore(reducers,
 
 
 const mapStateToProps = (state) => {
+    const { auth, user } = state;
     return {
-        auth: state.auth,
-        user: state.user
+        auth,
+        user
     }
 }
 

@@ -98,8 +98,9 @@ const EditUserPage = (props) => {
             url = `/user/unban/${id}`;
         }
         api.post(url).then(success => {
-            const { message } = success.data;
+            const { message, user } = success.data;
             setMessage(message);
+            setUser(user);
         }).catch(failed => {
             const { message } = failed.response.data;
             setErrors([message, ...errors]);
@@ -118,7 +119,18 @@ const EditUserPage = (props) => {
                         <div> <UserStatusBadge user={user} /> </div>
                     </div>
                     <div>
-                        {user?.isBanned && currentUser.isAdmin ? <Button type="secondary-outlined">Unblock</Button> : <Button type="outlined-danger">Block</Button>}
+                        {user?.isBanned && currentUser.isAdmin ? <Button onClick={(e) => toggleBlock()} type="secondary-outlined">Unblock</Button> :
+                            (<Button type="outlined-danger" onClick={(e) => toggleBlock()} >
+                                <div className="flex flex-row space-x-2 items-center">
+                                    <span>Block</span>
+                                    <svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+                                        <g fill="none"><rect width="24" height="24"></rect>
+                                            <circle cx="12" cy="8.25" r="4.25" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></circle>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 20v0c0-2.485 2.015-4.5 4.5-4.5h2.583"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 18c0 1.66-1.34 3-3 3 -1.66 0-3-1.34-3-3 0-1.66 1.34-3 3-3 1.66 0 3 1.34 3 3Z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.879 20.121l4.241-4.241"></path></g>
+                                    </svg>
+                                </div> </Button>)}
                     </div>
                 </div>
                 <Field disabled={true} value={props.userForm.name} name="name" label="Name" />

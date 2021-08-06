@@ -11,16 +11,19 @@ class BanUserController extends Controller
     public function store(BanRequest $request, $id)
     {
         $user = User::findOrFail($id);
+
         if ($user->team_id == auth()->user()->team_id) {
             $user->ban();
+            $user->refresh();
             return response()
                 ->json([
-                    'message' => "{$user->name} has been blocked successfully"
+                    'user' => $user,
+                    'message' => "{$user->name} has been blocked successfully",
                 ]);
         }
         return response()
             ->json([
-                'message' => 'You are not allowed to block this user'
+                'message' => 'You are not allowed to block this user',
             ], 403);
     }
 
@@ -30,14 +33,16 @@ class BanUserController extends Controller
 
         if ($user->team_id == auth()->user()->team_id) {
             $user->unban();
+            $user->refresh();
             return response()
                 ->json([
-                    'message' => "{$user->name}'s block has been removed"
+                    'user' => $user,
+                    'message' => "{$user->name}'s block has been removed",
                 ]);
         }
         return response()
             ->json([
-                'message' => 'You are not allowed to unblock this user'
+                'message' => 'You are not allowed to unblock this user',
             ], 403);
     }
 }
