@@ -42,7 +42,7 @@ class Leave extends Model
         'team_id' => 'integer',
         'reason_id' => 'integer',
         'number' => 'integer',
-        'half_day' => 'boolean'
+        'half_day' => 'boolean',
     ];
 
     protected $with = [
@@ -104,6 +104,10 @@ class Leave extends Model
     {
         $difference = $this->until->diffInDays($this->from);
 
+        if ($this->half_day) {
+            return 0.5;
+        }
+
         if ($difference > 0) {
 
             $excludedDays = $this->team->settings->excludedDays;
@@ -119,9 +123,7 @@ class Leave extends Model
                 }
                 $daysOff++;
             }
-            if ($this->half_day) {
-                // return 
-            }
+
             return $daysOff;
         }
 

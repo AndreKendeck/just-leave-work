@@ -9,6 +9,7 @@ import { commentFormReducer } from "./forms/comment";
 import loginFormReducer from "./forms/auth/login";
 import settingsFormReducer from "./forms/settings";
 import leaveFormReducer from "./forms/leave";
+import leaveExportForm from "./forms/export/leave";
 
 export default combineReducers({
     user: userReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
     commentForm: commentFormReducer,
     loginForm: loginFormReducer,
     settingsForm: settingsFormReducer,
-    leaveForm: leaveFormReducer
+    leaveForm: leaveFormReducer,
+    leaveExportForm: leaveExportForm
 })

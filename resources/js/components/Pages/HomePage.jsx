@@ -79,9 +79,15 @@ const HomePage = class HomePage extends React.Component {
                 <tr className="rounded" key={key}>
                     <td className="text-center text-gray-600 text-sm"> <LeaveStatusBadge leave={leave} /> </td>
                     <td className="text-center text-gray-600 text-sm"> {leave.reason?.name} </td>
-                    <td className="text-center text-gray-600 text-sm">{moment(leave.from).format('Do MMM YYYY')}</td>
-                    <td className="text-center text-gray-600 text-sm">{moment(leave.until).format('Do MMM YYYY')}</td>
-                    <td className="text-center text-gray-600 text-sm">{leave.numberOfDaysOff}</td>
+                    <td className="text-center text-gray-600 text-sm">
+                        <div className="flex flex-row space-x-2 items-center w-full justify-center">
+                            <div>{moment(leave.from).format('Do MMM YYYY')}</div>
+                        </div>
+                    </td>
+                    <td className="text-center text-gray-600 text-sm">{leave.halfDay ? '-' : moment(leave.until).format('Do MMM YYYY')} </td>
+                    <td className="text-center text-gray-600 text-sm">{leave.halfDay ? (
+                        <div className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">Half Day</div>
+                    ) : leave.numberOfDaysOff}</td>
                     <td className="text-center relative">
                         <div className="flex flex-row space-x-2 items-center">
                             <ViewButtonLink url={`/leave/view/${leave.id}`} />

@@ -11,6 +11,7 @@ import ErrorMessage from '../../ErrorMessage';
 import InfoMessage from '../../InfoMessage';
 import moment from 'moment';
 import { clearLeaveForm, updateLeaveForm } from '../../../actions/forms/leave';
+import Checkbox from '../../Form/Checkbox';
 
 const CreateLeavePage = class CreateLeavePage extends React.Component {
 
@@ -54,37 +55,32 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
     }
 
     storeLeavePost = () => {
-        this.setState({ isSending: true });
-        const { reason: { value: reason },
-            description: { value: description }, notifyUser: { value: notifyUser } } = this.state;
 
-        const from = moment(this.state.dates.startDate).format('l');
-        const until = moment(this.state.dates.endDate).format('l');
+        const { reason, dates, notifyUser, halfDay } = this.props.leaveForm;
 
-        api.post('/leaves', { from, until, description, reason, notifyUser })
+        const from = moment(dates.startDate).format('l');
+        const until = moment(dates.endDate).format('l');
+        let halfDayOff = halfDay;
+        if ((dates.startDate !== dates.endDate) && halfDay) {
+            halfDayOff = false;
+        }
+        this.props.updateLeaveForm({ ...this.props.leaveForm, loading: true });
+        api.post('/leaves', { from, until, reason, notifyUser, halfDay: halfDayOff })
             .then(success => {
                 this.setState({ isSending: false });
                 const { message } = success.data;
                 this.setState({ message: message });
-
+                this.props.updateLeaveForm({ ...this.props.leaveForm, loading: false });
+                this.props.clearLeaveForm();
             }).catch(failed => {
-                this.setState({ isSending: false });
-                if (failed.response.status == 422) {
-                    const { errors } = failed.response.data;
-                    for (const key in errors) {
-                        this.setState(state => {
-                            return {
-                                ...state,
-                                [key]: {
-                                    ...state[key],
-                                    errors: errors[key]
-                                }
-                            }
-                        })
-                    }
-                    return;
+                const { status } = failed.response;
+                const { errors, message } = failed.response.data;
+                if (status === 422) {
+                    this.props.updateLeaveForm({ ...this.props.leaveForm, errors });
+                } else {
+                    this.setState({ error: message });
                 }
-                this.setState({ error: failed.response.data.message });
+                this.props.updateLeaveForm({ ...this.props.leaveForm, loading: false });
             });
     }
 
@@ -98,31 +94,33 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         });
     }
 
-    renderHalfDayCheckbox() {
-
-    }
 
     render() {
-        const { notifyUser } = this.props.leaveForm;
+        const { notifyUser, reason, dates, loading, halfDay, errors } = this.props.leaveForm;
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                     <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Leave application</span>
-                    <Dropdown errors={this.state.reason.errors} onChange={(e) => this.onFormChange(e, 'reason')} label="Reason" options={this.mapReasons()} />
+                    <Dropdown errors={errors?.reason} onChange={(e) => this.onFormChange(e, 'reason')} label="Reason" options={this.mapReasons()} />
                     <DatePicker
-                        errors={[this.state.from.errors, this.state.until.errors]}
+                        errors={[errors?.from, errors?.until]}
                         label="Starting Date"
                         className="form-input"
                         months={2}
+                        value
                         onChange={(ranges) => { this.onDateChange(ranges) }} />
-                    <Dropdown errors={this.state.notifyUser.errors}
+                    {(dates.startDate === dates.endDate) ? <Checkbox checked={halfDay} onChange={(e) => {
+                        let { leaveForm } = this.props;
+                        this.props.updateLeaveForm({ ...leaveForm, halfDay: !leaveForm.halfDay });
+                    }} label="Taking a half day" name="halfDay" /> : null}
+                    <Dropdown errors={errors?.notifyUser}
                         label="Notify - Optional"
                         name="notifyUser"
-                        errors={this.state.notifyUser.errors}
-                        value={this.prop}
+                        errors={errors?.notifyUser}
+                        value={notifyUser}
                         options={this.mapNotifiableUsers()}
                         onChange={(e) => { this.onFormChange(e, 'notifyUser') }} />
-                    {this.state.isSending ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
+                    {loading ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
                         <Button onClick={e => this.storeLeavePost()} >Send</Button>
                     )}
                     {this.state.error ? <ErrorMessage text={this.state.error} onDismiss={e => this.setState({ error: null })} /> : null}
@@ -136,7 +134,8 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 const mapStateToProps = (state) => {
     const { reasons, leaveForm } = state;
     return {
-        reasons
+        reasons,
+        leaveForm
     }
 }
 

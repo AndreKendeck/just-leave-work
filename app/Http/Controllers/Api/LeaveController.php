@@ -110,9 +110,9 @@ class LeaveController extends Controller
             'team_id' => auth()->user()->team_id,
             'user_id' => auth()->id(),
             'reason_id' => $request->reason,
-            'description' => $request->description,
             'from' => $from,
             'until' => $until,
+            'half_day' => $request->halfDay,
         ]);
 
         /**

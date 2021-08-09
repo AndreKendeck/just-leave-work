@@ -83,5 +83,6 @@ Route::namespace ('Api')->group(function () {
         Route::post('/team/update', 'TeamController@update')->name('team.update');
         Route::get('/team/admins', 'AdminUserController')->name('admins.index');
         Route::get('/transactions/{userId}', 'TransactionController@index')->name('transactions.index');
+        Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
     });
 });

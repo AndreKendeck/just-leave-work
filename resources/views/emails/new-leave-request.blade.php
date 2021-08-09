@@ -1,7 +1,7 @@
 @component('mail::message')
-# {{ $leave->reason->name }} Request from {{ $leave->user->name }} <br>
+# Leave Request from {{ $leave->user->name }} <br>
 
-*{{ $leave->description }}*
+For: {{ $leave->reason->name }}
 
 @if ($leave->is_for_one_day)
 <b>On - {{ $leave->from->toFormattedDateString() }}</b>

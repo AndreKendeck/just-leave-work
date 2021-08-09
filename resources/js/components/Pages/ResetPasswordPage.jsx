@@ -95,9 +95,9 @@ const ResetPasswordPage = (props) => {
         <Page className="flex justify-center">
             <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
                 <Heading>Reset your account password</Heading>
-                <Field type="password" name="password" label="New password" hasError={password.hasError}
+                <Field disabled={message ? true : false} type="password" name="password" label="New password" hasError={password.hasError}
                     errors={password.errors} onKeyUp={(e) => { e.persist(); setPassword({ value: e.target.value, errors: [], hasError: false }) }} />
-                <Field type="password" name="password_confirmation" label="Confirm new password" hasError={passwordConfirmation.hasError}
+                <Field disabled={message ? true : false} type="password" name="password_confirmation" label="Confirm new password" hasError={passwordConfirmation.hasError}
                     onKeyUp={(e) => { e.persist(); setPasswordConfirmation({ value: e.target.value, errors: [], hasError: false }) }}
                     errors={passwordConfirmation.errors} />
                 {isSending ? <Loader type="Oval" className="self-center" height={100} width={100} color="Gray" /> : (
@@ -105,8 +105,8 @@ const ResetPasswordPage = (props) => {
                         Save
                     </Button>
                 )}
-                {error ? <ErrorMessage text={error} /> : null}
-                {message ? <InfoMessage text={message} /> : null}
+                {error ? <ErrorMessage text={error} onDismiss={(e) => { setError(null) }} /> : null}
+                {message ? <InfoMessage text={message} onDismiss={(e) => { setMessage(null) }} /> : null}
             </Card>
         </Page>
     )

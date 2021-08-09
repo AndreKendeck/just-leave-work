@@ -1,16 +1,17 @@
 const defaultState = {
     reason: 0,
     dates: { startDate: null, endDate: null, key: 'selection' },
-    notifyUser: 0,
+    notifyUser: null,
     loading: false,
     halfDay: false,
+    errors: null,
 }
 
 export default function leaveFormReducer(state = defaultState, { type, payload }) {
     if (type === 'UPDATE_LEAVE_FORM') {
         return payload;
     }
-    if (type === 'CLEAR_LEAVE_FROM') {
+    if (type === 'CLEAR_LEAVE_FORM') {
         return {
             reason: 0,
             dates: { startDate: null, endDate: null, key: 'selection' },

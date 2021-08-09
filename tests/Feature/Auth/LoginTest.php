@@ -44,6 +44,6 @@ class LoginTest extends TestCase
         $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password'
-        ])->assertStatus(403);
+        ])->assertStatus(422);
     }
 }

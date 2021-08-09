@@ -14,18 +14,31 @@ class TransactionController extends Controller
 
         if ($user->team_id != auth()->user()->team_id) {
             return response()->json([
-                'message' => 'You are not allowed to view this users transactions ',
+                'message' => ['You are not allowed to view this users transactions '],
             ], 403);
+        }
+
+        $transactions = $user->transactions()->paginate(10);
+
+        // viewing your own transactions
+        if (auth()->user()->id == $user->id) {
+            return response()
+                ->json([
+                    'data' => TransactionResource::collection($transactions),
+                    'from' => $transactions->firstItem(),
+                    'perPage' => $transactions->perPage(),
+                    'to' => $transactions->lastPage(),
+                    'total' => $transactions->total(),
+                    'currentPage' => $transactions->currentPage(),
+                ]);
         }
 
         if (!auth()->user()->hasRole('team-admin', $user->team)) {
             return response()
                 ->json([
-                    'message' => 'You are not allowed to view transactions',
+                    'message' => ['You are not allowed to view transactions'],
                 ], 403);
         }
-
-        $transactions = $user->transactions()->paginate(10);
 
         return response()
             ->json([

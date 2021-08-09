@@ -13,6 +13,7 @@ import UserBadge from '../../UserBadge';
 import UserLeaveStatusBadge from '../../UserLeaveStatusBadge';
 import UserLeaveSummary from '../../UserLeaveSummary';
 import UserRoleBadge from '../../UserRoleBadge';
+import UserStatusBadge from '../../UserStatusBadge';
 
 const ViewUserPage = (props) => {
     const { id } = useParams();
@@ -116,6 +117,9 @@ const ViewUserPage = (props) => {
                         </div>
                         <div>
                             <UserRoleBadge user={user} />
+                        </div>
+                        <div>
+                            <UserStatusBadge user={user} />
                         </div>
                     </div>
                     <div className="flex flex-row space-x-4">

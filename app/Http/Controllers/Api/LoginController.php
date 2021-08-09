@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Resources\PermissionResource;
 use App\Http\Resources\SettingResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
@@ -27,9 +26,9 @@ class LoginController extends Controller
             return response()
                 ->json([
                     'errors' => [
-                        'email' => 'Your account has been blocked you cannot log in.',
+                        'email' => ['Your account has been blocked you cannot log in.'],
                     ],
-                ], 403);
+                ], 422);
         }
 
         $validLogin = Hash::check($loginRequest->password, $user->password);

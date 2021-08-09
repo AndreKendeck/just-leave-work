@@ -21,6 +21,7 @@ import UserCard from '../../UserCard';
 import { Link } from 'react-router-dom';
 import InfoMessage from '../../InfoMessage';
 import Paginator from '../../Paginator';
+import UserStatusBadge from '../../UserStatusBadge';
 
 const IndexUserPage = class IndexUserPage extends React.Component {
 
@@ -162,10 +163,11 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             return (
                 <tr key={index}>
                     <td className="text-center text-gray-800">
-                        <div className="flex flex-row space-x-2">
+                        <div className="flex flex-row space-x-2 items-center">
                             <div><UserBadge user={user} imageSize={6} /></div>
                             {user?.isAdmin ? (<div className="bg-purple-500 bg-opacity-25 text-purple-500 text-xs px-2 rounded-full py-1">Admin</div>) : null}
                             <UserLeaveStatusBadge user={user} />
+                            <UserStatusBadge user={user} />
                         </div>
                     </td>
                     <td className="text-center text-gray-600 text-sm"> {user.email} </td>

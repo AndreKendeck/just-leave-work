@@ -31,7 +31,7 @@ class LeaveResource extends JsonResource
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
-                'avatarUrl' => $this->user->has_avatar ? $this->user->avatar_url : $this->user->avatar_url->encoded
+                'avatarUrl' => $this->user->has_avatar ? $this->user->avatar_url : $this->user->avatar_url->encoded,
             ],
             'approved' => $this->approved,
             'pending' => $this->pending,
@@ -40,7 +40,8 @@ class LeaveResource extends JsonResource
             'comments' => CommentResource::collection($this->comments),
             'canEdit' => $this->can_edit,
             'canDelete' => $this->can_delete,
-            'isForOneDay' => $this->is_for_one_day
+            'isForOneDay' => $this->is_for_one_day,
+            'halfDay' => $this->half_day,
         ];
     }
 }

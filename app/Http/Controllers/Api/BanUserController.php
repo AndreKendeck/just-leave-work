@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\BanRequest;
+use App\Http\Resources\UserResource;
 use App\User;
 
 class BanUserController extends Controller
@@ -14,10 +15,11 @@ class BanUserController extends Controller
 
         if ($user->team_id == auth()->user()->team_id) {
             $user->ban();
+            $user->tokens()->delete();
             $user->refresh();
             return response()
                 ->json([
-                    'user' => $user,
+                    'user' => new UserResource($user),
                     'message' => "{$user->name} has been blocked successfully",
                 ]);
         }
@@ -36,7 +38,7 @@ class BanUserController extends Controller
             $user->refresh();
             return response()
                 ->json([
-                    'user' => $user,
+                    'user' => new UserResource($user),
                     'message' => "{$user->name}'s block has been removed",
                 ]);
         }
