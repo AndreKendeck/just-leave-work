@@ -25,6 +25,8 @@ class WelcomeEmail extends Mailable
     {
         $this->user = $user;
         $this->password = $password;
+        $this->from('noreply@justleave.work', 'Justleave Work');
+        $this->subject("Welcome to Justleave Work");
     }
 
     /**

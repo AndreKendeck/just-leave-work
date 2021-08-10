@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->longText('description');
-            $table->integer('amount');
+            $table->decimal('amount', 8, 2);
             $table->timestamps();
         });
     }

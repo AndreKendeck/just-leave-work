@@ -92,18 +92,59 @@ const EditUserPage = (props) => {
 
     const toggleBlock = () => {
         let url = null;
-        if (user?.isBanned) {
+        if (!user.isBanned) {
             url = `/user/ban/${id}`;
         } else {
             url = `/user/unban/${id}`;
         }
         api.post(url).then(success => {
-            const { message } = success.data;
+            const { message, user } = success.data;
             setMessage(message);
+            setUser(user);
         }).catch(failed => {
             const { message } = failed.response.data;
             setErrors([message, ...errors]);
         })
+    }
+
+    const renderBlockButton = () => {
+        const { currentUser } = props;
+        if (!currentUser.isAdmin) {
+            return null;
+        }
+
+        if (user.isBanned) {
+            return <Button onClick={(e) => toggleBlock()} type="secondary-outlined">Unblock</Button>
+        }
+
+        return (
+            <Button type="outlined-danger" onClick={(e) => toggleBlock()} >
+                <div className="flex flex-row space-x-2 items-center text-red-500 hover:text-white">
+                    <svg version="1.1" className="stroke-current h-6 w-6 " viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+                        <g fill="none">
+                            <circle cx="12" cy="8.25" r="4.25" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></circle>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 20v0c0-2.485 2.015-4.5 4.5-4.5h2.583"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 18c0 1.66-1.34 3-3 3 -1.66 0-3-1.34-3-3 0-1.66 1.34-3 3-3 1.66 0 3 1.34 3 3Z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.879 20.121l4.241-4.241"></path>
+                        </g>
+                    </svg>
+                    <span>Block</span>
+                </div>
+            </Button>
+        )
+
+    }
+
+    const toggleAdmin = (isAdmin) => {
+        api.put(`/users/${id}`, { is_admin: isAdmin })
+            .then(success => {
+                const { message, user } = success.data;
+                setMessage(message);
+                setUser(user);
+            }).catch(failed => {
+                const { message } = failed.response.data;
+                setErrors([message, ...errors]);
+            });
     }
 
     return (
@@ -118,22 +159,27 @@ const EditUserPage = (props) => {
                         <div> <UserStatusBadge user={user} /> </div>
                     </div>
                     <div>
-                        {user?.isBanned && currentUser.isAdmin ? <Button type="secondary-outlined">Unblock</Button> : <Button type="outlined-danger">Block</Button>}
+                        {renderBlockButton()}
                     </div>
                 </div>
-                <Field disabled={true} value={props.userForm.name} name="name" label="Name" />
-                <Field disabled={true} type="email" value={props.userForm.email} name="email" label="E-mail Address" />
+                <Field disabled={true} value={user.name} name="name" label="Name" />
+                <Field disabled={true} type="email" value={user.email} name="email" label="E-mail Address" />
+                <Field disabled={true} type="text" value={user.jobPosition} name="job_position" label="Job Position" />
                 <div className="flex flex-row space-x-2 items-center">
-                    <Field type="number" name="balance" label="Balance" value={props.userForm.balance} onChange={(e) => {
+                    <Field type="number" disabled={user.isBanned} name="balance" label="Balance" value={props.userForm.balance} onChange={(e) => {
                         e.persist();
                         const { userForm } = props;
                         props.updateUserForm({ ...userForm, balance: e.target.value });
                     }} />
-                    <div>
+                    <div className="mt-6">
                         {renderSaveBalanceButton()}
                     </div>
                 </div>
-                <Checkbox name="is_admin" label="Is Admin" checked={props.userForm.isAdmin} />
+                <Checkbox name="is_admin" disabled={user.isBanned} onChange={(e) => {
+                    const { userForm } = props;
+                    props.updateUserForm({ ...userForm, isAdmin: !userForm.isAdmin });
+                    toggleAdmin(!userForm.isAdmin);
+                }} label="Is Admin" checked={props.userForm.isAdmin} />
             </Card>
         </Page>
     );

@@ -44,7 +44,9 @@ Route::namespace ('Api')->group(function () {
     Route::middleware(['auth:sanctum', 'forbid-banned-user', 'verified'])->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');
-        Route::apiResource('leaves', 'LeaveController')->parameters([
+        Route::apiResource('leaves', 'LeaveController')
+        ->except('update')
+        ->parameters([
             'leaves' => 'id',
         ]);
         Route::apiResource('comments', 'CommentController')
@@ -83,5 +85,6 @@ Route::namespace ('Api')->group(function () {
         Route::post('/team/update', 'TeamController@update')->name('team.update');
         Route::get('/team/admins', 'AdminUserController')->name('admins.index');
         Route::get('/transactions/{userId}', 'TransactionController@index')->name('transactions.index');
+        Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
     });
 });

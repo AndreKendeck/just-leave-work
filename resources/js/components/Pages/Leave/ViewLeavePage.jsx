@@ -83,7 +83,7 @@ const ViewLeavePage = (props) => {
                 setMessage(message);
                 setLeave(leave);
                 const { user } = this.props;
-                
+
                 /**
                  * Update application state if its the same user
                  */
@@ -186,11 +186,31 @@ const ViewLeavePage = (props) => {
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between md:items-center">
                     <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2  md:items-center w-full">
+                        <div>
+                            <UserBadge user={leave?.user} imageSize={8} />
+                        </div>
                         <div className="text-center">
                             <LeaveDaysLabel leave={leave} />
                         </div>
                         <div>
                             <LeaveStatusBadge leave={leave} />
+                        </div>
+                    </div>
+                    <div className="self-end md:w-1/3">
+                        <div className="flex flex-row space-x-1 items-center p-2 self-end justify-end">
+                            <span>
+                                <svg viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" >
+                                    <defs><path d="M16.5 3l0 3" id="b" /><path d="M7.5 3l0 3" id="a" /></defs>
+                                    <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                                        <use xlinkHref="#a" /><use /><use xlinkHref="#a" /><use />
+                                        <path d="M10 21H6l-.01-.001c-1.66-.01-3-1.35-3-3 0 0 0-.001 0-.001V7.49l0 0c-.01-1.66 1.34-3.01 2.99-3.01h12l-.01 0c1.65-.01 3 1.34 3 3v2.5" />
+                                        <path d="M16.5 12a4.5 4.5 0 1 0 0 9 4.5 4.5 0 1 0 0-9Z" /><path d="M16.199 14.51l0 2.28 1.89 0" />
+                                    </g>
+                                </svg>
+                            </span>
+                            <span className="text-gray-700">
+                                {leave.halfDay ? <div className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">Half Day</div> : leave.numberOfDaysOff + 'Day(s)'}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -205,25 +225,7 @@ const ViewLeavePage = (props) => {
                         showMonthArrow={false}
                         showSelectionPreview={true} />
                 </div>
-                <div className="w-1/2 md:w-1/6">
-                    <div className="flex flex-row space-x-1 items-center p-2 ">
-                        <span>
-                            <svg viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" >
-                                <defs><path d="M16.5 3l0 3" id="b" /><path d="M7.5 3l0 3" id="a" /></defs>
-                                <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
-                                    <use xlinkHref="#a" /><use /><use xlinkHref="#a" /><use />
-                                    <path d="M10 21H6l-.01-.001c-1.66-.01-3-1.35-3-3 0 0 0-.001 0-.001V7.49l0 0c-.01-1.66 1.34-3.01 2.99-3.01h12l-.01 0c1.65-.01 3 1.34 3 3v2.5" />
-                                    <path d="M16.5 12a4.5 4.5 0 1 0 0 9 4.5 4.5 0 1 0 0-9Z" /><path d="M16.199 14.51l0 2.28 1.89 0" /></g>
-                            </svg>
-                        </span>
-                        <span className="text-gray-700">{leave.numberOfDaysOff}{leave.numberOfDaysOff > 1 ? ' Days' : ' Day'}</span>
-                    </div>
-                </div>
-                <div className="flex flex-row space-x-2 items-center">
-                    <div className="w-full md:w-1/2 self-start">
-                        <UserBadge user={leave?.user} imageSize={8} />
-                    </div>
-                </div>
+
                 <div className="text-gray-700">
                     {leave?.description}
                 </div>

@@ -47,7 +47,12 @@ const SettingPage = class SettingPage extends React.Component {
             this.props.setSettings(settings);
             this.setState({ message });
         }).catch(failed => {
-            const { status, message } = this.props;
+            const { message, errors } = failed.response.data;
+            if (failed.response.status == 422) {
+                this.props.updateSettingsForm({ ...settingsForm, errors });
+            } else {
+                this.setState({ errors: [...this.state.errors, message] });
+            }
         });
         this.props.updateSettingsForm({ ...settingsForm, loading: false });
     }
@@ -66,6 +71,14 @@ const SettingPage = class SettingPage extends React.Component {
                 errors.filter((err, idx) => idx !== index);
             }} />
         });
+    }
+
+    getSaveButtonState() {
+        const { settingsForm } = this.state;
+        if (settingsForm?.loading) {
+            return <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
+        }
+        return <Button type="secondary" onClick={(e) => this.onSave()}>Save</Button>;
     }
 
     render() {
@@ -87,7 +100,7 @@ const SettingPage = class SettingPage extends React.Component {
                         onChange={(e) => this.onSettingsChange(e, 'daysUntilBalanceAdded')}
                         value={daysUntilBalanceAdded} label="Days until balance added"
                         tip="Add leave after these days" />
-                    <Button type="secondary" onClick={(e) => this.onSave()}>Save</Button>
+                    {this.getSaveButtonState()}
                 </Card>
             </Page>
         )

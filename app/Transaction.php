@@ -9,7 +9,7 @@ class Transaction extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'amount' => 'integer',
+        'amount' => 'float',
     ];
 
     public function user()

@@ -13,13 +13,14 @@ import UserBadge from '../../UserBadge';
 import UserLeaveStatusBadge from '../../UserLeaveStatusBadge';
 import UserLeaveSummary from '../../UserLeaveSummary';
 import UserRoleBadge from '../../UserRoleBadge';
+import UserStatusBadge from '../../UserStatusBadge';
 
 const ViewUserPage = (props) => {
     const { id } = useParams();
     const [user, setUser] = useState({});
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [transactions, setTransactions] = useState({});
+    const [transactions, setTransactions] = useState({ loading: true });
 
     useEffect(() => {
         api.get(`/users/${id}`)
@@ -46,6 +47,9 @@ const ViewUserPage = (props) => {
     }
 
     const renderTransactions = () => {
+        if (transactions?.loading) {
+            return <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" />;
+        }
         return transactions?.data?.map((transaction, index) => {
             return (
                 <tr className="rounded" key={index}>
@@ -69,10 +73,12 @@ const ViewUserPage = (props) => {
         }
         api.get(`/transactions/${id}`, config)
             .then(success => {
-                setTransactions(success.data);
+                const { data } = success;
+                setTransactions({ ...data, loading: false });
             }).catch(failed => {
                 let { message } = failed.response.data;
                 setErrors([message, ...errors]);
+                setTransactions({ loading: false });
             });
     }
 
@@ -111,6 +117,9 @@ const ViewUserPage = (props) => {
                         </div>
                         <div>
                             <UserRoleBadge user={user} />
+                        </div>
+                        <div>
+                            <UserStatusBadge user={user} />
                         </div>
                     </div>
                     <div className="flex flex-row space-x-4">

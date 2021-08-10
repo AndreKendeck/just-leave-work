@@ -127,14 +127,15 @@ class UserController extends Controller
                 ], 403);
         }
 
-        if ($request->has('is_admin')) {
+        if ($request->is_admin) {
             $user->attachRole('team-admin', $user->team);
         } else {
             $user->detachRole('team-admin', $user->team);
         }
-
+        $user->refresh();
         return response()
             ->json([
+                'user' => new UserResource($user),
                 'message' => "User role updated",
             ]);
     }

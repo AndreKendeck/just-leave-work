@@ -17,7 +17,18 @@ const LeaveCard = ({ leave }) => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-between w-full space-y-4">
-                        <div className="w-full"><LeaveDaysLabel leave={leave} /></div>
+                        <div className="w-full flex items-center flex-row justify-between">
+                            <div><LeaveDaysLabel leave={leave} /></div>
+                            {leave?.halfDay ? (
+                                <div className="flex flex-row bg-gray-700 text-white px-2 py-1 rounded-full text-sm">
+                                    Half Day
+                                </div>
+                            ) : null}
+                        </div>
+                        <div className="w-full flex flex-row items-center space-x-2">
+                            <span className="text-xs text-gray-500">Days</span>
+                            <span className="text">{leave.numberOfDaysOff}</span>
+                        </div>
                         <div className="w-full">
                             <LeaveStatusBadge leave={leave} />
                         </div>

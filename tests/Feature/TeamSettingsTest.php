@@ -37,7 +37,7 @@ class TeamSettingsTest extends TestCase
         $user->attachRole('team-admin', $user->team);
 
         $this->actingAs($user)
-            ->post(route('settings.update'), $newSettings)
+            ->put(route('settings.update'), $newSettings)
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJsonStructure(['message']);
@@ -54,7 +54,7 @@ class TeamSettingsTest extends TestCase
         ];
 
         $this->actingAs($user)
-            ->post(route('settings.update'), $newSettings)
+            ->put(route('settings.update'), $newSettings)
             ->assertForbidden();
     }
 }

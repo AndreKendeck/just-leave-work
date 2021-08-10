@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
-import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
 import Page from '../Page';
 import { setUser } from '../../actions/user';
@@ -23,6 +22,7 @@ const LoginPage = class LoginPage extends React.Component {
         if (auth?.authenticated) {
             window.location = '/dashboard';
         }
+        this.props.clearLoginForm();
     }
 
     postLogin = () => {

@@ -21,6 +21,7 @@ class VerificationEmail extends Mailable
     public function __construct(string $code)
     {
         $this->code = $code;
+        $this->from('noreply@justleave.work', 'Justleave Work');
         $this->subject("Email Verification Code");
     }
 

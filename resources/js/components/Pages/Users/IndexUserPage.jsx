@@ -21,6 +21,7 @@ import UserCard from '../../UserCard';
 import { Link } from 'react-router-dom';
 import InfoMessage from '../../InfoMessage';
 import Paginator from '../../Paginator';
+import UserStatusBadge from '../../UserStatusBadge';
 
 const IndexUserPage = class IndexUserPage extends React.Component {
 
@@ -162,10 +163,11 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             return (
                 <tr key={index}>
                     <td className="text-center text-gray-800">
-                        <div className="flex flex-row space-x-2">
+                        <div className="flex flex-row space-x-2 items-center">
                             <div><UserBadge user={user} imageSize={6} /></div>
                             {user?.isAdmin ? (<div className="bg-purple-500 bg-opacity-25 text-purple-500 text-xs px-2 rounded-full py-1">Admin</div>) : null}
                             <UserLeaveStatusBadge user={user} />
+                            <UserStatusBadge user={user} />
                         </div>
                     </td>
                     <td className="text-center text-gray-600 text-sm"> {user.email} </td>
@@ -258,7 +260,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                         </div>
                                     </Button>
                                 </div>
-                                <div>
+                                {/* <div>
                                     <Link to="/users/create">
                                         <Button type="soft">
                                             <div className="flex flex-row space-x-1 items-center justify-center">
@@ -273,7 +275,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                             </div>
                                         </Button>
                                     </Link>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 items-center self-end">
                                 <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Role" />
@@ -321,7 +323,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                             onChange={(e) => { this.onNewUserInputChange(e, 'email') }} />
                         <Checkbox label="Make Admin" checked={this.props.userForm.isAdmin}
                             name="isAdmin" onChange={(e) => { this.onToggleIsAdminChange() }} />
-                        <Field type="number" name="balance" errors={this.props.userForm.errors?.balance} value={this.props.userForm.balance} label="Starting Leave Balance"
+                        <Field type="number" name="balance" step="0.25" errors={this.props.userForm.errors?.balance} value={this.props.userForm.balance} label="Starting Leave Balance"
                             onChange={(e) => this.onNewUserInputChange(e, 'balance')} />
                         {this.props.userForm.messages?.map((message, index) => (<InfoMessage text={message} key={index} />))}
                         {this.state.modalIsLoading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : (<Button type="primary" onClick={(e) => this.onNewUserSave()}>Save</Button>)}

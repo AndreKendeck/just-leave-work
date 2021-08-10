@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_admin' => ['nullable']
+            'is_admin' => ['boolean']
         ];
     }
 }

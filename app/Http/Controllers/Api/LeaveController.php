@@ -55,7 +55,6 @@ class LeaveController extends Controller
         $until = new Carbon($request->from);
 
         if ($request->filled('until')) {
-
             $until = new Carbon($request->until);
         }
 
@@ -76,7 +75,7 @@ class LeaveController extends Controller
             return response()->json([
                 'errors' => [
                     'from' => [
-                        "You cannot take leave on {$from->toFormattedDateString()}",
+                        "You cannot start leave on {$from->toFormattedDateString()}",
                     ],
                 ],
             ]);
@@ -111,9 +110,9 @@ class LeaveController extends Controller
             'team_id' => auth()->user()->team_id,
             'user_id' => auth()->id(),
             'reason_id' => $request->reason,
-            'description' => $request->description,
             'from' => $from,
             'until' => $until,
+            'half_day' => $request->halfDay,
         ]);
 
         /**
@@ -169,57 +168,6 @@ class LeaveController extends Controller
 
         return response()
             ->json(new LeaveResource($leave));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateRequest $request, $id)
-    {
-        $leave = Leave::findOrFail($id);
-
-        if (auth()->user()->team_id !== $leave->team_id) {
-
-            return response()
-                ->json([
-                    'message' => "You are not allowed to update this leave request",
-                ], 403);
-        }
-
-        if (!auth()->user()->owns($leave)) {
-            return response()
-                ->json([
-                    'message' => 'You are not allowed to update this leave',
-                ], 403);
-        }
-
-        if ($leave->approved) {
-            return response()
-                ->json([
-                    'message' => "Leave has been approved no changes are allowed",
-                ], 403);
-        }
-
-        if ($leave->denied) {
-            return response()
-                ->json([
-                    'message' => "Leave has been denied no changes are allowed",
-                ], 403);
-        }
-
-        $leave->update([
-            'description' => $request->description,
-        ]);
-
-        return response()
-            ->json([
-                'message' => "Leave has been updated",
-                'leave' => new LeaveResource($leave),
-            ]);
     }
 
     /**
