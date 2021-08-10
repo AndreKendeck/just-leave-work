@@ -166,7 +166,7 @@ const EditUserPage = (props) => {
                 <Field disabled={true} type="email" value={user.email} name="email" label="E-mail Address" />
                 <Field disabled={true} type="text" value={user.jobPosition} name="job_position" label="Job Position" />
                 <div className="flex flex-row space-x-2 items-center">
-                    <Field type="number" disabled={user.isBanned} name="balance" label="Balance" value={props.userForm.balance} onChange={(e) => {
+                    <Field type="number" disabled={user.isBanned} name="balance" step="0.25" label="Balance" value={props.userForm.balance} onChange={(e) => {
                         e.persist();
                         const { userForm } = props;
                         props.updateUserForm({ ...userForm, balance: e.target.value });

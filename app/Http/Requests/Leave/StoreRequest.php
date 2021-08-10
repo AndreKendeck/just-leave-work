@@ -39,6 +39,7 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
+            'reason.exists' => ['Please select a valid resaon'],
             'reason.required' => ['Please select a reason for your leave'],
             'from.date' => ['Please enter a valid date'],
             'until.date' => ['Please enter a valid date'],

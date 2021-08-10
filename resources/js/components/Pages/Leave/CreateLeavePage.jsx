@@ -57,9 +57,10 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
     storeLeavePost = () => {
 
         const { reason, dates, notifyUser, halfDay } = this.props.leaveForm;
-
-        const from = moment(dates.startDate).format('l');
-        const until = moment(dates.endDate).format('l');
+        console.log(moment().locale());
+        moment().locale('en-gb');
+        const from = moment(dates.startDate).format();
+        const until = moment(dates.endDate).format();
         let halfDayOff = halfDay;
         if ((dates.startDate !== dates.endDate) && halfDay) {
             halfDayOff = false;

@@ -33,7 +33,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
 
     getLogo() {
         if (this.isGuest()) {
-            return <div className="w-1/2"><Icon /></div>;
+            return <div className="w-full"><Icon /></div>;
         }
     }
 
@@ -41,7 +41,6 @@ const DesktopMenu = class DesktopMenu extends React.Component {
     render() {
         return (
             <div className={`hidden md:flex flex-col bg-white p-4 mx-8 rounded-lg mt-4 shadow-lg ${this.userIsAdmin() ? 'w-2/3' : 'w-2/5'}  self-center`}>
-
                 <div className="flex flex-row space-x-2 items-center w-full justify-between">
                     {this.getLogo()}
                     {this.props.auth.authenticated ? (
@@ -142,7 +141,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                         </div>
                     ) : (
                         <React.Fragment>
-                            <div className="flex flex-row space-x-2 items-center w-1/2 self-center justify-around">
+                            <div className="flex flex-row space-x-2 items-center w-full self-center justify-around">
                                 <Link to="/login" className="w-full">
                                     <Button>Login</Button>
                                 </Link>

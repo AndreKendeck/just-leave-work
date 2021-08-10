@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange, DateRangePicker } from 'react-date-range';
+import { enGB } from 'date-fns/locale';
 
 
 const DatePicker = ({ errors, name, label, onChange, tip }) => {
@@ -23,6 +24,7 @@ const DatePicker = ({ errors, name, label, onChange, tip }) => {
             <div className="hidden md:flex">
                 <DateRangePicker ranges={[range]} showDateDisplay={false}
                     rangeColors={['#9f7aea']} direction="horizontal"
+                    locale={enGB}
                     showSelectionPreview={true} onChange={(ranges) => {
                         const { selection } = ranges;
                         setRange(selection);

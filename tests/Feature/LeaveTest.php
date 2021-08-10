@@ -20,20 +20,20 @@ class LeaveTest extends TestCase
     /** @test **/
     public function a_user_can_store_new_leave()
     {
-        
+
         $user = factory('App\User')->create();
         $leave = factory('App\Leave')->make([
             'team_id' => $user->team->id,
             'user_id' => $user->id,
             'from' => Carbon::create('28-07-2021'),
-            'until' => Carbon::create('30-07-2021')
+            'until' => Carbon::create('30-07-2021'),
         ]);
         $this->actingAs($user)
             ->post(route('leaves.store'), [
                 'reason' => $leave->reason->id,
                 'description' => $leave->description,
-                'from' => $leave->from->format('Y-m-d'),
-                'until' => $leave->until->format('Y-m-d'),
+                'from' => $leave->from->toDateTimeString(),
+                'until' => $leave->until->toDateTimeString(),
             ])->assertSessionHasNoErrors()
             ->assertCreated()
             ->assertJsonStructure(['message', 'leave']);
@@ -41,7 +41,8 @@ class LeaveTest extends TestCase
             'user_id' => $user->id,
             'team_id' => $user->team->id,
             'reason_id' => $leave->reason->id,
-            'description' => $leave->description,
+            'from' => $leave->from->toDateTimeString(),
+            'until' => $leave->until->toDateTimeString(),
         ]);
     }
 
@@ -94,81 +95,6 @@ class LeaveTest extends TestCase
             ->assertJsonStructure(['message']);
     }
 
-    /** @test **/
-    public function a_user_can_update_their_leave()
-    {
-        $user = factory('App\User')->create();
-        $leave = factory('App\Leave')->create([
-            'team_id' => $user->team_id,
-            'user_id' => $user->id,
-        ]);
-
-        $updates = [
-            'description' => $this->faker->words(10, true),
-        ];
-        $this->actingAs($leave->user)
-            ->put(route('leaves.update', $leave->id), $updates)
-            ->assertSessionHasNoErrors()
-            ->assertOk()
-            ->assertJsonStructure(['message', 'leave']);
-        $this->assertDatabaseHas('leaves', [
-            'id' => $leave->id,
-            'description' => $updates['description'],
-        ]);
-    }
-
-    /** @test **/
-    public function a_user_cannot_update_leave_they_dont_own()
-    {
-        $user = factory('App\User')->create();
-        $leave = factory('App\Leave')->create();
-        $updates = [
-            'description' => $this->faker->words(10, true),
-        ];
-        $this->actingAs($user)
-            ->put(route('leaves.update', $leave->id), $updates)
-            ->assertForbidden()
-            ->assertJsonStructure(['message']);
-    }
-
-    /** @test **/
-    public function a_user_cannot_update_leave_when_its_approved()
-    {
-        $user = factory('App\User')->create();
-        $leave = factory('App\Leave')->create([
-            'team_id' => $user->team_id,
-            'user_id' => $user->id,
-        ]);
-        $leave->approve();
-        $updates = [
-            'description' => $this->faker->words(10, true),
-        ];
-        $this->actingAs($user)
-            ->put(route('leaves.update', $leave->id), $updates)
-            ->assertForbidden()
-            ->assertJsonStructure(['message']);
-    }
-
-    /** @test **/
-    public function a_user_cannot_update_leave_when_its_denied()
-    {
-        $user = factory('App\User')->create();
-        $leave = factory('App\Leave')->create([
-            'team_id' => $user->team_id,
-            'user_id' => $user->id,
-        ]);
-        $leave->deny();
-        $updates = [
-            'from' => today()->format('Y-m-d'),
-            'until' => today()->addDays(3)->format('Y-m-d'),
-            'description' => $this->faker->words(10, true),
-            'reason' => \App\Reason::all()->random()->id,
-        ];
-        $this->actingAs($user)
-            ->put(route('leaves.update', $leave->id), $updates)
-            ->assertForbidden()
-            ->assertJsonStructure(['message']);
-    }
 
     /** @test **/
     public function a_user_can_delete_their_leave_request()

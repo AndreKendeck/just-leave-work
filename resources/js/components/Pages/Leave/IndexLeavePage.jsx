@@ -175,14 +175,12 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
         const { leaveExportForm } = this.props;
         const { month, year } = this.props.leaveExportForm;
         this.props.updateLeaveExportForm({ ...leaveExportForm, loading: true });
-        api.get(`/leaves/export/${month}/${year}`, null, {
-            responseType: 'blob'
-        })
+        api.get(`/leaves/export/${month}/${year}`)
             .then(success => {
+                const { message, file } = success.data;
+                window.location = file;
                 this.props.updateLeaveExportForm({ ...leaveExportForm, loading: false });
-                let blob = new Blob([success.data]);
-                let url = window.URL.createObjectURL(blob);
-                window.open(url);
+                this.setState({ messages: [...this.state.messages, message] });
             }).catch(failed => {
                 const { message } = failed.response.data;
                 this.setState({ error: message });
@@ -229,11 +227,11 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                         }} />
 
                     </Card>
-                    <Card className="flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2">
-                        <div className="flex self-center w-full md:w-1/2 flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0" >
-                            <Dropdown options={this.getMonthCollection()} label="Month" name="month" onChange={(e) => this.updateExportForm(e, 'month')} />
-                            <Dropdown options={this.props.years} label="Year" name="year" onChange={(e) => this.updateExportForm(e, 'year')} />
-                            <div className="self-center w-full">
+                    <Card className="flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2 justify-center">
+                        <div className="flex w-full md:w-1/2 flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0" >
+                            <Dropdown options={this.getMonthCollection()} label="Month" name="month" value={this.props.leaveExportForm.month} onChange={(e) => this.updateExportForm(e, 'month')} />
+                            <Dropdown options={this.props.years} label="Year" name="year" value={this.props.leaveExportForm.year} onChange={(e) => this.updateExportForm(e, 'year')} />
+                            <div className="self-center w-full pt-5">
                                 {this.props.leaveExportForm.loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : (
                                     <Button type="soft" onClick={(e) => this.onExport()} >Export</Button>
                                 )}
@@ -270,7 +268,7 @@ const mapStateToProps = (state) => {
     const { reasons, leaveExportForm } = state;
     return {
         leaveExportForm,
-        reasons: [{ value: 0, label: 'All' }, reasons.map(reason => {
+        reasons: [{ value: '0', label: 'All' }, ...reasons.map(reason => {
             return {
                 value: reason.id,
                 label: reason.name

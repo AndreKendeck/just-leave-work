@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Leave;
 use App\Team;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

@@ -66,7 +66,15 @@ const ViewLeavePage = (props) => {
                 setLeave({ ...leave, comments: updatedCommentList });
             })
             .catch(failed => {
-                setError(failed.response.data.message);
+                const { status } = failed.response;
+                if (status == 422) {
+                    const { errors } = failed.response.data;
+                    const { commentForm } = props;
+                    props.updateCommentForm({ ...commentForm, errors });
+                } else {
+                    const { message } = failed.response.data;
+                    setError(message);
+                }
             });
     }
 
@@ -242,7 +250,7 @@ const ViewLeavePage = (props) => {
                 {renderComments(leave.comments)}
             </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                <TextArea label="Add a comment" name="comment" errors={props.commentForm.errors}
+                <TextArea label="Add a comment" name="comment" errors={props.commentForm.errors?.comment}
                     onChange={(e) => { e.persist(); props.updateCommentForm({ ...props.commentForm, value: e.target.value }) }}>
                     {props.commentForm.value}
                 </TextArea>
