@@ -40,11 +40,11 @@ class LeaveExport implements FromView
         $leaveQuery->where('team_id', $this->teamId);
 
         if ($this->month) {
-            $leaveQuery->whereMonth('created_at', '>=', $this->month);
+            $leaveQuery->whereMonth('from', $this->month);
         }
 
         if ($this->year) {
-            $leaveQuery->whereYear('created_at', '<=', $this->year);
+            $leaveQuery->whereYear('from', $this->year);
         }
 
         $leaveQuery->whereNotNull('approved_at');

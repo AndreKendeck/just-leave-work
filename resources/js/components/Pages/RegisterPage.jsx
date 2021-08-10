@@ -104,7 +104,15 @@ const RegisterPage = class RegisterPage extends React.Component {
                     <Field type="email" label="E-mail Address" name="email" hasError={this.state.email.hasError} errors={this.state.email.errors} onKeyUp={(e) => this.onFieldChange(e, 'email')} />
                     <Field type="text" label="Organization" name="team_name" hasError={this.state.team_name.hasError} errors={this.state.team_name.errors} onKeyUp={(e) => this.onFieldChange(e, 'team_name')} />
                     <Field type="password" label="Password" name="password" hasError={this.state.password.hasError} errors={this.state.password.errors} onKeyUp={(e) => this.onFieldChange(e, 'password')} />
-                    <Checkbox label="I agree with the Terms &amp; Conditions" errors={this.state.terms.errors} name="terms" onChange={this.onCheckboxCheck} />
+                    <div className="flex flex-col md:flex-row items-center w-full justify-between">
+                        <div className="w-full">
+                            <Checkbox label="I agree with the Terms &amp; Conditions" errors={this.state.terms.errors} name="terms" onChange={this.onCheckboxCheck} />
+                        </div>
+
+                        <Link to="/terms-and-conditions" className="w-full text-purple-500 hover:text-purple-300 whitespace-no-wrap p-2 bg-purple-100 rounded-lg text-center text-sm">
+                            View Terms &amp; Conditions
+                        </Link>
+                    </div>
                     {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={(e) => this.postRegister(e)} >Register</Button>}
                     <Link to="/login">
                         <Button type="secondary"> Back to Login </Button>

@@ -30,6 +30,8 @@ import UploadUsersPage from './Pages/Users/UploadUsersPage';
 import ViewUserPage from './Pages/Users/ViewUserPage';
 import EditUserPage from './Pages/Users/EditUserPage';
 import NotFoundPage from './Pages/Errors/NotFoundPage';
+import Terms from './Pages/TermsPage';
+import TermsPage from './Pages/TermsPage';
 
 
 const App = class App extends React.Component {
@@ -73,9 +75,6 @@ const App = class App extends React.Component {
                     </Route>
                     <Route path="/password-email">
                         {this.currentUserIsAuthenticated() ? <Redirect to="/home" /> : <ForgotPasswordPage />}
-                    </Route>
-                    <Route>
-                        {!this.currentUserIsAuthenticated() ? <NotFoundPage /> : null}
                     </Route>
                 </Switch>
             </React.Fragment>
@@ -149,9 +148,6 @@ const App = class App extends React.Component {
                     <Route path="/user/edit/:id" exact={true}>
                         {this.currentUserIsAuthenticated() ? <EditUserPage /> : <Redirect to="/login" />}
                     </Route>
-                    <Route>
-                        {this.currentUserIsAuthenticated() ? <NotFoundPage /> : null}
-                    </Route>
                 </Switch>
             </React.Fragment>
         )
@@ -170,6 +166,9 @@ const App = class App extends React.Component {
             <div className="flex flex-col space-y-4 z-10 bg-gray-100 h-full">
                 <BrowserRouter>
                     <Navbar />
+                    <Route path="/terms-and-conditions" exact={true} >
+                        <TermsPage />
+                    </Route>
                     {this.getGuestRoutes()}
                     {this.getAuthRoutes()}
                 </BrowserRouter>

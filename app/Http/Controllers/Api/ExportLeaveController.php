@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exports\LeaveExport;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Jobs\DeleteLeaveExportFromStorage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ExportLeaveController extends Controller
@@ -21,12 +21,20 @@ class ExportLeaveController extends Controller
             return response()
                 ->json([
                     'message' => 'You are not allowed to export leaves',
-                ]);
+                ], 403);
         }
 
-        $year = Carbon::create($year)->format('Y');
-        $month = Carbon::create($month)->format('M');
+        $id = uniqid();
+        // increment the month from the front end for the actual value
+        $month++;
+        Excel::store(new LeaveExport(auth()->user()->team->id, $month, $year), "{$id}_leaves_{$month}_{$year}.xlsx");
 
-        return Excel::download(new LeaveExport(auth()->user()->team->id, $month, $year), 'leaves.xlsx');
+        dispatch(new DeleteLeaveExportFromStorage("{$id}_leaves_{$month}_{$year}.xlsx"))->delay(now()->addMinutes(2));
+
+        return response()
+            ->json([
+                'message' => 'Export successfull',
+                'file' => asset("/storage/{$id}_leaves_{$month}_{$year}.xlsx"),
+            ]);
     }
 }

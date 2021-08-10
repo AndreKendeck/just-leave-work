@@ -50,12 +50,12 @@ class LeaveController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $from = new Carbon($request->from);
+        $from = Carbon::create($request->from);
 
-        $until = new Carbon($request->from);
+        $until = Carbon::create($request->from);
 
         if ($request->filled('until')) {
-            $until = new Carbon($request->until);
+            $until = Carbon::create($request->until);
         }
 
         // future dates are always bigger

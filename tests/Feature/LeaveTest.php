@@ -26,7 +26,7 @@ class LeaveTest extends TestCase
             'team_id' => $user->team->id,
             'user_id' => $user->id,
             'from' => Carbon::create('28-07-2021'),
-            'until' => Carbon::create('30-07-2021')
+            'until' => Carbon::create('30-07-2021'),
         ]);
         $this->actingAs($user)
             ->post(route('leaves.store'), [
