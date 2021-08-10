@@ -44,7 +44,9 @@ Route::namespace ('Api')->group(function () {
     Route::middleware(['auth:sanctum', 'forbid-banned-user', 'verified'])->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');
-        Route::apiResource('leaves', 'LeaveController')->parameters([
+        Route::apiResource('leaves', 'LeaveController')
+        ->except('update')
+        ->parameters([
             'leaves' => 'id',
         ]);
         Route::apiResource('comments', 'CommentController')
