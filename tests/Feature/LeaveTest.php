@@ -31,9 +31,9 @@ class LeaveTest extends TestCase
         $this->actingAs($user)
             ->post(route('leaves.store'), [
                 'reason' => $leave->reason->id,
-                'description' => $leave->description,
-                'from' => $leave->from->toDateTimeString(),
-                'until' => $leave->until->toDateTimeString(),
+                'from' => $leave->from->format('Y-m-d'),
+                'until' => $leave->until->format('Y-m-d'),
+                'halfDay' => $leave->half_day
             ])->assertSessionHasNoErrors()
             ->assertCreated()
             ->assertJsonStructure(['message', 'leave']);
@@ -41,8 +41,7 @@ class LeaveTest extends TestCase
             'user_id' => $user->id,
             'team_id' => $user->team->id,
             'reason_id' => $leave->reason->id,
-            'from' => $leave->from->toDateTimeString(),
-            'until' => $leave->until->toDateTimeString(),
+            'half_day' => $leave->half_day
         ]);
     }
 
@@ -94,6 +93,8 @@ class LeaveTest extends TestCase
             ->assertForbidden()
             ->assertJsonStructure(['message']);
     }
+
+
 
 
     /** @test **/
@@ -201,5 +202,4 @@ class LeaveTest extends TestCase
             ->post(route('leaves.deny', $leave->id))
             ->assertForbidden();
     }
-
 }
