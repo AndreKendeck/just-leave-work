@@ -32,7 +32,7 @@ const SettingPage = class SettingPage extends React.Component {
     onSettingsChange(e, key) {
         e.persist();
         const { settingsForm } = this.props;
-        this.props.updateSettingsForm({ ...settingsForm, [key]: parseInt(e.target.value) });
+        this.props.updateSettingsForm({ ...settingsForm, [key]: e.target.value });
     }
 
     onSave() {
@@ -82,7 +82,7 @@ const SettingPage = class SettingPage extends React.Component {
     }
 
     render() {
-        const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays } = this.props.settingsForm;
+        const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays, errors } = this.props.settingsForm;
 
         return (
             <Page className="flex flex-col justify-center space-y-2">
@@ -93,10 +93,13 @@ const SettingPage = class SettingPage extends React.Component {
                         <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Settings</span>
                         <span className="text-white bg-gray-700 px-2 py-1 text-center rounded-full text-xs self-start"> Last balance adjustment : {moment(this.props.settings?.lastLeaveBalanceAddedAt).fromNow()}</span>
                     </div>
-                    <Field type="number" name="leaveAddedPerCycle" value={leaveAddedPerCycle}
+                    <Field type="number" name="leaveAddedPerCycle" hasError={errors?.leave_added_per_cycle?.length > 0}
+                        errors={errors?.leave_added_per_cycle} step="0.25" value={leaveAddedPerCycle}
                         onChange={(e) => this.onSettingsChange(e, 'leaveAddedPerCycle')} label="Leave Added Per Cycle"
                         tip="Eg. Leave Balance added after 10,20 or 30 days" />
                     <Field type="number" name="daysUntilBalanceAdded"
+                        hasError={errors?.days_until_balance_added?.length > 0}
+                        errors={errors?.days_until_balance_added}
                         onChange={(e) => this.onSettingsChange(e, 'daysUntilBalanceAdded')}
                         value={daysUntilBalanceAdded} label="Days until balance added"
                         tip="Add leave after these days" />

@@ -259,7 +259,9 @@ const ProfilePage = class ProfilePage extends React.Component {
                     <Field name="name" value={this.props.userForm?.name} onChange={(e) => this.onDetailsChange(e, 'name')} label="Your name" errors={this.props.userForm.errors?.name} />
                     <Field name="job_position" value={this.props.userForm?.jobPosition} onChange={(e) => this.onDetailsChange(e, 'jobPosition')} label="Job position" errors={this.props.userForm.errors?.job_position} />
                     {this.renderBalanceForm()}
-                    {this.props.userForm?.loading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : <Button type="soft" onClick={(e) => this.onProfileUpdate()} >Update</Button>}
+                    <div className="w-full p-2 flex flex-col self-end">
+                        {this.props.userForm?.loading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : <Button type="soft" onClick={(e) => this.onProfileUpdate()} >Update</Button>}
+                    </div>
                 </Card>
 
                 <Card className="hidden md:flex w-full md:w-2/3 self-center items-center flex-col space-y-2">
