@@ -17,7 +17,6 @@ import RegisterPage from './Pages/RegisterPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
 import HomePage from './Pages/HomePage';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
-import MyLeavePage from './Pages/Leave/MyLeavePage';
 import IndexLeavePage from './Pages/Leave/IndexLeavePage';
 import ViewLeavePage from './Pages/Leave/ViewLeavePage';
 import CreateLeavePage from './Pages/Leave/CreateLeavePage';
@@ -29,8 +28,6 @@ import IndexUserPage from './Pages/Users/IndexUserPage';
 import UploadUsersPage from './Pages/Users/UploadUsersPage';
 import ViewUserPage from './Pages/Users/ViewUserPage';
 import EditUserPage from './Pages/Users/EditUserPage';
-import NotFoundPage from './Pages/Errors/NotFoundPage';
-import Terms from './Pages/TermsPage';
 import TermsPage from './Pages/TermsPage';
 
 
@@ -177,10 +174,9 @@ const App = class App extends React.Component {
     }
 }
 
-
-const store = createStore(reducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const appState = process.env.MIX_REACT_APP_API_URL;
+const tools = appState === 'production' ? null : window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+const store = createStore(reducers, tools);
 
 
 const mapStateToProps = (state) => {

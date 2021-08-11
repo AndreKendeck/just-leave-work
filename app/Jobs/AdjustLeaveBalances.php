@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class AdjustLeaveBalances implements ShouldQueue
 {
@@ -49,11 +49,14 @@ class AdjustLeaveBalances implements ShouldQueue
 
             if ($overLap) {
                 $team->users->each(function (\App\User $user) {
-                    $toAdd = $user->team->settings->leave_added_per_cycle;
-                    Log::info("A leave of {$toAdd} unit will be added to {$user->name} current leave balance {$user->leave_balance}");
+                    $toAdd = $user->team->settings->leave_added_per_cycle;                   
                     $user->increment('leave_balance', $toAdd);
+                    Transaction::create([
+                        'amount' => $toAdd, 
+                        'user_id' => $user->id, 
+                        'description' => "Cycle Adjustment"
+                    ]);
                 });
-
                 $team->settings->update([
                     'last_leave_balance_added_at' => now(),
                 ]);
