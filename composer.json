@@ -22,7 +22,6 @@
         "laravel/ui": "2.5.0",
         "laravolt/avatar": "^3.2",
         "maatwebsite/excel": "^3.1",
-        "mpociot/laravel-apidoc-generator": "^4.8",
         "santigarcor/laratrust": "^6.3",
         "spatie/laravel-backup": "^6.8",
         "spatie/laravel-mailable-test": "^2.2"

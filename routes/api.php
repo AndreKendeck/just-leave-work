@@ -32,7 +32,7 @@ Route::namespace ('Api')->group(function () {
 
     Route::post('/password-email', 'PasswordEmailController')->name('password.request');
     Route::post('/check-password-reset-token', 'CheckPasswordResetController')->name('password.token.check');
-    Route::post('/reset-password', 'PasswordResetController@store')->name('password.reset');
+    Route::post('/reset-password', 'PasswordResetController@store')->name('api.password.reset');
 
     Route::post('/logout', 'LogoutController')
         ->name('logout')
