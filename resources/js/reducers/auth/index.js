@@ -1,4 +1,4 @@
-export const authReducer = (state = { authenticated: false, token: null }, action) => {
+export function authReducer(state = { authenticated: false, token: null }, action) {
     switch (action.type) {
         case 'AUTHENTICATED':
             return action.payload;
