@@ -1,10 +1,23 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import Error from '../messages/Error';
+import Info from '../messages/Info';
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
 
 const Navbar = class Navbar extends React.Component {
+
+    renderMessage() {
+        const { message } = this.props;
+        if (message) {
+            return <Info message={message} />
+        }
+    }
+
+    renderErrorMessage() {
+
+    }
 
     render() {
         return (
@@ -16,13 +29,11 @@ const Navbar = class Navbar extends React.Component {
     }
 
 }
-
 const mapStateToProps = (state) => {
+    const { messages, errorMessages: errors } = state;
     return {
-        auth: state.auth,
-        team: state.team,
-        user: state.user
+        messages,
+        errors
     }
 }
-
 export default connect(mapStateToProps, null)(Navbar);
