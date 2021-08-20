@@ -53,13 +53,14 @@ const ViewUserPage = (props) => {
         return transactions?.data?.map((transaction, index) => {
             return (
                 <tr className="rounded" key={index}>
+                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createdAt).format('l')} </td>
                     <td className="text-center text-gray-600 text-sm"> {transaction.description} </td>
                     <td className="text-center text-gray-600 text-sm">
                         <span className={`${getNumberClass(transaction.amount)}`}>
                             {transaction.amount}
                         </span>
                     </td>
-                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createAt).format('l')} </td>
+
                 </tr>
             )
         });
@@ -140,7 +141,7 @@ const ViewUserPage = (props) => {
             </div>
             <Card className="hidden md:flex md:flex-col w-full md:w-2/3 self-center space-y-4">
                 <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs self-start">Transactions </span>
-                <Table headings={['Description', 'Amount', 'Date']} >
+                <Table headings={['Date', 'Description', 'Amount']} >
                     {renderTransactions()}
                 </Table>
                 <Paginator onNextPage={() => getTransactions((transactions.currentPage + 1))}

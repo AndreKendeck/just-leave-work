@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Justleave.work | Leave Planner</title>
+    <title>Justleave.work - Leave planner</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datepicker.css') }}">
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('/apple-icon-57x57.png') }}">
@@ -25,7 +25,7 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
-    <meta property="og:title" content="JustLeave Work - Leave Management" />
+    <meta property="og:title" content="JustLeave Work - Leave planner" />
     <meta property="og:description" content="Leave Planner for Teams" />
     <meta property="og:image" content="{{ asset('images/seo.png') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">

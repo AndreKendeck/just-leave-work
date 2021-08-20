@@ -91,6 +91,8 @@ const EditUserPage = (props) => {
     }
 
     const toggleBlock = () => {
+        const { userForm } = props;
+        props.updateUserForm({ ...userForm, loading: true });
         let url = null;
         if (!user.isBanned) {
             url = `/user/ban/${id}`;
@@ -101,16 +103,22 @@ const EditUserPage = (props) => {
             const { message, user } = success.data;
             setMessage(message);
             setUser(user);
+            props.updateUserForm({ ...userForm, loading: false });
         }).catch(failed => {
             const { message } = failed.response.data;
             setErrors([message, ...errors]);
+            props.updateUserForm({ ...userForm, loading: false });
         })
     }
 
     const renderBlockButton = () => {
-        const { currentUser } = props;
+        const { currentUser, userForm } = props;
         if (!currentUser.isAdmin) {
             return null;
+        }
+
+        if (userForm.loading) {
+            return <Loader type="Oval" className="self-center" height={40} width={40} color="Gray" />
         }
 
         if (user.isBanned) {

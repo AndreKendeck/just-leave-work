@@ -10,6 +10,7 @@ import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
 import InfoMessage from '../InfoMessage';
 import Page from '../Page';
+import Table from '../Table';
 
 
 const SettingPage = class SettingPage extends React.Component {
@@ -81,6 +82,16 @@ const SettingPage = class SettingPage extends React.Component {
         return <Button type="secondary" onClick={(e) => this.onSave()}>Save</Button>;
     }
 
+    renderExcludedDays() {
+
+    }
+
+    onDayChange(e) {
+        e.persist();
+        const day = e.target.value;
+        
+    }
+
     render() {
         const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays, errors } = this.props.settingsForm;
 
@@ -96,14 +107,41 @@ const SettingPage = class SettingPage extends React.Component {
                     <Field type="number" name="leaveAddedPerCycle" hasError={errors?.leave_added_per_cycle?.length > 0}
                         errors={errors?.leave_added_per_cycle} step="0.25" value={leaveAddedPerCycle}
                         onChange={(e) => this.onSettingsChange(e, 'leaveAddedPerCycle')} label="Leave Added Per Cycle"
-                        tip="Eg. Leave Balance added after 10,20 or 30 days" />
+                        tip="Number of leave days added at the end of a cycle" />
                     <Field type="number" name="daysUntilBalanceAdded"
                         hasError={errors?.days_until_balance_added?.length > 0}
                         errors={errors?.days_until_balance_added}
                         onChange={(e) => this.onSettingsChange(e, 'daysUntilBalanceAdded')}
                         value={daysUntilBalanceAdded} label="Days until balance added"
-                        tip="Add leave after these days" />
+                        tip="Cycle days" />
                     {this.getSaveButtonState()}
+                </Card>
+                <Card className="flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor">
+                    <div className="flex flex-row w-full items-center justify-between">
+                        <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Excluded Days</span>
+                    </div>
+                    <Field name="day" label="Add day" tip="Monday or 01/01/2021" />
+                    <div className="w-full overflow-auto space-y-2 flex flex-col" style={{ height: '350px' }}>
+                        {this.props.settings.excludedDays.map(day => {
+                            return (
+                                <div className="flex flex-row p-3 justify-between items-center">
+                                    <div className="text-gray-700 text-base">{day}</div>
+                                    <div>
+                                        <Button type="soft" onClick={ (e) => {
+                                            
+                                        } } >
+                                            <svg version="1.1" className="stroke-current h-4 w-4 text-gray-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <g fill="none">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 8l8 8"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 8l-8 8"></path>
+                                                </g>
+                                            </svg>
+                                        </Button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </Card>
             </Page>
         )

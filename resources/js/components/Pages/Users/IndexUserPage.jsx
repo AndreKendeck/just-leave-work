@@ -64,9 +64,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             errors: [],
             messages: [],
         });
-        setTimeout(() => {
-            this.getUsers();
-        }, 1000);
+        this.getUsers();
     }
 
     getUsers(page = 1, search = null) {

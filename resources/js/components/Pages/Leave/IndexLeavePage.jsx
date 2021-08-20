@@ -13,10 +13,7 @@ import Dropdown from '../../Form/Dropdown';
 import { connect } from 'react-redux';
 import UserBadge from '../../UserBadge';
 import LeaveCard from '../../LeaveCard';
-import Button from '../../Button';
-import Modal from '../../Modal';
-import Field from '../../Form/Field';
-import DatePicker from '../../Form/DatePicker';
+import Button from '../../Button';;
 import { clearLeaveExportForm, updateLeaveExportForm } from '../../../actions/forms/export/leave';
 
 const IndexLeavePage = class IndexLeavePage extends React.Component {
@@ -73,7 +70,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                     this.toggleLoadingState(false);
                     this.setState({ error: failed.response.data.message });
                 })
-        }, 1500);
+        });
     }
 
     toggleLoadingState(isLoading) {

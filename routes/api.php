@@ -45,10 +45,10 @@ Route::namespace ('Api')->group(function () {
 
         Route::get('/reasons', 'ReasonController')->name('reasons.index');
         Route::apiResource('leaves', 'LeaveController')
-        ->except('update')
-        ->parameters([
-            'leaves' => 'id',
-        ]);
+            ->except('update')
+            ->parameters([
+                'leaves' => 'id',
+            ]);
         Route::apiResource('comments', 'CommentController')
             ->parameters([
                 'comments' => 'id',
@@ -86,5 +86,7 @@ Route::namespace ('Api')->group(function () {
         Route::get('/team/admins', 'AdminUserController')->name('admins.index');
         Route::get('/transactions/{userId}', 'TransactionController@index')->name('transactions.index');
         Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
+        Route::post('/excluded-days', 'DaySettingController@store')->name('excluded-days.store');
+        Route::delete('/excluded-days/{id}', 'DaySettingController@destroy')->name('excluded-days.destroy');
     });
 });
