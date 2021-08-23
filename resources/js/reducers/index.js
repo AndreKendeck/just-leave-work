@@ -25,6 +25,6 @@ export default combineReducers({
     settingsForm: settingsFormReducer,
     leaveForm: leaveFormReducer,
     leaveExportForm: leaveExportForm,
-    messages: infoMessageReducer,
-    errorMessages: errorMessageReducer
+    message: infoMessageReducer,
+    errorMessage: errorMessageReducer
 })

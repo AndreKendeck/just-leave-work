@@ -17,6 +17,7 @@ import moment from 'moment';
 import Paginator from '../Paginator';
 import UserRoleBadge from '../UserRoleBadge';
 import { setUser } from '../../actions/user';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 
 const ProfilePage = class ProfilePage extends React.Component {
 
@@ -37,7 +38,7 @@ const ProfilePage = class ProfilePage extends React.Component {
                     window.location = '/';
                 }).catch(failed => {
                     const { message } = failed.response.data;
-                    this.setState({ errors: [...message, ...this.state.errors] });
+                    this.props.setErrorMessage(message);
                     this.setState({ loading: false });
                 });
         }, 1500);
@@ -91,25 +92,13 @@ const ProfilePage = class ProfilePage extends React.Component {
                 this.setState({ transactions: data });
             }).catch(failed => {
                 const { message } = failed.response.data;
-                this.setState({ errors: [...message] })
+                this.props.setErrorMessage(message);
             })
     }
 
     isAdmin() {
         const { user } = this.props;
         return user?.isAdmin;
-    }
-
-    renderErrors() {
-        return this.state.errors?.map((error, key) => {
-            return <ErrorMessage text={error} key={key} onDismiss={(e) => {
-                let errors = this.state;
-                errors = errors.filter((err, idx) => {
-                    return idx !== key;
-                });
-                this.setState({ errors });
-            }} />
-        });
     }
 
 
@@ -153,7 +142,7 @@ const ProfilePage = class ProfilePage extends React.Component {
         }).then(success => {
             const { message, balance, transaction } = success.data;
             this.props.updateUserForm({ ...this.props.userForm, loading: false, balance });
-            this.setState({ message });
+            this.props.setMessage(message);
             this.setState(state => {
                 return {
                     transactions: {
@@ -163,8 +152,9 @@ const ProfilePage = class ProfilePage extends React.Component {
                 }
             })
         }).catch(failed => {
+            const { message } = failed.response.data;
             this.props.updateUserForm({ ...this.props.userForm, loading: false });
-            this.setState({ errors: [...this.state.errors, failed.response.data.message] });
+            this.props.setErrorMessage(message);
         });
 
         this.props.updateUserForm({ ...this.props.userForm, loading: false });
@@ -193,15 +183,15 @@ const ProfilePage = class ProfilePage extends React.Component {
         api.put('/profile', { name, job_position: jobPosition })
             .then(success => {
                 const { message } = success.data;
-                this.setState({ message });
+                this.props.setMessage(message);
             }).catch(failed => {
-                const { status } = failed.response;
-                const { errors, message } = failed.response.data;
-                if (status === 422) {
-                    this.props.updateUserForm({ ...this.props.userForm, errors });
-                } else {
-                    this.setState({ errors: [message] });
-                }
+                // const { status } = failed?.response;
+                // const { errors, message } = failed?.response.data;
+                // if (status === 422) {
+                //     this.props.updateUserForm({ ...this.props.userForm, errors });
+                // } else {
+                //     this.props.setErrorMessage(message);
+                // }
             });
         if (this.leaveBalanceDiffersFromOriginal()) {
             this.onBalanceSubmit();
@@ -222,8 +212,6 @@ const ProfilePage = class ProfilePage extends React.Component {
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col space-y-4 w-full md:w-2/3 self-center pointer-cursor">
-                    {this.renderErrors()}
-                    {this.state.message ? <InfoMessage text={this.state.message} onDismiss={(e) => this.setState({ message: null })} /> : null}
                     <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row space-x-2">
                             <div>
@@ -291,4 +279,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, { unsetAuthenticated, updateUserForm, clearUserForm, setUser })(ProfilePage);
+export default connect(mapStateToProps, { unsetAuthenticated, updateUserForm, clearUserForm, setUser, setErrorMessage, setMessage })(ProfilePage);

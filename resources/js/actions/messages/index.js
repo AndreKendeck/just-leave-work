@@ -1,4 +1,4 @@
-export function addMessage(message = null) {
+export function setMessage(message = null) {
     return {
         type: 'SET_MESSAGE',
         payload: message
@@ -10,7 +10,7 @@ export function addMessage(message = null) {
  * @param {string} message 
  * @returns {object}
  */
-export function addErrorMessage(message = null) {
+export function setErrorMessage(message = null) {
     return {
         type: 'SET_ERROR_MESSAGE',
         payload: message
