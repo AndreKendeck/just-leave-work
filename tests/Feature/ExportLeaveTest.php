@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\DeleteLeaveExportFromStorage;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Bus;
 
 class ExportLeaveTest extends TestCase
 {
@@ -11,6 +13,7 @@ class ExportLeaveTest extends TestCase
     public function a_admin_can_export_team_leaves()
     {
         Storage::fake();
+        Bus::fake();
         $month = rand(1, 12);
         $year = now()->format('Y');
         $admin = factory('App\User')->create();
@@ -25,6 +28,7 @@ class ExportLeaveTest extends TestCase
         $arrayOfPath = explode('/', $response->json(['file']));
         $file = $arrayOfPath[sizeof($arrayOfPath) - 1];
         Storage::assertExists($file);
+        Bus::assertDispatched(DeleteLeaveExportFromStorage::class);
     }
 
     /** @test **/

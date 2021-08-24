@@ -13,6 +13,7 @@ import { setAuthenticated } from '../../actions/auth';
 import { setTeam } from '../../actions/team';
 import { setSettings } from '../../actions/settings';
 import { clearLoginForm, updateLoginForm } from '../../actions/forms/auth/login';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 
 
 const LoginPage = class LoginPage extends React.Component {
@@ -58,6 +59,7 @@ const LoginPage = class LoginPage extends React.Component {
                 if (status == 422) {
                     this.props.updateLoginForm({ ...loginForm, errors });
                 } else {
+                    this.props.setErrorMessage(message);
                     this.props.updateLoginForm({ ...loginForm, errors: { email: [message] } });
                 }
 
@@ -103,6 +105,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-
-
-export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated, setSettings, updateLoginForm, clearLoginForm })(LoginPage);
+export default connect(mapStateToProps, { setUser, setTeam, setAuthenticated, setSettings, updateLoginForm, clearLoginForm, setMessage, setErrorMessage })(LoginPage);
