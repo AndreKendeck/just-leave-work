@@ -1,4 +1,4 @@
-export default function infoMessageReducer(state = null, { type, paylod }) {
+export default function infoMessageReducer(state = null, { type, payload }) {
     if (type === 'SET_MESSAGE') {
         return payload;
     }
