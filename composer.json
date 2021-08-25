@@ -14,7 +14,7 @@
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "hackzilla/password-generator": "^1.4",
-        "kouz/laravel-airbrake": "^0.6.0",
+        "honeybadger-io/honeybadger-laravel": "^3.12",
         "laravel/framework": "^7.0",
         "laravel/sanctum": "^2.8",
         "laravel/telescope": "^3.1",
