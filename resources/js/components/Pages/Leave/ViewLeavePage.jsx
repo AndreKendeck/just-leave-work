@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { clearCommentForm, updateCommentForm } from '../../../actions/forms/comment';
 import { DateRange } from 'react-date-range';
 import { setUser } from '../../../actions/user';
+import { setErrorMessage, setMessage } from '../../../actions/messages';
 
 
 
@@ -88,7 +89,7 @@ const ViewLeavePage = (props) => {
             .then(successResponse => {
                 setLoading(false);
                 const { message, leave } = successResponse.data;
-                setMessage(message);
+                props.setMessage(message);
                 setLeave(leave);
                 const { user } = this.props;
 
@@ -104,7 +105,7 @@ const ViewLeavePage = (props) => {
             }).catch(failedResponse => {
                 setLoading(false);
                 const { message } = failedResponse.response.data;
-                setError(message);
+                props.setErrorMessage(message);
             });
     }
 
@@ -120,7 +121,7 @@ const ViewLeavePage = (props) => {
             }).catch(failedResponse => {
                 setLoading(false);
                 const { message } = failedResponse.response.data;
-                setError(message);
+                props.setErrorMessage(message);
             });
     }
 
@@ -137,7 +138,7 @@ const ViewLeavePage = (props) => {
                 }).catch(failedResponse => {
                     setLoading(false);
                     const { message } = failedResponse.response.data;
-                    setError(message);
+                    props.setErrorMessage(message);
                 });
 
         }, 1500);
@@ -163,9 +164,6 @@ const ViewLeavePage = (props) => {
     }
     return (
         <Page className="flex flex-col justify-center space-y-2">
-            <div className="md:w-1/2 w-full self-center">
-                {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
-            </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 <div className="flex flex-row justify-between items-center space-x-2 w-full">
                     <Heading>{leave?.reason.name}</Heading>
@@ -272,4 +270,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, { updateCommentForm, clearCommentForm, setUser })(ViewLeavePage);
+export default connect(mapStateToProps, { updateCommentForm, clearCommentForm, setUser, setMessage, setErrorMessage })(ViewLeavePage);
