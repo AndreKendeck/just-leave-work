@@ -5,12 +5,12 @@ import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router';
 import { updateUserForm } from '../../../actions/forms/user';
+import { setErrorMessage, setMessage } from '../../../actions/messages';
 import api from '../../../api';
 import Button from '../../Button';
 import Card from '../../Card';
 import Checkbox from '../../Form/Checkbox';
 import Field from '../../Form/Field';
-import InfoMessage from '../../InfoMessage';
 import Page from '../../Page';
 import UserBadge from '../../UserBadge';
 import UserStatusBadge from '../../UserStatusBadge';
@@ -18,9 +18,7 @@ import UserStatusBadge from '../../UserStatusBadge';
 const EditUserPage = (props) => {
     const { id } = useParams();
     const [user, setUser] = useState({});
-    const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState(null);
     useEffect(() => {
         if (props.currentUser.id == id) {
             window.location = '/profile';
@@ -33,15 +31,10 @@ const EditUserPage = (props) => {
                 props.updateUserForm({ name: user.name, isAdmin: user.isAdmin, balance: user.leaveBalance, email: user.email })
             }).catch(failed => {
                 setLoading(false);
-                setErrors([errors, ...failed.response.data]);
+                const { message } = failed.response.data;
+                props.setErrorMessage(message);
             });
     }, []);
-
-    const renderMessage = () => {
-        return message ? (<InfoMessage text={message} onDismiss={(e) => {
-            setMessage(null);
-        }} />) : null;
-    }
 
     const onBalanceAdjusment = () => {
         const { balance: adjustedBalance } = props.userForm;
@@ -60,11 +53,11 @@ const EditUserPage = (props) => {
             const { message, balance } = success.data;
             props.updateUserForm({ ...props.userForm, loading: false });
             props.updateUserForm({ ...props.userForm, balance });
-            setMessage(message);
+            props.setMessage(message);
         }).catch(failed => {
             const { message } = failed.response.data;
             props.updateUserForm({ ...props.userForm, loading: false });
-            setErrors([message, ...errors]);
+            props.setErrorMessage(message);
         });
     }
 
@@ -99,11 +92,11 @@ const EditUserPage = (props) => {
         }
         api.post(url).then(success => {
             const { message, user } = success.data;
-            setMessage(message);
+            props.setMessage(message);
             setUser(user);
         }).catch(failed => {
             const { message } = failed.response.data;
-            setErrors([message, ...errors]);
+            props.setErrorMessage(message);
         })
     }
 
@@ -139,19 +132,16 @@ const EditUserPage = (props) => {
         api.put(`/users/${id}`, { is_admin: isAdmin })
             .then(success => {
                 const { message, user } = success.data;
-                setMessage(message);
+                props.setMessage(message);
                 setUser(user);
             }).catch(failed => {
                 const { message } = failed.response.data;
-                setErrors([message, ...errors]);
+                props.setErrorMessage(message);
             });
     }
 
     return (
         <Page className="flex flex-col justify-center space-y-2">
-            <div className="w-2/3 self-center">
-                {renderMessage()}
-            </div>
             <Card className="flex flex-col w-full md:w-2/3  self-center space-y-4">
                 <div className="flex flex-row justify-between items-center">
                     <div className="flex flex-row space-x-2 items-center">
@@ -193,4 +183,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, { updateUserForm })(EditUserPage);
+export default connect(mapStateToProps, { updateUserForm, setMessage, setErrorMessage })(EditUserPage);
