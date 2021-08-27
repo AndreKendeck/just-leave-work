@@ -19,7 +19,7 @@ const MessageModal = class MessageModal extends React.Component {
         const { message, errorMessage } = this.props;
         if (message || errorMessage) {
             return ReactDOM.createPortal(
-                <div className="absolute bg-gray-800 bg-opacity-25 w-full z-20" style={{ height: '120%' }} onClick={(e) => { setVisible(false); onClose(e) }}>
+                <div className="absolute bg-gray-800 bg-opacity-25 w-full z-20" style={{ height: '120%' }} onClick={(e) => { this.close() }}>
                     <div className="flex flex-col justify-center items-center w-full h-full">
                         <div className="flex justify-center w-full lg:w-1/2 px-2" onClick={(e) => e.stopPropagation()}>
                             {message ? <InfoMessage text={message} onDismiss={(e) => this.props.clearMessages()} /> : null}
