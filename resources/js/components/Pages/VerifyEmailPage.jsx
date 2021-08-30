@@ -1,13 +1,12 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
-import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
 import Heading from '../Heading';
-import InfoMessage from '../InfoMessage';
 import Page from '../Page';
 
 const VerifyEmailPage = class VerifyEmailPage extends React.Component {
@@ -17,7 +16,6 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
         successMessage: null,
         code: { value: null, errors: [], hasError: false },
         isSending: false,
-
     }
 
     componentDidMount() {
@@ -32,9 +30,11 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
             .then(success => {
                 this.setState({ isSending: false });
                 const { message } = success.data;
-                this.setState({ successMessage: message });
+                this.props.setMessage(message);
             }).catch(failed => {
-                this.setState({ error: failed.response.data.message });
+                this.setState({ isSending: false });
+                const { message } = failed.response.data;
+                this.props.setErrorMessage(message);
             });
     }
 
@@ -53,7 +53,6 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                 }
             }
         })
-        console.log(this.state);
     }
 
     sendCodePost = (e) => {
@@ -62,8 +61,9 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
         this.setState({ isSending: true });
         api.post('/verify-email', { code })
             .then(success => {
+                const { message } = success.data;
                 this.setState({ isSending: false });
-                this.setState({ successMessage: success.data.message });
+                this.props.setMessage(message);
                 /** 
                  * redirect to the homepage
                  */
@@ -72,6 +72,7 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                 }, 2000);
             }).catch(failed => {
                 this.setState({ isSending: false });
+                const { message } = failed.response.data;
                 if (failed.response.status == 422) {
                     const { errors } = failed.response.data;
                     this.setState(state => {
@@ -85,7 +86,7 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                     });
                     return;
                 }
-                this.setState({ error: failed.response.data.message });
+                this.props.setErrorMessage(message);
             });
     }
 
@@ -97,8 +98,6 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
                     <Heading>Verify your account</Heading>
                     <Field name="code" hasError={this.state.code.hasError}
                         errors={this.state.code.errors} onKeyUp={(e) => this.onCodeChange(e)} label="Verification Code" />
-                    {this.state.error ? <ErrorMessage onDismiss={() => this.setState({ error: null })} text={this.state.error} /> : null}
-                    {this.state.successMessage ? <InfoMessage onDismiss={() => this.setState({ successMessage: null })} text={this.state.successMessage} /> : null}
                     {this.state.isSending ? (
                         <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
                     ) : <React.Fragment>
@@ -113,8 +112,12 @@ const VerifyEmailPage = class VerifyEmailPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const { user } = state;
     return {
-        user: state.user
+        user
     }
 }
-export default connect(mapStateToProps, null)(VerifyEmailPage);
+
+
+
+export default connect(mapStateToProps, { setMessage, setErrorMessage })(VerifyEmailPage);

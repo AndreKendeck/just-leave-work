@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace ('Api')->group(function () {
+Route::namespace('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -27,6 +27,7 @@ Route::namespace ('Api')->group(function () {
 
     Route::get('/profile', 'ProfileController@index')
         ->name('profile.index')->middleware('auth:sanctum');
+
     Route::put('/profile', 'ProfileController@update')
         ->name('profile.update')->middleware('auth:sanctum');
 
@@ -80,6 +81,8 @@ Route::namespace ('Api')->group(function () {
         Route::get('/settings', 'SettingController@index')->name('settings');
         Route::put('/settings', 'SettingController@update')
             ->name('settings.update');
+
+
 
         Route::get('/team', 'TeamController@index')->name('team');
         Route::post('/team/update', 'TeamController@update')->name('team.update');

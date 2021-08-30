@@ -38,9 +38,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if ($this->shouldReport($exception) && (env('APP_ENV') == 'production')) {
-            $airbrakeNotifier = App::make('Airbrake\Notifier');
-            $airbrakeNotifier->notify($exception);
+        if (app()->bound('honeybadger') && $this->shouldReport($exception)) {
+            app('honeybadger')->notify($exception, app('request'));
         }
 
         parent::report($exception);

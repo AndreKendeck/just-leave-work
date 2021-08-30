@@ -7,11 +7,10 @@ import { connect } from 'react-redux';
 import Button from '../../Button';
 import Loader from 'react-loader-spinner';
 import api from '../../../api';
-import ErrorMessage from '../../ErrorMessage';
-import InfoMessage from '../../InfoMessage';
 import moment from 'moment';
 import { clearLeaveForm, updateLeaveForm } from '../../../actions/forms/leave';
 import Checkbox from '../../Form/Checkbox';
+import { setErrorMessage, setMessage } from '../../../actions/messages';
 
 const CreateLeavePage = class CreateLeavePage extends React.Component {
 
@@ -29,7 +28,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                 this.setState({ users: success.data });
             }).catch(failed => {
                 const { message } = failed.response.data.message;
-                this.setState({ error: message });
+                this.props.setErrorMessage(message);
             });
     }
 
@@ -44,7 +43,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         this.props.updateLeaveForm({ ...leaveForm, dates: ranges });
     }
 
-    mapReasons = () => {
+    mapReasons() {
         const reasons = [{ id: 0, name: 'Select a reason' }, ...this.props.reasons];
         return reasons?.map(reason => {
             return {
@@ -54,10 +53,9 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         });
     }
 
-    storeLeavePost = () => {
+    storeLeavePost() {
 
         const { reason, dates, notifyUser, halfDay } = this.props.leaveForm;
-        console.log(moment().locale());
         moment().locale('en-gb');
         const from = moment(dates.startDate).format();
         const until = moment(dates.endDate).format();
@@ -68,9 +66,8 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         this.props.updateLeaveForm({ ...this.props.leaveForm, loading: true });
         api.post('/leaves', { from, until, reason, notifyUser, halfDay: halfDayOff })
             .then(success => {
-                this.setState({ isSending: false });
                 const { message } = success.data;
-                this.setState({ message: message });
+                this.props.setMessage(message);
                 this.props.updateLeaveForm({ ...this.props.leaveForm, loading: false });
                 this.props.clearLeaveForm();
             }).catch(failed => {
@@ -79,7 +76,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                 if (status === 422) {
                     this.props.updateLeaveForm({ ...this.props.leaveForm, errors });
                 } else {
-                    this.setState({ error: message });
+                    this.props.setErrorMessage(message);
                 }
                 this.props.updateLeaveForm({ ...this.props.leaveForm, loading: false });
             });
@@ -97,7 +94,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
 
     render() {
-        const { notifyUser, reason, dates, loading, halfDay, errors } = this.props.leaveForm;
+        const { notifyUser, dates, loading, halfDay, errors } = this.props.leaveForm;
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
@@ -124,8 +121,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                     {loading ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
                         <Button onClick={e => this.storeLeavePost()} >Send</Button>
                     )}
-                    {this.state.error ? <ErrorMessage text={this.state.error} onDismiss={e => this.setState({ error: null })} /> : null}
-                    {this.state.message ? <InfoMessage text={this.state.message} onDismiss={e => this.setState({ message: false })} /> : null}
                 </Card>
             </Page>
         );
@@ -140,4 +135,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { updateLeaveForm, clearLeaveForm })(CreateLeavePage);
+
+
+
+export default connect(mapStateToProps, { updateLeaveForm, clearLeaveForm, setMessage, setErrorMessage })(CreateLeavePage);

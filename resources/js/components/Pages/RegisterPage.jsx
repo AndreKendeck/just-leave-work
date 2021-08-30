@@ -11,7 +11,7 @@ import Page from '../Page';
 import { setUser } from '../../actions/user';
 import { setTeam } from '../../actions/team';
 import { setAuthenticated } from '../../actions/auth';
-import ErrorMessage from '../ErrorMessage';
+import { setErrorMessage } from '../../actions/messages';
 
 
 const RegisterPage = class RegisterPage extends React.Component {
@@ -56,7 +56,7 @@ const RegisterPage = class RegisterPage extends React.Component {
 
             }).catch(failed => {
                 this.setState({ isSending: false });
-                const { errors } = failed.response.data;
+                const { errors, message } = failed.response.data;
                 if (failed.response.status == 422) {
                     for (const key in errors) {
                         this.setState(state => {
@@ -70,7 +70,7 @@ const RegisterPage = class RegisterPage extends React.Component {
                         })
                     }
                 } else {
-                    this.setState({ error: failed.response.data.message });
+                    this.props.setErrorMessage(message);
                 }
             });
     }
@@ -117,11 +117,11 @@ const RegisterPage = class RegisterPage extends React.Component {
                     <Link to="/login">
                         <Button type="secondary"> Back to Login </Button>
                     </Link>
-                    {this.state.error ? <ErrorMessage text={this.state.error} /> : null}
                 </Card>
             </Page>
         );
     }
 }
 
-export default connect(null, { setUser, setAuthenticated, setTeam })(RegisterPage);
+
+export default connect(null, { setUser, setAuthenticated, setTeam, setErrorMessage })(RegisterPage);

@@ -1,7 +1,9 @@
 import moment from 'moment';
 import React from 'react';
+import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import { updateSettingsForm } from '../../actions/forms/settings';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 import { setSettings } from '../../actions/settings';
 import api from '../../api';
 import Button from '../Button';
@@ -45,31 +47,16 @@ const SettingPage = class SettingPage extends React.Component {
         }).then(success => {
             const { message, settings } = success.data;
             this.props.setSettings(settings);
-            this.setState({ message });
+            this.props.setMessage(message);
+            this.props.updateSettingsForm({ ...settingsForm, loading: false });
         }).catch(failed => {
             const { message, errors } = failed.response.data;
             if (failed.response.status == 422) {
                 this.props.updateSettingsForm({ ...settingsForm, errors });
             } else {
-                this.setState({ errors: [...this.state.errors, message] });
+                this.props.setErrorMessage(message);
             }
-        });
-        this.props.updateSettingsForm({ ...settingsForm, loading: false });
-    }
-
-    renderMessage() {
-        const { message } = this.state;
-        if (message) {
-            return <InfoMessage text={message} onDismiss={(e) => this.setState({ message: null })} />
-        }
-    }
-
-    renderErrorMessages() {
-        return this.state.errors?.map((error, index) => {
-            return <ErrorMessage text={error} key={index} onDismiss={(e) => {
-                let { errors } = this.state;
-                errors.filter((err, idx) => idx !== index);
-            }} />
+            this.props.updateSettingsForm({ ...settingsForm, loading: false });
         });
     }
 
@@ -108,8 +95,6 @@ const SettingPage = class SettingPage extends React.Component {
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor">
-                    {this.renderMessage()}
-                    {this.renderErrorMessages()}
                     <div className="flex flex-row w-full items-center justify-between">
                         <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Settings</span>
                         <span className="text-white bg-gray-700 px-2 py-1 text-center rounded-full text-xs self-start"> Last balance adjustment : {moment(this.props.settings?.lastLeaveBalanceAddedAt).fromNow()}</span>
@@ -170,4 +155,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { updateSettingsForm, setSettings })(SettingPage);
+export default connect(mapStateToProps, { updateSettingsForm, setSettings, setMessage, setErrorMessage })(SettingPage);

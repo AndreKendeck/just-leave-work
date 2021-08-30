@@ -8,7 +8,6 @@ import Table from '../../Table';
 import UserBadge from '../../UserBadge';
 import UserLeaveStatusBadge from '../../UserLeaveStatusBadge';
 import Loader from 'react-loader-spinner';
-import ErrorMessage from '../../ErrorMessage';
 import Button from '../../Button';
 import Dropdown from '../../Form/Dropdown';
 import Modal from '../../Modal';
@@ -18,10 +17,10 @@ import Checkbox from '../../Form/Checkbox';
 import EditButtonLink from '../../EditButtonLink';
 import ViewButtonLink from '../../ViewButtonLink';
 import UserCard from '../../UserCard';
-import { Link } from 'react-router-dom';
 import InfoMessage from '../../InfoMessage';
 import Paginator from '../../Paginator';
 import UserStatusBadge from '../../UserStatusBadge';
+import { setErrorMessage, setMessage } from '../../../actions/messages';
 
 const IndexUserPage = class IndexUserPage extends React.Component {
 
@@ -45,14 +44,6 @@ const IndexUserPage = class IndexUserPage extends React.Component {
 
     toggleModalOpenState(show = false) {
         this.setState({ showModal: show });
-    }
-
-    renderMessages() {
-        return this.state.messages?.map((message, index) => {
-            return <InfoMessage text={message} key={index} onDismiss={(e) => {
-                this.setState({ message: this.state.message.filter((m, i) => i !== index) });
-            }} />;
-        });
     }
 
     componentDidMount() {
@@ -84,7 +75,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             }).catch(failed => {
                 this.setState({ isLoading: false });
                 const { message } = failed.response.data;
-                this.setState({ errors: [message, ...this.state.errors] });
+                this.props.setErrorMessage(message);
             });
     }
 
@@ -184,12 +175,6 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         });
     }
 
-    renderErrors(errors = []) {
-        return errors?.map((err, key) => {
-            return <ErrorMessage text={err} key={key} onDismiss={(e) => { this.setState({ errors: this.state.errors.filter((er, k) => k !== key) }) }} />
-        });
-    }
-
     onNewUserInputChange(e, key) {
         e.persist();
         const { userForm } = this.props;
@@ -216,12 +201,15 @@ const IndexUserPage = class IndexUserPage extends React.Component {
             this.setState({ modalIsLoading: false });
             this.props.clearUserForm();
             this.setState({ users: [user, ...this.state.users] });
-            this.setState({ messages: [message, ...this.state.messages] });
+            this.props.setMessage(message);
         }).catch(failed => {
             this.setState({ modalIsLoading: false });
             const { userForm } = this.props;
-            const { errors } = failed.response.data;
+            const { errors, message } = failed.response.data;
             this.props.updateUserForm({ ...userForm, errors });
+            if (failed.response.status !== 422) {
+                this.props.setErrorMessage(message);
+            }
         })
     }
 
@@ -236,10 +224,6 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         return (
             <React.Fragment>
                 <Page className="flex flex-col space-y-2">
-                    <div className="w-full lg:w-3/4 self-center flex-col space-y-1">
-                        {this.state.errors.length > 0 ? this.renderErrors(this.state.errors) : null}
-                        {this.renderMessages()}
-                    </div>
                     <Card className="flex flex-col w-full lg:w-3/4 self-center items-center space-y-2">
                         <div className="flex flex-col md:flex-row space-x-2 w-full items-center justify-between">
                             <div className="mb-6 md:mb-0 md:mt-6 flex flex-row w-full space-x-2">
@@ -345,4 +329,5 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { updateUserForm, clearUserForm })(IndexUserPage);
+
+export default connect(mapStateToProps, { updateUserForm, clearUserForm, setMessage, setErrorMessage })(IndexUserPage);

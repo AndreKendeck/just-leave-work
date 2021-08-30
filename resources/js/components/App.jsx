@@ -29,6 +29,7 @@ import UploadUsersPage from './Pages/Users/UploadUsersPage';
 import ViewUserPage from './Pages/Users/ViewUserPage';
 import EditUserPage from './Pages/Users/EditUserPage';
 import TermsPage from './Pages/TermsPage';
+import Info from './messages/Info';
 
 
 const App = class App extends React.Component {

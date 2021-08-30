@@ -16,6 +16,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->artisan('db:seed');
+        $this->artisan('storage:link'); 
 
         $db = app()->make('db');
         $db->connection()->getPdo()->exec("pragma foreign_keys=1");
