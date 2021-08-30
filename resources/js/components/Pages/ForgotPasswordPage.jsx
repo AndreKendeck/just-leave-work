@@ -1,15 +1,15 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
-import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
-import InfoMessage from '../InfoMessage';
 import Page from '../Page';
 
-export default class ForgotPasswordPage extends React.Component {
+const ForgotPasswordPage = class ForgotPasswordPage extends React.Component {
 
     state = {
         error: null,
@@ -51,7 +51,8 @@ export default class ForgotPasswordPage extends React.Component {
                     }
                 }
                 if (failedResponse.response.status == 500) {
-                    this.setState({ error: failedResponse.response.data.message });
+                    const { message } = failedResponse.response.data;
+                    this.props.setErrorMessage(message);
                 }
             });
     }
@@ -102,11 +103,12 @@ export default class ForgotPasswordPage extends React.Component {
                             </div>
                         </Button>
                     </Link>
-                    {this.state.message ? <InfoMessage text={this.state.message} /> : null}
-                    {this.state.error ? <ErrorMessage text={this.state.error} /> : null}
                 </Card>
             </Page>
         )
     }
 
 }
+
+
+export default connect(null, { setMessage, setErrorMessage })(ForgotPasswordPage);

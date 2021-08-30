@@ -29,7 +29,8 @@ import UploadUsersPage from './Pages/Users/UploadUsersPage';
 import ViewUserPage from './Pages/Users/ViewUserPage';
 import EditUserPage from './Pages/Users/EditUserPage';
 import TermsPage from './Pages/TermsPage';
-import Info from './messages/Info';
+import MessageModal from './MessageModal';
+import { setErrorMessage } from '../actions/messages';
 
 
 const App = class App extends React.Component {
@@ -50,7 +51,9 @@ const App = class App extends React.Component {
                 this.setState({ initializing: false });
             })
             .catch(failedResponse => {
+                const { message } = failedResponse.response.data;
                 this.props.unsetAuthenticated();
+                this.props.setErrorMessage(message);
                 this.setState({ initializing: false });
             })
     }
@@ -162,6 +165,7 @@ const App = class App extends React.Component {
 
         return (
             <div className="flex flex-col space-y-4 z-10 bg-gray-100 h-full">
+                <MessageModal />
                 <BrowserRouter>
                     <Navbar />
                     <Route path="/terms-and-conditions" exact={true} >
@@ -198,6 +202,7 @@ const Application = connect(mapStateToProps,
         setTeam,
         setSettings,
         setReasons,
+        setErrorMessage
     })(App);
 
 ReactDOM.render(

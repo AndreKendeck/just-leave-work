@@ -13,8 +13,9 @@ import Dropdown from '../../Form/Dropdown';
 import { connect } from 'react-redux';
 import UserBadge from '../../UserBadge';
 import LeaveCard from '../../LeaveCard';
-import Button from '../../Button';;
+import Button from '../../Button';
 import { clearLeaveExportForm, updateLeaveExportForm } from '../../../actions/forms/export/leave';
+import { setErrorMessage, setMessage } from '../../../actions/messages';
 
 const IndexLeavePage = class IndexLeavePage extends React.Component {
 
@@ -67,8 +68,9 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                     })
                 })
                 .catch(failed => {
+                    const { message } = failed.response.data;
                     this.toggleLoadingState(false);
-                    this.setState({ error: failed.response.data.message });
+                    this.props.setErrorMessage(message);
                 })
         });
     }
@@ -194,21 +196,11 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
         })
     }
 
-    renderMessages() {
-        return this.state.message?.map((message, key) => {
-            return <InfoMessage text={message} key={key} onDimiss={(e) => {
-                const { messages } = this.state;
-                let newMessages = messages.filter((m, k) => k !== key);
-                this.setState({ messages: newMessages });
-            }} />
-        })
-    }
 
     render() {
         return (
             <React.Fragment>
                 <Page className="flex flex-col space-y-2">
-                    {this.renderMessages()}
                     <Card className="flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2">
                         <Dropdown label="Status" options={this.getLeaveStatuses()}
                             onChange={(e) => { e.persist(); this.setState({ filters: { ...this.state.filters, status: e.target.value } }) }} />
@@ -283,4 +275,11 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { updateLeaveExportForm, clearLeaveExportForm })(IndexLeavePage);
+export default connect(mapStateToProps,
+    {
+        updateLeaveExportForm,
+        clearLeaveExportForm,
+        setErrorMessage,
+        setMessage
+    }
+)(IndexLeavePage);

@@ -17,7 +17,6 @@ import Checkbox from '../../Form/Checkbox';
 import EditButtonLink from '../../EditButtonLink';
 import ViewButtonLink from '../../ViewButtonLink';
 import UserCard from '../../UserCard';
-import InfoMessage from '../../InfoMessage';
 import Paginator from '../../Paginator';
 import UserStatusBadge from '../../UserStatusBadge';
 import { setErrorMessage, setMessage } from '../../../actions/messages';
@@ -307,7 +306,6 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                             name="isAdmin" onChange={(e) => { this.onToggleIsAdminChange() }} />
                         <Field type="number" name="balance" step="0.25" errors={this.props.userForm.errors?.balance} value={this.props.userForm.balance} label="Starting Leave Balance"
                             onChange={(e) => this.onNewUserInputChange(e, 'balance')} />
-                        {this.props.userForm.messages?.map((message, index) => (<InfoMessage text={message} key={index} />))}
                         {this.state.modalIsLoading ? <Loader type="Oval" className="self-center" height={30} width={30} color="Gray" /> : (<Button type="primary" onClick={(e) => this.onNewUserSave()}>Save</Button>)}
                     </div>
                 </Modal>

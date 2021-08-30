@@ -213,7 +213,7 @@ class LeaveController extends Controller
 
         return response()
             ->json([
-                'message' => 'Leave deleted',
+                'message' => 'Leave deleted successfully',
             ]);
     }
 }
