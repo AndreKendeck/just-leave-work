@@ -10,14 +10,13 @@ import ErrorMessage from '../ErrorMessage';
 import Field from '../Form/Field';
 import InfoMessage from '../InfoMessage';
 import Page from '../Page';
-import Table from '../Table';
-
 
 const SettingPage = class SettingPage extends React.Component {
 
     state = {
         message: null,
         errors: [],
+        day: null,
     }
 
     componentDidMount() {
@@ -75,21 +74,32 @@ const SettingPage = class SettingPage extends React.Component {
     }
 
     getSaveButtonState() {
-        const { settingsForm } = this.state;
+        const { settingsForm } = this.props;
         if (settingsForm?.loading) {
             return <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
         }
         return <Button type="secondary" onClick={(e) => this.onSave()}>Save</Button>;
     }
 
-    renderExcludedDays() {
-
-    }
 
     onDayChange(e) {
         e.persist();
         const day = e.target.value;
-        
+        this.setState({ day });
+    }
+
+    onDayAdd() {
+        const { settingsForm } = this.props;
+        const { excludedDays } = settingsForm;
+        const { day } = this.state;
+        api.post('/excluded-days', { day })
+            .then(success => {
+
+                this.props.updateSettingsForm({ ...settingsForm, excludedDays: [...day, excludedDays] });
+            }).catch(failed => {
+
+            });
+
     }
 
     render() {
@@ -120,16 +130,19 @@ const SettingPage = class SettingPage extends React.Component {
                     <div className="flex flex-row w-full items-center justify-between">
                         <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Excluded Days</span>
                     </div>
-                    <Field name="day" label="Add day" tip="Monday or 01/01/2021" />
+                    <div className="flex flex-row space-x-2 items-center">
+                        <Field name="day" label="Add day" tip="Monday or 01/01/2021" />
+                        <div class="w-1/2 md:w-1/4">
+                            <Button type="soft" onClick={(e) => this.onDayAdd()} >Add</Button>
+                        </div>
+                    </div>
                     <div className="w-full overflow-auto space-y-2 flex flex-col" style={{ height: '350px' }}>
                         {this.props.settings.excludedDays.map(day => {
                             return (
                                 <div className="flex flex-row p-3 justify-between items-center">
                                     <div className="text-gray-700 text-base">{day}</div>
                                     <div>
-                                        <Button type="soft" onClick={ (e) => {
-                                            
-                                        } } >
+                                        <Button type="soft" onClick={(e) => this.onDayDelete(day.id)} >
                                             <svg version="1.1" className="stroke-current h-4 w-4 text-gray-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <g fill="none">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 8l8 8"></path>

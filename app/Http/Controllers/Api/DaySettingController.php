@@ -26,6 +26,16 @@ class DaySettingController extends Controller
         $day = \Illuminate\Support\Str::of($request->day)->ucfirst();
         $settings = auth()->user()->team->settings;
         if (in_array($day, self::DAYS)) {
+            $exists = ExcludedDay::where([
+                'day' => $day,
+                'setting_id' => $settings->id,
+            ])->exists();
+            if ($exists) {
+                return response()
+                    ->json([
+                        'errors' => ['This day already exists'],
+                    ], 422);
+            }
             $excludedDay = ExcludedDay::create([
                 'setting_id' => $settings->id,
                 'day' => $day,
@@ -38,14 +48,26 @@ class DaySettingController extends Controller
         }
 
         try {
-            $day = Carbon::create($request->day);
+            $day = Carbon::parse($request->day);
+
+            $exists = ExcludedDay::where([
+                'day' => $day,
+                'setting_id' => $settings->id,
+            ])->exists();
+            if ($exists) {
+                return response()
+                    ->json([
+                        'errors' => ['This day already exists'],
+                    ], 422);
+            }
+
             $excludedDay = ExcludedDay::create([
                 'setting_id' => $settings->id,
-                'day' => $day->toDateTimeString(),
+                'day' => $day->toDateString(),
             ]);
             return response()
                 ->json([
-                    'message' => "{$day->toDateTimeString()} has been excluded",
+                    'message' => "{$day->toDateString()} has been excluded",
                     'day' => new ExcludedDayResource($excludedDay),
                 ], 201);
         } catch (\Exception $e) {
@@ -59,7 +81,29 @@ class DaySettingController extends Controller
 
     public function destroy($id)
     {
-        $day = ExcludedDay::findOrFail($id); 
-        
+        $day = ExcludedDay::findOrFail($id);
+
+        $settings = $day->settings;
+
+        if (!auth()->user()->team->id != $settings->team_id) {
+            return response()
+                ->json([
+                    'message' => 'You cannot remove this day',
+                ], 403);
+        }
+
+        if (!auth()->user()->hasRole('team-admin', auth()->user()->team)) {
+            return response()
+                ->json([
+                    'message' => 'You are not allowed to perform this action',
+                ], 403);
+        }
+
+        $day->delete();
+
+        return response()
+            ->json([
+                'message' => "{$day->day} has been removed",
+            ]);
     }
 }

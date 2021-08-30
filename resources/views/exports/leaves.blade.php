@@ -7,7 +7,6 @@
             <th>On</th>
             <th>Until</th>
             <th>Days Off</th>
-            <th> Closing Balance </th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +18,6 @@
                 <td>{{ $leave->from->toFormattedDateString() }}</td>
                 <td>{{ $leave->half_day ? '-' : $leave->until->toFormattedDateString() }}</td>
                 <td>{{ $leave->number_of_days_off }}</td>
-                <td></td>
             </tr>
         @endforeach
     </tbody>

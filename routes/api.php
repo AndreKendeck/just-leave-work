@@ -86,7 +86,7 @@ Route::namespace ('Api')->group(function () {
         Route::get('/team/admins', 'AdminUserController')->name('admins.index');
         Route::get('/transactions/{userId}', 'TransactionController@index')->name('transactions.index');
         Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
-        Route::post('/excluded-days', 'DaySettingController@store')->name('excluded-days.store');
-        Route::delete('/excluded-days/{id}', 'DaySettingController@destroy')->name('excluded-days.destroy');
+        Route::post('/excluded-days', 'DaySettingController@store')->name('excludeddays.store');
+        Route::delete('/excluded-days/{id}', 'DaySettingController@destroy')->name('excludeddays.destroy');
     });
 });
