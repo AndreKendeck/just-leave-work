@@ -79,12 +79,20 @@ const SettingPage = class SettingPage extends React.Component {
         const { settingsForm } = this.props;
         const { excludedDays } = settingsForm;
         const { day } = this.state;
+        this.props.updateSettingsForm({ ...settingsForm, loading: true });
         api.post('/excluded-days', { day })
             .then(success => {
-
+                const { message } = success.data;
+                this.props.setMessage(message);
                 this.props.updateSettingsForm({ ...settingsForm, excludedDays: [...day, excludedDays] });
+                this.props.updateSettingsForm({ ...settingsForm, loading: false });
             }).catch(failed => {
-
+                const { message, errors } = failed.response.data;
+                if (failed.response.status !== 422) {
+                    this.props.setErrorMessage(message);
+                }
+                this.props.updateSettingsForm({ ...settingsForm, errors });
+                this.props.updateSettingsForm({ ...settingsForm, loading: false });
             });
 
     }
@@ -116,9 +124,9 @@ const SettingPage = class SettingPage extends React.Component {
                         <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Excluded Days</span>
                     </div>
                     <div className="flex flex-row space-x-2 items-center">
-                        <Field name="day" label="Add day" tip="Monday or 01/01/2021" />
+                        <Field name="day" label="Add day" errors={errors?.day} tip="Monday or 01/01/2021" />
                         <div class="w-1/2 md:w-1/4">
-                            <Button type="soft" onClick={(e) => this.onDayAdd()} >Add</Button>
+                            {this.props.settingsForm.loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button type="soft" onClick={(e) => this.onDayAdd()} >Add</Button>}
                         </div>
                     </div>
                     <div className="w-full overflow-auto space-y-2 flex flex-col" style={{ height: '350px' }}>
