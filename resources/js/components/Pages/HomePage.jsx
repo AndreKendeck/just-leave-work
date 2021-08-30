@@ -156,7 +156,6 @@ const HomePage = class HomePage extends React.Component {
                     </div>
                 </div>
                 <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
-                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Your leave history</span>
                     {this.getMyLeavesTable()}
                 </Card>
                 {this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> :

@@ -227,7 +227,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                         <div className="flex flex-col md:flex-row space-x-2 w-full items-center justify-between">
                             <div className="mb-6 md:mb-0 md:mt-6 flex flex-row w-full space-x-2">
                                 <div>
-                                    <Button type="secondary" onClick={(e) => this.toggleModalOpenState(true)}>
+                                    <Button type="primary" onClick={(e) => this.toggleModalOpenState(true)}>
                                         <div className="flex flex-row space-x-1 items-center justify-center">
                                             <svg version="1.1" className="stroke-current w-6 h-6 text-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                                 <g fill="none">
@@ -237,7 +237,7 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15,18h5"></path>
                                                 </g>
                                             </svg>
-                                            <span className="text-white">Add</span>
+                                            <span className="text-white">Add new user</span>
                                         </div>
                                     </Button>
                                 </div>
