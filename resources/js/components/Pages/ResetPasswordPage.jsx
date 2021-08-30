@@ -10,6 +10,8 @@ import Button from '../Button';
 import Heading from '../Heading';
 import Field from '../Form/Field';
 import InfoMessage from '../InfoMessage';
+import { connect } from 'react-redux';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 
 
 function useQuery() {
@@ -105,12 +107,10 @@ const ResetPasswordPage = (props) => {
                         Save
                     </Button>
                 )}
-                {error ? <ErrorMessage text={error} onDismiss={(e) => { setError(null) }} /> : null}
-                {message ? <InfoMessage text={message} onDismiss={(e) => { setMessage(null) }} /> : null}
             </Card>
         </Page>
     )
 
 }
 
-export default ResetPasswordPage;
+export default connect(null, { setMessage, setErrorMessage })(ResetPasswordPage);

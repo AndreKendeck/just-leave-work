@@ -35,6 +35,7 @@
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">
     <div id="modal" class="z-20"></div>
+    <div id="message-modal" class="z-40"></div>
     <div id="app">
     </div>
 </body>

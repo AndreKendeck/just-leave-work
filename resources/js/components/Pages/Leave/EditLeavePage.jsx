@@ -6,35 +6,31 @@ import { Link } from 'react-router-dom';
 import api from '../../../api';
 import Button from '../../Button';
 import Card from '../../Card';
-import ErrorMessage from '../../ErrorMessage';
 import Heading from '../../Heading';
-import InfoMessage from '../../InfoMessage';
 import LeaveDaysLabel from '../../LeaveDaysLabel';
 import LeaveStatusBadge from '../../LeaveStatusBadge';
 import Page from '../../Page';
 import UserBadge from '../../UserBadge';
-import Field from '../../Form/Field';
-import { collect } from 'collect.js';
 import { connect } from 'react-redux';
+import { setErrorMessage, setMessage } from '../../../actions/messages';
 
-const EditLeavePage = ({ user }) => {
+const EditLeavePage = (props) => {
+    const { user } = props;
     const { id } = useParams();
     const [leave, setLeave] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [message, setMessage] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
             api.get(`/leaves/${id}`)
                 .then(successResponse => {
                     setLoading(false);
-                    setLeave(successResponse.data);
+                    const { data } = successResponse;
+                    setLeave(data);
                 }).catch(failedResponse => {
                     setLoading(false);
                     const { message } = failedResponse.response.data;
-                    setError(message);
+                    props.setErrorMessage(message);
                 });
 
         }, 1000);
@@ -45,37 +41,15 @@ const EditLeavePage = ({ user }) => {
         api.delete(`/leaves/${id}`)
             .then(success => {
                 setLoading(false);
-                setMessage(success.data.message);
+                const { message } = success.data;
+                props.setMessage(message);
                 setTimeout(() => {
                     window.location = '/leaves';
                 }, 1500);
             }).catch(failed => {
                 setLoading(false);
-                setError(failed.response.data.message);
-            });
-    }
-
-    const onDescriptionChange = (e) => {
-        e.persist();
-        setLeave({ ...leave, description: e.target.value });
-    }
-
-    const onSave = () => {
-        const { from, until, description, reason: { id: reason } } = leave;
-        api.put(`/leaves/${id}`, { from, until, description, reason })
-            .then(success => {
-                const { message, leave } = success.data;
-                setMessage(message);
-                setLeave(leave);
-                setIsEditing(false);
-            }).catch(failed => {
-                if (failed.response.code == 422) {
-                    const { errors } = failed.response.data;
-                    setLeave({ ...leave, errors: [collect(errors).flatten().toArray()] });
-                } else {
-                    const { message } = failed.response.data;
-                    setError(message);
-                }
+                const { message } = failed.response.data;
+                props.setErrorMessage(message);
             });
     }
 
@@ -89,15 +63,6 @@ const EditLeavePage = ({ user }) => {
         )
     }
 
-    if (error || !leave) {
-        return (
-            <Page className="flex flex-col justify-center space-y-2">
-                <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                    <ErrorMessage onDismiss={() => setError(null)} text={error ? error : 'Could not fetch leave'} />
-                </Card>
-            </Page>
-        );
-    }
 
     function renderBackButton() {
         if (user?.isAdmin) {
@@ -117,15 +82,11 @@ const EditLeavePage = ({ user }) => {
 
     return (
         <Page className="flex flex-col justify-center space-y-2">
-            <div className="w-2/3 self-center">
-                {message ? <InfoMessage text={message} onDismiss={(e) => setMessage(null)} /> : null}
-                {leave?.errors?.length > 0 ? error.map((err, key) => (<ErrorMessage text={err} key={key} />)) : null}
-            </div>
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
                 {renderBackButton()}
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between items-center">
                     <Heading>{leave?.reason.name}</Heading>
-                    <div className="flex flex-row space-x-2 items-center justify-between">
+                    <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 items-center justify-between">
                         <div>
                             <LeaveDaysLabel leave={leave} />
                         </div>
@@ -145,7 +106,7 @@ const EditLeavePage = ({ user }) => {
                                     </svg>
                                 </span>
                                 <span className="text-gray-700">
-                                    {leave.halfDay ? <div className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">Half Day</div> : leave.numberOfDaysOff + 'Day(s)'}
+                                    {leave?.halfDay ? <div className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">Half Day</div> : leave?.numberOfDaysOff + 'Day(s)'}
                                 </span>
                             </div>
                         </div>
@@ -157,28 +118,6 @@ const EditLeavePage = ({ user }) => {
                     </div>
                     <div className="text-gray-600 text-sm w-full text-right">{moment(leave?.createdAt).fromNow()}</div>
                 </div>
-                <div className="text-gray-500 w-full" onClick={(e) => setIsEditing(true)}>
-                    {leave?.description}
-                </div>
-                {isEditing ? (
-                    <div className="w-full flex flex-row space-x-2 items-center">
-                        <div className="w-full">
-                            <Field value={leave?.description} label="Description"
-                                errors={leave?.errors} onChange={(e) => { onDescriptionChange(e) }} />
-                        </div>
-                        <div className="mt-6">
-                            <Button type="soft" onClick={(e) => onSave()}>
-                                <svg viewBox="0 0 24 24" className="stroke-current text-gray-600 h-6 w-6" xmlns="http://www.w3.org/2000/svg">
-                                    <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
-                                        <path d="M19 21H5.1l0-.001c-1.1 0-2-.89-2-1.99l-.11-14 -.01-.01c-.01-1.11.88-2.01 1.98-2.02 0-.01 0-.01.01-.01h11.17l0-.001c.53-.01 1.03.21 1.41.58l2.82 2.82 -.01-.01c.37.37.58.88.58 1.41v11.17l0 0c0 1.1-.9 1.99-2 1.99 -.01 0-.01-.01-.01-.01Z" />
-                                        <path d="M15.993 3v4l0-.01c-.01.55-.45.99-1 1h-6l-.01-.001c-.56-.01-1-.45-1-1v-4" />
-                                        <path d="M12 12a2.5 2.5 0 1 0 0 5 2.5 2.5 0 1 0 0-5Z" />
-                                    </g>
-                                </svg>
-                            </Button>
-                        </div>
-                    </div>
-                ) : null}
                 {leave?.pending ? (
                     <div className="flex flex-row space-x-2 items-center justify-between w-full">
                         <Button type="danger" onClick={() => onDelete()}>Delete</Button>
@@ -196,5 +135,4 @@ const mapStateToProps = (state) => {
         user
     };
 }
-
-export default connect(mapStateToProps, null)(EditLeavePage);
+export default connect(mapStateToProps, { setMessage, setErrorMessage })(EditLeavePage);
