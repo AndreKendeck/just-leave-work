@@ -23,11 +23,16 @@ class SettingController extends Controller
             'days_until_balance_added' => $request->days_until_balance_added,
         ]);
 
+        if ($request->filled('country')) {
+            auth()->user()->team->settings->update([
+                'country_id' => $request->country
+            ]);
+        }
+
         return response()
             ->json([
                 'message' => "Settings updated successfully",
                 'settings' => new SettingResource(auth()->user()->team->settings)
             ]);
     }
-
 }

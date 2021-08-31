@@ -32,16 +32,20 @@ class TeamSettingsTest extends TestCase
             'days_until_balance_added' => rand(15, 30),
         ];
 
+        $countryPost = [
+            'country' => 'ZA'
+        ];
+
         $user = factory('App\User')->create();
 
         $user->attachRole('team-admin', $user->team);
 
         $this->actingAs($user)
-            ->put(route('settings.update'), $newSettings)
+            ->put(route('settings.update'),  array_merge($newSettings, $countryPost))
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJsonStructure(['message']);
-        $this->assertDatabaseHas('settings', array_merge($newSettings, ['team_id' => $user->team_id]));
+        $this->assertDatabaseHas('settings', array_merge($newSettings, ['team_id' => $user->team_id], ['country_id' => $countryPost['country']]));
     }
 
     /** @test **/
