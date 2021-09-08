@@ -1,8 +1,8 @@
 <table>
     <thead>
         <tr>
-            <th>Member ID</th>
-            <th>Member</th>
+            <th>Email</th>
+            <th>Name</th>
             <th>Type</th>
             <th>On</th>
             <th>Until</th>
@@ -12,7 +12,7 @@
     <tbody>
         @foreach ($leaves as $leave)
             <tr>
-                <td>{{ $leave->user->id }}</td>
+                <td>{{ $leave->user->email }}</td>
                 <td>{{ $leave->user->name }}</td>
                 <td>{{ $leave->reason->name }}</td>
                 <td>{{ $leave->from->toFormattedDateString() }}</td>

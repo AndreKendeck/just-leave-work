@@ -58,13 +58,13 @@ const ProfilePage = class ProfilePage extends React.Component {
         return this.state.transactions?.data?.map((transaction, index) => {
             return (
                 <tr className="rounded" key={index}>
+                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createdAt).format('l')} </td>
                     <td className="text-center text-gray-600 text-sm"> {transaction.description} </td>
                     <td className="text-center text-gray-600 text-sm">
                         <span className={`${this.getNumberClass(transaction.amount)}`}>
                             {transaction.amount}
                         </span>
                     </td>
-                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createdAt).format('l')} </td>
                 </tr>
             )
         });
@@ -252,7 +252,7 @@ const ProfilePage = class ProfilePage extends React.Component {
 
                 <Card className="hidden md:flex w-full md:w-2/3 self-center items-center flex-col space-y-2">
                     <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs self-start">Transactions </span>
-                    <Table headings={['Description', 'Amount', 'Date']} >
+                    <Table headings={['Date', 'Description', 'Amount']} >
                         {this.renderTransactions()}
                     </Table>
                     <Paginator onNextPage={() => this.getTransactions((this.state.transactions.currentPage + 1))}

@@ -72,7 +72,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                     this.toggleLoadingState(false);
                     this.props.setErrorMessage(message);
                 })
-        }, 1500);
+        });
     }
 
     toggleLoadingState(isLoading) {
@@ -216,19 +216,19 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                         }} />
 
                     </Card>
-                    <Card className="flex w-full lg:w-3/4 lg:space-x-2 self-center items-center flex-col lg:flex-row lg:space-y-0 space-y-2 justify-center">
-                        <div className="flex w-full md:w-1/2 flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0" >
-                            <Dropdown options={this.getMonthCollection()} label="Month" name="month" value={this.props.leaveExportForm.month} onChange={(e) => this.updateExportForm(e, 'month')} />
-                            <Dropdown options={this.props.years} label="Year" name="year" value={this.props.leaveExportForm.year} onChange={(e) => this.updateExportForm(e, 'year')} />
-                            <div className="self-center w-full pt-5">
-                                {this.props.leaveExportForm.loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : (
-                                    <Button type="soft" onClick={(e) => this.onExport()} >Export</Button>
-                                )}
+                    <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
+                        <div className="flex flex-row justify-center w-full items-center">
+                            <div className="flex w-full md:w-1/2 flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0" >
+                                <Dropdown options={this.getMonthCollection()} label="Month" name="month" value={this.props.leaveExportForm.month} onChange={(e) => this.updateExportForm(e, 'month')} />
+                                <Dropdown options={this.props.years} label="Year" name="year" value={this.props.leaveExportForm.year} onChange={(e) => this.updateExportForm(e, 'year')} />
+                                <div className="self-center w-full pt-5">
+                                    {this.props.leaveExportForm.loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : (
+                                        <Button type="soft" onClick={(e) => this.onExport()} >Export</Button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </Card>
-                    <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
-                        <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Leave Requests</span>
+                        <div className="w-full border-b-2 border-gray-300 p-2"></div>
                         {this.state.isLoading ?
                             <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> :
                             <Table headings={['Requested By', 'Status', 'Type', 'On', 'Until', 'Days off', '']}>

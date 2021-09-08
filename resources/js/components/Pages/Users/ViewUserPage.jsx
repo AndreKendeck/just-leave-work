@@ -1,11 +1,15 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import Loader from 'react-loader-spinner';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router';
+import { setErrorMessage } from '../../../actions/messages';
 import api from '../../../api';
+import Button from '../../Button';
 import Card from '../../Card';
 import EditButtonLink from '../../EditButtonLink';
 import ErrorMessage from '../../ErrorMessage';
+import Dropdown from '../../Form/Dropdown';
 import Page from '../../Page';
 import Paginator from '../../Paginator';
 import Table from '../../Table';
@@ -21,6 +25,7 @@ const ViewUserPage = (props) => {
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [transactions, setTransactions] = useState({ loading: true });
+    const [exportForm, setExportForm] = useState({ year: moment().format('YYYY'), month: moment().format('YYYY') });
 
     useEffect(() => {
         api.get(`/users/${id}`)
@@ -53,13 +58,14 @@ const ViewUserPage = (props) => {
         return transactions?.data?.map((transaction, index) => {
             return (
                 <tr className="rounded" key={index}>
+                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createdAt).format('l')} </td>
                     <td className="text-center text-gray-600 text-sm"> {transaction.description} </td>
                     <td className="text-center text-gray-600 text-sm">
                         <span className={`${getNumberClass(transaction.amount)}`}>
                             {transaction.amount}
                         </span>
                     </td>
-                    <td className="text-center text-gray-600 text-sm"> {moment(transaction.createAt).format('l')} </td>
+
                 </tr>
             )
         });
@@ -79,6 +85,48 @@ const ViewUserPage = (props) => {
                 let { message } = failed.response.data;
                 setErrors([message, ...errors]);
                 setTransactions({ loading: false });
+            });
+    }
+
+    const getMonthCollection = () => {
+        const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        return months.map((month, key) => {
+            return {
+                value: month,
+                label: moment().month(month).format('MMM')
+            }
+        })
+    }
+
+    const getYearCollection = () => {
+        const years = [0, 1, 2, 3, 4, 5];
+        return years.map(year => {
+            return {
+                value: moment().subtract('years', year).format('YYYY'),
+                label: moment().subtract('years', year).format('YYYY')
+            }
+        })
+    }
+
+    const updateExportForm = (e, key) => {
+        setExportForm({ ...exportForm, [key]: e.target.value });
+    }
+
+    /**
+     * export the transactions for a specific month and year for theuser
+     */
+    const onExport = () => {
+        setExportForm({ ...exportForm, loading: true });
+        const { month, year } = exportForm;
+        api.get(`/transactions/export/${user?.id}/${month}/${year}`)
+            .then(success => {
+                const { file } = success.data;
+                setExportForm({ ...exportForm, loading: false });
+                window.location = file;
+            }).catch(failed => {
+                const { message } = failed.response.data;
+                setExportForm({ ...exportForm, loading: false });
+                props.setErrorMessage(message);
             });
     }
 
@@ -139,8 +187,18 @@ const ViewUserPage = (props) => {
                 <UserLeaveSummary user={user} />
             </div>
             <Card className="hidden md:flex md:flex-col w-full md:w-2/3 self-center space-y-4">
-                <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs self-start">Transactions </span>
-                <Table headings={['Description', 'Amount', 'Date']} >
+                <div className="flex flex-row justify-center w-full items-center">
+                    <div className="flex w-full md:w-1/2 flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0" >
+                        <Dropdown options={getMonthCollection()} label="Month" name="month" value={exportForm.month} onChange={(e) => updateExportForm(e, 'month')} />
+                        <Dropdown options={getYearCollection()} label="Year" name="year" value={exportForm.year} onChange={(e) => updateExportForm(e, 'year')} />
+                        <div className="self-center w-full pt-5">
+                            {exportForm?.loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : (
+                                <Button type="soft" onClick={(e) => onExport()} >Export</Button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <Table headings={['Date', 'Description', 'Amount']} >
                     {renderTransactions()}
                 </Table>
                 <Paginator onNextPage={() => getTransactions((transactions.currentPage + 1))}
@@ -155,4 +213,5 @@ const ViewUserPage = (props) => {
     )
 }
 
-export default ViewUserPage;
+
+export default connect(null, { setErrorMessage })(ViewUserPage);

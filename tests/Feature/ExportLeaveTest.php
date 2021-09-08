@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Jobs\DeleteLeaveExportFromStorage;
+use App\Jobs\DeleteExportFileFromStorage;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Bus;
 
 class ExportLeaveTest extends TestCase
 {
@@ -28,7 +28,8 @@ class ExportLeaveTest extends TestCase
         $arrayOfPath = explode('/', $response->json(['file']));
         $file = $arrayOfPath[sizeof($arrayOfPath) - 1];
         Storage::assertExists($file);
-        Bus::assertDispatched(DeleteLeaveExportFromStorage::class);
+
+        Bus::assertDispatched(DeleteExportFileFromStorage::class);
     }
 
     /** @test **/
