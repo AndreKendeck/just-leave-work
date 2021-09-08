@@ -37,6 +37,6 @@ class ExportTransactionController extends Controller
         dispatch(new DeleteExportFileFromStorage($filename))->delay(now()->addMinutes(2));
 
         return response()
-            ->json(['file' => asset($filename)]);
+            ->json(['file' => asset("/storage/{$filename}")]);
     }
 }
