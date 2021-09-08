@@ -133,7 +133,7 @@ const ViewLeavePage = (props) => {
                 .then(successResponse => {
                     setLoading(false);
                     setLeave(successResponse.data);
-                    
+
                 }).catch(failedResponse => {
                     setLoading(false);
                     const { message } = failedResponse.response.data;
@@ -210,7 +210,7 @@ const ViewLeavePage = (props) => {
                         showMonthArrow={false}
                         showSelectionPreview={true} />
 
-                    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2  md:items-center w-full">
+                    <div className="flex flex-col space-y-2 md:space-x-2 md:justify-center md:items-center w-full">
                         <div>
                             <UserBadge user={leave?.user} imageSize={8} />
                         </div>

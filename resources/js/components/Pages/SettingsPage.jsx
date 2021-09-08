@@ -119,7 +119,7 @@ const SettingPage = class SettingPage extends React.Component {
                         tip="Cycle days" />
                     {this.getSaveButtonState()}
                 </Card>
-                <Card className="flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor">
+                {/* <Card className="flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor">
                     <div className="flex flex-row w-full items-center justify-between">
                         <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Excluded Days</span>
                     </div>
@@ -148,7 +148,7 @@ const SettingPage = class SettingPage extends React.Component {
                             );
                         })}
                     </div>
-                </Card>
+                </Card> */}
             </Page>
         )
     }

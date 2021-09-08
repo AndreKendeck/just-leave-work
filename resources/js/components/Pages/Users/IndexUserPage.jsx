@@ -241,22 +241,6 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                         </div>
                                     </Button>
                                 </div>
-                                {/* <div>
-                                    <Link to="/users/create">
-                                        <Button type="soft">
-                                            <div className="flex flex-row space-x-1 items-center justify-center">
-                                                <svg version="1.1" viewBox="0 0 24 24" className="stroke-current w-6 h-6 text-gray-600" xmlns="http://www.w3.org/2000/svg">
-                                                    <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
-                                                        <circle cx="8" cy="8.51" r="3.49"></circle><circle cx="17" cy="9.5" r="2.5"></circle>
-                                                        <path d="M2 20v-1.017c0-2.2 1.783-3.983 3.983-3.983h4.034c2.2 0 3.983 1.783 3.983 3.983v1.017"></path>
-                                                        <path d="M17 15h1.102c2.2 0 3.983 1.783 3.983 3.983v1.017"></path>
-                                                    </g>
-                                                </svg>
-                                                <span className="text-gray-600">Add multiple users</span>
-                                            </div>
-                                        </Button>
-                                    </Link>
-                                </div> */}
                             </div>
                             <div className="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 items-center self-end">
                                 <Dropdown onChange={(e) => { this.setState({ roleFilter: e.target.value }) }} options={this.getUserRoleDropDownOptions()} label="Role" />
@@ -281,7 +265,6 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                         </div>
                     </Card>
                     <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center space-y-2">
-                        <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Users</span>
                         {this.state.isLoading ?
                             <Loader type="Oval" className="self-center" height={80} width={80} color="Gray" /> :
                             <Table headings={['', 'E-mail', 'Balance', 'Last leave taken', 'Leave taken', '']}>
