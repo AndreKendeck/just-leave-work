@@ -27,6 +27,8 @@ class NewPasswordEmail extends Mailable implements ShouldQueue
     {
         $this->password = $password;
         $this->user = $user;
+        $this->from('noreply@justleave.work' , 'justleave.work'); 
+        $this->subject("Reset your justleave.work password"); 
     }
 
     /**
