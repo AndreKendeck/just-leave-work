@@ -22,7 +22,7 @@ class LeaveRequestEmail extends Mailable
     public function __construct(Leave $leave)
     {
         $this->leave = $leave;
-        $this->from('noreply@justleave.work', 'Justleave Work');
+        $this->from('noreply@justleave.work', 'justleave.work');
         $this->subject("Leave request from {$leave->user->name}");
     }
 

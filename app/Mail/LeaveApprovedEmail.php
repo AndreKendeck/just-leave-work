@@ -20,7 +20,7 @@ class LeaveApprovedEmail extends Mailable implements ShouldQueue
     public function __construct(\App\Leave $leave)
     {
         $this->leave = $leave;
-        $this->from('noreply@justleave.work', 'Justleave Work');
+        $this->from('noreply@justleave.work', 'justleave.work');
         $this->subject("Your leave for {$leave->from->toFormattedDateString()} has been approved");
     }
 
