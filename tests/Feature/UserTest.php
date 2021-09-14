@@ -54,7 +54,10 @@ class UserTest extends TestCase
             'team_id' => $user->team->id,
             'name' => $newUser['name'],
             'email' => $newUser['email'],
-            'leave_balance' => $newUser['balance'],
+        ]);
+        $this->assertDatabaseHas('transactions', [
+            'amount' => $newUser['balance'],
+            'user_id' => $createdUser['id']
         ]);
         if ($newUser['is_admin']) {
             $this->assertDatabaseHas('role_user', [
@@ -63,7 +66,6 @@ class UserTest extends TestCase
                 'team_id' => $user->team->id,
             ]);
         }
-        $createdUser = User::find($createdUser['id']);
     }
 
     /** @test **/

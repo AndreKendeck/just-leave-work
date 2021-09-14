@@ -44,17 +44,17 @@ class AdjustLeaveBalances implements ShouldQueue
              * @var int days requried by the team settings then run the cron job
              */
 
+             /** @var \Illuminate\Support\Carbon $today */
             $today = today();
             $overLap = $settings->last_leave_balance_added_at->diffInDays($today) >= $settings->days_until_balance_added;
 
             if ($overLap) {
-                $team->users->each(function (\App\User $user) {
-                    $toAdd = $user->team->settings->leave_added_per_cycle;                   
-                    $user->increment('leave_balance', $toAdd);
+                $team->users->each(function (\App\User $user) use ($today) {
+                    $toAdd = $user->team->settings->leave_added_per_cycle;
                     Transaction::create([
-                        'amount' => $toAdd, 
-                        'user_id' => $user->id, 
-                        'description' => "Cycle Adjustment"
+                        'amount' => $toAdd,
+                        'user_id' => $user->id,
+                        'description' => "Cycle Adjustment ({$today->toFormattedDateString()})"
                     ]);
                 });
                 $team->settings->update([

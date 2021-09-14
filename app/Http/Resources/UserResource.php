@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'teamId' => $this->team_id,
             'email' => $this->email,
             'verified' => !is_null($this->email_verified_at),
-            'leaveBalance' => $this->leave_balance,
+            'leaveBalance' => $this->balance,
             'lastLoginAt' => $this->last_logged_in_at,
             'avatar' => $this->avatar,
             'isAdmin' => $this->roles->contains('name', 'team-admin'),

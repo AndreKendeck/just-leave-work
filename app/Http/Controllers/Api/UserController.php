@@ -62,7 +62,6 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($password),
             'team_id' => auth()->user()->team_id,
-            'leave_balance' => $request->balance,
         ]);
 
         if ($request->is_admin) {

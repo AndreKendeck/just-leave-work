@@ -36,10 +36,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'avatar_url',
         'total_days_on_leave',
         'is_banned',
-        'has_avatar',
         'is_on_leave',
         'leave_taken',
         'last_leave_at',
+        'balance'
     ];
 
     /**
@@ -64,13 +64,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
         'team_id' => 'integer',
-        'leave_balance' => 'float',
     ];
 
-    public function getHasAvatarAttribute()
-    {
-        return !is_null($this->avatar);
-    }
 
     public function getTotalDaysOnLeaveAttribute()
     {
@@ -94,16 +89,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public function getAvatarUrlAttribute()
     {
-        if (is_null($this->avatar)) {
-            return Avatar::create($this->name)->toBase64();
-        }
-
-        // only works for production enviorment
-        if (App::environment('production')) {
-            return Storage::disk('public')->url(self::STORAGE_PATH . $this->avatar);
-        }
-
-        return asset(self::STORAGE_PATH . $this->avatar);
+        return Avatar::create($this->name)->toBase64();
     }
 
     public function getIsBannedAttribute()
@@ -176,5 +162,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     public function transactions()
     {
         return $this->hasMany(\App\Transaction::class)->latest();
+    }
+
+    public function getBalanceAttribute()
+    {
+        return (float) $this->transactions->sum('amount');
     }
 }

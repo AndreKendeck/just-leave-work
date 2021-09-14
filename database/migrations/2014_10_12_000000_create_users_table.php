@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->decimal('leave_balance', 8, 2)->default(0);
             $table->timestamp('last_logged_in_at')->nullable();
             $table->string('avatar')->nullable();
             $table->integer('department_id')->nullable();

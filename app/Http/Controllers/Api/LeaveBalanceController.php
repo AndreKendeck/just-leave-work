@@ -19,8 +19,7 @@ class LeaveBalanceController extends Controller
     {
         $user = User::findOrFail($request->user);
 
-        $amount = $request->amount - $user->leave_balance;
-        $user->increment('leave_balance', $amount);
+        $amount = $request->amount - $user->balance;
 
         $description = "Increase leave balance by {$amount}";
         $adjustingUser = auth()->user();
@@ -40,7 +39,7 @@ class LeaveBalanceController extends Controller
         return response()
             ->json([
                 'message' => "Leave balance adjusted",
-                'balance' => $user->leave_balance,
+                'balance' => $user->balance,
                 'transaction' => new TransactionResource($transaction),
             ]);
     }
@@ -53,8 +52,7 @@ class LeaveBalanceController extends Controller
     {
         $user = User::findOrFail($request->user);
 
-        $amount = $user->leave_balance - $request->amount;
-        $user->decrement('leave_balance', $amount);
+        $amount = abs($user->balance - $request->amount);
 
         $description = "Decrease leave balance by {$amount}";
         $adjustingUser = auth()->user();
@@ -65,6 +63,7 @@ class LeaveBalanceController extends Controller
             $description .= " (adjusted by {$adjustingUser->email})";
         }
 
+
         $transaction = Transaction::create([
             'user_id' => $user->id,
             'description' => $description,
@@ -74,9 +73,8 @@ class LeaveBalanceController extends Controller
         return response()
             ->json([
                 'message' => "Leave balance adjusted",
-                'balance' => $user->leave_balance,
+                'balance' => $user->balance,
                 'transaction' => new TransactionResource($transaction),
             ]);
     }
-
 }

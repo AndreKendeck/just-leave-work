@@ -9,7 +9,7 @@ class LeaveBalanceAdjustmentTest extends TestCase
     /** @test **/
     public function a_user_can_adjust_another_users_leave_balance()
     {
-        $admin = factory('App\User')->create(); 
+        $admin = factory('App\User')->create();
 
         $user = factory('App\User')->create([
             'team_id' => $admin->team_id,
@@ -18,7 +18,6 @@ class LeaveBalanceAdjustmentTest extends TestCase
         $admin->attachRole('team-admin', $admin->team);
 
         $amountAdded = rand(1, 10);
-        $resultBeing = $user->leave_balance + $amountAdded;
 
         $this->actingAs($admin)
             ->post(route('leaves.add'), [
@@ -27,9 +26,10 @@ class LeaveBalanceAdjustmentTest extends TestCase
             ])->assertOk()
             ->assertJsonStructure(['message']);
 
-        $this->assertDatabaseHas('users', [
-            'leave_balance' => $resultBeing,
-            'id' => $user->id,
+
+        $this->assertDatabaseHas('transactions', [
+            'user_id' => $user->id,
+            'amount' => $amountAdded
         ]);
     }
 
@@ -47,7 +47,7 @@ class LeaveBalanceAdjustmentTest extends TestCase
         $admin->attachRole('team-admin', $admin->team);
 
         $amountDeducted = rand(1, 10);
-        $resultBeing = $user->leave_balance - $amountDeducted;
+        $resultBeing = $user->balance - $amountDeducted;
 
         $this->actingAs($admin)
             ->post(route('leaves.deduct'), [
@@ -56,9 +56,9 @@ class LeaveBalanceAdjustmentTest extends TestCase
             ])->assertOk()
             ->assertJsonStructure(['message']);
 
-        $this->assertDatabaseHas('users', [
-            'leave_balance' => -$resultBeing,
-            'id' => $user->id,
+        $this->assertDatabaseHas('transactions', [
+            'user_id' => $user->id,
+            'amount' => -$amountDeducted
         ]);
     }
 }
