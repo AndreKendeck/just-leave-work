@@ -12,35 +12,22 @@ import { setUser } from '../../actions/user';
 import { setTeam } from '../../actions/team';
 import { setAuthenticated } from '../../actions/auth';
 import { setErrorMessage } from '../../actions/messages';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { updateRegisterForm, clearRegisterForm } from '../../actions/forms/auth/register';
 
 
 const RegisterPage = class RegisterPage extends React.Component {
 
-    state = {
-        isSending: false,
-        error: null,
-        email: { value: null, hasError: false, errors: [] },
-        password: { value: null, hasError: false, errors: [] },
-        name: { value: null, hasError: false, errors: [] },
-        team_name: { value: null, hasError: false, errors: [] },
-        terms: { checked: false, hasError: false, errors: [] },
-    }
 
     postRegister = (e) => {
         e.persist();
-        this.setState({ isSending: true });
-        const {
-            email: { value: email },
-            password: { value: password },
-            name: { value: name },
-            team_name: { value: team_name },
-            terms: { checked: terms }
-        } = this.state;
-
-        api.post('/register/', { email, password, name, terms, team_name })
+        const { registerForm } = this.props;
+        const { email, password, name, team_name, terms, recaptcha } = registerForm;
+        this.props.updateRegisterForm({ ...registerForm, loading: true });
+        api.post('/register/', { email, password, name, terms, team_name, recaptcha })
             .then(success => {
 
-                this.setState({ isSending: false });
+                this.props.updateRegisterForm({ ...registerForm, loading: true });
 
                 const { user, token, team } = success.data;
 
@@ -55,65 +42,70 @@ const RegisterPage = class RegisterPage extends React.Component {
                 window.location = '/home/';
 
             }).catch(failed => {
-                this.setState({ isSending: false });
+                this.props.updateRegisterForm({ ...registerForm, loading: false });
                 const { errors, message } = failed.response.data;
                 if (failed.response.status == 422) {
-                    for (const key in errors) {
-                        this.setState(state => {
-                            return {
-                                ...state,
-                                [key]: {
-                                    hasError: true,
-                                    errors: errors[key]
-                                }
-                            }
-                        })
-                    }
+                    const { registerForm } = this.props;
+                    this.props.updateRegisterForm({ ...registerForm, errors: errors });
                 } else {
                     this.props.setErrorMessage(message);
                 }
             });
     }
 
-    onFieldChange = (event, stateKey) => {
-        event.persist();
-        this.setState(state => {
-            return {
-                [stateKey]: {
-                    value: event.target.value
-                }
-            }
-        })
+    onFieldChange(e, key) {
+        const value = e.target.value;
+        const { registerForm } = this.props;
+        this.props.updateRegisterForm({ ...registerForm, [key]: value });
     }
-    onCheckboxCheck = () => {
-        this.setState(state => {
-            return {
-                terms: {
-                    checked: !state.terms.checked
-                }
-            }
-        });
+
+    onCheckboxCheck() {
+        const { registerForm } = this.props;
+        const { terms } = this.props.registerForm;
+        this.props.updateRegisterForm({ ...registerForm, terms: !terms });
+    }
+
+    captchaChange(value) {
+        const { registerForm } = this.props;
+        this.props.updateRegisterForm({ ...registerForm, recaptcha: value });
+    }
+
+    getCaptchaErrors() {
+        const { errors } = this.props.registerForm;
+        if (errors?.recaptcha) {
+            return errors.recaptcha.map((err, key) => {
+                return <span className="text-red-800 text-sm" key={key}>{err}</span>
+            })
+        }
+        return null;
     }
 
     render() {
+        const { errors, terms, loading } = this.props.registerForm;
         return (
             <Page className="flex justify-center">
                 <Card className="lg:w-1/2 w-full self-center flex flex-col space-y-3 justify-center">
                     <div className="text-2xl font-bold text-gray-800 text-center items-center">Register an Account</div>
-                    <Field type="text" label="Name" name="name" errors={this.state.name.errors} onKeyUp={(e) => this.onFieldChange(e, 'name')} hasError={this.state.name.hasError} />
-                    <Field type="email" label="E-mail Address" name="email" hasError={this.state.email.hasError} errors={this.state.email.errors} onKeyUp={(e) => this.onFieldChange(e, 'email')} />
-                    <Field type="text" label="Organization" name="team_name" hasError={this.state.team_name.hasError} errors={this.state.team_name.errors} onKeyUp={(e) => this.onFieldChange(e, 'team_name')} />
-                    <Field type="password" label="Password" name="password" hasError={this.state.password.hasError} errors={this.state.password.errors} onKeyUp={(e) => this.onFieldChange(e, 'password')} />
+                    <Field type="text" label="Name" name="name" errors={errors?.name} onKeyUp={(e) => this.onFieldChange(e, 'name')} />
+                    <Field type="email" label="E-mail Address" name="email" errors={errors?.email} onKeyUp={(e) => this.onFieldChange(e, 'email')} />
+                    <Field type="text" label="Organization" name="team_name" errors={errors?.team_name} onKeyUp={(e) => this.onFieldChange(e, 'team_name')} />
+                    <Field type="password" label="Password" name="password" errors={errors?.password} onKeyUp={(e) => this.onFieldChange(e, 'password')} />
+
                     <div className="flex flex-col md:flex-row items-center w-full justify-between">
                         <div className="w-full">
-                            <Checkbox label="I agree with the Terms &amp; Conditions" errors={this.state.terms.errors} name="terms" onChange={this.onCheckboxCheck} />
+                            <Checkbox label="I agree with the Terms &amp; Conditions" checked={terms}
+                                errors={errors.terms} name="terms" onChange={(e) => this.onCheckboxCheck()} />
                         </div>
 
                         <Link to="/terms-and-conditions" className="w-full text-purple-500 hover:text-purple-300 whitespace-no-wrap p-2 bg-purple-100 rounded-lg text-center text-sm">
                             View Terms &amp; Conditions
                         </Link>
                     </div>
-                    {this.state.isSending ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={(e) => this.postRegister(e)} >Register</Button>}
+                    <ReCAPTCHA sitekey={process.env.MIX_REACT_CAPTCHA_SITE_KEY} onChange={(e) => this.captchaChange(e)} />
+                    <div className="flex flex-col space-y-1">
+                        {this.getCaptchaErrors()}
+                    </div>
+                    {loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button onClick={(e) => this.postRegister(e)} >Register</Button>}
                     <Link to="/login">
                         <Button type="secondary"> Back to Login </Button>
                     </Link>
@@ -123,5 +115,11 @@ const RegisterPage = class RegisterPage extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    const { registerForm } = state;
+    return {
+        registerForm
+    }
+}
 
-export default connect(null, { setUser, setAuthenticated, setTeam, setErrorMessage })(RegisterPage);
+export default connect(mapStateToProps, { setUser, setAuthenticated, setTeam, setErrorMessage, updateRegisterForm, clearRegisterForm })(RegisterPage);

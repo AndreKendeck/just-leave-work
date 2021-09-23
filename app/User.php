@@ -3,21 +3,19 @@
 namespace App;
 
 use App\Mail\VerificationEmail;
+use Avatar;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 // bannable contracts
+use Illuminate\Support\Str;
 use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Sanctum\HasApiTokens;
-use Avatar;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
@@ -39,7 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'is_on_leave',
         'leave_taken',
         'last_leave_at',
-        'balance'
+        'balance',
     ];
 
     /**
@@ -166,6 +164,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public function getBalanceAttribute()
     {
-        return (float) $this->transactions->sum('amount');
+        return $this->transactions->sum('amount');
     }
 }

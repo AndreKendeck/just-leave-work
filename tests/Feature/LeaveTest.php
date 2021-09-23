@@ -164,7 +164,7 @@ class LeaveTest extends TestCase
 
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
-            'approved_at' => now(),
+            'approved_at' => now()->format('Y-m-d H:i:s'),
         ]);
     }
 
@@ -181,7 +181,7 @@ class LeaveTest extends TestCase
             ->assertOk();
         $this->assertDatabaseHas('leaves', [
             'id' => $leave->id,
-            'denied_at' => now(),
+            'denied_at' => now()->format('Y-m-d H:i:s'),
         ]);
     }
 
