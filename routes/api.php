@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::namespace ('Api')->group(function () {
+Route::namespace('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
@@ -88,5 +88,7 @@ Route::namespace ('Api')->group(function () {
         Route::get('/transactions/{userId}', 'TransactionController@index')->name('transactions.index');
         Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
         Route::get('/transactions/export/{user}/{month?}/{year?}', 'ExportTransactionController')->name('transactions.export');
+
+        // Route::post('/documents/upload', 'DocumentController')->name('documents.store');
     });
 });
