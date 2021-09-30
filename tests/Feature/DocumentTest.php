@@ -33,31 +33,35 @@ class DocumentTest extends TestCase
             'documentable_id' => $document->documentable_id,
             'id' => $document->id,
             'name' => $document->name,
-            'file_type' => $document->file_type
+            'file_type' => $document->file_type, 
+            'size' => $document->size
         ]);
     }
 
-    /** @test  @todo  **/
-    public function documents_can_be_added_to_the_payload_when_requesting_leave_()
+    public function a_document_can_be_added_to_leave()
     {
-        Storage::fake(); 
+        Storage::fake();
         $user = factory('App\User')->create();
-        $leave = factory('App\Leave')->make([
+        $leave = factory('App\Leave')->create([
             'team_id' => $user->team->id,
             'user_id' => $user->id,
         ]);
-        $payload = [
-            'documents' => [
-                0 => UploadedFile::fake()->create('doctors_letter')
-            ],
-        ];
+        $document = UploadedFile::fake()->create('doctors_letter', 200, 'application/pdf');
         $this->actingAs($user)
-        ->post(route('leaves.store') , [
-                'reason' => $leave->reason->id,
-                'from' => $leave->from->format('Y-m-d'),
-                'until' => $leave->until->format('Y-m-d'),
-                'halfDay' => $leave->half_day,
-                'documents' => ''
-        ]); 
+            ->post(route('documents.store'), [
+                'document' => $document,
+                'model' => 'leave',
+                'id' => $leave->id
+            ])
+            ->assertSessionDoesntHaveErrors()
+            ->assertCreated()
+            ->assertJsonStructure(['message']);
+        $this->assertDatabaseHas('documents', [
+            'documentable_type' => get_class($leave),
+            'documentable_id' => $leave->id,
+            'file_type' => $document->getType(),
+            'size' => $document->getSize(),
+            'name' => $document->hashName()
+        ]);
     }
 }

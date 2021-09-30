@@ -9,7 +9,7 @@ class Document extends Model
 {
     protected $guarded = [];
 
-    public const STORAGE_PATH = '/storage/documents/';
+    public const STORAGE_PATH = '/documents/';
 
     public function documentable()
     {

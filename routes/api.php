@@ -89,6 +89,6 @@ Route::namespace('Api')->group(function () {
         Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
         Route::get('/transactions/export/{user}/{month?}/{year?}', 'ExportTransactionController')->name('transactions.export');
 
-        // Route::post('/documents/upload', 'DocumentController')->name('documents.store');
+        Route::post('/document/upload', 'DocumentController@store')->name('documents.store');
     });
 });

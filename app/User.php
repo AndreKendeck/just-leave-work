@@ -62,6 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
         'team_id' => 'integer',
+        'id' => 'integer'
     ];
 
 

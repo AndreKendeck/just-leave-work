@@ -43,6 +43,7 @@ class Leave extends Model
         'reason_id' => 'integer',
         'number' => 'integer',
         'half_day' => 'boolean',
+        'user_id' => 'integer'
     ];
 
     protected $with = [
@@ -175,8 +176,8 @@ class Leave extends Model
         return (is_null($this->approved_at) && is_null($this->denied_at));
     }
 
-    public function document()
+    public function documents()
     {
-        return $this->morphOne(\App\Document::class, 'documentable');
+        return $this->morphMany(\App\Document::class, 'documentable')->latest();
     }
 }
