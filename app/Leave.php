@@ -175,8 +175,8 @@ class Leave extends Model
         return (is_null($this->approved_at) && is_null($this->denied_at));
     }
 
-    public function documents()
+    public function document()
     {
-        return $this->morphMany(\App\Document::class, 'documentable')->latest();
+        return $this->morphOne(\App\Document::class, 'documentable');
     }
 }
