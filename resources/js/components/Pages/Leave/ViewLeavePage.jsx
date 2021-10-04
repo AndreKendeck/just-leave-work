@@ -125,6 +125,17 @@ const ViewLeavePage = (props) => {
     }
 
 
+    const onDocumentAdd = (e) => {
+        e.persist();
+        const fileInput = document.querySelector('#document_uploader');
+        fileInput.click();
+    }
+
+    const onDocumentUpload = (e) => {
+        e.persist();
+        const file = e.target.files[0];
+    }
+
     useEffect(() => {
 
         setTimeout(() => {
@@ -184,13 +195,29 @@ const ViewLeavePage = (props) => {
                                     <path d="M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
                                     <path d="M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                 </svg>
-                                <span className="text-sm text-gray-600">edit</span>
+                                <span className="text-sm text-gray-600">Edit</span>
                             </Link>
+                        </div>
+                        <div>
+                            <input type="file" onChange={(e) => onDocumentUpload(e)} className="hidden" id="document_uploader" />
+                            <Button type="soft" onClick={(e) => { onDocumentAdd(e) }}>
+                                <div className="flex flex-row space-x-1">
+                                    <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" xmlnsxlink="http://www.w3.org/1999/xlink">
+                                        <g fill="none">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 18v-3.5c0-.828.672-1.5 1.5-1.5v0c.828 0 1.5.672 1.5 1.5v4.5c0 1.657-1.343 3-3 3v0c-1.657 0-3-1.343-3-3v-3"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 16h-4"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 12h-7"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 8h-7"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 9v-4c0-1.105-.895-2-2-2h-11c-1.105 0-2 .895-2 2v14c0 1.105.895 2 2 2h6"></path>
+                                        </g>
+                                    </svg>
+                                    <span className="text-gray-600">Upload Document</span>
+                                </div>
+                            </Button>
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between md:items-center">
-
                     <div className="self-end md:w-1/3">
                         <div className="flex flex-row space-x-1 items-center p-2 self-end justify-end">
                             <span className="text-gray-700">
