@@ -31,7 +31,7 @@ class LeaveResource extends JsonResource
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
-                'avatarUrl' => $this->user->has_avatar ? $this->user->avatar_url : $this->user->avatar_url->encoded,
+                'avatarUrl' => $this->user->avatar_url,
             ],
             'approved' => $this->approved,
             'pending' => $this->pending,
