@@ -16,5 +16,5 @@ jobs:
     - name: Generate Application Key
       run: php artisan key:generate
     - name: Run PHPUnit
-      run: php artisan test
+      run: php artisan test tests/Feature
 
