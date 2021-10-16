@@ -3,20 +3,37 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GoogleCaptchaController;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Resources\PermissionResource;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
-use App\Permission;
 use App\Team;
 use App\User;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
     public function register(RegisterRequest $request)
     {
+
+        if (env('APP_ENV') == 'production' || env('APP_ENV') == 'local') {
+            $googleCaptchaController = new GoogleCaptchaController();
+            $reCaptchaResponse = $googleCaptchaController($request);
+            if (!$reCaptchaResponse) {
+                return response()
+                    ->json([
+                        'errors' => ['recaptcha' => ['Google Captcha Failed']],
+                    ], 422);
+            }
+        }
+
+        if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            return response()
+                ->json([
+                    'errors' => ['email' => ['Please enter a valid email address']],
+                ], 422);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'password' => bcrypt($request->password),
@@ -39,7 +56,6 @@ class RegisterController extends Controller
             'last_logged_in_at' => now(),
         ]);
 
-    
         $token = $user->createToken(Str::random())->plainTextToken;
 
         return response()

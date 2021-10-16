@@ -7,6 +7,7 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\WelcomeEmail;
+use App\Transaction;
 use App\User;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use Illuminate\Support\Facades\Log;
@@ -61,12 +62,17 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($password),
             'team_id' => auth()->user()->team_id,
-            'leave_balance' => $request->balance,
         ]);
 
         if ($request->is_admin) {
             $user->attachRole('team-admin', $user->team);
         }
+
+        Transaction::create([
+            'user_id' => $user->id,
+            'description' => 'Starting leave balance',
+            'amount' => $request->balance,
+        ]);
 
         try {
             Mail::to($user->email)->queue(new WelcomeEmail($user, $password));

@@ -26,9 +26,10 @@ class RegisterRequest extends FormRequest
         return [
             'terms' => ['required', 'accepted'],
             'team_name' => ['required', 'string', 'min:2'],
-            'email' => ['required', 'unique:users,email', 'email'],
+            'email' => ['required', 'unique:users,email', 'e-mail'],
             'name' => ['required', 'string', 'min:2'],
-            'password' => ['required', 'string', 'min:6']
+            'password' => ['required', 'string', 'min:6'],
+            'recaptcha' => ['required'],
         ];
     }
 
@@ -38,7 +39,8 @@ class RegisterRequest extends FormRequest
             'team_name.required' => 'Please enter your Organization',
             'team_name.min' => 'Organization name should be more than 2 letters',
             'terms.required' => 'Please accept the Terms & Conditions',
-            'terms.accepted' => 'Please accept the Terms & Conditions'
+            'terms.accepted' => 'Please accept the Terms & Conditions',
+            'recaptcha.required' => 'Please validate the Google reCaptcha',
         ];
     }
 }

@@ -16,6 +16,7 @@ class RegisterTest extends TestCase
             'password' => 'password123',
             'name' => $this->faker->name,
             'terms' => 1,
+            'recaptcha' => \Illuminate\Support\Str::random(32),
         ];
 
         $response = $this->post(route('register'), $details)

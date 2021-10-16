@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Card = (props) => {
+const Card = ({ className, children }) => {
     return (
-        <div className={`${props.className} flex flex-col bg-white p-4 rounded-lg border-2 transition-all ease-in-out duration-200`}>
-            {props.children}
+        <div className={`${className} flex flex-col bg-white p-4 rounded transition-all shadow-lg ease-in-out duration-200`}>
+            {children}
         </div>
     )
 }

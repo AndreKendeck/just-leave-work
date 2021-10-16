@@ -9,15 +9,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class DeleteLeaveExportFromStorage implements ShouldQueue
+class DeleteExportFileFromStorage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $filename;
+
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @param string $filename
      */
     public function __construct(string $filename)
     {
@@ -31,6 +30,6 @@ class DeleteLeaveExportFromStorage implements ShouldQueue
      */
     public function handle()
     {
-        Storage::delete($this->filename);
+        Storage::disk('public')->delete($this->filename);
     }
 }

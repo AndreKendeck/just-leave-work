@@ -12,6 +12,7 @@ import leaveFormReducer from "./forms/leave";
 import leaveExportForm from "./forms/export/leave";
 import infoMessageReducer from "./messages/info";
 import errorMessageReducer from "./messages/error";
+import registerFormReducer from "./forms/auth/register";
 
 export default combineReducers({
     user: userReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
     leaveForm: leaveFormReducer,
     leaveExportForm: leaveExportForm,
     message: infoMessageReducer,
-    errorMessage: errorMessageReducer
+    errorMessage: errorMessageReducer,
+    registerForm: registerFormReducer
 })

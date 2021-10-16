@@ -3,21 +3,19 @@
 namespace App;
 
 use App\Mail\VerificationEmail;
+use Avatar;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 // bannable contracts
+use Illuminate\Support\Str;
 use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Sanctum\HasApiTokens;
-use Avatar;
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
@@ -36,10 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
         'avatar_url',
         'total_days_on_leave',
         'is_banned',
-        'has_avatar',
         'is_on_leave',
         'leave_taken',
         'last_leave_at',
+        'balance',
     ];
 
     /**
@@ -64,13 +62,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
         'team_id' => 'integer',
-        'leave_balance' => 'float',
     ];
 
-    public function getHasAvatarAttribute()
-    {
-        return !is_null($this->avatar);
-    }
 
     public function getTotalDaysOnLeaveAttribute()
     {
@@ -94,16 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 
     public function getAvatarUrlAttribute()
     {
-        if (is_null($this->avatar)) {
-            return Avatar::create($this->name)->toBase64();
-        }
-
-        // only works for production enviorment
-        if (App::environment('production')) {
-            return Storage::disk('public')->url(self::STORAGE_PATH . $this->avatar);
-        }
-
-        return asset(self::STORAGE_PATH . $this->avatar);
+        return Avatar::create($this->name)->toBase64();
     }
 
     public function getIsBannedAttribute()
@@ -176,5 +160,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     public function transactions()
     {
         return $this->hasMany(\App\Transaction::class)->latest();
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->transactions->sum('amount');
     }
 }

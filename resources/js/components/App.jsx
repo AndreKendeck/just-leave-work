@@ -53,7 +53,6 @@ const App = class App extends React.Component {
             .catch(failedResponse => {
                 const { message } = failedResponse.response.data;
                 this.props.unsetAuthenticated();
-                this.props.setErrorMessage(message);
                 this.setState({ initializing: false });
             })
     }
