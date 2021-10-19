@@ -14,17 +14,25 @@ import { setAuthenticated } from '../../actions/auth';
 import { setErrorMessage } from '../../actions/messages';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { updateRegisterForm, clearRegisterForm } from '../../actions/forms/auth/register';
+import Dropdown from '../Form/Dropdown';
 
 
 const RegisterPage = class RegisterPage extends React.Component {
 
+    state = {
+        countries: []
+    }
+
+    componentDidMount() {
+        this.getCountries();
+    }
 
     postRegister = (e) => {
         e.persist();
         const { registerForm } = this.props;
-        const { email, password, name, team_name, terms, recaptcha } = registerForm;
+        const { email, password, name, team_name, terms, recaptcha, country } = registerForm;
         this.props.updateRegisterForm({ ...registerForm, loading: true });
-        api.post('/register/', { email, password, name, terms, team_name, recaptcha })
+        api.post('/register/', { email, password, name, terms, team_name, recaptcha, country })
             .then(success => {
 
                 this.props.updateRegisterForm({ ...registerForm, loading: true });
@@ -59,6 +67,17 @@ const RegisterPage = class RegisterPage extends React.Component {
         this.props.updateRegisterForm({ ...registerForm, [key]: value });
     }
 
+    getCountries() {
+        api.get('/countries').then(success => {
+            // set a default value for the countries
+            let countries = [{ value: null, label: 'Select a country', selected: true }, ...success.data];
+            this.setState({ countries });
+        }).catch(failed => {
+            const { message } = failed.response.data;
+            this.props.setErrorMessage(message);
+        });
+    }
+
     onCheckboxCheck() {
         const { registerForm } = this.props;
         const { terms } = this.props.registerForm;
@@ -90,7 +109,7 @@ const RegisterPage = class RegisterPage extends React.Component {
                     <Field type="email" label="E-mail Address" name="email" errors={errors?.email} onKeyUp={(e) => this.onFieldChange(e, 'email')} />
                     <Field type="text" label="Organization" name="team_name" errors={errors?.team_name} onKeyUp={(e) => this.onFieldChange(e, 'team_name')} />
                     <Field type="password" label="Password" name="password" errors={errors?.password} onKeyUp={(e) => this.onFieldChange(e, 'password')} />
-
+                    <Dropdown options={this.state.countries} label="Country" tip="Optional" name="counrty" onChange={(e) => this.onFieldChange(e, 'country')} />
                     <div className="flex flex-col md:flex-row items-center w-full justify-between">
                         <div className="w-full">
                             <Checkbox label="I agree with the Terms &amp; Conditions" checked={terms}

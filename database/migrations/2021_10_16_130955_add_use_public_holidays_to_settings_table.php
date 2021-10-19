@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCountryIdToSettingsTable extends Migration
+class AddUsePublicHolidaysToSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddCountryIdToSettingsTable extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('country_id')->nullable();
+            $table->addColumn('boolean', 'use_public_holidays')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddCountryIdToSettingsTable extends Migration
     public function down()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn('country_id');
+            $table->dropColumn('use_public_holidays');
         });
     }
 }

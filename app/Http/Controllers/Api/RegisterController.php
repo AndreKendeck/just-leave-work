@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\GoogleCaptchaController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\GoogleCaptchaController;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\TeamResource;
 use App\Http\Resources\UserResource;
@@ -45,6 +45,12 @@ class RegisterController extends Controller
             'display_name' => $request->team_name,
             'description' => $request->team_name,
         ]);
+
+        if ($request->filled('country')) {
+            $team->settings->update([
+                'country_id' => $request->country,
+            ]);
+        }
 
         $user->update([
             'team_id' => $team->id,

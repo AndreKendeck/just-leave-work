@@ -27,10 +27,18 @@
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="JustLeave Work - Leave planner" />
     <meta property="og:description" content="Leave Planner for Teams" />
-    <meta property="og:image" content="{{ asset('images/seo.png') }}" />
+    <meta property="og:image" content="{{ asset('images/banner.png') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4V960VEWG"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-K4V960VEWG');
+    </script>
 </head>
 
 <body style="font-family: 'Open Sans'" class="bg-gray-100">

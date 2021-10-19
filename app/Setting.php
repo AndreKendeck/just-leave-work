@@ -18,6 +18,7 @@ class Setting extends Model
         'leave_added_per_cycle' => 'integer',
         'days_until_balance_added' => 'integer',
         'last_leave_balance_added_at' => 'datetime',
+        'use_public_holidays' => 'boolean',
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',
     ];

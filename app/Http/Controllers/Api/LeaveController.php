@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Leave\StoreRequest;
-use App\Http\Requests\Leave\UpdateRequest;
 use App\Http\Resources\LeaveResource;
+use App\Jobs\AdjustLeaveForPublicHolidays;
 use App\Leave;
 use App\Mail\LeaveRequestEmail;
 use App\Notifications\GeneralNotification;
+use App\Services\PublicHolidayApi\NagerDate;
+use App\Services\PublicHolidayApi\Response\Holiday;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use \Carbon\Carbon;
 
 class LeaveController extends Controller
 {
@@ -69,7 +71,10 @@ class LeaveController extends Controller
             ], 422);
         }
 
-        $restrcitedDays = auth()->user()->team->settings->excludedDays;
+        /** @var \App\Setting */
+        $settings = auth()->user()->team->settings;
+
+        $restrcitedDays = $settings->excludedDays;
 
         if ($restrcitedDays->contains('day', $from->toDateString())) {
             return response()->json([
@@ -78,7 +83,7 @@ class LeaveController extends Controller
                         "You cannot start leave on {$from->toFormattedDateString()}",
                     ],
                 ],
-            ]);
+            ], 422);
         }
         if ($restrcitedDays->contains('day', $from->format('l'))) {
             $excludedDays = $restrcitedDays->implode('day', ', ');
@@ -98,6 +103,28 @@ class LeaveController extends Controller
             ], 422);
         }
 
+        if (!is_null($settings->country_id) && ($settings->use_public_holidays)) {
+            $countryId = $settings->country_id;
+
+            /** @var array */
+            $holidays = NagerDate::getHolidays($from->year, $countryId);
+
+            $leaveEndOrBeginsOnAHoliday = count(array_filter($holidays, function (Holiday $holiday) use ($from, $until) {
+                return $from->isSameDay($holiday->getDate()) || $until->isSameDay($holiday->getDate());
+            })) > 0;
+
+            if ($leaveEndOrBeginsOnAHoliday) {
+
+                return response()
+                    ->json([
+                        'errors' => [
+                            'from' => ['You cannot take/end leave on a Public Holiday'],
+                        ],
+                    ], 422);
+            }
+
+        }
+
         if (auth()->user()->is_on_leave) {
             return response()->json([
                 'errors' => [
@@ -114,19 +141,12 @@ class LeaveController extends Controller
             'until' => $until,
             'half_day' => $request->halfDay,
         ]);
-
+        
         /**
-         * Send an email notification to the relevant party about ones leave request
+         * If the public holiday api is enabled
          */
-        if ($request->filled('notifyUser')) {
-
-            $userToNotify = User::findOrFail($request->notifyUser);
-
-            if ($userToNotify->hasRole('team-admin', $leave->team)) {
-                Mail::to($userToNotify->email)
-                    ->queue(new LeaveRequestEmail($leave));
-                $userToNotify->notify(new GeneralNotification("{$leave->user->name} has request for leave on {$leave->from->toFormattedDateString()}"));
-            }
+        if (!is_null($settings->country_id) && ($settings->use_public_holidays)) {
+            dispatch(new AdjustLeaveForPublicHolidays($leave, $holidays));
         }
 
         return response()

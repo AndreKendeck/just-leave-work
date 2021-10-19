@@ -17,6 +17,7 @@ Route::namespace ('Api')->group(function () {
 
     Route::post('/login', 'LoginController@login')->name('login')
         ->middleware(['throttle:10,60', 'guest']);
+    Route::get('/countries', 'CountryController')->name('countries');
     Route::post('/register', 'RegisterController@register')->name('register')
         ->middleware(['guest']);
 

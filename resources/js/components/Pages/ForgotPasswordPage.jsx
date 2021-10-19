@@ -76,7 +76,7 @@ const ForgotPasswordPage = class ForgotPasswordPage extends React.Component {
         }
         return (
             <div className="w-full lg:w-2/3 self-center">
-                <Button onClick={(e) => this.onSend()} type="secondary">Send</Button>
+                <Button onClick={(e) => this.onSend()} type="primary">Send</Button>
             </div>
         )
     }

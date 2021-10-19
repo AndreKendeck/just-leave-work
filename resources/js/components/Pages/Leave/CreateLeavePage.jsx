@@ -55,7 +55,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
 
     storeLeavePost() {
 
-        const { reason, dates, notifyUser, halfDay } = this.props.leaveForm;
+        const { reason, dates, halfDay } = this.props.leaveForm;
         moment().locale('en-gb');
         const from = moment(dates.startDate).format();
         const until = moment(dates.endDate).format();
@@ -64,7 +64,7 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             halfDayOff = false;
         }
         this.props.updateLeaveForm({ ...this.props.leaveForm, loading: true });
-        api.post('/leaves', { from, until, reason, notifyUser, halfDay: halfDayOff })
+        api.post('/leaves', { from, until, reason, halfDay: halfDayOff })
             .then(success => {
                 const { message } = success.data;
                 this.props.setMessage(message);
@@ -82,19 +82,8 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
             });
     }
 
-    mapNotifiableUsers() {
-        let users = [{ id: 0, name: 'Select a user' }, ...this.state.users,];
-        return users?.map(user => {
-            return {
-                value: user.id,
-                label: user.name
-            }
-        });
-    }
-
-
     render() {
-        const { notifyUser, dates, loading, halfDay, errors } = this.props.leaveForm;
+        const { dates, loading, halfDay, errors } = this.props.leaveForm;
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
@@ -111,13 +100,6 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
                         let { leaveForm } = this.props;
                         this.props.updateLeaveForm({ ...leaveForm, halfDay: !leaveForm.halfDay });
                     }} label="Taking a half day" name="halfDay" /> : null}
-                    <Dropdown errors={errors?.notifyUser}
-                        label="Notify - Optional"
-                        name="notifyUser"
-                        errors={errors?.notifyUser}
-                        value={notifyUser}
-                        options={this.mapNotifiableUsers()}
-                        onChange={(e) => { this.onFormChange(e, 'notifyUser') }} />
                     {loading ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
                         <Button onClick={e => this.storeLeavePost()} >Send</Button>
                     )}

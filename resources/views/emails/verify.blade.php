@@ -3,6 +3,8 @@
 
 Enter the code below.
 
+<small>Note this will expire in 5 minutes</small>
+
 @component('mail::panel')
     {{ $code }}
 @endcomponent

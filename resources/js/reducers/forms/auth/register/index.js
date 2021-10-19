@@ -4,6 +4,7 @@ const initialState = {
     password: '',
     name: '',
     team_name: '',
+    country : '', 
     terms: false,
     recaptcha: '',
     errors: {}

@@ -29,10 +29,6 @@ class StoreRequest extends FormRequest
             'from' => ['date', 'required'],
             'until' => ['date', 'nullable'],
             'halfDay' => ['nullable', 'boolean'],
-            'notifyUser' => [
-                'nullable',
-                Rule::exists('users', 'id')->where('team_id', auth()->user()->team_id),
-            ],
         ];
     }
 
@@ -44,7 +40,6 @@ class StoreRequest extends FormRequest
             'from.date' => ['Please enter a valid date'],
             'until.date' => ['Please enter a valid date'],
             'from.required' => ['Please enter your leave starting date'],
-            'notifyUser.exists' => ['Please select a valid user to notify'],
         ];
     }
 }

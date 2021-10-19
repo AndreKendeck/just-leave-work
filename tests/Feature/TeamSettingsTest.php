@@ -19,6 +19,8 @@ class TeamSettingsTest extends TestCase
                 'leaveAddedPerCycle',
                 'daysUntilBalanceAdded',
                 'lastLeaveBalanceAddedAt',
+                'usePublicHolidays', 
+                'country',
                 'createdAt',
                 'updatedAt',
             ]);
@@ -30,6 +32,7 @@ class TeamSettingsTest extends TestCase
         $newSettings = [
             'leave_added_per_cycle' => rand(1, 5),
             'days_until_balance_added' => rand(15, 30),
+            'use_public_holidays' => true, 
         ];
 
         $countryPost = [

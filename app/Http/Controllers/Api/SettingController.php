@@ -21,18 +21,19 @@ class SettingController extends Controller
         auth()->user()->team->settings->update([
             'leave_added_per_cycle' => $request->leave_added_per_cycle,
             'days_until_balance_added' => $request->days_until_balance_added,
+            'use_public_holidays' => $request->use_public_holidays,
         ]);
 
         if ($request->filled('country')) {
             auth()->user()->team->settings->update([
-                'country_id' => $request->country
+                'country_id' => $request->country,
             ]);
         }
 
         return response()
             ->json([
                 'message' => "Settings updated successfully",
-                'settings' => new SettingResource(auth()->user()->team->settings)
+                'settings' => new SettingResource(auth()->user()->team->settings),
             ]);
     }
 }

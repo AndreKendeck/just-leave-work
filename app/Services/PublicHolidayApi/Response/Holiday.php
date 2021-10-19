@@ -2,15 +2,16 @@
 
 namespace App\Services\PublicHolidayApi\Response;
 
+use JsonSerializable;
 use \Carbon\Carbon;
 
 /**
- * This class is a wrapper for the reesponse of the holiday 
+ * This class is a wrapper for the reesponse of the holiday
  * arrays
  * @see https://date.nager.at/Api
  * For more information about the api
  */
-class Holiday
+class Holiday implements JsonSerializable
 {
     /** @var Carbon */
     protected $date;
@@ -45,5 +46,24 @@ class Holiday
     public function getDate(): ?Carbon
     {
         return $this->date;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * @return void
+     */
+    public function jsonSerialize()
+    {
+        return (object) [
+            'name' => $this->getName(),
+            'date' => $this->date->toFormattedDateString(),
+        ];
     }
 }

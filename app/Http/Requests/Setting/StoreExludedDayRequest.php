@@ -26,7 +26,7 @@ class StoreExludedDayRequest extends FormRequest
     {
         return [
             'day' => ['required', Rule::unique('excluded_days', 'day')->where(
-                'user_id', auth()->user()->team->settings->id
+                'settings_id', auth()->user()->team->settings->id
             )],
         ];
     }
