@@ -7,13 +7,9 @@ use App\Http\Requests\Leave\StoreRequest;
 use App\Http\Resources\LeaveResource;
 use App\Jobs\AdjustLeaveForPublicHolidays;
 use App\Leave;
-use App\Mail\LeaveRequestEmail;
-use App\Notifications\GeneralNotification;
 use App\Services\PublicHolidayApi\NagerDate;
 use App\Services\PublicHolidayApi\Response\Holiday;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use \Carbon\Carbon;
 
 class LeaveController extends Controller
@@ -79,9 +75,7 @@ class LeaveController extends Controller
         if ($restrcitedDays->contains('day', $from->toDateString())) {
             return response()->json([
                 'errors' => [
-                    'from' => [
-                        "You cannot start leave on {$from->toFormattedDateString()}",
-                    ],
+                    'from' => [ "You cannot start leave on {$from->toFormattedDateString()}"],
                 ],
             ], 422);
         }

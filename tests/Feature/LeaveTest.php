@@ -212,14 +212,13 @@ class LeaveTest extends TestCase
             'team_id' => $user->team->id,
             'user_id' => $user->id,
         ]);
-        $response = $this->actingAs($user)
+         $this->actingAs($user)
             ->post(route('leaves.store'), [
-                'reason_id' => $leave->reason->id,
-                'team_id' => $user->team->id,
-                'user_id' => $user->id,
+                'reason' => $leave->reason->id,
                 // from recon day
                 'from' => Carbon::create('16-12-2021')->format('Y-m-d'),
-                'until' => Carbon::create('21-07-2021')->format('Y-m-d'),
-            ])->assertUnprocessable();
+                'until' => Carbon::create('23-12-2021')->format('Y-m-d'),
+            ])->assertSessionHasErrors();
+            // dd($response->json());
     }
 }
