@@ -4,6 +4,7 @@ namespace App\Services\PublicHolidayApi;
 
 use App\Services\PublicHolidayApi\Response\Holiday;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -27,19 +28,21 @@ class NagerDate
      */
     public static function getHolidays(int $year, string $countryId): array
     {
-        $guzzleClient = new Client([
-            'base_uri' => env('NAGER_DATE_API_URL'),
-            'headers' => self::HTTP_REQUEST_CONFIG['headers'],
-        ]);
+        $http = Http::withHeaders(self::HTTP_REQUEST_CONFIG['headers']);
+        $http->baseUrl(env('NAGER_DATE_API_URL'));
 
         try {
-            /** @var \Psr\Http\Message\ResponseInterface $response */
-            $response = $guzzleClient->get("publicholidays/{$year}/{$countryId}/");
-            if ($response->getStatusCode() !== 200) {
-                Log::error($response->getBody());
+            /** @var \Illuminate\Http\Client\Response $response */
+
+            $response = $http->get("publicholidays/{$year}/{$countryId}/");
+
+            if ($response->failed()) {
+                Log::error($response->json());
                 return [];
             }
-            return array_map(fn($holiday) => new Holiday($holiday->date, $holiday->name), json_decode($response->getBody()));
+
+            return array_map(fn($holiday) => new Holiday($holiday['date'], $holiday['name']), $response->json());
+
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return [];

@@ -199,26 +199,4 @@ class LeaveTest extends TestCase
             ->post(route('leaves.deny', $leave->id))
             ->assertForbidden();
     }
-
-    /** @test **/
-    public function you_cannot_request_leave_on_a_public_holiday()
-    {
-        $user = factory('App\User')->create();
-        $user->team->settings->update([
-            'use_public_holidays' => true,
-            'country_id' => 'ZA',
-        ]);
-        $leave = factory('App\Leave')->make([
-            'team_id' => $user->team->id,
-            'user_id' => $user->id,
-        ]);
-         $this->actingAs($user)
-            ->post(route('leaves.store'), [
-                'reason' => $leave->reason->id,
-                // from recon day
-                'from' => Carbon::create(2021, 12, 16)->format('Y-m-d'),
-                'until' => Carbon::create(2021, 12, 23)->format('Y-m-d'),
-            ])->assertStatus(422)
-            ->assertJsonStructure(['errors']);
-    }
 }

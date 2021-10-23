@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CountryController extends Controller
 {
@@ -16,24 +17,24 @@ class CountryController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $guzzleClient = new Client([
-            'base_uri' => env('NAGER_DATE_API_URL'),
-            'headers' => [
+        try {
+            /** $response @var \Illuminate\Http\Client\Response */
+            $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-            ],
-        ]);
-        try {
-            /** @var \Psr\Http\Message\ResponseInterface  */
-            $response = $guzzleClient->get('AvailableCountries');
+            ])->baseUrl(env('NAGER_DATE_API_URL'))
+                ->get('AvailableCountries');
+
             $countries = array_map(function ($country) {
                 return (object) [
-                    'label' => $country->name,
-                    'value' => $country->countryCode,
+                    'label' => $country['name'],
+                    'value' => $country['countryCode'],
                 ];
-            }, json_decode($response->getBody()));
+            }, $response->json());
+
             return response()
                 ->json($countries);
+
         } catch (\Exception $e) {
             return response()
                 ->json([
