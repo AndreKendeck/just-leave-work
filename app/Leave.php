@@ -123,8 +123,7 @@ class Leave extends Model
                 }
                 $daysOff++;
             }
-
-            return $daysOff;
+            return $daysOff - $this->adjustment;
         }
 
         if ($this->until->isSameDay($this->from)) {

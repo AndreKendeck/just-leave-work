@@ -23,6 +23,8 @@ class SettingResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'excludedDays' => ExcludedDayResource::collection($this->excludedDays),
+            'country' => $this->country_id,
+            'usePublicHolidays' => $this->use_public_holidays,
         ];
     }
 }

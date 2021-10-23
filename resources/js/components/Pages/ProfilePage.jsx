@@ -16,6 +16,7 @@ import Paginator from '../Paginator';
 import UserRoleBadge from '../UserRoleBadge';
 import { setUser } from '../../actions/user';
 import { setErrorMessage, setMessage } from '../../actions/messages';
+import Dropdown from '../Form/Dropdown';
 
 const ProfilePage = class ProfilePage extends React.Component {
 
@@ -23,7 +24,47 @@ const ProfilePage = class ProfilePage extends React.Component {
         loading: false,
         errors: [],
         message: null,
-        transactions: {}
+        transactions: {},
+        export: {
+            year: moment().year(),
+            month: moment().month()
+        }
+    }
+
+
+    getMonthCollection() {
+        const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        const currentMonth = moment().month();
+        return months.map((month, key) => {
+            return {
+                value: month,
+                label: moment().month(month).format('MMM'),
+                selected : currentMonth == month ? true : false
+            }
+        })
+    }
+
+    getYearCollection() {
+        const years = [0, 1, 2, 3, 4, 5];
+        return years.map(year => {
+            return {
+                value: moment().subtract('years', year).format('YYYY'),
+                label: moment().subtract('years', year).format('YYYY'),
+            }
+        })
+    }
+
+    updateExportForm(e, key) {
+        const { value } = e.target;
+        this.setState(state => {
+            return {
+                ...state,
+                export: {
+                    ...state.export,
+                    [key]: value
+                }
+            }
+        })
     }
 
     logout() {
@@ -197,6 +238,35 @@ const ProfilePage = class ProfilePage extends React.Component {
         this.props.updateUserForm({ ...this.props.userForm, loading: false });
     }
 
+    onTransactionsExport() {
+        const { user } = this.props;
+        const { month, year } = this.state.export;
+        this.setState({ loading: true });
+        api.get(`/transactions/export/${user.id}/${month}/${year}`)
+            .then(success => {
+                this.setState({ loading: false });
+                const { file } = success.data;
+                window.location = file;
+            }).catch(failed => {
+                this.setState({ loading: false });
+                const { message } = failed.response.data;
+                this.props.setErrorMessage(message);
+            });
+    }
+
+    renderExportForm() {
+        if (this.isAdmin()) {
+            return (
+                <div className="flex flex-row space-x-2 items-center">
+                    <Dropdown options={this.getMonthCollection()} label="Month" name="month"  onChange={(e) => this.updateExportForm(e, 'month')} />
+                    <Dropdown options={this.getYearCollection()} label="Year" name="year" onChange={(e) => this.updateExportForm(e, 'year')} />
+                    <div className="mt-6"><Button type="soft" onClick={(e) => this.onTransactionsExport()} >Export</Button></div>
+                </div>
+            )
+        }
+        return null;
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -251,7 +321,10 @@ const ProfilePage = class ProfilePage extends React.Component {
                 </Card>
 
                 <Card className="hidden md:flex w-full md:w-2/3 self-center items-center flex-col space-y-2">
-                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs self-start">Transactions </span>
+                    <div className="flex flex-row w-full items-center justify-between">
+                        <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs self-start">Transactions</span>
+                        {this.renderExportForm()}
+                    </div>
                     <Table headings={['Date', 'Description', 'Amount']} >
                         {this.renderTransactions()}
                     </Table>

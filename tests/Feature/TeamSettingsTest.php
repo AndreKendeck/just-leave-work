@@ -19,6 +19,8 @@ class TeamSettingsTest extends TestCase
                 'leaveAddedPerCycle',
                 'daysUntilBalanceAdded',
                 'lastLeaveBalanceAddedAt',
+                'usePublicHolidays', 
+                'country',
                 'createdAt',
                 'updatedAt',
             ]);
@@ -30,6 +32,11 @@ class TeamSettingsTest extends TestCase
         $newSettings = [
             'leave_added_per_cycle' => rand(1, 5),
             'days_until_balance_added' => rand(15, 30),
+            'use_public_holidays' => true, 
+        ];
+
+        $countryPost = [
+            'country' => 'ZA'
         ];
 
         $user = factory('App\User')->create();
@@ -37,11 +44,11 @@ class TeamSettingsTest extends TestCase
         $user->attachRole('team-admin', $user->team);
 
         $this->actingAs($user)
-            ->put(route('settings.update'), $newSettings)
+            ->put(route('settings.update'),  array_merge($newSettings, $countryPost))
             ->assertSessionHasNoErrors()
             ->assertOk()
             ->assertJsonStructure(['message']);
-        $this->assertDatabaseHas('settings', array_merge($newSettings, ['team_id' => $user->team_id]));
+        $this->assertDatabaseHas('settings', array_merge($newSettings, ['team_id' => $user->team_id], ['country_id' => $countryPost['country']]));
     }
 
     /** @test **/

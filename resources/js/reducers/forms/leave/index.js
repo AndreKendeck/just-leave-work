@@ -1,7 +1,6 @@
 const defaultState = {
     reason: 0,
     dates: { startDate: null, endDate: null, key: 'selection' },
-    notifyUser: null,
     loading: false,
     halfDay: false,
     errors: null,
@@ -15,7 +14,6 @@ export default function leaveFormReducer(state = defaultState, { type, payload }
         return {
             reason: 0,
             dates: { startDate: null, endDate: null, key: 'selection' },
-            notifyUser: 0,
             loading: false,
             halfDay: false
         }

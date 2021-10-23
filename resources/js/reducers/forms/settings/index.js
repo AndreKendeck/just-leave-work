@@ -4,6 +4,8 @@ export default function settingsFormReducer(state = {
     daysUntilLeaveAdded: 30,
     loading: false,
     errors: {},
+    country: null, 
+    usePublicHolidays: false
 }, { type, payload }) {
     if (type === 'UPDATE_SETTINGS_FORM') {
         return payload;

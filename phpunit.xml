@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-printerClass="LimeDeck\Testing\Printer" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" printerClass="LimeDeck\Testing\Printer" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" backupGlobals="false" backupStaticAttributes="false" bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false">
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
@@ -24,6 +23,7 @@ printerClass="LimeDeck\Testing\Printer" xsi:noNamespaceSchemaLocation="./vendor/
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="MAIL_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
-        <enn name="QUEUE_CONNECTION" value="sync"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="NAGER_DATE_API_URL" value="https://date.nager.at/api/v3/" /> 
     </php>
 </phpunit>

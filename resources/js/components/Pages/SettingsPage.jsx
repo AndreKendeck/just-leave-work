@@ -8,9 +8,9 @@ import { setSettings } from '../../actions/settings';
 import api from '../../api';
 import Button from '../Button';
 import Card from '../Card';
-import ErrorMessage from '../ErrorMessage';
+import Checkbox from '../Form/Checkbox';
+import Dropdown from '../Form/Dropdown';
 import Field from '../Form/Field';
-import InfoMessage from '../InfoMessage';
 import Page from '../Page';
 
 const SettingPage = class SettingPage extends React.Component {
@@ -19,31 +19,42 @@ const SettingPage = class SettingPage extends React.Component {
         message: null,
         errors: [],
         day: null,
+        countries: []
     }
 
     componentDidMount() {
-        const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays } = this.props.settings;
+        const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays, country, usePublicHolidays } = this.props.settings;
         const { settingsForm } = this.props;
         this.props.updateSettingsForm({
             ...settingsForm,
+            country,
+            usePublicHolidays,
             leaveAddedPerCycle,
             daysUntilBalanceAdded,
             excludedDays
         });
+        this.getCountries();
     }
     onSettingsChange(e, key) {
         e.persist();
+        let value = e.target.value;
+        if (key === 'usePublicHolidays') {
+            const { usePublicHolidays } = this.props.settingsForm;
+            value = !usePublicHolidays;
+        }
         const { settingsForm } = this.props;
-        this.props.updateSettingsForm({ ...settingsForm, [key]: e.target.value });
+        this.props.updateSettingsForm({ ...settingsForm, [key]: value });
     }
 
     onSave() {
         const { settingsForm } = this.props;
-        const { leaveAddedPerCycle, daysUntilBalanceAdded } = settingsForm;
+        const { leaveAddedPerCycle, daysUntilBalanceAdded, country, usePublicHolidays } = settingsForm;
         this.props.updateSettingsForm({ ...settingsForm, loading: true });
         api.put('/settings', {
             leave_added_per_cycle: leaveAddedPerCycle,
-            days_until_balance_added: daysUntilBalanceAdded
+            days_until_balance_added: daysUntilBalanceAdded,
+            country,
+            use_public_holidays: usePublicHolidays
         }).then(success => {
             const { message, settings } = success.data;
             this.props.setSettings(settings);
@@ -97,8 +108,31 @@ const SettingPage = class SettingPage extends React.Component {
 
     }
 
+    getCountries() {
+        api.get('/countries').then(success => {
+            // set a default value for the countries
+            const { country: selectedCountry } = this.props.settings;
+            let countries = success.data;
+            if (selectedCountry) {
+                countries = countries.map(country => {
+                    if (selectedCountry == country?.value) {
+                        country.selected = true;
+                    }
+                    return country;
+                });
+            }
+            console.log(!selectedCountry);
+            console.log(countries);
+            countries = [{ value: null, label: 'Select a country' , selected: !selectedCountry }, ...countries];
+            this.setState({ countries });
+        }).catch(failed => {
+            const { message } = failed.response.data;
+            this.props.setErrorMessage(message);
+        });
+    }
+
     render() {
-        const { leaveAddedPerCycle, daysUntilBalanceAdded, excludedDays, errors } = this.props.settingsForm;
+        const { leaveAddedPerCycle, daysUntilBalanceAdded, errors, usePublicHolidays } = this.props.settingsForm;
 
         return (
             <Page className="flex flex-col justify-center space-y-2">
@@ -117,38 +151,11 @@ const SettingPage = class SettingPage extends React.Component {
                         onChange={(e) => this.onSettingsChange(e, 'daysUntilBalanceAdded')}
                         value={daysUntilBalanceAdded} label="Days until balance added"
                         tip="Cycle days" />
+                    <Dropdown options={this.state.countries} label="Country" tip="Optional" name="counrty" onChange={(e) => this.onSettingsChange(e, 'country')} />
+                    <Checkbox label="Do not record leave on public holidays"
+                        onChange={(e) => this.onSettingsChange(e, 'usePublicHolidays')} value={usePublicHolidays} checked={usePublicHolidays} />
                     {this.getSaveButtonState()}
                 </Card>
-                {/* <Card className="flex flex-col space-y-4 w-full lg:w-1/2 self-center pointer-cursor">
-                    <div className="flex flex-row w-full items-center justify-between">
-                        <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs ">Excluded Days</span>
-                    </div>
-                    <div className="flex flex-row space-x-2 items-center">
-                        <Field name="day" label="Add day" errors={errors?.day} tip="Monday or 01/01/2021" onChange={(e) => this.setState({ day: e.target.value })} />
-                        <div class="w-1/2 md:w-1/4">
-                            {this.props.settingsForm.loading ? <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" /> : <Button type="soft" onClick={(e) => this.onDayAdd()} >Add</Button>}
-                        </div>
-                    </div>
-                    <div className="w-full overflow-auto space-y-2 flex flex-col" style={{ height: '350px' }}>
-                        {this.props.settings.excludedDays.map(day => {
-                            return (
-                                <div className="flex flex-row p-3 justify-between items-center">
-                                    <div className="text-gray-700 text-base">{day}</div>
-                                    <div>
-                                        <Button type="soft" onClick={(e) => this.onDayDelete(day.id)} >
-                                            <svg version="1.1" className="stroke-current h-4 w-4 text-gray-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <g fill="none">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 8l8 8"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 8l-8 8"></path>
-                                                </g>
-                                            </svg>
-                                        </Button>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </Card> */}
             </Page>
         )
     }

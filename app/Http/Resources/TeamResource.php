@@ -21,7 +21,8 @@ class TeamResource extends JsonResource
             'users' => $this->users->count(),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'numberOfApprovedLeaves' => $this->leaves()->whereNotNull('approved_at')->count()
+            'numberOfApprovedLeaves' => $this->leaves()->whereNotNull('approved_at')->count(), 
+            'countryId' => $this->country_id
         ];
     }
 }

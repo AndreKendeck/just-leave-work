@@ -14,14 +14,10 @@ const Dropdown = ({ options, errors, hasError, name, label, onChange, tip }) => 
     const mapOptions = (options) => {
         return options?.map((option, index) => {
             // first option is always selected
-            if (index === 0) {
-                return (
-                    <option key={index} className="text-gray-800 text-base"  selected={true} value={option?.value}>{option?.label}</option>
-                );
-            }
             return (
-                <option key={index} className="text-gray-800 text-base" value={option?.value}>{option?.label}</option>
-            )
+                <option key={index} className="text-gray-800 text-base" selected={option?.selected}
+                    value={option?.value}>{option?.label}</option>
+            );
         })
     }
     return (

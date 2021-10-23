@@ -30,6 +30,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'min:2'],
             'password' => ['required', 'string', 'min:6'],
             'recaptcha' => ['required'],
+            'country' => ['nullable', 'string', 'min:2', 'max:2'],
         ];
     }
 
