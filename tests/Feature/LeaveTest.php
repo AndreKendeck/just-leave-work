@@ -204,7 +204,7 @@ class LeaveTest extends TestCase
     public function you_cannot_request_leave_on_a_public_holiday()
     {
         $user = factory('App\User')->create();
-        $result = $user->team->settings->update([
+        $user->team->settings->update([
             'use_public_holidays' => true,
             'country_id' => 'ZA',
         ]);
@@ -216,9 +216,9 @@ class LeaveTest extends TestCase
             ->post(route('leaves.store'), [
                 'reason' => $leave->reason->id,
                 // from recon day
-                'from' => Carbon::create('16-12-2021')->format('Y-m-d'),
-                'until' => Carbon::create('23-12-2021')->format('Y-m-d'),
-            ])->assertSessionHasErrors();
-            // dd($response->json());
+                'from' => Carbon::create(2021, 12, 16)->format('Y-m-d'),
+                'until' => Carbon::create(2021, 12, 23)->format('Y-m-d'),
+            ])->assertStatus(422)
+            ->assertJsonStructure(['errors']);
     }
 }

@@ -10,6 +10,7 @@ use App\Leave;
 use App\Services\PublicHolidayApi\NagerDate;
 use App\Services\PublicHolidayApi\Response\Holiday;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use \Carbon\Carbon;
 
 class LeaveController extends Controller
@@ -75,7 +76,7 @@ class LeaveController extends Controller
         if ($restrcitedDays->contains('day', $from->toDateString())) {
             return response()->json([
                 'errors' => [
-                    'from' => [ "You cannot start leave on {$from->toFormattedDateString()}"],
+                    'from' => ["You cannot start leave on {$from->toFormattedDateString()}"],
                 ],
             ], 422);
         }
@@ -98,21 +99,24 @@ class LeaveController extends Controller
         }
 
         if (!is_null($settings->country_id) && ($settings->use_public_holidays)) {
+
             $countryId = $settings->country_id;
 
             /** @var array */
             $holidays = NagerDate::getHolidays($from->year, $countryId);
 
-            $leaveEndOrBeginsOnAHoliday = count(array_filter($holidays, function (Holiday $holiday) use ($from, $until) {
+            $holidaysOnLeaveDay = array_filter($holidays, function (Holiday $holiday) use ($from, $until) {
                 return $from->isSameDay($holiday->getDate()) || $until->isSameDay($holiday->getDate());
-            })) > 0;
+            });
 
-            if ($leaveEndOrBeginsOnAHoliday) {
+            Log::info(json_encode($holidaysOnLeaveDay));
+            Log::info(is_array($holidaysOnLeaveDay));
+            Log::info(count($holidaysOnLeaveDay) > 0);
 
-                return response()
-                    ->json([
+            if (count($holidaysOnLeaveDay) > 0) {
+                return response()->json([
                         'errors' => [
-                            'from' => ['You cannot take/end leave on a Public Holiday'],
+                            'from' => ['You cannot start or end leave on a Public Holiday.'],
                         ],
                     ], 422);
             }
@@ -135,7 +139,7 @@ class LeaveController extends Controller
             'until' => $until,
             'half_day' => $request->halfDay,
         ]);
-        
+
         /**
          * If the public holiday api is enabled
          */
