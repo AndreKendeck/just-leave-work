@@ -25,7 +25,8 @@
         "maatwebsite/excel": "^3.1",
         "santigarcor/laratrust": "^6.3",
         "spatie/laravel-backup": "^6.8",
-        "spatie/laravel-mailable-test": "^2.2"
+        "spatie/laravel-mailable-test": "^2.2",
+        "unicodeveloper/laravel-paystack": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

@@ -24,4 +24,19 @@ class DatabaseMigrationTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumn('leaves', 'adjustment'));
     }
+
+    /** @test **/
+    public function migration_2021__210_24_15011_adds_a_subscription_table()
+    {
+        $this->assertTrue(Schema::hasTable('subscriptions'));
+        $this->assertTrue(Schema::hasColumns('subscriptions', [
+            'id',
+            'team_id',
+            'starts_at',
+            'ends_at',
+            'canceled_at',
+            'created_at',
+            'updated_at',
+        ]));
+    }
 }

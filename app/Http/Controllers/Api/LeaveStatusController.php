@@ -86,7 +86,7 @@ class LeaveStatusController extends Controller
         return response()
             ->json([
                 'leave' => new LeaveResource($leave),
-                'message' => 'Leave has beeen denied',
+                'message' => 'Leave has been denied',
             ]);
     }
 }

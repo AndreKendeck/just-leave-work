@@ -223,7 +223,7 @@ class LeaveController extends Controller
         if ($leave->denied) {
             return response()
                 ->json([
-                    'message' => "Leave has been denied no chanages are allowed",
+                    'message' => "Leave has been denied no changes are allowed.",
                 ], 403);
         }
 

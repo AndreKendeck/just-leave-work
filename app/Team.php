@@ -25,4 +25,14 @@ class Team extends LaratrustTeam
     {
         return $this->hasOne(\App\Setting::class);
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(\App\Subscription::class)->latest();
+    }
+
+    public function activeSubscription()
+    {
+        
+    }
 }
