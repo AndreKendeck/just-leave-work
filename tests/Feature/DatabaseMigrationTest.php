@@ -24,4 +24,10 @@ class DatabaseMigrationTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumn('leaves', 'adjustment'));
     }
+
+    /** @test **/
+    public function migration_2021_10_29_104515_adds_last_sent_at_column_to_leaves_table()
+    {
+        $this->assertTrue(Schema::hasColumn('leaves', 'last_sent_at'));
+    }
 }

@@ -28,6 +28,7 @@ const ViewLeavePage = (props) => {
     const [leave, setLeave] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showModal , setShowModal] = useState(false); 
 
     const onCommentAdd = () => {
         const { commentForm } = props;
@@ -175,7 +176,6 @@ const ViewLeavePage = (props) => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.013 5.988l-6.011 6.012 6.011 6.012"></path>
                                     </g>
                                 </svg>
-                                <span className="text-sm text-gray-600">Back</span>
                             </Link>
                         </div>
                         <div>
@@ -184,8 +184,19 @@ const ViewLeavePage = (props) => {
                                     <path d="M21,12v4a5,5,0,0,1-5,5H8a5,5,0,0,1-5-5V8A5,5,0,0,1,8,3h4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
                                     <path d="M17.37955,3.62025a2.11953,2.11953,0,0,1,2.99908.00268h0a2.12064,2.12064,0,0,1-.00039,2.99981c-.00064-.00064-4.1761,4.17463-5.62,5.61846a1.99163,1.99163,0,0,1-1.167.56861l-1.4778.18251a.99172.99172,0,0,1-1.10331-1.12443l.21863-1.531a1.9814,1.9814,0,0,1,.56085-1.12662C12.80012,8.19931,15.26954,5.72978,17.37955,3.62025Z" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
                                 </svg>
-                                <span className="text-sm text-gray-600">edit</span>
                             </Link>
+                        </div>
+                        <div>
+                            <button className="items-center focus:outline-none bg-gray-300 text-gray-800 p-2 w-full rounded text-center hover:bg-gray-200 tranform" type="soft">
+                                <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" >
+                                    <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round"><path d="M20,6.039v6.989"></path>
+                                        <path d="M21,19.028h-6"></path>
+                                        <path d="M19,17.028l2,2l-2,2"></path>
+                                        <path d="M11,17.028h-6c-1.105,0 -2,-0.895 -2,-2v-8.989"></path>
+                                        <path d="M5.011,4.028h12.979c1.11,0 2.011,0.9 2.011,2.011v0c0,0.667 -0.331,1.29 -0.883,1.664l-5.357,3.631c-1.365,0.925 -3.157,0.925 -4.522,0l-5.356,-3.63c-0.552,-0.374 -0.883,-0.998 -0.883,-1.664v-0.001c0,-1.111 0.9,-2.011 2.011,-2.011Z"></path>
+                                    </g>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>

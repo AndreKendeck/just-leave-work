@@ -42,6 +42,7 @@ class LeaveResource extends JsonResource
             'canDelete' => $this->can_delete,
             'isForOneDay' => $this->is_for_one_day,
             'halfDay' => $this->half_day,
+            'lastSentAt' => $this->last_sent_at
         ];
     }
 }

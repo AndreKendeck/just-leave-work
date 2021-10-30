@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Mail\LeaveRequestEmail;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -213,7 +214,7 @@ class LeaveTest extends TestCase
             'team_id' => $user->team->id,
             'user_id' => $user->id,
         ]);
-         $this->actingAs($user)
+        $this->actingAs($user)
             ->post(route('leaves.store'), [
                 'reason' => $leave->reason->id,
                 // from recon day
@@ -221,5 +222,27 @@ class LeaveTest extends TestCase
                 'until' => Carbon::create(2021, 12, 23)->format('Y-m-d'),
             ])->assertStatus(422)
             ->assertJsonStructure(['errors']);
+    }
+
+    /** @test **/
+    public function a_user_can_send_an_leave_request_form_to_any_email_address()
+    {
+        Mail::fake();
+        $user = factory('App\User')->create(); 
+        $leave = factory('App\Leave')->create([
+            'team_id' => $user->team->id,
+            'user_id' => $user->id
+        ]);
+        $this->actingAs($user)
+            ->post(route('leaves.send', ['id' => $leave->id]) , [
+                'email' => $this->faker->email
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertOk();
+        Mail::assertQueued(LeaveRequestEmail::class);
+        $this->assertDatabaseHas('leaves', [
+            'id' => $leave->id,
+            'last_sent_at' => now(),
+        ]);
     }
 }

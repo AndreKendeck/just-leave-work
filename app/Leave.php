@@ -2,8 +2,11 @@
 
 namespace App;
 
+use App\Mail\LeaveRequestEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class Leave extends Model
 {
@@ -172,5 +175,26 @@ class Leave extends Model
     public function getPendingAttribute()
     {
         return (is_null($this->approved_at) && is_null($this->denied_at));
+    }
+
+    /**
+     * Send the leave request to an email address
+     *
+     * @param string $email
+     * @return boolean
+     */
+    public function send(string $email): bool
+    {
+        try {
+            Mail::to($email)
+                ->queue(new LeaveRequestEmail($this));
+            $this->update([
+                'last_sent_at' => now(),
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error("Email could not be sent because {$e->getMessage()}");
+            return false;
+        }
     }
 }
