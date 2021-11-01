@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LeaveResource;
 use Illuminate\Http\Request;
 
 class SendLeaveEmailController extends Controller
@@ -65,7 +66,7 @@ class SendLeaveEmailController extends Controller
         return response()
             ->json([
                 'message' => 'Leave sent succesfully',
-                'leave'=> $leave
+                'leave'=> new LeaveResource($leave)
             ]);
     }
 }

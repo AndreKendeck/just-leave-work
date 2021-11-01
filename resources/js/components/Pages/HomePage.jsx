@@ -94,9 +94,9 @@ const HomePage = class HomePage extends React.Component {
                     </td>
                     <td className="text-center text-gray-600 text-sm">{leave.halfDay ? '-' : moment(leave.until).format('Do MMM YYYY')} </td>
                     <td className="text-center text-gray-600 text-sm">{leave.numberOfDaysOff} </td>
-                    <td className="text-center text-gray-600 text-sm">{leave?.lastSentAt ? moment(leave.lastSentAt).format('ll') : (
+                    <td className="text-center text-gray-600 text-sm">{leave?.lastSentAt ? (<span className="px-2 py-1 bg-blue-300 bg-opacity-75 text-blue-600 text-xs rounded-full">Email last sent on {moment(leave.lastSentAt).format('ll')}</span>) : (
                         <span className="px-2 py-1 bg-red-300 bg-opacity-75 text-red-600 text-xs rounded-full">Leave not Emailed</span>
-                    )} </td>
+                    )}</td>
                     <td className="text-center relative">
                         <div className="flex flex-row space-x-2 items-center">
                             <ViewButtonLink url={`/leave/view/${leave.id}`} />
@@ -191,7 +191,7 @@ const HomePage = class HomePage extends React.Component {
         if (isSending) {
             return <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
         }
-        return <Button type="soft" onClick={(e) => this.sendLeaveRequest()} >Send</Button>
+        return <Button type="soft" onClick={(e) => this.sendLeaveRequest()}>Send</Button>
     }
 
     render() {

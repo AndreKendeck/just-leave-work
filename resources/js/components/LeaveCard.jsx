@@ -20,9 +20,11 @@ const LeaveCard = ({ leave }) => {
                         <div className="w-full flex items-center flex-row justify-between">
                             <div><LeaveDaysLabel leave={leave} /></div>
                         </div>
-                        <div className="w-full flex flex-row items-center space-x-2 justify-between">                       
+                        <div className="w-full flex flex-row items-center space-x-2 justify-between">
                             <span className="text-xs text-gray-500">{leave.numberOfDaysOff} Days</span>
-                            <span className="px-2 py-1 bg-red-300 bg-opacity-75 text-red-600 text-xs rounded-full">Leave not Emailed</span>
+                            {leave?.lastSentAt ? (<span className="px-2 py-1 bg-blue-300 bg-opacity-75 text-blue-600 text-xs rounded-full">Email last sent on {moment(leave.lastSentAt).format('ll')}</span>) : (
+                                <span className="px-2 py-1 bg-red-300 bg-opacity-75 text-red-600 text-xs rounded-full">Leave not emailed</span>
+                            )}
                         </div>
                         <div className="w-full">
                             <LeaveStatusBadge leave={leave} />

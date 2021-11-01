@@ -19,6 +19,8 @@ import { clearCommentForm, updateCommentForm } from '../../../actions/forms/comm
 import { DateRange } from 'react-date-range';
 import { setUser } from '../../../actions/user';
 import { setErrorMessage, setMessage } from '../../../actions/messages';
+import Modal from '../../Modal';
+import Field from '../../Form/Field';
 
 
 
@@ -28,7 +30,10 @@ const ViewLeavePage = (props) => {
     const [leave, setLeave] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showModal , setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
+    const [email, setEmail] = useState(null);
+    const [modalIsSending, setModalIsSending] = useState(false);
+    const [emailErrors, setEmailErrors] = useState([]);
 
     const onCommentAdd = () => {
         const { commentForm } = props;
@@ -145,6 +150,39 @@ const ViewLeavePage = (props) => {
 
     }, []);
 
+    const sendAsEmail = () => {
+        setModalIsSending(true);
+        setEmailErrors([]);
+        api.post(`/leaves/email/${leave.id}`, { email })
+            .then(success => {
+                setModalIsSending(false);
+                const { leave, message } = success.data;
+                setLeave(leave);
+                props.setMessage(message);
+                setShowModal(false); 
+                setEmail(null); 
+            }).catch(failed => {
+                setModalIsSending(false);
+                if (failed.response.code === 422) {
+                    const { errors } = failed.response.data;
+                    setEmailErrors(errors?.email);
+                    return;
+                }
+                const { message } = failed.response.data;
+                setEmailErrors(message);
+            });
+    }
+
+    const renderSendEmailButton = () => {
+        if (!email) {
+            return null;
+        }
+        if (modalIsSending) {
+            return <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
+        }
+        return <Button type="soft" onClick={(e) => sendAsEmail()} >Send</Button>
+    }
+
     if (loading) {
         return (<Page className="flex flex-col justify-center  space-y-2">
             <Card className="flex flex-col w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
@@ -187,7 +225,7 @@ const ViewLeavePage = (props) => {
                             </Link>
                         </div>
                         <div>
-                            <button className="items-center focus:outline-none bg-gray-300 text-gray-800 p-2 w-full rounded text-center hover:bg-gray-200 tranform" type="soft">
+                            <button onClick={(e) => setShowModal(true)} className="items-center focus:outline-none bg-gray-300 text-gray-800 p-2 w-full rounded text-center hover:bg-gray-200 tranform" type="soft">
                                 <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" >
                                     <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round"><path d="M20,6.039v6.989"></path>
                                         <path d="M21,19.028h-6"></path>
@@ -221,7 +259,7 @@ const ViewLeavePage = (props) => {
                         showMonthArrow={false}
                         showSelectionPreview={true} />
 
-                    <div className="flex flex-col space-y-2 md:space-x-2 md:justify-center md:items-center w-full">
+                    <div className="flex flex-col space-y-2 md:space-x-2 md:justify-center items-center w-full">
                         <div>
                             <UserBadge user={leave?.user} imageSize={8} />
                         </div>
@@ -230,6 +268,11 @@ const ViewLeavePage = (props) => {
                         </div>
                         <div>
                             <LeaveStatusBadge leave={leave} />
+                        </div>
+                        <div>
+                            {leave?.lastSentAt ? (<span className="px-2 py-1 bg-blue-300 bg-opacity-75 text-blue-600 text-xs rounded-full">Email last sent on {moment(leave.lastSentAt).format('ll')}</span>) : (
+                                <span className="px-2 py-1 bg-red-300 bg-opacity-75 text-red-600 text-xs rounded-full">Leave not Emailed</span>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -258,7 +301,16 @@ const ViewLeavePage = (props) => {
                 {props.commentForm.loading ? (<Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />) :
                     <Button onClick={(e) => onCommentAdd()}>Add Comment</Button>}
             </Card>
-        </Page >
+            <Modal show={showModal} onClose={(e) => setShowModal(false)} >
+                <Heading>Send Leave Request</Heading>
+                <div className="flex flex-row items-center space-x-2">
+                    <Field label="Email Address" errors={emailErrors} onChange={(e) => setEmail(e.target.value)} name="email" />
+                    <div className="mt-6">
+                        {renderSendEmailButton()}
+                    </div>
+                </div>
+            </Modal>
+        </Page>
     )
 
 }
