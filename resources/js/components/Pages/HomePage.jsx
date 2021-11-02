@@ -15,7 +15,10 @@ import Paginator from '../Paginator';
 import LeaveCard from '../LeaveCard';
 import Dropdown from '../Form/Dropdown';
 import UserLeaveSummary from '../UserLeaveSummary';
-
+import Modal from '../Modal';
+import Field from '../Form/Field';
+import Button from '../Button';
+import { setErrorMessage, setMessage } from '../../actions/messages';
 
 const HomePage = class HomePage extends React.Component {
 
@@ -31,6 +34,11 @@ const HomePage = class HomePage extends React.Component {
         to: null,
         total: null,
         year: null,
+        email: null,
+        selectedLeaveId: null,
+        showModal: false,
+        isSending: false,
+        emailErrors: [],
     }
 
     componentDidMount() {
@@ -85,13 +93,26 @@ const HomePage = class HomePage extends React.Component {
                         </div>
                     </td>
                     <td className="text-center text-gray-600 text-sm">{leave.halfDay ? '-' : moment(leave.until).format('Do MMM YYYY')} </td>
-                    <td className="text-center text-gray-600 text-sm">{leave.halfDay ? (
-                        <div className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">Half Day</div>
-                    ) : leave.numberOfDaysOff}</td>
+                    <td className="text-center text-gray-600 text-sm">{leave.numberOfDaysOff} </td>
+                    <td className="text-center text-gray-600 text-sm">{leave?.lastSentAt ? (<span className="px-2 py-1 bg-blue-300 bg-opacity-75 text-blue-600 text-xs rounded-full">Email last sent on {moment(leave.lastSentAt).format('ll')}</span>) : (
+                        <span className="px-2 py-1 bg-red-300 bg-opacity-75 text-red-600 text-xs rounded-full">Leave not Emailed</span>
+                    )}</td>
                     <td className="text-center relative">
                         <div className="flex flex-row space-x-2 items-center">
                             <ViewButtonLink url={`/leave/view/${leave.id}`} />
                             {leave.canEdit ? <EditButtonLink url={`/leave/edit/${leave.id}`} /> : null}
+                            <div>
+                                <button onClick={(e) => this.setState({ showModal: true, selectedLeaveId: leave?.id })} className="items-center focus:outline-none bg-gray-300 text-gray-800 p-1 w-full rounded text-center hover:bg-gray-200 tranform" type="soft">
+                                    <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" >
+                                        <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round"><path d="M20,6.039v6.989"></path>
+                                            <path d="M21,19.028h-6"></path>
+                                            <path d="M19,17.028l2,2l-2,2"></path>
+                                            <path d="M11,17.028h-6c-1.105,0 -2,-0.895 -2,-2v-8.989"></path>
+                                            <path d="M5.011,4.028h12.979c1.11,0 2.011,0.9 2.011,2.011v0c0,0.667 -0.331,1.29 -0.883,1.664l-5.357,3.631c-1.365,0.925 -3.157,0.925 -4.522,0l-5.356,-3.63c-0.552,-0.374 -0.883,-0.998 -0.883,-1.664v-0.001c0,-1.111 0.9,-2.011 2.011,-2.011Z"></path>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -106,7 +127,7 @@ const HomePage = class HomePage extends React.Component {
             );
         }
         return (
-            <Table headings={['Status', 'Type', 'On', 'Until', 'Days off', '']}>
+            <Table headings={['Status', 'Type', 'On', 'Until', 'Days off', 'Last Sent', '']}>
                 {this.getLeavesTableRow()}
             </Table>
         )
@@ -122,6 +143,55 @@ const HomePage = class HomePage extends React.Component {
 
     onPageSelect = (page) => {
         this.getLeaves(page);
+    }
+
+    sendLeaveRequest() {
+        this.setState({ emailErrors: [] });
+        const { selectedLeaveId, email } = this.state;
+        this.setState({ isSending: true });
+        api.post(`/leaves/email/${selectedLeaveId}`, { email })
+            .then(success => {
+                const { message, leave: newLeave } = success.data;
+                this.setState(state => {
+                    return {
+                        ...state,
+                        email: null,
+                        selectedLeaveId: null,
+                        showModal: false,
+                        isSending: false,
+                        emailErrors: [],
+                    }
+                });
+                const { leaves } = this.state;
+                leaves = leaves.map(leave => {
+                    if (leave.id == newLeave.id) {
+                        leave = newLeave;
+                    }
+                    return leave;
+                });
+                this.setState({ leaves });
+                this.props.setMessage(message);
+            }).catch(failed => {
+                this.setState({ isSending: false });
+                if (failed.response.status === 422) {
+                    this.setState({ emailErrors: failed.response.data.errors.email });
+                    // I like returning early
+                    return;
+                }
+                const { message } = failed.response.data;
+                this.props.setErrorMessage(message);
+            })
+    }
+
+    renderSendEmailButton() {
+        const { email, isSending } = this.state;
+        if (!email) {
+            return null;
+        }
+        if (isSending) {
+            return <Loader type="Oval" className="self-center" height={20} width={20} color="Gray" />
+        }
+        return <Button type="soft" onClick={(e) => this.sendLeaveRequest()}>Send</Button>
     }
 
     render() {
@@ -155,7 +225,7 @@ const HomePage = class HomePage extends React.Component {
                         }} />
                     </div>
                 </div>
-                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2">
+                <Card className="hidden md:flex w-full lg:w-3/4 self-center items-center flex-col space-y-2 overflow-auto" style={{ height: '400px' }}>
                     {this.getMyLeavesTable()}
                 </Card>
                 {this.state.isLoading ? <Loader type="Oval" className="md:hidden self-center" height={80} width={80} color="Gray" /> :
@@ -166,6 +236,15 @@ const HomePage = class HomePage extends React.Component {
                     onLastPage={this.state.to === this.state.currentPage}
                     onFirstPage={this.state.currentPage === 1}
                     activePage={this.state.currentPage} numberOfPages={this.state.to} />
+                <Modal show={this.state.showModal} onClose={(e) => this.setState({ showModal: false })} >
+                    <Heading>Send Leave Request</Heading>
+                    <div className="flex flex-row items-center space-x-2">
+                        <Field label="Email Address" errors={this.state.emailErrors} onChange={(e) => this.setState({ email: e.target.value })} name="email" />
+                        <div className="mt-6">
+                            {this.renderSendEmailButton()}
+                        </div>
+                    </div>
+                </Modal>
             </Page>
         )
     }
@@ -186,4 +265,5 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(HomePage);
+
+export default connect(mapStateToProps, { setErrorMessage, setMessage })(HomePage);

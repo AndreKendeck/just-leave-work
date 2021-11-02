@@ -117,9 +117,7 @@ const IndexLeavePage = class IndexLeavePage extends React.Component {
                         </div>
                     </td>
                     <td className="text-center text-gray-600 text-sm">{leave.halfDay ? '-' : moment(leave.until).format('Do MMM YYYY')} </td>
-                    <td className="text-center text-gray-600 text-sm">{leave.halfDay ? (
-                        <div className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">Half Day</div>
-                    ) : leave.numberOfDaysOff}</td>
+                    <td className="text-center text-gray-600 text-sm">{leave.numberOfDaysOff}</td>
                     <td className="text-center relative">
                         <div className="flex flex-row space-x-2 items-center">
                             <ViewButtonLink url={`/leave/view/${leave.id}`} />
