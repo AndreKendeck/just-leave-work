@@ -5,7 +5,8 @@ namespace App\Providers;
 use App\Leave;
 use App\Team;
 use App\User;
-use Carbon\Carbon;
+use App\View\Components\Admin\Navbar as AdminNavbar;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

@@ -15,4 +15,6 @@ window.moment = require('moment');
 
 window.moment.locale('en-gb');
 
-require('./components/App');
+window.Alpine = require('alpinejs'); 
+
+window.Alpine.start(); 

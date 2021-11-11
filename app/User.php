@@ -21,9 +21,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
     use Notifiable;
     use Bannable;
-    use HasApiTokens;
     use LaratrustUserTrait;
     use SoftDeletes;
+    use HasApiTokens;
 
     public const STORAGE_PATH = '/users/avatars/';
 
