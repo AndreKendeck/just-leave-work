@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'role' => \Laratrust\Middleware\LaratrustRole::class,
         'permission' => \Laratrust\Middleware\LaratrustPermission::class,
         'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+        'subscribed' => \App\Http\Middleware\Subscribed::class
     ];
 
     /**

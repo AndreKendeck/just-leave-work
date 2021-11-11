@@ -13,12 +13,6 @@ const DesktopMenu = class DesktopMenu extends React.Component {
         return this.props.user?.isAdmin;
     }
 
-    getNumberOfUnreadNotifications() {
-        if (this.props.user?.unreadNotifications) {
-            return <span className="bg-red-500 rounded px-2 py-1 text-white">{this.props.user?.unreadNotifications}</span>
-        }
-    }
-
     getNotificationClass() {
         const { unreadNotifications } = this.props.user;
         if (unreadNotifications.length > 0) {
@@ -62,9 +56,9 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                         </g>
                                     </svg>
                                 </span>
-                                <span className="text-white text-base">Apply</span>
+                                <span className="text-white text-base">Apply for leave</span>
                             </NavLink>
-                            <NavLink to="/home" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
+                            <NavLink to="/home" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-500 hover:text-purple-500 rounded">
                                 <span className="transition-none">
                                     <svg version="1.1" className="stroke-current h-8 w-8 transition-none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                         <g fill="none">
@@ -75,7 +69,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 </span>
                                 <span className="text-base">Home</span>
                             </NavLink>
-                            {this.userIsAdmin() ? (<NavLink to="/leaves/" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
+                            {this.userIsAdmin() ? (<NavLink to="/leaves/" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-500 hover:text-purple-500 rounded">
                                 <svg id="Layer_3" className="stroke-current h-8 w-8" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <line x1="16.5" y1="16" x2="11" y2="16" fill="none" strokeLinejoin="round" strokeLinejoin="round" strokeWidth="1.5" />
                                     <path d="M7.5,15.875A.125.125,0,1,0,7.625,16a.125.125,0,0,0-.125-.125" fill="none" strokeLinejoin="round" strokeLinejoin="round" strokeWidth="1.5" />
@@ -90,7 +84,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
 
 
                             {this.userIsAdmin() ? (
-                                <NavLink to="/users" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
+                                <NavLink to="/users" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-500 hover:text-purple-500 rounded">
                                     <span>
                                         <svg version="1.1" viewBox="0 0 24 24" className="stroke-current h-8 w-8" xmlns="http://www.w3.org/2000/svg">
                                             <g strokeLinejoin="round" strokeWidth="1.5" fill="none" strokeLinejoin="round">
@@ -106,7 +100,7 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 </NavLink>
                             ) : null}
                             {this.userIsAdmin() ? (
-                                <NavLink to="/settings" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-800 hover:text-purple-500 rounded">
+                                <NavLink to="/settings" activeClassName="text-purple-500" className="flex flex-row space-x-1 items-center p-2 text-gray-500 hover:text-purple-500 rounded">
                                     <span>
                                         <svg version="1.1" className="stroke-current h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                                             <g fill="none">
@@ -126,18 +120,6 @@ const DesktopMenu = class DesktopMenu extends React.Component {
                                 <img className="h-8 w-8 rounded-full" src={this.props.user?.avatarUrl} alt={this.props.user?.name} />
                                 <span className="text-gray-600 text-base">{this.props.user?.name}</span>
                             </Link>
-                            {/* <NavLink to="/notifications" activeClassName="text-purple-500" className={`flex flex-row space-x-1 items-center p-2 ${this.getNotificationClass()} hover:text-purple-500 rounded`}>
-                                <span>
-                                    <svg version="1.1" className="stroke-current h-8 w-8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <g stroke-linecap="round" stroke-width="1.5" fill="none" stroke-linejoin="round">
-                                            <path d="M17.5 17.359l1.04252e-07 5.18696e-13c1.047 5.16307e-06 1.89669-.847003 1.9-1.894v0 0l-7.63071e-09-6.13723e-06c-.000663186-.532732-.213311-1.0433-.591004-1.419l-1.259-1.26v-3.743l8.96037e-08.000996758c0-3.06187-2.48213-5.544-5.544-5.544 -.00166633 0-.00333265 7.51257e-07-.00499898 2.25377e-06v0l-2.66296e-07 9.62252e-11c-3.06069.00110603-5.54145 2.48231-5.542 5.543v3.74l-1.259 1.26 -1.25741e-07 1.24954e-07c-.377966.3756-.590963.886147-.592 1.419v0 0l-7.36124e-08-2.33559e-05c.00329345 1.047.852974 1.89402 1.89998 1.89402Z"></path>
-                                            <path d="M17.5 17.359v0"></path>
-                                            <path d="M10.521 20.5h2.957"></path>
-                                        </g>
-                                    </svg>
-                                </span>
-                                {this.getNumberOfUnreadNotifications()}
-                            </NavLink> */}
                         </div>
                     ) : (
                         <React.Fragment>

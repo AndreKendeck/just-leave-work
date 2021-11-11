@@ -219,6 +219,19 @@ const IndexUserPage = class IndexUserPage extends React.Component {
         });
     }
 
+    getExportTypes() {
+        return [
+            {
+                value: 'All',
+                label: 'All users'
+            },
+            {
+                value: 'Relevant',
+                label: 'Only users that took leave this month'
+            }
+        ];
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -240,6 +253,10 @@ const IndexUserPage = class IndexUserPage extends React.Component {
                                             <span className="text-white">Add new user</span>
                                         </div>
                                     </Button>
+                                </div>
+                                <div className="flex flex-row space-x-2 items-center">
+                                    <div><Button type="soft" >Export </Button></div>
+                                    <div><Dropdown options={this.getExportTypes()}></Dropdown></div>
                                 </div>
                             </div>
                             <div className="w-full flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2 items-center self-end">

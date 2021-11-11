@@ -15,6 +15,10 @@ class CreateSubscriptionPaymentsTable extends Migration
     {
         Schema::create('subscription_payments', function (Blueprint $table) {
             $table->id();
+            $table->string('reference');
+            $table->string('amount');
+            $table->string('currency');
+            $table->unsignedInteger('subscription_id');
             $table->timestamps();
         });
     }

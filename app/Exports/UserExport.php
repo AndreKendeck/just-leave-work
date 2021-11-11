@@ -2,16 +2,27 @@
 
 namespace App\Exports;
 
-use App\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class UserExport implements FromCollection
+class UserExport implements FromView
 {
+    /** @var bool */
+    protected $onlyForCurrentMonth;
+
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+     * @param boolean $onlyForCurrentMonth
+     */
+    public function __construct(bool $onlyForCurrentMonth = false)
     {
-        return User::all();
+        $this->onlyForCurrentMonth = $onlyForCurrentMonth;
+    }
+
+    /**
+     * @return View
+     */
+    public function view(): View
+    {
+
     }
 }

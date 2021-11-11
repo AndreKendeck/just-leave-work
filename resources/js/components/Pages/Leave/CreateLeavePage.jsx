@@ -87,21 +87,19 @@ const CreateLeavePage = class CreateLeavePage extends React.Component {
         return (
             <Page className="flex flex-col justify-center space-y-2">
                 <Card className="w-full md:w-3/2 lg:w-1/2 self-center space-y-4">
-                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-end">Leave application</span>
-                    <Dropdown errors={errors?.reason} onChange={(e) => this.onFormChange(e, 'reason')} label="Reason" options={this.mapReasons()} />
+                    <span className="text-white bg-purple-500 px-2 py-1 text-center rounded-full text-xs mt-2 self-center">Leave application</span>
                     <DatePicker
                         errors={[errors?.from, errors?.until]}
-                        label="Starting Date"
                         className="form-input"
                         months={2}
-                        value
                         onChange={(ranges) => { this.onDateChange(ranges) }} />
-                    {(dates.startDate === dates.endDate) ? <Checkbox checked={halfDay} onChange={(e) => {
-                        let { leaveForm } = this.props;
-                        this.props.updateLeaveForm({ ...leaveForm, halfDay: !leaveForm.halfDay });
-                    }} label="Taking a half day" name="halfDay" /> : null}
+                    <div>
+                        <Dropdown errors={errors?.reason} onChange={(e) => this.onFormChange(e, 'reason')} options={this.mapReasons()} />
+                    </div>
                     {loading ? <Loader type="Oval" className="self-center" height={50} width={50} color="Gray" /> : (
-                        <Button onClick={e => this.storeLeavePost()} >Send</Button>
+                        <div className="w-full md:w-1/4 self-start">
+                            <Button onClick={e => this.storeLeavePost()} >Save Application</Button>
+                        </div>
                     )}
                 </Card>
             </Page>

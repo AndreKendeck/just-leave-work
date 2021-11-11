@@ -57,6 +57,16 @@ class UserController extends Controller
 
         $password = $passwordGenerator->generatePassword();
 
+        $team = \App\Team::find(auth()->user()->id);
+
+        if ($team->users->count() >= 10 && !$team->has_active_subscription) {
+            return response()->json([
+                'errors' => [
+                    'name' => 'You need a premium subscription to add more than 10 users'
+                ]
+            ] , 422); 
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

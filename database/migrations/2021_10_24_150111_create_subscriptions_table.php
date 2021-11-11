@@ -20,6 +20,7 @@ class CreateSubscriptionsTable extends Migration
             $table->timestamp('ends_at');
             $table->timestamp('canceled_at')->nullable();
             $table->boolean('is_free_trial')->default(false);
+            $table->unsignedInteger('subscription_payment_id'); 
             $table->timestamps();
         });
     }

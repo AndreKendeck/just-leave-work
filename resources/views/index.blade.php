@@ -26,7 +26,7 @@
     <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="JustLeave Work - Leave planner" />
-    <meta property="og:description" content="Leave Planner for Teams" />
+    <meta property="og:description" content="Leave Planner for teams" />
     <meta property="og:image" content="{{ asset('images/banner.png') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

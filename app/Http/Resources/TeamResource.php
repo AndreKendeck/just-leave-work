@@ -22,7 +22,8 @@ class TeamResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'numberOfApprovedLeaves' => $this->leaves()->whereNotNull('approved_at')->count(), 
-            'countryId' => $this->country_id
+            'countryId' => $this->country_id, 
+            'hasActiveSubscription' => (bool) $this->has_active_subscription
         ];
     }
 }

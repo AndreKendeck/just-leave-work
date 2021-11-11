@@ -11,6 +11,10 @@ class Team extends LaratrustTeam
 
     public $guarded = [];
 
+    protected $appends = [
+        'has_active_subscription',
+    ];
+
     public function users()
     {
         return $this->hasMany(\App\User::class)->latest();
@@ -31,8 +35,8 @@ class Team extends LaratrustTeam
         return $this->hasMany(\App\Subscription::class)->latest();
     }
 
-    public function activeSubscription()
+    public function hasActiveSubscription(): bool
     {
-        
+        return (bool) $this->subscriptions()->first()->is_active;
     }
 }

@@ -22,9 +22,12 @@ const DatePicker = ({ errors, name, label, onChange, tip }) => {
             <label htmlFor={name} className="text-gray-600">{label ? label : name}</label>
 
             <div className="hidden md:flex">
-                <DateRangePicker ranges={[range]} showDateDisplay={false}
+                <DateRange ranges={[range]} showDateDisplay={false}
                     rangeColors={['#9f7aea']} direction="horizontal"
+                    months={2}
                     locale={enGB}
+                    
+                    dragSelectionEnabled={true}
                     showSelectionPreview={true} onChange={(ranges) => {
                         const { selection } = ranges;
                         setRange(selection);

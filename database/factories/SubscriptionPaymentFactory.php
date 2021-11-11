@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Subscription;
 use App\SubscriptionPayment;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class SubscriptionPaymentFactory extends Factory
 {
@@ -22,7 +24,10 @@ class SubscriptionPaymentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'reference' => Str::random(), 
+            'amount' => 199, 
+            'currency' => 'ZAR', 
+            'subcription_id' => Subscription::factory()->create()->id
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Subscription;
+use App\SubscriptionPayment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SubscriptionFactory extends Factory
@@ -22,7 +23,10 @@ class SubscriptionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'team_id' => factory('App\Team')->create()->id,
+            'starts_at' => now(),
+            'ends_at' => now()->addDays(30),
+            'subscription_payment_id' => SubscriptionPayment::factory()->create()->id,
         ];
     }
 }

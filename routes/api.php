@@ -87,7 +87,11 @@ Route::namespace ('Api')->group(function () {
         Route::post('/team/update', 'TeamController@update')->name('team.update');
         Route::get('/team/admins', 'AdminUserController')->name('admins.index');
         Route::get('/transactions/{userId}', 'TransactionController@index')->name('transactions.index');
-        Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
-        Route::get('/transactions/export/{user}/{month?}/{year?}', 'ExportTransactionController')->name('transactions.export');
+        
+        Route::middleware('subscribed', function () {
+            Route::get('/leaves/export/{month?}/{year?}', 'ExportLeaveController')->name('leaves.export');
+            Route::get('/transactions/export/{user}/{month?}/{year?}', 'ExportTransactionController')->name('transactions.export');
+        });
+
     });
 });

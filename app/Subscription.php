@@ -19,6 +19,7 @@ class Subscription extends Model
      */
     protected $appends = [
         'expired',
+        'is_active',
     ];
 
     protected $dates = [
@@ -34,13 +35,25 @@ class Subscription extends Model
         return $this->belongsTo(\App\Team::class);
     }
 
-
     /**
      * @return boolean
      */
     public function getExpiredAttribute(): bool
     {
         return today() > $this->ends_at;
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(\App\SubscriptionPayment::class)->where('successful', true);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isActiveAttribute(): bool
+    {
+        return $this->ends_at < today();
     }
 
 }
